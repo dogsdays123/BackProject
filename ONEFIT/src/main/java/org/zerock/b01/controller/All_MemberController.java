@@ -25,7 +25,7 @@ public class All_MemberController {
 
     @GetMapping("/frist")
     public void test(){
-        log.info("test");
+        log.info("test123");
     }
 
     @GetMapping("/list")
