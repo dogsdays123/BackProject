@@ -1,4 +1,4 @@
-package org.zerock.b01.controller;
+package org.zerock.b01.controller.seo;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +23,42 @@ public class All_MemberController {
 
     private final All_MemberService all_memberService;
 
-    @GetMapping("/first")
-    public void test(){
-        log.info("test");
+    @GetMapping("/myBoard")
+    public void myBoard(){
+        log.info("myBoard");
     }
+
+    @GetMapping("/defaultMyPage")
+    public void defaultMyPage(){
+        log.info("defaultMyPage");
+    }
+
+    @GetMapping("/businessMyPage")
+    public void businessMyPage(){
+        log.info("businessMyPage");
+    }
+
+    @GetMapping("/first")
+    public void first(){
+        log.info("first");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //연습용, 가져다 쓰기용
+    //연습용, 가져다 쓰기용
+    //연습용, 가져다 쓰기용
+    //연습용, 가져다 쓰기용
 
     @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model) {
