@@ -23,19 +23,19 @@ public class All_MemberController {
 
     private final All_MemberService all_memberService;
 
-    @GetMapping("/myBoard")
-    public void myBoard(){
-        log.info("myBoard");
+    @GetMapping("/my_board")
+    public void my_board(){
+        log.info("my_board");
     }
 
-    @GetMapping("/defaultMyPage")
-    public void defaultMyPage(){
-        log.info("defaultMyPage");
+    @GetMapping("/my_default_page")
+    public void my_default_page(){
+        log.info("my_default_page");
     }
 
-    @GetMapping("/businessMyPage")
-    public void businessMyPage(){
-        log.info("businessMyPage");
+    @GetMapping("/my_business_page")
+    public void my_business_page(){
+        log.info("my_business_page");
     }
 
     @GetMapping("/first")
