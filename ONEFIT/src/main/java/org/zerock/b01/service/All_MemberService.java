@@ -9,5 +9,4 @@ public interface All_MemberService {
     All_MemberDTO readOne(Long all_id);
     void modify(All_MemberDTO all_MemberDTO);
     void remove(Long all_id);
-    PageResponseDTO<All_MemberDTO> list(PageRequestDTO pageRequestDTO);
 }

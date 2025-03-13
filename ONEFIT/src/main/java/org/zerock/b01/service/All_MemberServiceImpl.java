@@ -45,31 +45,12 @@ public class All_MemberServiceImpl implements All_MemberService {
     public void modify(All_MemberDTO all_MemberDTO) {
         Optional<All_Member> result = all_MemberRepository.findById(all_MemberDTO.getAll_id());
         All_Member all_Member = result.orElseThrow();
-        all_Member.change(all_MemberDTO.getName(), all_MemberDTO.getEmail());
+        //all_Member.change(all_MemberDTO.getName(), all_MemberDTO.getEmail());
         all_MemberRepository.save(all_Member);
     }
 
     @Override
     public void remove(Long all_id) {
         all_MemberRepository.deleteById(all_id);
-    }
-
-    @Override
-    public PageResponseDTO<All_MemberDTO> list(PageRequestDTO pageRequestDTO){
-        String[] types = pageRequestDTO.getTypes();
-        String keyword = pageRequestDTO.getKeyword();
-        Pageable pageable = pageRequestDTO.getPageable("all_id");
-
-        Page<All_Member> result = all_MemberRepository.searchMember(types, keyword, pageable);
-
-        List<All_MemberDTO> all_idList = result.getContent().stream()
-                .map(all_Member -> modelMapper.map(all_Member, All_MemberDTO.class))
-                .collect(Collectors.toList());
-
-        return PageResponseDTO.<All_MemberDTO>withAll()
-                .pageRequestDTO(pageRequestDTO)
-                .dtoList(all_idList)
-                .total((int)result.getTotalElements())
-                .build();
     }
 }

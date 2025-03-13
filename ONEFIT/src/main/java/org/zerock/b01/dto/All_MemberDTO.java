@@ -15,25 +15,19 @@ import java.time.LocalDateTime;
 public class All_MemberDTO {
     private Long all_id;
 
-    @NotEmpty
     private String name;
 
-    @NotEmpty
     private String email;
 
-    @NotEmpty
     private String a_member_id;
 
-    @NotEmpty
     private String a_psw;
 
-    private Long a_phone;
+    private int a_phone;
+
+    private String member_type;
+
+    private boolean del;
 
     private boolean a_social;
-
-    @NotEmpty
-    private String roles;
-
-    private LocalDateTime regdate;
-    private LocalDateTime moddate;
 }
