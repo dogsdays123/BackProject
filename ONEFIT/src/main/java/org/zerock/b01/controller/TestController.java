@@ -21,4 +21,14 @@ public class TestController {
     public void index() {
         log.info("index");
     }
+
+    @GetMapping("/trainer_view")
+    public void trainer_view(){
+        log.info("trainer_view");
+    }
+
+    @GetMapping("/my")
+    public void my(){
+        log.info("my");
+    }
 }
