@@ -68,14 +68,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         //데이터베이스에 해당 이메일 사용자가 없다면
         if(result.isEmpty()){
-            //회원 추가 -- mid는 이메일 주소 / 패스워드는 1111
+            //회원 추가 -- all_id는 이메일 주소? / 패스워드는 1111
             All_Member all_member = All_Member.builder()
-                    .name("testName")
-                    .a_member_id("test")
+                    .all_id(email)
+                    .name("social") //나중에 카카오에게 받은 이름
                     .a_psw(passwordEncoder.encode("1111"))
                     .email(email)
-                    .a_phone(010)
-                    .member_type("default")
+                    .a_phone(010)//나중에 카카오에게 받은 폰번호로
+                    .member_type("default") //나중에 회원전환 시 변경
                     .a_social(true)
                     .build();
 
@@ -83,7 +83,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
              all_memberRepository.save(all_member);
 
             //MemberSecurityDTO 구성 및 반환
-            //여기서 데이터타입 어떻게 받을지 선택하는거임 ㅋ
             MemberSecurityDTO memberSecurityDTO =
                     new MemberSecurityDTO("name", email, "1111", email, 010,
                             "default", false, true,
@@ -95,10 +94,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             All_Member all_member = result.get();
             MemberSecurityDTO memberSecurityDTO =
                     new MemberSecurityDTO(
-                            all_member.getName(),
-                            all_member.getA_member_id(),
+                            all_member.getAll_id(),
                             all_member.getA_psw(),
                             all_member.getEmail(),
+                            all_member.getName(),
                             all_member.getA_phone(),
                             all_member.getMember_type(),
                             all_member.isDel(),

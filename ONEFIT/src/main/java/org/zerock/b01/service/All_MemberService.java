@@ -5,8 +5,14 @@ import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 
 public interface All_MemberService {
-    Long register(All_MemberDTO all_MemberDTO);
-    All_MemberDTO readOne(Long all_id);
+    String register(All_MemberDTO all_MemberDTO);
+    All_MemberDTO readOne(String all_id);
     void modify(All_MemberDTO all_MemberDTO);
-    void remove(Long all_id);
+    void remove(String all_id);
+
+    static class MidExistException extends Exception {
+
+    }
+
+    void join(All_MemberDTO all_memberDTO) throws MidExistException;
 }

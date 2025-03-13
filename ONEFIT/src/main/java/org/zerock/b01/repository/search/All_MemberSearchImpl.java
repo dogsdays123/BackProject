@@ -46,13 +46,13 @@ public class All_MemberSearchImpl extends QuerydslRepositorySupport implements A
                         booleanBuilder.or(all_Member.email.contains(keyword));
                         break;
                     case "w":
-                        booleanBuilder.or(all_Member.a_member_id.contains(keyword));
+                        booleanBuilder.or(all_Member.all_id.contains(keyword));
                 }
             }//end for
             query.where(booleanBuilder);
         }//end if
         //bno > 0
-        query.where(all_Member.all_id.gt(0L));
+        //query.where(all_Member.all_id.gt());
         //paging
         this.getQuerydsl().applyPagination(pageable, query);
         List<All_Member> list = query.fetch();
