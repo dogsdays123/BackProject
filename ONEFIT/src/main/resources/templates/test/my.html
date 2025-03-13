@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/style/my.css">
+</head>
+
+<body>
+<header class="my-header">
+    <div class="auth-links flex-row align-items-center gap-3 justify-content-end">
+        <div class="me-auto">
+            <a class="navbar-brand" href="#">OneFit</a>
+            <!-- 햄버거 버튼 -->
+            <button class="navbar-toggler round-btn toggle-sidebar btns" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                <span class="navbar-toggler-icon"><i class="fa-solid fa-bars-staggered"></i></span>
+            </button>
+        </div>
+
+        <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
+        <ul class="nav mx-auto">
+            <span class="slash slash-left">/</span>
+            <li class="nav-item"><a class="nav-link" href="#">채용정보</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">강사찾기</a></li>
+            <li class="nav-item dropdown dropdown-main">
+                <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
+                   data-bs-toggle="dropdown">거래</a>
+                <ul class="dropdown-menu dropdown-main-menu">
+                    <li><a class="dropdown-item" href="#">시설</a></li>
+                    <li><a class="dropdown-item" href="#">기구</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown dropdown-main">
+                <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
+                   data-bs-toggle="dropdown">커뮤니티</a>
+                <ul class="dropdown-menu dropdown-main-menu">
+                    <li><a class="dropdown-item" href="#">Q&A</a></li>
+                    <li><a class="dropdown-item" href="#">공지사항</a></li>
+                </ul>
+            </li>
+            <span class="slash slash-right">/</span>
+        </ul>
+
+        <!-- 로그인 후 메뉴 -->
+        <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
+                data-bs-target="#logoutModal">
+            로그아웃
+        </button>
+        <!-- 알림 start -->
+        <div class="dropdown">
+            <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        3
+                    </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                <li>
+                    <h6 class="dropdown-header">알림</h6>
+                </li>
+                <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
+                <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
+                <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-center cursor-pointer" data-bs-toggle="modal"
+                       data-bs-target="#notificationsModal">모두 보기</a></li>
+            </ul>
+        </div>
+        <!-- 알림 end -->
+
+        <!-- 모달 시작 -->
+        <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="notificationsModalLabel">모든 알림</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                📢 새로운 공지가 있습니다.
+                                <span class="badge bg-info rounded-pill">2분 전</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                📩 새로운 메시지가 도착했습니다.
+                                <span class="badge bg-info rounded-pill">10분 전</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                ✔️ 회원 가입이 완료되었습니다.
+                                <span class="badge bg-info rounded-pill">1시간 전</span>
+                            </li>
+                            <!-- 추가 알림 항목들 -->
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                🔔 새로운 거래가 있습니다.
+                                <span class="badge bg-info rounded-pill">3시간 전</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                📝 새로운 피드백이 도착했습니다.
+                                <span class="badge bg-info rounded-pill">5시간 전</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 모달 끝 -->
+
+    </div>
+
+</header>
+
+
+<!-- 사이드바 -->
+<nav id="offcanvasSidebar" class="sidebar-nav col-md-3 offcanvas offcanvas-start text-white sidebars show"
+     data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1">
+    <div class="side-header d-flex justify-content-between offcanvas-header">
+        <a class="navbar-brand me-auto" href="#">OneFit</a>
+        <button type="button" class="btn-close ms-0 toggle-sidebar" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-user"></i> 내 정보</a>
+            <ul class="nav flex-column ml-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-edit"></i> 회원 정보 수정
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-file-alt"></i> 내가 작성한 게시글</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed d-flex justify-content-between" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#tradeMenu1">
+                        <span><i class="fas fa-exchange-alt"></i> 거래</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div id="tradeMenu1" class="collapse">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-cogs"></i> 기구</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-building"></i> 시설</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-user-tie"></i> 개인회원</a>
+            <ul class="nav flex-column ml-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-id-card"></i> 내 이력서 보기</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed d-flex justify-content-between" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#tradeMenu2">
+                        <span><i class="fas fa-exchange-alt"></i> 거래</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div id="tradeMenu2" class="collapse">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-cogs"></i> 기구</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-building"></i> 시설</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-cogs"></i> 메뉴3</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-building"></i> 기업회원</a>
+            <ul class="nav flex-column ml-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-industry"></i> 기업 정보</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-clipboard-list"></i> 공고 등록 현황</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed d-flex justify-content-between" href="#" data-bs-toggle="collapse"
+                       data-bs-target="#tradeMenu3">
+                        <span><i class="fas fa-exchange-alt"></i> 거래</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div id="tradeMenu3" class="collapse">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-cogs"></i> 기구</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-building"></i> 시설</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+
+<div class="container-fluid align-items-center">
+    <div class="my-main-header">
+        <h2 class="my-name">홍길동 님</h2>
+        <hr>
+    </div>
+    <div class="row">
+        <!-- 메인 콘텐츠 -->
+        <div class="col-md-9 main-content">
+            <!-- 탭 메뉴 -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="support-tab" data-bs-toggle="tab" href="#support" role="tab"
+                       aria-controls="support" aria-selected="true">
+                        <i class="fas fa-briefcase"></i> 지원 현황
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="proposal-tab" data-bs-toggle="tab" href="#proposal" role="tab"
+                       aria-controls="proposal" aria-selected="false">
+                        <i class="fas fa-bell"></i> 받은 제안 현황
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="recent-tab" data-bs-toggle="tab" href="#recent" role="tab"
+                       aria-controls="recent" aria-selected="false">
+                        <i class="fas fa-newspaper"></i> 최근 올라온 공고
+                    </a>
+                </li>
+            </ul>
+
+            <!-- 탭 콘텐츠 -->
+            <div class="tab-content" id="myTabContent">
+                <!-- 지원 현황 탭 -->
+                <div class="tab-pane fade show active" id="support" role="tabpanel" aria-labelledby="support-tab">
+                    <div class="card support-posts">
+                        <!-- Carousel -->
+                        <div id="support-carousel" class="carousel slide">
+                            <div class="carousel-inner">
+                                <!-- 첫 번째 슬라이드 -->
+                                <div class="carousel-item active">
+                                    <div class="card-columns">
+                                        <!-- 카드 1 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                스포츠코리아(주)
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[피트니스 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 강남</span>
+                                                    <span class="mt-1">고졸 이상</span>
+                                                    <span class="mt-1">(월)300만</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 2 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                휘트니스챔프
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 매니저 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">부산 해운대</span>
+                                                    <span class="mt-1">대졸 이상</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 3 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                헬스피트니스
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[요가 강사 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 서초</span>
+                                                    <span class="mt-1">학력무관</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">계약직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 4 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                스포츠헬스센터
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 송파</span>
+                                                    <span class="mt-1">대졸 이상</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- 두 번째 슬라이드 -->
+                                <div class="carousel-item">
+                                    <div class="card-columns">
+                                        <!-- 카드 5 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                휘트니스광장
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[피트니스 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 마포</span>
+                                                    <span class="mt-1">고졸 이상</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 6 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                피트니스월드
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스장 운영 관리자 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 강서</span>
+                                                    <span class="mt-1">대졸 이상</span>
+                                                    <span class="mt-1">(월)350만</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 7 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                스포츠필드
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">인천 남동</span>
+                                                    <span class="mt-1">고졸 이상</span>
+                                                    <span class="mt-1">(월)290만</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 8 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                피트니스센스
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[요가 강사 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 강남</span>
+                                                    <span class="mt-1">학력무관</span>
+                                                    <span class="mt-1">(월)320만</span>
+                                                    <span class="mt-1 mt-last">계약직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- 세 번째 슬라이드 -->
+                                <div class="carousel-item">
+                                    <div class="card-columns">
+                                        <!-- 카드 9 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                휘트니니(주) <!-- 회사명 -->
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 트레이너 채용]</h5>
+                                                <!-- 공고 제목 -->
+                                                <div class="business-info d-flex gap-3">
+                                                    <!-- gap-3을 사용하여 항목 간 간격을 설정 -->
+                                                    <span class="mt-1">서울 종로</span> <!--근무지 -->
+                                                    <span class="mt-1">학력무관</span> <!-- 필수 학력 -->
+                                                    <span class="mt-1">추후협의</span> <!-- 급여 -->
+                                                    <span class="mt-1 mt-last">계약직</span> <!-- 고용형태 -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 추가 슬라이드... -->
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center slide-div">
+                                <a href="#"
+                                   class="text-secondary fw-bold d-flex align-items-center gap-1 more-a">
+                                    더보기 <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                                <div class="d-flex gap-2">
+                                    <button id="support-prevSlide" class="round-btn"><i
+                                            class="fas fa-angle-left"></i></button>
+                                    <button id="support-nextSlide" class="round-btn"><i
+                                            class="fas fa-angle-right"></i></button>
+                                </div>
+                            </div>
+
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var carouselElement = document.getElementById('support-carousel');
+                                    var carousel = new bootstrap.Carousel(carouselElement);
+                                    var prevButton = document.getElementById('support-prevSlide');
+                                    var nextButton = document.getElementById('support-nextSlide');
+
+                                    function updateButtons() {
+                                        var activeItem = carouselElement.querySelector('.carousel-item.active');
+                                        var items = carouselElement.querySelectorAll('.carousel-item');
+                                        var activeIndex = Array.from(items).indexOf(activeItem);
+
+                                        // 첫 번째 슬라이드라면 prev 비활성화
+                                        if (activeIndex === 0) {
+                                            prevButton.setAttribute('disabled', true);
+                                        } else {
+                                            prevButton.removeAttribute('disabled');
+                                        }
+
+                                        // 마지막 슬라이드라면 next 비활성화
+                                        if (activeIndex === items.length - 1) {
+                                            nextButton.setAttribute('disabled', true);
+                                        } else {
+                                            nextButton.removeAttribute('disabled');
+                                        }
+                                    }
+
+                                    // 초기 버튼 상태 업데이트
+                                    updateButtons();
+
+                                    prevButton.addEventListener('click', function () {
+                                        carousel.prev();
+                                        setTimeout(updateButtons, 500); // 애니메이션 반영 후 상태 업데이트
+                                    });
+
+                                    nextButton.addEventListener('click', function () {
+                                        carousel.next();
+                                        setTimeout(updateButtons, 500);
+                                    });
+
+                                    carouselElement.addEventListener('slid.bs.carousel', updateButtons); // 슬라이드 이동 후 버튼 상태 업데이트
+                                });
+                            </script>
+                        </div>
+                        <!-- Carousel end -->
+                    </div>
+                </div>
+
+                <!-- 받은 제안 현황 탭 -->
+                <div class="tab-pane fade" id="proposal" role="tabpanel" aria-labelledby="proposal-tab">
+                    <div class="card proposal-posts">
+                        <!-- Carousel -->
+                        <div id="prop-carousel" class="carousel slide">
+                            <div class="carousel-inner">
+                                <!-- 첫 번째 슬라이드 -->
+                                <div class="carousel-item active">
+                                    <div class="card-columns">
+                                        <!-- 카드 1 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                스포츠코리아(주)
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[피트니스 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 강남</span>
+                                                    <span class="mt-1">고졸 이상</span>
+                                                    <span class="mt-1">(월)300만</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 2 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                휘트니스챔프
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 매니저 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">부산 해운대</span>
+                                                    <span class="mt-1">대졸 이상</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 3 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                헬스피트니스
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[요가 강사 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 서초</span>
+                                                    <span class="mt-1">학력무관</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">계약직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 4 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                스포츠헬스센터
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 송파</span>
+                                                    <span class="mt-1">대졸 이상</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- 두 번째 슬라이드 -->
+                                <div class="carousel-item">
+                                    <div class="card-columns">
+                                        <!-- 카드 5 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                휘트니스광장
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[피트니스 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 마포</span>
+                                                    <span class="mt-1">고졸 이상</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 6 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                피트니스월드
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스장 운영 관리자 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 강서</span>
+                                                    <span class="mt-1">대졸 이상</span>
+                                                    <span class="mt-1">(월)350만</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 7 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                스포츠필드
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">인천 남동</span>
+                                                    <span class="mt-1">고졸 이상</span>
+                                                    <span class="mt-1">(월)290만</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 8 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                피트니스센스
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[요가 강사 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 강남</span>
+                                                    <span class="mt-1">학력무관</span>
+                                                    <span class="mt-1">(월)320만</span>
+                                                    <span class="mt-1 mt-last">계약직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- 세 번째 슬라이드 -->
+                                <div class="carousel-item">
+                                    <div class="card-columns">
+                                        <!-- 카드 9 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                휘트니니(주) <!-- 회사명 -->
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 트레이너 채용]</h5>
+                                                <!-- 공고 제목 -->
+                                                <div class="business-info d-flex gap-3">
+                                                    <!-- gap-3을 사용하여 항목 간 간격을 설정 -->
+                                                    <span class="mt-1">서울 종로</span> <!--근무지 -->
+                                                    <span class="mt-1">학력무관</span> <!-- 필수 학력 -->
+                                                    <span class="mt-1">추후협의</span> <!-- 급여 -->
+                                                    <span class="mt-1 mt-last">계약직</span> <!-- 고용형태 -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 추가 슬라이드... -->
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center slide-div">
+                                <a href="#"
+                                   class="text-secondary fw-bold d-flex align-items-center gap-1 more-a">
+                                    더보기 <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                                <div class="d-flex gap-2">
+                                    <button id="prop-prevSlide" class="round-btn"><i
+                                            class="fas fa-angle-left"></i></button>
+                                    <button id="prop-nextSlide" class="round-btn"><i
+                                            class="fas fa-angle-right"></i></button>
+                                </div>
+                            </div>
+
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var carouselElement = document.getElementById('prop-carousel');
+                                    var carousel = new bootstrap.Carousel(carouselElement);
+                                    var prevButton = document.getElementById('prop-prevSlide');
+                                    var nextButton = document.getElementById('prop-nextSlide');
+
+                                    function updateButtons() {
+                                        var activeItem = carouselElement.querySelector('.carousel-item.active');
+                                        var items = carouselElement.querySelectorAll('.carousel-item');
+                                        var activeIndex = Array.from(items).indexOf(activeItem);
+
+                                        // 첫 번째 슬라이드라면 prev 비활성화
+                                        if (activeIndex === 0) {
+                                            prevButton.setAttribute('disabled', true);
+                                        } else {
+                                            prevButton.removeAttribute('disabled');
+                                        }
+
+                                        // 마지막 슬라이드라면 next 비활성화
+                                        if (activeIndex === items.length - 1) {
+                                            nextButton.setAttribute('disabled', true);
+                                        } else {
+                                            nextButton.removeAttribute('disabled');
+                                        }
+                                    }
+
+                                    // 초기 버튼 상태 업데이트
+                                    updateButtons();
+
+                                    prevButton.addEventListener('click', function () {
+                                        carousel.prev();
+                                        setTimeout(updateButtons, 500); // 애니메이션 반영 후 상태 업데이트
+                                    });
+
+                                    nextButton.addEventListener('click', function () {
+                                        carousel.next();
+                                        setTimeout(updateButtons, 500);
+                                    });
+
+                                    carouselElement.addEventListener('slid.bs.carousel', updateButtons); // 슬라이드 이동 후 버튼 상태 업데이트
+                                });
+                            </script>
+                        </div>
+                        <!-- Carousel end -->
+                    </div>
+                </div>
+
+                <!-- 최근 올라온 공고 탭 -->
+                <div class="tab-pane fade" id="recent" role="tabpanel" aria-labelledby="recent-tab">
+                    <div class="card recent-posts">
+                        <!-- Carousel -->
+                        <div id="job-carousel" class="carousel slide">
+                            <div class="carousel-inner">
+                                <!-- 첫 번째 슬라이드 -->
+                                <div class="carousel-item active">
+                                    <div class="card-columns">
+                                        <!-- 카드 1 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                스포츠코리아(주)
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[피트니스 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 강남</span>
+                                                    <span class="mt-1">고졸 이상</span>
+                                                    <span class="mt-1">(월)300만</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 2 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                휘트니스챔프
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 매니저 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">부산 해운대</span>
+                                                    <span class="mt-1">대졸 이상</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 3 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                헬스피트니스
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[요가 강사 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 서초</span>
+                                                    <span class="mt-1">학력무관</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">계약직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 4 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                스포츠헬스센터
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 송파</span>
+                                                    <span class="mt-1">대졸 이상</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- 두 번째 슬라이드 -->
+                                <div class="carousel-item">
+                                    <div class="card-columns">
+                                        <!-- 카드 5 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                휘트니스광장
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[피트니스 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 마포</span>
+                                                    <span class="mt-1">고졸 이상</span>
+                                                    <span class="mt-1">추후협의</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 6 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                피트니스월드
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스장 운영 관리자 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 강서</span>
+                                                    <span class="mt-1">대졸 이상</span>
+                                                    <span class="mt-1">(월)350만</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 7 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                스포츠필드
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 트레이너 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">인천 남동</span>
+                                                    <span class="mt-1">고졸 이상</span>
+                                                    <span class="mt-1">(월)290만</span>
+                                                    <span class="mt-1 mt-last">정규직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 카드 8 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                피트니스센스
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[요가 강사 채용]</h5>
+                                                <div class="business-info d-flex gap-3">
+                                                    <span class="mt-1">서울 강남</span>
+                                                    <span class="mt-1">학력무관</span>
+                                                    <span class="mt-1">(월)320만</span>
+                                                    <span class="mt-1 mt-last">계약직</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- 세 번째 슬라이드 -->
+                                <div class="carousel-item">
+                                    <div class="card-columns">
+                                        <!-- 카드 9 -->
+                                        <div class="card card-custom">
+                                            <div class="card-header">
+                                                휘트니니(주) <!-- 회사명 -->
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-center">
+                                                <h5 class="card-title recruit-card">[헬스클럽 트레이너 채용]</h5>
+                                                <!-- 공고 제목 -->
+                                                <div class="business-info d-flex gap-3">
+                                                    <!-- gap-3을 사용하여 항목 간 간격을 설정 -->
+                                                    <span class="mt-1">서울 종로</span> <!--근무지 -->
+                                                    <span class="mt-1">학력무관</span> <!-- 필수 학력 -->
+                                                    <span class="mt-1">추후협의</span> <!-- 급여 -->
+                                                    <span class="mt-1 mt-last">계약직</span> <!-- 고용형태 -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- 추가 슬라이드... -->
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center slide-div">
+                                <a href="#"
+                                   class="text-secondary fw-bold d-flex align-items-center gap-1 more-a">
+                                    더보기 <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                                <div class="d-flex gap-2">
+                                    <button id="prevSlide" class="round-btn"><i
+                                            class="fas fa-angle-left"></i></button>
+                                    <button id="nextSlide" class="round-btn"><i
+                                            class="fas fa-angle-right"></i></button>
+                                </div>
+                            </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var carouselElement = document.getElementById('job-carousel');
+                                    var carousel = new bootstrap.Carousel(carouselElement);
+                                    var prevButton = document.getElementById('prevSlide');
+                                    var nextButton = document.getElementById('nextSlide');
+
+                                    function updateButtons() {
+                                        var activeItem = carouselElement.querySelector('.carousel-item.active');
+                                        var items = carouselElement.querySelectorAll('.carousel-item');
+                                        var activeIndex = Array.from(items).indexOf(activeItem);
+
+                                        // 첫 번째 슬라이드라면 prev 비활성화
+                                        if (activeIndex === 0) {
+                                            prevButton.setAttribute('disabled', true);
+                                        } else {
+                                            prevButton.removeAttribute('disabled');
+                                        }
+
+                                        // 마지막 슬라이드라면 next 비활성화
+                                        if (activeIndex === items.length - 1) {
+                                            nextButton.setAttribute('disabled', true);
+                                        } else {
+                                            nextButton.removeAttribute('disabled');
+                                        }
+                                    }
+
+                                    // 초기 버튼 상태 업데이트
+                                    updateButtons();
+
+                                    prevButton.addEventListener('click', function () {
+                                        carousel.prev();
+                                        setTimeout(updateButtons, 500); // 애니메이션 반영 후 상태 업데이트
+                                    });
+
+                                    nextButton.addEventListener('click', function () {
+                                        carousel.next();
+                                        setTimeout(updateButtons, 500);
+                                    });
+
+                                    carouselElement.addEventListener('slid.bs.carousel', updateButtons); // 슬라이드 이동 후 버튼 상태 업데이트
+                                });
+                            </script>
+
+                        </div>
+                        <!-- Carousel end -->
+                    </div>
+                </div>
+                <div>
+                    <div class="container mt-5 resume-container">
+                        <h2 class="text-center mb-4"></h2>
+                        <form class="no-outline">
+                            <div class="card p-4 mb-4 shadow-sm">
+
+                                <div class="row">
+                                    <div class="col-md-8 d-flex align-items-center">
+                                        <div class="col-md-3 d-flex justify-content-center">
+                                            <div style="padding-left: 30px;">
+                                                <img src="https://dummyimage.com/150x150/000/fff"
+                                                     class="rounded-circle profile-img mb-3" alt="프로필 사진">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h4 class="section-title">이력서 제목</h4>
+                                            <div class="mb-2">
+                                                <label class="form-label"><strong>이름: 홍길동</strong></label>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label"><strong>성별: 남</strong></label>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label"><strong>생년월일: 991122</strong></label>
+                                            </div>
+                                        </div>
+
+                                            <!-- 경력 추가 -->
+                                            <div class="col-md-4">
+                                                <h4 class="section-title">경력</h4>
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>회사명</th>
+                                                        <td>회사명 1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <td>직위 (2020-2023)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>회사명</th>
+                                                        <td>회사명 2</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>직위</th>
+                                                        <td>직위 (2018-2020)</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <!-- 자격증 추가 -->
+                                            <div class="col-md-4">
+                                                <h4 class="section-title">자격증</h4>
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>자격증 1</th>
+                                                        <td>발급일: 2021</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>자격증 2</th>
+                                                        <td>발급일: 2020</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <!-- 수상 추가 -->
+                                            <div class="col-md-4">
+                                                <h4 class="section-title">수상</h4>
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>수상명 1</th>
+                                                        <td>수상일: 2022</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>수상명 2</th>
+                                                        <td>수상일: 2021</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                    </div>
+                                    <!-- 자기소개 영역 크기 확대 -->
+                                    <div class="col-md-12">
+                                        <div class="ml-4">
+                                            <h4 class="section-title">자기소개</h4>
+                                            <textarea class="form-control" rows="8" readonly>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti magnam amet exercitationem, aut veritatis laboriosam unde eveniet architecto rerum temporibus vitae provident impedit praesentium quo, ex quos illum, libero maiores.</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <button type="submit" class="btn btn-primary w-100 modal-btn">이력서 수정
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('.toggle-sidebar').click(function () {
+            $('.container-fluid').toggleClass('shifted');
+        });
+
+
+    </script>
+    <!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
