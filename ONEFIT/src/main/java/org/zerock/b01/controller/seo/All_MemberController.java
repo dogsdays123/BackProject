@@ -40,7 +40,7 @@ public class All_MemberController {
 
     @GetMapping("/first")
     public void first(){
-        log.info("first_test");
+        log.info("first");
     }
 
 
