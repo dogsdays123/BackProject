@@ -55,6 +55,9 @@ public class Trainer {
     @Column(nullable = false)
     private int want_day;
 
+    @Column(nullable = false)
+    private String want_day_type;
+
     @Column(length = 40, nullable = false)
     private String want_sal_type;
 
