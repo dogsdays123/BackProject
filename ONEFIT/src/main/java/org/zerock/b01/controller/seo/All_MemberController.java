@@ -52,7 +52,7 @@ public class All_MemberController {
 
     @GetMapping("/join")
     public void joinGET() {
-        log.info("join get........");
+        log.info("join get........ddada");
     }
 
     @PostMapping("/join")
