@@ -45,6 +45,12 @@ public class All_MemberController {
         log.info("my_business_page");
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/my_info_page")
+    public void my_info_page() {
+        log.info("my_info_page");
+    }
+
     @GetMapping("/login")
     public void login() {
         log.info("login");
