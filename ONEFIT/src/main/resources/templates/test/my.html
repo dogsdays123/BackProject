@@ -7,7 +7,7 @@
     <title>마이페이지</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/my.css">
     <link rel="stylesheet" href="/style/my.css">
 </head>
 
@@ -22,100 +22,6 @@
                 <span class="navbar-toggler-icon"><i class="fa-solid fa-bars-staggered"></i></span>
             </button>
         </div>
-
-        <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
-        <ul class="nav mx-auto">
-            <span class="slash slash-left">/</span>
-            <li class="nav-item"><a class="nav-link" href="#">채용정보</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">강사찾기</a></li>
-            <li class="nav-item dropdown dropdown-main">
-                <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
-                   data-bs-toggle="dropdown">거래</a>
-                <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" href="#">시설</a></li>
-                    <li><a class="dropdown-item" href="#">기구</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown dropdown-main">
-                <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
-                   data-bs-toggle="dropdown">커뮤니티</a>
-                <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" href="#">Q&A</a></li>
-                    <li><a class="dropdown-item" href="#">공지사항</a></li>
-                </ul>
-            </li>
-            <span class="slash slash-right">/</span>
-        </ul>
-
-        <!-- 로그인 후 메뉴 -->
-        <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
-                data-bs-target="#logoutModal">
-            로그아웃
-        </button>
-        <!-- 알림 start -->
-        <div class="dropdown">
-            <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-bell"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        3
-                    </span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
-                <li>
-                    <h6 class="dropdown-header">알림</h6>
-                </li>
-                <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
-                <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
-                <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item text-center cursor-pointer" data-bs-toggle="modal"
-                       data-bs-target="#notificationsModal">모두 보기</a></li>
-            </ul>
-        </div>
-        <!-- 알림 end -->
-
-        <!-- 모달 시작 -->
-        <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="notificationsModalLabel">모든 알림</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                📢 새로운 공지가 있습니다.
-                                <span class="badge bg-info rounded-pill">2분 전</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                📩 새로운 메시지가 도착했습니다.
-                                <span class="badge bg-info rounded-pill">10분 전</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                ✔️ 회원 가입이 완료되었습니다.
-                                <span class="badge bg-info rounded-pill">1시간 전</span>
-                            </li>
-                            <!-- 추가 알림 항목들 -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                🔔 새로운 거래가 있습니다.
-                                <span class="badge bg-info rounded-pill">3시간 전</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                📝 새로운 피드백이 도착했습니다.
-                                <span class="badge bg-info rounded-pill">5시간 전</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 모달 끝 -->
-
     </div>
 
 </header>
