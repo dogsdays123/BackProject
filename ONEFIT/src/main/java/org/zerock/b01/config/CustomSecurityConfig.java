@@ -81,8 +81,8 @@ public class CustomSecurityConfig {
         //소셜 로그인
         http.oauth2Login(httpSecurityOAuth2LoginConfigurer -> {
             httpSecurityOAuth2LoginConfigurer
-                    .loginPage("/member/login")
-                    .successHandler(authenticationSuccessHandler());
+                    .loginPage("/member/login");
+                    //.successHandler(authenticationSuccessHandler());
         });
 
         //구글 로그인 테스트
