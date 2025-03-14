@@ -47,7 +47,7 @@ public class All_MemberController {
 
     @GetMapping("/login")
     public void login() {
-        log.info("login dawd");
+        log.info("login");
     }
 
     @GetMapping("/join")
