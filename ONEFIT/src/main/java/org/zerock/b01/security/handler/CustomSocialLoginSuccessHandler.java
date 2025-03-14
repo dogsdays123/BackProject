@@ -37,12 +37,12 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
         {
             log.info("Should Change Password");
             log.info("Redirect to Member Modify");
-            response.sendRedirect("/member/first"); //이 부분 진도 안나가서 임의로 수정
+            response.sendRedirect("/main"); //이 부분 진도 안나가서 임의로 수정
             //원래는 /member/modify 이거임
 
             return;
         } else {
-            response.sendRedirect("/member/first");
+            response.sendRedirect("/main");
         }
     }
 }

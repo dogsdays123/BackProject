@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-</head>
-<div layout:fragment="content">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="join">
     <div class="row mt-3">
         <div class="col">
             <div class="card">
@@ -45,7 +44,6 @@
             </div>
         </div>
     </div>
-</div>
 <script layout:fragment="script" th:inline="javascript">
     const error = [[${error}]]
 
@@ -53,4 +51,5 @@
         alert("동일한 아이디를 가진 계정이 존재합니다.")
     }
 </script>
+</div>
 </html>

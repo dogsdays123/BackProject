@@ -15,6 +15,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.zerock.b01.security.CustomUserDetailsService;
 import org.zerock.b01.security.handler.Custom403Handler;
 import org.zerock.b01.security.handler.CustomSocialLoginSuccessHandler;
@@ -48,7 +49,13 @@ public class CustomSecurityConfig {
         log.info("--------------------------------configure-----------------------------------");
 
         http.formLogin(httpSecurityFormLoginConfigurer -> {
-            httpSecurityFormLoginConfigurer.loginPage("/member/login");
+            httpSecurityFormLoginConfigurer
+                    .loginPage("/member/login")
+                    .successHandler((request, response, authentication) -> {
+                        SavedRequest savedRequest = (SavedRequest) request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+                        String redirectUrl = (savedRequest != null) ? savedRequest.getRedirectUrl() : "/main"; // 이전 URL이 있으면 그곳으로, 없으면 /main
+                        response.sendRedirect(redirectUrl);
+                    });
         });
 
         http.csrf(httpSecurityCsrfConfigurer -> {

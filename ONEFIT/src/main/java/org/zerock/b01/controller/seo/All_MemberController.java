@@ -42,11 +42,6 @@ public class All_MemberController {
         log.info("my_business_page");
     }
 
-    @GetMapping("/first")
-    public void first(){
-        log.info("first_test");
-    }
-
     @GetMapping("/login")
     public void login(){
         log.info("login");
