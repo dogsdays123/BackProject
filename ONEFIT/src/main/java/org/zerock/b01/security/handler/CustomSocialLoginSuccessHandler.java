@@ -19,11 +19,11 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) throws IOException,
-            ServletException{
+                                        Authentication authentication) throws IOException, ServletException{
         log.info("------------------------------------------");
         log.info("CustomLoginSuccessHandler onAuthenticationSuccess ..............");
         log.info(authentication.getPrincipal());
+
 
         MemberSecurityDTO memberSecurityDTO = (MemberSecurityDTO) authentication.getPrincipal();
 
@@ -40,7 +40,6 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
             response.sendRedirect("/main"); //이 부분 진도 안나가서 임의로 수정
             //원래는 /member/modify 이거임
 
-            return;
         } else {
             response.sendRedirect("/main");
         }

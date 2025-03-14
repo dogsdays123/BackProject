@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -48,6 +49,7 @@ public class CustomSecurityConfig {
 
         log.info("--------------------------------configure-----------------------------------");
 
+        //일반 로그인
         http.formLogin(httpSecurityFormLoginConfigurer -> {
             httpSecurityFormLoginConfigurer
                     .loginPage("/member/login")
@@ -58,10 +60,12 @@ public class CustomSecurityConfig {
                     });
         });
 
+        //로그인 토큰
         http.csrf(httpSecurityCsrfConfigurer -> {
             httpSecurityCsrfConfigurer.disable();
         });
 
+        //리맴버 미 로그인 쿠키 저장
         http.rememberMe(httpSecurityRememberMeConfigurer -> {
             httpSecurityRememberMeConfigurer
                     .key("12345678")
@@ -74,11 +78,20 @@ public class CustomSecurityConfig {
                     .accessDeniedHandler(accessDeniedHandler());
         });
 
+        //소셜 로그인
         http.oauth2Login(httpSecurityOAuth2LoginConfigurer -> {
             httpSecurityOAuth2LoginConfigurer
                     .loginPage("/member/login")
                     .successHandler(authenticationSuccessHandler());
         });
+
+        //구글 로그인 테스트
+//        http.authorizeHttpRequests(regi ->{
+//            regi.requestMatchers("/").permitAll();
+//            regi.anyRequest().authenticated();
+//        })
+//                .oauth2Login(Customizer.withDefaults())
+//                .formLogin(Customizer.withDefaults());
 
         return http.build();
     }

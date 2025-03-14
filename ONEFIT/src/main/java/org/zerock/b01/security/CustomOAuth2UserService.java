@@ -49,7 +49,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         //여기서 정보 가져오기
         switch (clientName){
             case "kakao":
-                email = getkakaoEmail(paramMap);
+                email = getKakaoEmail(paramMap);
+                break;
+            case "google":
+                email = getGoogleEmail(paramMap);
                 break;
         }
 
@@ -71,7 +74,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             //회원 추가 -- all_id는 이메일 주소? / 패스워드는 1111
             All_Member all_member = All_Member.builder()
                     .all_id(email)
-                    .name("social") //나중에 카카오에게 받은 이름
+                    .name("kakaogoogle") //나중에 카카오에게 받은 이름
                     .a_psw(passwordEncoder.encode("1111"))
                     .email(email)
                     .a_phone(010)//나중에 카카오에게 받은 폰번호로
@@ -111,12 +114,21 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    private String getkakaoEmail(Map<String, Object> paramMap){
+    //paramMap은 Oth2에서 사용하는 키-값 쌍의 형식 데이터 구조
+    //기업마다 데이터구조가 다름
+    private String getKakaoEmail(Map<String, Object> paramMap){
         log.info("KAKAO-------------------------------");
         Object value = paramMap.get("kakao_account");
         log.info(value);
         LinkedHashMap accountMap = (LinkedHashMap) value;
         String email = (String) accountMap.get("email");
+        return email;
+    }
+
+    private String getGoogleEmail(Map<String, Object> paramMap) {
+        log.info("GOOGLE-------------------------------");
+        String email = (String) paramMap.get("email");
+        log.info("Email: " + email);
         return email;
     }
 }
