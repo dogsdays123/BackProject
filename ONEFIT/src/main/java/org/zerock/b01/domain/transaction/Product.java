@@ -25,7 +25,7 @@ public class Product extends BaseEntity {
     private int p_roles;
 
     @Column(nullable = false)
-    private String p_staus;
+    private String p_status;
 
     @Column(nullable = false, precision = 10, scale = 0)
     private BigDecimal p_price;

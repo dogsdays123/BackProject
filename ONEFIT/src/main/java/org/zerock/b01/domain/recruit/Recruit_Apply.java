@@ -20,7 +20,7 @@ public class Recruit_Apply {
     private LocalDate regdate;
 
     @ManyToOne
-    @JoinColumn(name = "re_id", nullable = false)
+    @JoinColumn(name = "recruit_id", nullable = false)
     private Recruit_Register recruit_register;
 
     @ManyToOne
