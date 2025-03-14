@@ -26,7 +26,7 @@
 body {
     font-family: 'S-CoreDream-3Light';
     /* 기본 폰트 설정 */
-    background-color: #f8f9fa;
+    background-color: #fff;
     /* 전체 배경색 (연한 회색) */
 }
 
@@ -47,6 +47,8 @@ body {
     /* 파란색 */
     font-size: 1.8rem;
     /* 글자 크기 */
+    margin-top: 8px;
+    margin-left: 20px;
 }
 
 .navbar-brand:hover,
@@ -86,6 +88,7 @@ body {
 
 /* 로그인 및 회원가입 링크 스타일 */
 .auth-links {
+    margin-right: 20px;
     display: flex;
     /* 가로 정렬 */
     align-items: center;
@@ -99,7 +102,20 @@ body {
 }
 
 /* 로그인 및 회원가입 버튼 스타일 */
-.auth-links button {
+.other-menu button {
+    color: #373F57;
+    /* 파란색 글자 */
+    text-decoration: none;
+    /* 밑줄 제거 */
+    all: unset;
+
+    padding: 8px 15px;
+    /* 내부 여백 추가 */
+    transition: all 0.3s ease-in-out;
+    /* 부드러운 애니메이션 효과 */
+}
+
+.btns {
     color: #373F57;
     /* 파란색 글자 */
     text-decoration: none;
@@ -229,7 +245,7 @@ body {
 
 /* 네비게이션 메뉴 스타일 */
 .nav-container {
-    padding: 30px;
+    padding: 10px;
     display: flex;
     /* 가로 정렬 */
     justify-content: center;
@@ -260,7 +276,7 @@ body {
     /* 글자 굵기 */
     color: #333;
     /* 글자색: 어두운 회색 */
-    padding: 12px 20px;
+    padding: 17px 20px 12px 20px;
     /* 내부 여백 조정 */
     transition: color 0.3s, background-color 0.3s;
     /* 부드러운 효과 */
@@ -326,22 +342,23 @@ input::placeholder {
     font-size: 1.2rem;
 }
 
-.slash {
-    font-size: 2.5rem;
-    transform: scaleY(1.5);
-    color: #ccc;
-}
-
-.slash-left {
-    padding-right: 20px;
-}
-
-.slash-right {
-    padding-left: 20px;
-}
-
 .input-feedback {
     font-size: 0.9em;
     height: 20px;
+}
+
+.breadcrumb {
+    --bs-breadcrumb-divider: '>';
+}
+
+.breadcrumb-item a {
+    text-decoration: none;
+    color: #212529;
+    font-weight: 500;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+    /* font-weight: bold; */
 }
 
