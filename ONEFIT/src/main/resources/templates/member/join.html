@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="join">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    JOIN
+                </div>
+                <div class="card-body">
+                    <form id="registerForm" action="/member/join" method="post">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">user ID</span>
+                            <input type="text" name="all_id" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">user PASSWORD</span>
+                            <input type="password" name="a_psw" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">user NAME</span>
+                            <input type="text" name="name" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">user EMAIL</span>
+                            <input type="email" name="email" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">a_phone</span>
+                            <input type="number" name="a_phone" class="form-control">
+                        </div>
+                        <input type="hidden" name="member_type" value="default">
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-primary submitBtn">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<script layout:fragment="script" th:inline="javascript">
+    const error = [[${error}]]
+
+    if(error && error === 'all_id'){
+        alert("동일한 아이디를 가진 계정이 존재합니다.")
+    }
+</script>
+</div>
+</html>

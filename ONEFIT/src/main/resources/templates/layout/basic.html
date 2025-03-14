@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>OneFit - 체육시설업 포털</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/style/myProfiles.css">
+
+    <style>
+        body {
+            background-color: white;
+        }
+
+        .card-deck {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .card {
+            flex: 0 0 23%; /* 카드 크기 설정 */
+            height: 200px;
+            cursor: pointer;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            position: absolute;
+            top: 63%;
+            transform: translateY(-50%);
+            z-index: 5;
+            background-color: rgba(0, 0, 0, 0.5); /* 버튼 배경색 추가 */
+            border-radius: 50%;
+            width: 40px; /* 버튼 크기 */
+            height: 40px; /* 버튼 크기 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carousel-control-prev {
+            left: -25px;
+        }
+
+        .carousel-control-next {
+            right: -25px;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            /* 아이콘 색상 */
+            /* background-color: white; */
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            color: black;
+        }
+
+        .notice-container {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+            /* background-color: #f8d7da; */
+            /* color: #721c24; */
+            text-align: center;
+            border-radius: 5px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            position: relative;
+        }
+
+        .notice-text {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            width: 100%; /* 넓이를 100%로 설정하여 가운데 정렬 */
+            text-align: center;
+        }
+
+        .notice-text.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+
+<body>
+<!-- 헤더 start -->
+<header>
+    <!-- 메인 메뉴 -->
+    <div class="nav-container">
+        <!-- 로고 -->
+        <a class="navbar-brand me-auto" href="#">OneFit</a>
+
+        <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
+        <ul class="nav mx-auto">
+            <span class="slash slash-left">/</span>
+            <li class="nav-item"><a class="nav-link" href="recruit_list.html">채용정보</a></li>
+            <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
+            <li class="nav-item dropdown dropdown-main">
+                <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
+                   data-bs-toggle="dropdown">거래</a>
+                <ul class="dropdown-menu dropdown-main-menu">
+                    <li><a class="dropdown-item" href="#">시설</a></li>
+                    <li><a class="dropdown-item" href="#">기구</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown dropdown-main">
+                <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
+                   data-bs-toggle="dropdown">커뮤니티</a>
+                <ul class="dropdown-menu dropdown-main-menu">
+                    <li><a class="dropdown-item" href="board_qa_list.html">Q&A</a></li>
+                    <li><a class="dropdown-item" href="board_notice_list.html">공지사항</a></li>
+                </ul>
+            </li>
+            <span class="slash slash-right">/</span>
+        </ul>
+
+        <!-- 사이드 메뉴(로그인, 회원가입 / 로그아웃, 마이페이지, 알림) -->
+        <div class="auth-links ms-auto">
+            <!-- 로그인 전 메뉴 -->
+            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
+                    data-bs-target="#loginModal">
+                로그인
+            </button>
+            <span class="separator">|</span>
+            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
+                    data-bs-target="#signupModal">
+                회원가입
+            </button>
+
+            <!-- 로그인 후 메뉴 -->
+            <!-- <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                로그아웃
+            </button>
+            <span class="separator">|</span>
+            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal">
+                마이페이지
+            </button> -->
+
+            <!-- 알림 start -->
+            <div class="dropdown">
+                <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-bell"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            3
+                        </span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                    <li>
+                        <h6 class="dropdown-header">알림</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
+                    <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
+                    <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
+                </ul>
+            </div>
+            <!-- 알림 end -->
+        </div>
+    </div>
+</header>
+<!-- 헤더 end -->
+
+<!-- 메인 start -->
+<main>
+    <div layout:fragment="myPage"></div>
+    <div layout:fragment="main"></div>
+
+<!--    테스트용-->
+    <div layout:fragment="index"></div>
+    <div layout:fragment="login"></div>
+    <div layout:fragment="join"></div>
+</main>
+<!-- 메인 end  -->
+
+<!--  회원가입 모달창 start -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel"><span class="rogo-span">OneFit</span> 회원가입</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body signup-modal-body">
+                <div class="tab-content mt-3 div-sign-login" id="signupTabContent">
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">이름</label>
+                            <input type="text" class="form-control" id="name" placeholder="홍길동" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">이메일</label>
+                            <input type="email" class="form-control" id="email" placeholder="ex) email@onefit.com"
+                                   required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">아이디</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="username"
+                                       placeholder="3자 이상, 16자 이하의 영어 또는 숫자로 구성" required>
+                                <button class="btn btn-outline-primary" type="button" id="check-username">
+                                    중복 확인
+                                </button>
+                            </div>
+                            <!-- 중복 확인 메시지 출력 공간 -->
+                            <div id="username-feedback" class="mt-1 input-feedback text-danger">이미 사용 중인 아이디입니다.</div>
+                            <!-- <div id="username-feedback" class="mt-1 input-feedback text-success">사용 가능한 아이디입니다.</div> -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="password"
+                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">비밀번호 확인</label>
+                            <input type="password" class="form-control" id="password"
+                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
+                            <!-- 비밀번호 확인 메시지 출력 공간 -->
+                            <!-- <div id="password-feedback" class="mt-1 input-feedback text-danger">비밀번호가 일치하지 않습니다.</div> -->
+                            <div id="password-feedback" class="mt-1 input-feedback text-success">비밀번호가 일치합니다.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">전화번호</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="ex) 010-1234-5678"
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 modal-btn"
+                                id="signupButton">가입하기
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 회원가입 모달창 end -->
+
+<!-- 로그인 모달창 start -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel"><span class="rogo-span">OneFit</span> 로그인</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 일반 로그인 -->
+                <div class="div-sign-login" id="generalLogin">
+                    <form>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">아이디</label>
+                            <input type="text" class="form-control" id="username" placeholder="아이디를 입력하세요" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요"
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 modal-btn" id="loginButton">
+                            로그인
+                        </button>
+                    </form>
+                    <!-- 소셜 로그인 -->
+                    <div class="login-container">
+                        <div class="text-center my-3">
+                            <hr class="line">
+                            <span class="hr-text">소셜 계정으로 간편 로그인</span>
+                            <hr class="line">
+                        </div>
+                        <div class="social-login-buttons">
+                            <button class="social-btn google-btn">
+                                <img src="img/google_rogo.png" alt="Google Logo">
+                            </button>
+                            <button class="social-btn kakao-btn">
+                                <i class="fas fa-comment kakao-rogo"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 로그인 모달창 end -->
+
+<!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<!-- bootstrap js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/js/basic.js"></script>
+</body>
+
+</html>
