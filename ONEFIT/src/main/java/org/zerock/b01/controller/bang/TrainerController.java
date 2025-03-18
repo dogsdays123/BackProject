@@ -16,4 +16,10 @@ public class TrainerController {
 
     @GetMapping("/trainer_register")
     public void trainer_register() { log.info("trainer_register"); }
+
+    @GetMapping("/trainer_view")
+    public void trainer_view() { log.info("trainer_view"); }
+
+    @GetMapping("/trainer_modify")
+    public void trainer_modify() { log.info("trainer_modify"); }
 }
