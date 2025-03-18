@@ -21,57 +21,57 @@ public class RecruitDTO {
 
     private Long recruitId;
 
-    private String re_title;
+    private String reTitle;
 
-    private String re_company;
+    private String reCompany;
 
     private String reJobType;// Job type을 저장할 필드
 
-    private String re_industry;
+    private String reIndustry;
 
-    private int re_num_hiring;
+    private int reNumHiring;
 
-    private String re_work_days;
+    private String reWorkDays;
 
-    private String re_duty_days;
+    private String reDutyDays;
 
-    private String re_work_start_time;
+    private String reWorkStartTime;
 
-    private String re_work_end_time;
+    private String reWorkEndTime;
 
-    private String re_time_negotiable;
+    private String reTimeNegotiable;
 
     private String reSalaryType;  // Salary type을 저장할 필드
 
-    private String re_salary_value;
+    private String reSalaryValue;
 
-    private String re_salary_check;
+    private String reSalaryCheck;
 
-    private String re_salary_detail;
+    private String reSalaryDetail;
 
-    private String re_gender;
+    private String reGender;
 
-    private String re_min_age;
+    private String reMinAge;
 
-    private String re_max_age;
+    private String reMaxAge;
 
-    private String re_education;
+    private String reEducation;
 
-    private String re_preference;
+    private String rePreference;
 
-    private LocalDateTime regdate;
+    private LocalDateTime regDate;
 
     private LocalDateTime modDate;
 
-    private LocalDateTime re_deadline;
+    private LocalDateTime reDeadline;
 
-    private String re_apply_method;
+    private String reApplyMethod;
 
-    private String re_admin_name;
+    private String reAdminName;
 
-    private String re_admin_email;
+    private String reAdminEmail;
 
-    private String re_admin_phone;
+    private String reAdminPhone;
 
     private Business_Member business_member;
 }

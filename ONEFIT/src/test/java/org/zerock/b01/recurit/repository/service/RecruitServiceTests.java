@@ -5,8 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.member.Business_Member;
+import org.zerock.b01.dto.PageRequestDTO;
+import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.repository.All_MemberRepository;
 import org.zerock.b01.repository.memberRepository.Business_MemberRepository;
@@ -76,30 +80,30 @@ public class RecruitServiceTests {
             }
 
             RecruitDTO recruitDTO = RecruitDTO.builder()
-                    .re_admin_email("abc@abcd.com")
-                    .re_admin_name("hong....")
-                    .re_admin_phone("010-1234-5678")
-                    .re_apply_method("온라인지원")
-                    .re_company("mit fitness..")
-                    .re_deadline(date)
-                    .re_duty_days("1")
-                    .re_education("고등학교졸업")
-                    .re_gender("성별무관")
-                    .re_industry("헬스/PT")
+                    .reAdminEmail("abc@abcd.com")
+                    .reAdminName("hong....")
+                    .reAdminPhone("010-1234-5678")
+                    .reApplyMethod("온라인지원")
+                    .reCompany("mit fitness..")
+                    .reDeadline(date)
+                    .reDutyDays("1")
+                    .reEducation("고등학교졸업")
+                    .reGender("성별무관")
+                    .reIndustry("헬스/PT")
                     .reJobType("정규직")
-                    .re_max_age("40")
-                    .re_min_age("20")
-                    .re_num_hiring(1)
-                    .re_preference("전공자우대,관련자격증 보유 우대")
-                    .re_salary_check("협의가능")
-                    .re_salary_detail("기본급 100만원")
+                    .reMaxAge("40")
+                    .reMinAge("20")
+                    .reNumHiring(1)
+                    .rePreference("전공자우대,관련자격증 보유 우대")
+                    .reSalaryCheck("협의가능")
+                    .reSalaryDetail("기본급 100만원")
                     .reSalaryType("월급")
-                    .re_salary_value("300")
-                    .re_time_negotiable("1")
-                    .re_title("sample title...")
-                    .re_work_days("월~금")
-                    .re_work_end_time("15:00")
-                    .re_work_start_time("09:00")
+                    .reSalaryValue("300")
+                    .reTimeNegotiable("1")
+                    .reTitle("sample title...")
+                    .reWorkDays("월~금")
+                    .reWorkEndTime("15:00")
+                    .reWorkStartTime("09:00")
                     .business_member(businessMember)// 외래키 설정
                     .build();
 
@@ -107,5 +111,33 @@ public class RecruitServiceTests {
 
             log.info("recruitId: " + recruitId);
         });
+    }
+
+    @Test
+    public void testModify(){
+
+        RecruitDTO recruitDTO = RecruitDTO.builder()
+                .recruitId(415L)
+                .reTitle("Update Title....")
+                .reCompany("Update Content....")
+                .reJobType("Pilates").build();
+
+        recruitService.modify(recruitDTO);
+    }
+
+    @Transactional
+    @Test
+    public void testList(){
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .type("tcw")
+                .keyword("u")
+                .page(1)
+                .size(10)
+                .build();
+
+        PageResponseDTO<RecruitDTO> responseDTO = recruitService.list(pageRequestDTO);
+
+        log.info("responseDTO: " + responseDTO);
     }
 }

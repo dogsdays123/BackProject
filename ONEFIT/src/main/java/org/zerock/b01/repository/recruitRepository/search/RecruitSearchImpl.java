@@ -24,7 +24,7 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
 
         JPQLQuery<Recruit_Register> query = from(recruit_register);
 
-        query.where(recruit_register.re_title.contains("1"));
+        query.where(recruit_register.reTitle.contains("1"));
 
         this.getQuerydsl().applyPagination(pageable, query);
 
@@ -48,13 +48,13 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
             for(String type : types) {
                 switch (type) {
                     case "t":
-                        booleanBuilder.or(recruit_register.re_title.contains(keyword));
+                        booleanBuilder.or(recruit_register.reTitle.contains(keyword));
                         break;
                     case "c":
-                        booleanBuilder.or(recruit_register.re_company.contains(keyword));
+                        booleanBuilder.or(recruit_register.reCompany.contains(keyword));
                         break;
                     case "w":
-                        booleanBuilder.or(recruit_register.reJobType.contains(keyword));
+                        booleanBuilder.or(recruit_register.reIndustry.contains(keyword));
                         break;
 
                 }
@@ -71,5 +71,7 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
 
         return new PageImpl<>(list, pageable, count);
     }
+
+
 
 }
