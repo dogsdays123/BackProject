@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.member.Business_Member;
@@ -18,6 +19,7 @@ import org.zerock.b01.repository.memberRepository.Business_MemberRepository;
 import org.zerock.b01.repository.recruitRepository.RecruitRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -26,7 +28,7 @@ import java.util.stream.IntStream;
 @Log4j2
 public class RecruitRepositoryTests {
 
-    LocalDate date = LocalDate.now();
+    LocalDateTime date = LocalDateTime.now();
 
     @Autowired
     private RecruitRepository recruitRepository;
@@ -90,14 +92,14 @@ public class RecruitRepositoryTests {
                     .re_education("고등학교졸업")
                     .re_gender("성별무관")
                     .re_industry("헬스/PT")
-                    .re_job_type("정규직")
+                    .reJobType("정규직")
                     .re_max_age("40")
                     .re_min_age("20")
                     .re_num_hiring(1)
                     .re_preference("전공자우대,관련자격증 보유 우대")
                     .re_salary_check("협의가능")
                     .re_salary_detail("기본급 100만원")
-                    .re_salary_type("월급")
+                    .reSalaryType("월급")
                     .re_salary_value("300")
                     .re_time_negotiable("1")
                     .re_title("mit휘트니스 트레이너 모집")
@@ -172,5 +174,33 @@ public class RecruitRepositoryTests {
         List<Recruit_Register> recruitList = result.getContent();
 
         recruitList.forEach(recruitRegister -> log.info(recruitRegister));
+    }
+
+    @Test
+    public void testSearch1(){
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("recruitId").descending());
+        recruitRepository.search1(pageable);
+    }
+
+    @Transactional
+    @Test
+    public void testSearchAll(){
+        String[] types = {"t", "c", "w"};
+
+        String keyword = "M";
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("recruitId").descending());
+
+        Page<Recruit_Register> result = recruitRepository.searchAll(types, keyword, pageable);
+
+        log.info(result.getTotalElements());
+
+        log.info(result.getSize());
+
+        log.info(result.getNumber());
+
+        log.info(result.hasPrevious() + ":" + result.hasNext());
+
+        result.getContent().forEach(recruitRegister -> log.info(recruitRegister));
     }
 }

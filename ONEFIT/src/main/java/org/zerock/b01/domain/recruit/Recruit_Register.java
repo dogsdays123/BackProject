@@ -6,6 +6,7 @@ import org.zerock.b01.domain.BaseEntity;
 import org.zerock.b01.domain.member.Business_Member;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,6 +18,7 @@ public class Recruit_Register extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recruit_id")
     private Long recruitId;
 
     @Column(length = 170, nullable = false)
@@ -25,8 +27,8 @@ public class Recruit_Register extends BaseEntity {
     @Column(length = 130, nullable = false)
     private String re_company;
 
-    @Column(length = 50, nullable = false)
-    private String re_job_type;
+    @Column(name = "re_job_type" ,length = 50, nullable = false)
+    private String reJobType;
 
     @Column(length = 100, nullable = false)
     private String re_industry;
@@ -49,8 +51,8 @@ public class Recruit_Register extends BaseEntity {
     @Column(length = 10, nullable = false)
     private String re_time_negotiable;
 
-    @Column(length = 50, nullable = false)
-    private String re_salary_type;
+    @Column(name="re_salary_type", length = 50, nullable = false)
+    private String reSalaryType;
 
     @Column(length = 50, nullable = false)
     private String re_salary_value;
@@ -80,7 +82,7 @@ public class Recruit_Register extends BaseEntity {
 //    private LocalDate regdate;
 
     @Column(nullable = false)
-    private LocalDate re_deadline;
+    private LocalDateTime re_deadline;
 
     @Column(length = 100, nullable = false)
     private String re_apply_method;
@@ -101,6 +103,6 @@ public class Recruit_Register extends BaseEntity {
     public void change(String title, String company, String jobType) {
         this.re_title = title;
         this.re_company = company;
-        this.re_job_type = jobType;
+        this.reJobType = jobType;
     }
 }
