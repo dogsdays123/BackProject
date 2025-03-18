@@ -55,3 +55,6 @@ display: flex;
   width: 120px;
   flex-shrink: 0;
 }
+.img-center {
+  text-align: center !important;
+}

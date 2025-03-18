@@ -102,260 +102,259 @@
               <div class="row">
                   <div class="col-md-8 top-of-regi">
                       <h4 class="section-title">이력서 작성</h4>
-                          <div class="mb-2">
-                              <!-- <label class="form-label"><strong>이름:</strong></label> -->
-                              <span><strong>*&nbsp;&nbsp;</strong></span><input type="text" class="form-control" placeholder="이력서 제목" required>
-                          </div>
-                          <div class="mb-2">
-                              <!-- <label class="form-label"><strong>이름:</strong></label> -->
-                              <span><strong>*&nbsp;&nbsp;</strong></span><input type="text" class="form-control" placeholder="이름" required>
-                          </div>
-                          <div class="mb-2">
-                              <label class="form-label"><strong>*&nbsp;성별:</strong></label>
-                              <select class="form-control">
-                                  <option>남</option>
-                                  <option>여</option>
-                              </select>
-                          </div>
-                          <div class="mb-2">
-                              <label class="form-label"><strong>*&nbsp;생년월일:</strong></label>
-                              <input type="date" class="form-control" required>
-                          </div>
-                          <div class="mb-2">
-                              <label class="form-label"><strong>*&nbsp;이메일:</strong></label>
-                              <input type="email" class="form-control" placeholder="name@sample.email" required>
-                          </div>
-                          <div class="mb-2">
-                              <label class="form-label"><strong>*&nbsp;연락처:</strong></label>
-                              <input type="tel" class="form-control" placeholder="010-1234-5678" required>
-                          </div>
-                          <div class="mb-2">
-                              <label class="form-label"><strong>*&nbsp;주소:</strong></label>
-                              <input type="text" class="form-control" placeholder="OO도 OO시 OO로 OO" required>
-                          </div> 
+                      <div class="mb-2">
+                          <!-- <label class="form-label"><strong>이름:</strong></label> -->
+                          <span><strong>*&nbsp;&nbsp;</strong></span><input type="text" class="form-control" placeholder="이력서 제목" required>
                       </div>
-                      <div class="col-md-4 text-center">
-                          <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle profile-img mb-3" alt="프로필 사진">
-                          <input type="file" class="form-control">
+                      <div class="mb-2">
+                          <!-- <label class="form-label"><strong>이름:</strong></label> -->
+                          <span><strong>*&nbsp;&nbsp;</strong></span><input type="text" class="form-control" placeholder="이름" required>
                       </div>
-                    </div>
-                </form>
-                  <br>
-                  <form>
-                  <div>
-                      <h4 class="section-title">자기소개</h4>
-                      <textarea class="form-control" rows="5" placeholder="자기소개를 입력하세요" required></textarea>
+                      <div class="mb-2">
+                          <label class="form-label"><strong>*&nbsp;성별:</strong></label>
+                          <select class="form-control">
+                              <option>남</option>
+                              <option>여</option>
+                          </select>
+                      </div>
+                      <div class="mb-2">
+                          <label class="form-label"><strong>*&nbsp;생년월일:</strong></label>
+                          <input type="date" class="form-control" required>
+                      </div>
+                      <div class="mb-2">
+                          <label class="form-label"><strong>*&nbsp;이메일:</strong></label>
+                          <input type="email" class="form-control" placeholder="name@sample.email" required>
+                      </div>
+                      <div class="mb-2">
+                          <label class="form-label"><strong>*&nbsp;연락처:</strong></label>
+                          <input type="tel" class="form-control" placeholder="010-1234-5678" required>
+                      </div>
+                      <div class="mb-2">
+                          <label class="form-label"><strong>*&nbsp;주소:</strong></label>
+                          <input type="text" class="form-control" placeholder="OO도 OO시 OO로 OO" required>
+                      </div>
                   </div>
-                  <br>
-                  <div>
-                  <h4 class="section-title">학력</h4>
+                  <div class="col-md-4 img-center">
+                      <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle profile-img mb-3" alt="프로필 사진">
+                      <input type="file" class="form-control">
+                  </div>
+              </div>
+              </form>
+              <br>
+              <form>
+              <div>
+                  <h4 class="section-title">자기소개</h4>
+                  <textarea class="form-control" rows="5" placeholder="자기소개를 입력하세요" required></textarea>
+              </div>
+              <br>
+              <div>
+              <h4 class="section-title">학력</h4>
+              <div class="mb-3">
+                <label class="form-label"><strong>*&nbsp;최종학력</strong></label>
+                <select class="form-control">
+                    <option value="고졸">고졸</option>
+                    <option value="대졸">대졸</option>
+                    <option value="석사 이상">석사 이상</option>
+                </select>
+              </div>
+              <label class="form-label"><strong>*&nbsp;학력 상세</strong></label>
+                  <table class="table table-bordered" id="academy-table">
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>상태</th>
+                            <th>졸업(예정)일</th>
+                            <th>학교명</th>
+                            <th>전공</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select class="form-control">
+                                    <option value="고등학교">고등학교</option>
+                                    <option value="전문대학교">전문대학교</option>
+                                    <option value="대학교">대학교</option>
+                                    <option value="대학원">대학원</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control">
+                                    <option value="졸업">졸업</option>
+                                    <option value="재학">재학</option>
+                                    <option value="휴학">휴학</option>
+                                    <option value="중퇴">중퇴</option>
+                                </select>
+                            </td>
+                            <td><input type="date" class="form-control" required></td>
+                            <td><input type="text" class="form-control" placeholder="학교명" required></td>
+                            <td><input type="text" class="form-control" value="-" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-light" id="academy-plus">&plus;&nbsp;추가</button>
+                <button type="button" class="btn btn-light" id="academy-minus">&minus;&nbsp;제거</button>
+              </div>
+              <br>
+              <div>
+                  <h4 class="section-title">경력</h4>
                   <div class="mb-3">
-                    <label class="form-label"><strong>*&nbsp;최종학력</strong></label>
+                    <label class="form-label"><strong>*&nbsp;경력기간</strong></label>
                     <select class="form-control">
-                        <option value="고졸">고졸</option>
-                        <option value="대졸">대졸</option>
-                        <option value="석사 이상">석사 이상</option>
+                        <option>신입</option>
+                        <option>1년 이상</option>
+                        <option>3년 이상</option>
+                        <option>5년 이상</option>
                     </select>
                   </div>
-                  <label class="form-label"><strong>*&nbsp;학력 상세</strong></label>
-                      <table class="table table-bordered" id="academy-table">
+                  <label class="form-label"><strong>경력 상세</strong></label>
+                  <table class="table table-bordered" id="career-table">
                         <thead>
                             <tr>
-                                <th>구분</th>
-                                <th>상태</th>
-                                <th>졸업(예정)일</th>
-                                <th>학교명</th>
-                                <th>전공</th>
+                                <th>조직</th>
+                                <th>직함</th>
+                                <th>기간(년)</th>
+                                <th>내용</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
-                                    <select class="form-control">
-                                        <option value="고등학교">고등학교</option>
-                                        <option value="전문대학교">전문대학교</option>
-                                        <option value="대학교">대학교</option>
-                                        <option value="대학원">대학원</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control">
-                                        <option value="졸업">졸업</option>
-                                        <option value="재학">재학</option>
-                                        <option value="휴학">휴학</option>
-                                        <option value="중퇴">중퇴</option>
-                                    </select>
-                                </td>
-                                <td><input type="date" class="form-control" required></td>
-                                <td><input type="text" class="form-control" placeholder="학교명" required></td>
-                                <td><input type="text" class="form-control" value="-" required></td>
+                              <td><input type="text" class="form-control" placeholder="조직명"></td>
+                              <td><input type="text" class="form-control" placeholder="직함"></td>
+                              <td><input type="number" class="form-control" min="0" placeholder="기간"></td>
+                              <td><input type="text" class="form-control" placeholder="경력 내용"></td>
                             </tr>
                         </tbody>
-                    </table>
-                    <button type="button" class="btn btn-light" id="academy-plus">&plus;&nbsp;추가</button>
-                    <button type="button" class="btn btn-light" id="academy-minus">&minus;&nbsp;제거</button>
-                  </div>
-                  <br>
-                  <div>
-                      <h4 class="section-title">경력</h4>
-                      <div class="mb-3">
-                        <label class="form-label"><strong>*&nbsp;경력기간</strong></label>
-                        <select class="form-control">
-                            <option>신입</option>
-                            <option>1년 이상</option>
-                            <option>3년 이상</option>
-                            <option>5년 이상</option>
-                        </select>
-                      </div>
-                      <label class="form-label"><strong>경력 상세</strong></label>
-                      <table class="table table-bordered" id="career-table">
-                            <thead>
-                                <tr>
-                                    <th>조직</th>
-                                    <th>직함</th>
-                                    <th>기간(년)</th>
-                                    <th>내용</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                  <td><input type="text" class="form-control" placeholder="조직명"></td>
-                                  <td><input type="text" class="form-control" placeholder="직함"></td>
-                                  <td><input type="number" class="form-control" min="0" placeholder="기간"></td>
-                                  <td><input type="text" class="form-control" placeholder="경력 내용"></td>
-                                </tr>
-                            </tbody>
-                    </table>
-                    <button type="button" class="btn btn-light" id="career-plus">&plus;&nbsp;추가</button>
-                    <button type="button" class="btn btn-light" id="career-minus">&minus;&nbsp;제거</button>
-                  </div>
-                  <br>
-                  <div>
-                    <h4 class="section-title">자격증</h4>
-                    <table class="table table-bordered" id="license-table">
-                            <thead>
-                                <tr>
-                                    <th>명칭</th>
-                                    <th>발급기관</th>
-                                    <th>취득일</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                  <td><input type="text" class="form-control" placeholder="명칭"></td>
-                                  <td><input type="text" class="form-control" placeholder="기관명"></td>
-                                  <td><input type="date" class="form-control"></td>
-                                </tr>
-                            </tbody>
-                    </table>
-                    <button type="button" class="btn btn-light" id="license-plus">&plus;&nbsp;추가</button>
-                    <button type="button" class="btn btn-light" id="license-minus">&minus;&nbsp;제거</button>
-                  </div>
-                  <br>
-                  <div>
-                    <h4 class="section-title">수상경력</h4>
-                    <table class="table table-bordered" id="prize-table">
-                            <thead>
-                                <tr>
-                                    <th>명칭</th>
-                                    <th>수상</th>
-                                    <th>취득일</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                  <td><input type="text" class="form-control" placeholder="명칭"></td>
-                                  <td><input type="text" class="form-control" placeholder="내용"></td>
-                                  <td><input type="date" class="form-control"></td>
-                                </tr>
-                            </tbody>
-                    </table>
-                    <button type="button" class="btn btn-light" id="prize-plus">&plus;&nbsp;추가</button>
-                    <button type="button" class="btn btn-light" id="prize-minus">&minus;&nbsp;제거</button>
-                  </div>
-                  <br>
-                  <div>
-                    <h4 class="section-title">희망근무조건</h4>
-                    <div class="mb-3">
-                        <label class="form-label"><strong>*&nbsp;업종</strong></label>
-                        <input type="text" class="form-control" placeholder="ex)피트니스강사" required>
+                </table>
+                <button type="button" class="btn btn-light" id="career-plus">&plus;&nbsp;추가</button>
+                <button type="button" class="btn btn-light" id="career-minus">&minus;&nbsp;제거</button>
+              </div>
+              <br>
+              <div>
+                <h4 class="section-title">자격증</h4>
+                <table class="table table-bordered" id="license-table">
+                        <thead>
+                            <tr>
+                                <th>명칭</th>
+                                <th>발급기관</th>
+                                <th>취득일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                              <td><input type="text" class="form-control" placeholder="명칭"></td>
+                              <td><input type="text" class="form-control" placeholder="기관명"></td>
+                              <td><input type="date" class="form-control"></td>
+                            </tr>
+                        </tbody>
+                </table>
+                <button type="button" class="btn btn-light" id="license-plus">&plus;&nbsp;추가</button>
+                <button type="button" class="btn btn-light" id="license-minus">&minus;&nbsp;제거</button>
+              </div>
+              <br>
+              <div>
+                <h4 class="section-title">수상경력</h4>
+                <table class="table table-bordered" id="prize-table">
+                        <thead>
+                            <tr>
+                                <th>명칭</th>
+                                <th>수상</th>
+                                <th>취득일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                              <td><input type="text" class="form-control" placeholder="명칭"></td>
+                              <td><input type="text" class="form-control" placeholder="내용"></td>
+                              <td><input type="date" class="form-control"></td>
+                            </tr>
+                        </tbody>
+                </table>
+                <button type="button" class="btn btn-light" id="prize-plus">&plus;&nbsp;추가</button>
+                <button type="button" class="btn btn-light" id="prize-minus">&minus;&nbsp;제거</button>
+              </div>
+              <br>
+              <div>
+                <h4 class="section-title">희망근무조건</h4>
+                <div class="mb-3">
+                    <label class="form-label"><strong>*&nbsp;업종</strong></label>
+                    <input type="text" class="form-control" placeholder="ex)피트니스강사" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><strong>*&nbsp;근무형태</strong></label>
+                    <select class="form-control">
+                        <option>정규직</option>
+                        <option>계약직</option>
+                        <option>계약직(정규직전환가능)</option>
+                        <option>인턴직</option>
+                        <option>인턴직(정규직전환가능)</option>
+                        <option>아르바이트</option>
+                        <option>파견직</option>
+                        <option>프리랜서</option>
+                        <oprion>교육생</oprion>
+                        <option>파트타임</option>
+                        <option>전임</option>
+                        <option>기간제</option>
+                        <option>일용</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><strong>*&nbsp;지역</strong></label>
+                    <select class="form-control">
+                        <option>서울</option>
+                        <option>경기도</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><strong>*&nbsp;근무시간</strong></label>
+                    <div class="time-to-time">
+                        <input type="time" class="form-control medium-label" id="work-start" required>
+                        <span class="form-label text-center">&Tilde;</span>
+                        <input type="time" class="form-control medium-label" id="work-end" required>
+                        <span class="form-label text-center" id="worktime-counter">: 0.0시간</span>
+                        <input type="number" id="worktime-counter-real" hidden>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label"><strong>*&nbsp;근무형태</strong></label>
-                        <select class="form-control">
-                            <option>정규직</option>
-                            <option>계약직</option>
-                            <option>계약직(정규직전환가능)</option>
-                            <option>인턴직</option>
-                            <option>인턴직(정규직전환가능)</option>
-                            <option>아르바이트</option>
-                            <option>파견직</option>
-                            <option>프리랜서</option>
-                            <oprion>교육생</oprion>
-                            <option>파트타임</option>
-                            <option>전임</option>
-                            <option>기간제</option>
-                            <option>일용</option>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><strong>*&nbsp;근무일수</strong></label>
+                    <div class="time-to-time">
+                        <select class="form-control medium-label">
+                            <option>주 1일</option>
+                            <option>주 2일</option>
+                            <option>주 3일</option>
+                            <option>주 4일</option>
+                            <option>주 5일</option>
+                            <option>주 6일</option>
+                            <option>주 7일</option>
                         </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label"><strong>*&nbsp;지역</strong></label>
-                        <select class="form-control">
-                            <option>서울</option>
-                            <option>경기도</option>
+                        <span class="form-label text-center"></span>
+                        <select class="form-control medium-label">
+                            <option>평일</option>
+                            <option>주말</option>
+                            <option>평일, 주말</option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label"><strong>*&nbsp;근무시간</strong></label>
-                        <div class="time-to-time">
-                            <input type="time" class="form-control medium-label" id="work-start" required>
-                            <span class="form-label text-center">&Tilde;</span>
-                            <input type="time" class="form-control medium-label" id="work-end" required>
-                            <span class="form-label text-center" id="worktime-counter">: 0.0시간</span>
-                            <input type="number" id="worktime-counter-real" hidden>
-                        </div>
+                </div>
+                <div class="mb-3 short-span">
+                    <label class="form-label"><strong>*&nbsp;희망임금</strong></label>
+                    <div class="time-to-time">
+                        <input type="number" class="form-control medium-label" min="0" placeholder="10030" required>
+                        <span class="form-label text-center">&#8361;</span>
+                        <select class="form-control fit-label">
+                            <option>시급</option>
+                            <option>일급</option>
+                            <option>주급</option>
+                            <option>월급</option>
+                            <option>연봉</option>
+                        </select>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label"><strong>*&nbsp;근무일수</strong></label>
-                        <div class="time-to-time">
-                            <select class="form-control medium-label">
-                                <option>주 1일</option>
-                                <option>주 2일</option>
-                                <option>주 3일</option>
-                                <option>주 4일</option>
-                                <option>주 5일</option>
-                                <option>주 6일</option>
-                                <option>주 7일</option>
-                            </select>
-                            <span class="form-label text-center"></span>
-                            <select class="form-control medium-label">
-                                <option>평일</option>
-                                <option>주말</option>
-                                <option>평일, 주말</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-3 short-span">
-                        <label class="form-label"><strong>*&nbsp;희망임금</strong></label>
-                        <div class="time-to-time">
-                            <input type="number" class="form-control medium-label" min="0" placeholder="10030" required>
-                            <span class="form-label text-center">&#8361;</span>
-                            <select class="form-control fit-label">
-                                <option>시급</option>
-                                <option>일급</option>
-                                <option>주급</option>
-                                <option>월급</option>
-                                <option>연봉</option>
-                            </select>
-                        </div>
-                    </div>
-                  </div>
-                  <br>
-                </form>
-                  <a href="trainer_view.html" class="btn btn-success w-100 modal-btn" id="register-submit-btn">이력서 등록</a>
-            </div>
-        </div>
-    </div>
+                </div>
+              </div>
+              <br>
+              </form>
+              <a href="/trainer/trainer_view" class="btn btn-success w-100 modal-btn" id="register-submit-btn">이력서 등록</a>
+          </div>
+      </div>
     </main>
     <!-- 푸터 -->
     <footer class="bg-dark text-white py-4">

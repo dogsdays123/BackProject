@@ -75,6 +75,9 @@ display: flex;
 .no-outline input[type="time"]::-webkit-calendar-picker-indicator {
   display: none;
 }
+.img-center {
+  text-align: center !important;
+}
 #register-delete-btn{
   margin-top: 10px;
 }
