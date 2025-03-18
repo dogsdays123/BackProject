@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/css/basic.css">
-    </head>
+</head>
 
 <body>
 <!-- 헤더 start -->
@@ -20,7 +20,7 @@
     <!-- 메인 메뉴 -->
     <div class="nav-container">
         <!-- 로고 -->
-        <a class="navbar-brand me-auto" href="main">OneFit</a>
+        <a class="navbar-brand me-auto" href="/main">OneFit</a>
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
@@ -47,15 +47,16 @@
         <!-- 사이드 메뉴(로그인, 회원가입 / 로그아웃, 마이페이지, 알림) -->
         <div class="auth-links ms-auto">
             <!-- 로그인 전 메뉴 -->
-            <!-- <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
-                data-bs-target="#loginModal">
-                로그인
-            </button>
-            <span class="separator">|</span>
-            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
-                data-bs-target="#signupModal">
-                회원가입
-            </button> -->
+            <div th:if="${all_memberDTO == null}">
+                <a type="button" class="basic-btn btn btn-primary btns" href="/login">
+                    로그인
+                </a>
+                <span class="separator">|</span>
+                <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
+                        data-bs-target="#signupModal">
+                    회원가입
+                </button>
+            </div>
 
             <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 start -->
             <button class="basic-btn btn btn-primary btns btn-default" type="button" id="dropdownMenuButton"
@@ -75,15 +76,18 @@
             <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 end -->
 
             <!-- 로그인 후 메뉴 -->
-            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                로그아웃
-            </button>
-            <span class="separator">|</span>
-            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal">
-                <a href="my.html" class="text-reset text-decoration-none">
-                    마이페이지
+            <div th:if="${all_memberDTO != null}">
+                <a type="button" class="basic-btn btn btn-primary btns" href="/logout">
+                    로그아웃
                 </a>
-            </button>
+                <span class="separator">|</span>
+                <button type="button" class="basic-btn btn btn-primary btns">
+                    <a href="/my" class="text-reset text-decoration-none">
+                        마이페이지
+                    </a>
+                </button>
+            </div>
+        </div>
 
             <!-- 알림 start -->
             <div class="dropdown">
@@ -149,20 +153,20 @@
             </div>
             <div class="modal-body signup-modal-body">
                 <div class="tab-content mt-3 div-sign-login" id="signupTabContent">
-                    <form>
+                    <form id="registerForm" name="registerForm" action="/join" method="post">
                         <div class="mb-3">
                             <label for="name" class="form-label">이름</label>
-                            <input type="text" class="form-control" id="name" placeholder="홍길동" required>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="홍길동" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">이메일</label>
-                            <input type="email" class="form-control" id="email" placeholder="ex) email@onefit.com"
+                            <input type="email" class="form-control" name="email" id="email" placeholder="ex) email@onefit.com"
                                    required>
                         </div>
                         <div class="mb-3">
-                            <label for="username" class="form-label">아이디</label>
+                            <label for="allId" class="form-label">아이디</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="username"
+                                <input type="text" class="form-control" name="allId" id="allId"
                                        placeholder="3자 이상, 16자 이하의 영어 또는 숫자로 구성" required>
                                 <button class="btn btn-outline-primary" type="button" id="check-username">
                                     중복 확인
@@ -173,23 +177,24 @@
                             <!-- <div id="username-feedback" class="mt-1 input-feedback text-success">사용 가능한 아이디입니다.</div> -->
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">비밀번호</label>
-                            <input type="password" class="form-control" id="password"
+                            <label for="aPsw" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="aPsw"
                                    placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">비밀번호 확인</label>
-                            <input type="password" class="form-control" id="password"
+                            <label for="aPswCheck" class="form-label">비밀번호 확인</label>
+                            <input type="password" class="form-control" name="aPsw" id="aPswCheck"
                                    placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
                             <!-- 비밀번호 확인 메시지 출력 공간 -->
                             <!-- <div id="password-feedback" class="mt-1 input-feedback text-danger">비밀번호가 일치하지 않습니다.</div> -->
                             <div id="password-feedback" class="mt-1 input-feedback text-success">비밀번호가 일치합니다.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="phone" class="form-label">전화번호</label>
-                            <input type="tel" class="form-control" id="phone" placeholder="ex) 010-1234-5678"
+                            <label for="aPhone" class="form-label">전화번호</label>
+                            <input type="tel" class="form-control" name="aPhone" id="aPhone" placeholder="ex) 010-1234-5678"
                                    required>
                         </div>
+                        <input type="hidden" name="memberType" value="default">
                         <button type="submit" class="btn btn-success w-100 modal-btn"
                                 id="signupButton">가입하기</button>
                     </form>
@@ -200,55 +205,6 @@
 </div>
 <!-- 회원가입 모달창 end -->
 
-<!-- 로그인 모달창 start -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel"> <span class="rogo-span">OneFit</span> 로그인</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- 일반 로그인 -->
-                <div class="div-sign-login" id="generalLogin">
-                    <form>
-                        <div class="mb-3">
-                            <label for="username" class="form-label">아이디</label>
-                            <input type="text" class="form-control" id="username" placeholder="아이디를 입력하세요" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">비밀번호</label>
-                            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요"
-                                   required>
-                        </div>
-                        <button type="submit" class="btn btn-success w-100 modal-btn" id="loginButton">
-                            로그인
-                        </button>
-                    </form>
-                    <!-- 소셜 로그인 -->
-                    <div class="login-container">
-                        <div class="text-center my-3">
-                            <hr class="line">
-                            <span class="hr-text">소셜 계정으로 간편 로그인</span>
-                            <hr class="line">
-                        </div>
-                        <div class="social-login-buttons">
-                            <button class="social-btn google-btn">
-                                <img src="/image/seo/google_rogo.png" alt="Google Logo">
-                            </button>
-                            <button class="social-btn kakao-btn">
-                                <i class="fas fa-comment kakao-rogo"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<!-- 로그인 모달창 end -->
 <!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <!-- bootstrap js -->
@@ -257,6 +213,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/basic.js"></script>
+<script layout:fragment="script" th:inline="javascript">
+    const error = [[${error}]]
+
+    if(error && error === 'allId'){
+        alert("동일한 아이디를 가진 계정이 존재합니다.")
+    }
+</script>
 </body>
 
 <!-- footer -->
