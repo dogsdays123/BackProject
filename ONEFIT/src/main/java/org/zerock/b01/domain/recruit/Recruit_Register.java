@@ -2,6 +2,7 @@ package org.zerock.b01.domain.recruit;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.zerock.b01.domain.BaseEntity;
 import org.zerock.b01.domain.member.Business_Member;
 
 import java.time.LocalDate;
@@ -12,11 +13,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Recruit_Register {
+public class Recruit_Register extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long recruit_id;
+    private Long recruitId;
 
     @Column(length = 170, nullable = false)
     private String re_title;
@@ -75,8 +76,8 @@ public class Recruit_Register {
     @Column(length = 255)
     private String re_preference;
 
-    @Column(nullable = false)
-    private LocalDate regdate;
+//    @Column(nullable = false)
+//    private LocalDate regdate;
 
     @Column(nullable = false)
     private LocalDate re_deadline;
@@ -96,4 +97,10 @@ public class Recruit_Register {
     @ManyToOne
     @JoinColumn(name = "business_id", nullable = false)
     private Business_Member business_member;
+
+    public void change(String title, String company, String jobType) {
+        this.re_title = title;
+        this.re_company = company;
+        this.re_job_type = jobType;
+    }
 }
