@@ -362,3 +362,11 @@ input::placeholder {
     /* font-weight: bold; */
 }
 
+
+.btn-default {
+    --bs-btn-active-bg: #fff !important;
+    --bs-btn-active-color: #007bff;
+    /* border-color: #dc3545;
+    background-color: #dc3545;
+    color: #fff; */
+}
