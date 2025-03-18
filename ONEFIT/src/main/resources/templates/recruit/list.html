@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/recruit/list.css">
+    <link rel="stylesheet" href="/css/pagination.css">
 </head>
 
 <body>
@@ -153,9 +155,11 @@
                         </form>
                         <br>
                     </div>
-                    <form>
+                    <form class="search-form" action="/recruit/list" method="get">
                         <div class="d-flex col-md-11">
-                            <input type="text" id="search" class="form-control" placeholder="🔍 검색어를 입력하세요">
+                            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                            <input type="hidden" name="type" value="tcw">
+                            <input type="text" id="search" class="form-control" placeholder="🔍 검색어를 입력하세요" name="keyword" th:value="${pageRequestDTO.keyword}">
                             <button type="submit" style="margin-left:10px; width: 70px;" class="btn btn-primary">검색</button>
                         </div>
                     </form>
@@ -190,7 +194,8 @@
                     </div>
                 </form>
             </div>
-            <table class="table table-hover">
+
+            <table class="table table-hover" th:with="link= ${pageRequestDTO.getLink()}">
                 <thead style="border-top: 1px solid black;">
                 <tr style="height: 60px; text-align: center;">
                     <th valign="middle">회사명</th>
@@ -202,121 +207,68 @@
                     <th valign="middle"></th>
                 </tr>
                 </thead>
+                <div th:if="${#lists.isEmpty(responseDTO.dtoList)}" class="no-posts" style="text-align: center;">
+                    <br>
+                    <br>
+                    <p><strong>공고가 존재하지 않습니다.</strong>
+                        <br>검색어를 다시 입력하거나 필터를 재설정 해보세요.
+                    </p>
+                    <br>
+                    <br>
+                </div>
                 <tbody>
-                <tr class="recurit-post">
-                    <td valign="middle" style="height: 100px;">MIT휘트니스</td>
-                    <td valign="middle"><a href="recruit_read.html">오후 정직 트레이너 모집</a></td>
-                    <td valign="middle">헬스/PT</td>
-                    <td valign="middle">경기 수원시 영통구</td>
-                    <td valign="middle">경력무관</td>
-                    <td valign="middle">D-4</td>
-                    <td valign="middle"><button class="btn btn-outline-danger" id="applyBtn">입사지원</button></td>
-                </tr>
-                <tr class="recurit-post">
-                    <td valign="middle">브랜드필라테스</td>
-                    <td valign="middle">오전 월수금 파트 강사님 모집</td>
-                    <td valign="middle">필라테스</td>
-                    <td valign="middle">경기 화성시 반송동</td>
-                    <td valign="middle">1년</td>
-                    <td valign="middle">D-19</td>
-                    <td valign="middle"><button class="btn btn-outline-danger">입사지원</button></td>
-                </tr>
-                <tr class="recurit-post">
-                    <td valign="middle">엠아이티골프연습장</td>
-                    <td valign="middle">오후 인포데스크 직원 모집</td>
-                    <td valign="middle">골프</td>
-                    <td valign="middle">경기 용인시 기흥구</td>
-                    <td valign="middle">경력무관</td>
-                    <td valign="middle">~04.04(금)</td>
-                    <td valign="middle"><button class="btn btn-outline-danger">입사지원</button></td>
-                </tr>
-                <tr class="recurit-post">
-                    <td valign="middle">(주)일텍오토메이션</td>
-                    <td valign="middle">비전S/W개발 신입/경력 모집</td>
-                    <td valign="middle">백엔드/서버개발</td>
-                    <td valign="middle">경기 수원시 영통구</td>
-                    <td valign="middle">신입·경력</td>
-                    <td valign="middle">~04.04(금)</td>
-                    <td valign="middle"><button class="btn btn-outline-danger">입사지원</button></td>
-                </tr>
-                <tr class="recurit-post">
-                    <td valign="middle">(주)일텍오토메이션</td>
-                    <td valign="middle">비전S/W개발 신입/경력 모집</td>
-                    <td valign="middle">백엔드/서버개발</td>
-                    <td valign="middle">경기 수원시 영통구</td>
-                    <td valign="middle">신입·경력</td>
-                    <td valign="middle">~04.04(금)</td>
-                    <td valign="middle"><button class="btn btn-outline-danger">입사지원</button></td>
-                </tr>
-                <tr class="recurit-post">
-                    <td valign="middle">(주)일텍오토메이션</td>
-                    <td valign="middle">비전S/W개발 신입/경력 모집</td>
-                    <td valign="middle">백엔드/서버개발</td>
-                    <td valign="middle">경기 수원시 영통구</td>
-                    <td valign="middle">신입·경력</td>
-                    <td valign="middle">~04.04(금)</td>
-                    <td valign="middle"><button class="btn btn-outline-danger">입사지원</button></td>
-                </tr>
-                <tr class="recurit-post">
-                    <td valign="middle">(주)일텍오토메이션</td>
-                    <td valign="middle">비전S/W개발 신입/경력 모집</td>
-                    <td valign="middle">백엔드/서버개발</td>
-                    <td valign="middle">경기 수원시 영통구</td>
-                    <td valign="middle">신입·경력</td>
-                    <td valign="middle">~04.04(금)</td>
-                    <td valign="middle"><button class="btn btn-outline-danger">입사지원</button></td>
-                </tr>
-                <tr class="recurit-post">
-                    <td valign="middle">(주)일텍오토메이션</td>
-                    <td valign="middle">비전S/W개발 신입/경력 모집</td>
-                    <td valign="middle">백엔드/서버개발</td>
-                    <td valign="middle">경기 수원시 영통구</td>
-                    <td valign="middle">신입·경력</td>
-                    <td valign="middle">~04.04(금)</td>
-                    <td valign="middle"><button class="btn btn-outline-danger">입사지원</button></td>
-                </tr>
-                <tr class="recurit-post">
-                    <td valign="middle">(주)일텍오토메이션</td>
-                    <td valign="middle">비전S/W개발 신입/경력 모집</td>
-                    <td valign="middle">백엔드/서버개발</td>
-                    <td valign="middle">경기 수원시 영통구</td>
-                    <td valign="middle">신입·경력</td>
-                    <td valign="middle">~04.04(금)</td>
-                    <td valign="middle"><button class="btn btn-outline-danger">입사지원</button></td>
-                </tr>
-                <tr class="recurit-post">
-                    <td valign="middle">(주)일텍오토메이션</td>
-                    <td valign="middle">비전S/W개발 신입/경력 모집</td>
-                    <td valign="middle">백엔드/서버개발</td>
-                    <td valign="middle">경기 수원시 영통구</td>
-                    <td valign="middle">신입·경력</td>
-                    <td valign="middle">~04.04(금)</td>
-                    <td valign="middle"><button class="btn btn-outline-danger">입사지원</button></td>
-                </tr>
-                <tr class="recurit-post">
-                    <td valign="middle">(주)일텍오토메이션</td>
-                    <td valign="middle">비전S/W개발 신입/경력 모집</td>
-                    <td valign="middle">백엔드/서버개발</td>
-                    <td valign="middle">경기 수원시 영통구</td>
-                    <td valign="middle">신입·경력</td>
-                    <td valign="middle">~04.04(금)</td>
-                    <td valign="middle"><button class="btn btn-outline-danger">입사지원</button></td>
-                </tr>
-
+                    <tr th:each="dto:${responseDTO.dtoList}" class="recurit-post">
+                        <th scope="row" hidden="hidden">[[${dto.recruitId}]]</th>
+                        <td valign="middle" style="height: 100px;">[[${dto.reCompany}]]</td>
+                        <td valign="middle"><a href="recruit_read.html">[[${dto.reTitle}]]</a></td>
+                        <td valign="middle">[[${dto.reIndustry}]]</td>
+                        <td valign="middle">근무지</td>
+                        <td valign="middle">경력무관</td>
+                        <td valign="middle">[[${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}]]</td>
+                        <td valign="middle"><button class="btn btn-outline-danger" id="applyBtn">입사지원</button></td>
+                    </tr>
                 </tbody>
             </table>
+            <!-- 페이지네이션 start -->
+            <div class="pagination-container">
+                <ul class="pagination">
+                    <li class="page-item" th:if="${responseDTO.prev}">
+                        <a class="page-link" th:data-num="${responseDTO.start -1}" id="preNext" aria-label="Previous">
+                            &lt;
+                        </a>
+                    </li>
+                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <li th:class="${responseDTO.page == i}?'page-item active':'page-item'">
+                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <li class="page-item" th:if="${responseDTO.next}">
+                        <a class="page-link" th:data-num="${responseDTO.end + 1}" id="preNext" aria-label="Next">
+                            &gt;
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 페이지네이션 end -->
         </div>
         <div id="registerButton" class="fixed-apply">
             <a href="recruit_register.html" class="btn btn-outline-primary" id="registerBtn">공고등록 +</a>
         </div>
     </div>
+
+    </div>
+
     <!--    테스트용-->
     <div layout:fragment="index"></div>
     <div layout:fragment="login"></div>
     <div layout:fragment="join"></div>
 </main>
 <!-- 메인 end  -->
+
+<!-- 푸터 layout start -->
 <div th:replace="~{/foot/footer}"></div>
+<!-- 푸터 layout end -->
 
 <!--  회원가입 모달창 start -->
 <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
@@ -436,6 +388,32 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="/js/basic.js"></script>
+<script src="/js/recruit/list.js"></script>
+<script layout:fragment="script" th:inline="javascript">
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const target = e.target;
+
+        // 클릭된 요소가 <a> 태그인지 확인
+        if (target.tagName !== 'A') {
+            return;
+        }
+
+        // 페이지 번호를 가져옵니다.
+        const num = target.getAttribute("data-num");
+
+        // form 객체를 찾아서 해당 페이지 번호를 hidden input으로 추가
+        const formObj = document.querySelector("form");
+
+        // hidden input 추가
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`;
+
+        // 폼 제출
+        formObj.submit();
+    }, false);
+</script>
 </body>
 
 </html>

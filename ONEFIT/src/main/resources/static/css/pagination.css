@@ -8,7 +8,7 @@
     list-style-type: none;
 }
 
-.pagination .pageitem {
+.pagination .page-link {
     transition: border-bottom-color 0.5s;
     border-bottom: 4px solid #0d89fd00;
     font-size: large;
