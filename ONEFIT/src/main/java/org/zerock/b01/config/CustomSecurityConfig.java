@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.zerock.b01.security.CustomOAuth2UserService;
 import org.zerock.b01.security.CustomUserDetailsService;
 import org.zerock.b01.security.handler.Custom403Handler;
 import org.zerock.b01.security.handler.CustomSocialLoginSuccessHandler;
@@ -52,7 +53,7 @@ public class CustomSecurityConfig {
         //일반 로그인
         http.formLogin(httpSecurityFormLoginConfigurer -> {
             httpSecurityFormLoginConfigurer
-                    .loginPage("/member/login")
+                    .loginPage("/login")
                     .successHandler((request, response, authentication) -> {
                         SavedRequest savedRequest = (SavedRequest) request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
                         String redirectUrl = (savedRequest != null) ? savedRequest.getRedirectUrl() : "/main"; // 이전 URL이 있으면 그곳으로, 없으면 /main
@@ -73,6 +74,7 @@ public class CustomSecurityConfig {
                     .userDetailsService(userDetailsService)
                     .tokenValiditySeconds(60*60*24*30);
         });
+
         http.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {
             httpSecurityExceptionHandlingConfigurer
                     .accessDeniedHandler(accessDeniedHandler());
@@ -81,8 +83,14 @@ public class CustomSecurityConfig {
         //소셜 로그인
         http.oauth2Login(httpSecurityOAuth2LoginConfigurer -> {
             httpSecurityOAuth2LoginConfigurer
-                    .loginPage("/member/login");
-                    //.successHandler(authenticationSuccessHandler());
+                    .loginPage("/login")
+                    .successHandler(authenticationSuccessHandler());
+        });
+
+        //소셜 로그아웃
+        http.logout(httpSecurityLogoutConfigurer -> {
+            httpSecurityLogoutConfigurer
+                    .logoutUrl("/logout");
         });
 
         //구글 로그인 테스트
