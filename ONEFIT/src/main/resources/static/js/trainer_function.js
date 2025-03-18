@@ -28,18 +28,29 @@ function calculateWorkTime(workStart, workEnd, worktimeCounter) {
 function tableToJson(table, names) {
     let result = {};
 
+    rowLoop:
     for (let i = 1; i < table.rows.length; i++) {
         let j = 0;
         let semiResult = {};
 
         for (const cell of table.rows[i].cells) {
             let content = cell.firstElementChild;
+
+            if (content.value === '') {
+                continue rowLoop;
+            }
+
             semiResult[names[j]] = content.value;
             j += 1;
         }
 
         result[i] = semiResult;
     }
+
+    if (Object.keys(result).length === 0) {
+        return '';
+    }
+
     return JSON.stringify(result);
 }
 

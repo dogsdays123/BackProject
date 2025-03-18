@@ -47,7 +47,7 @@ public class Trainer extends BaseEntity {
     private String wantLegion;
 
     @Column(nullable = false)
-    private int wantTime;
+    private Double wantTime;
 
     @Column(nullable = false)
     private int wantDay;

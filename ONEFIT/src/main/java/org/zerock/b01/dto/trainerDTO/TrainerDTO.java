@@ -34,7 +34,7 @@ public class TrainerDTO {
     @NotEmpty
     private String wantLegion;
     @NotNull
-    private int wantTime;
+    private Double wantTime;
     @NotNull
     private int wantDay;
     @NotEmpty
@@ -44,7 +44,8 @@ public class TrainerDTO {
     @NotNull
     private int wantSal;
     private String content;
-    private User_Member userMember;
+    @NotNull
+    private Long userId;
 
     private LocalDateTime regdate;
     private LocalDateTime moddate;

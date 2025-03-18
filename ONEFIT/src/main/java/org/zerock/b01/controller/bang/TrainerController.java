@@ -34,6 +34,7 @@ public class TrainerController {
 
         if (bindingResult.hasErrors()) {
             log.info("trainer_register_POST_ERROR");
+            log.info(bindingResult.getAllErrors());
             return "redirect:/trainer/trainer_register";
         }
 
