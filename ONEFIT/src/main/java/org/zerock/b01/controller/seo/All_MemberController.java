@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 
 @Controller
@@ -41,7 +42,10 @@ public class All_MemberController {
             // 일반 로그인인 경우 UsernamePasswordAuthenticationToken 처리
             else if (authentication instanceof UsernamePasswordAuthenticationToken) {
                 UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-                String username = (String) token.getPrincipal(); // 일반 로그인에서 username 가져오기
+
+                // token.getPrincipal()이 MemberSecurityDTO 타입이라면, 이를 MemberSecurityDTO로 캐스팅
+                MemberSecurityDTO principal = (MemberSecurityDTO) token.getPrincipal();
+                String username = principal.getAllId(); // MemberSecurityDTO에서 사용자 이름 가져오기
 
                 // 일반 로그인 사용자 정보 가져오기
                 all_memberDTO = all_memberService.readOne(username);
