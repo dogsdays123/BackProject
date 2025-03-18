@@ -14,13 +14,13 @@ import java.util.Optional;
 public interface All_MemberRepository extends JpaRepository<All_Member, String> {
     @EntityGraph(attributePaths = "roleSet")
     @Query("select m from All_Member m where m.allId = :allId and m.aSocial = false")
-    Optional<All_Member> getWithRoles(String allId);
+    Optional<All_Member> getWithRoles(@Param("allId") String allId);
 
     @EntityGraph(attributePaths = "roleSet")
     Optional<All_Member> findByEmail(String email);
 
     @Modifying
     @Transactional
-    @Query("update All_Member m set m.aPsw =:a_psw where m.allId =:aMemberId")
+    @Query("update All_Member m set m.aPsw =:aPsw where m.allId =:aMemberId")
     void updatePassword(@Param("aPsw") String password, @Param("allId") String allId);
 }
