@@ -1,8 +1,7 @@
 // 근무시간 계산 함수
-function calculateWorkTime(workStart, workEnd, worktimeCounter, realCounter) {
+function calculateWorkTime(workStart, workEnd, worktimeCounter) {
     if (workStart.value === '' || workEnd.value === '') {
         worktimeCounter.innerText = ": 0.0시간";
-        realCounter.value = 0;
         return;
     }
 
@@ -22,7 +21,7 @@ function calculateWorkTime(workStart, workEnd, worktimeCounter, realCounter) {
     let result = (Math.round((ending - starting) / (3600 * 1000) * 10) / 10.0).toFixed(1);
 
     worktimeCounter.innerText = ": " + result + "시간";
-    realCounter.value = result;
+    document.getElementById("want-time-real").value = result;
 }
 
 // 테이블 JSON 직렬화 함수
@@ -50,14 +49,13 @@ function tableTimeCalc() {
     const worktimeCounter = document.getElementById("worktime-counter");
     const workStart = document.getElementById("work-start");
     const workEnd = document.getElementById("work-end");
-    const realCounter = document.getElementById("worktime-counter-real");
     
     workStart.addEventListener("input", function(e) {
-        calculateWorkTime(workStart, workEnd, worktimeCounter, realCounter);
+        calculateWorkTime(workStart, workEnd, worktimeCounter);
     });
     
     workEnd.addEventListener("input", function(e) {
-        calculateWorkTime(workStart, workEnd, worktimeCounter, realCounter);
+        calculateWorkTime(workStart, workEnd, worktimeCounter);
     });
 }
 
@@ -93,7 +91,7 @@ function tableRowManipulate() {
         
         academyTable.insertRow(-1).innerHTML = `
                                 <td>
-                                    <select class="form-control">
+                                    <select class="form-control do-not-submit">
                                         <option value="고등학교">고등학교</option>
                                         <option value="전문대학교">전문대학교</option>
                                         <option value="대학교">대학교</option>
@@ -101,16 +99,16 @@ function tableRowManipulate() {
                                     </select>
                                 </td>
                                 <td>
-                                    <select class="form-control">
+                                    <select class="form-control do-not-submit">
                                         <option value="졸업">졸업</option>
                                         <option value="재학">재학</option>
                                         <option value="휴학">휴학</option>
                                         <option value="중퇴">중퇴</option>
                                     </select>
                                 </td>
-                                <td><input type="date" class="form-control" required></td>
-                                <td><input type="text" class="form-control" placeholder="학교명" required></td>
-                                <td><input type="text" class="form-control" value="-" required></td>`;
+                                <td><input type="date" class="form-control do-not-submit" required></td>
+                                <td><input type="text" class="form-control do-not-submit" placeholder="학교명" required></td>
+                                <td><input type="text" class="form-control do-not-submit" value="-" required></td>`;
     });
     
     careerPlus.addEventListener("click", function(e) {
@@ -118,10 +116,10 @@ function tableRowManipulate() {
         e.stopPropagation();
     
         careerTable.insertRow(-1).innerHTML = `
-                                  <td><input type="text" class="form-control" placeholder="조직명"></td>
-                                  <td><input type="text" class="form-control" placeholder="직함"></td>
-                                  <td><input type="number" class="form-control" min="0" placeholder="기간"></td>
-                                  <td><input type="text" class="form-control" placeholder="경력 내용"></td>`;
+                                  <td><input type="text" class="form-control do-not-submit" placeholder="조직명"></td>
+                                  <td><input type="text" class="form-control do-not-submit" placeholder="직함"></td>
+                                  <td><input type="number" class="form-control do-not-submit" min="0" placeholder="기간"></td>
+                                  <td><input type="text" class="form-control do-not-submit" placeholder="경력 내용"></td>`;
     });
     
     licensePlus.addEventListener("click", function(e) {
@@ -130,9 +128,9 @@ function tableRowManipulate() {
     
         licenseTable.insertRow(-1).innerHTML = `
                                 <tr>
-                                  <td><input type="text" class="form-control" placeholder="명칭"></td>
-                                  <td><input type="text" class="form-control" placeholder="기관명"></td>
-                                  <td><input type="date" class="form-control"></td>
+                                  <td><input type="text" class="form-control do-not-submit" placeholder="명칭"></td>
+                                  <td><input type="text" class="form-control do-not-submit" placeholder="기관명"></td>
+                                  <td><input type="date" class="form-control do-not-submit"></td>
                                 </tr>`;
     });
     
@@ -141,9 +139,9 @@ function tableRowManipulate() {
         e.stopPropagation();
     
         prizeTable.insertRow(-1).innerHTML = `
-                                  <td><input type="text" class="form-control" placeholder="명칭"></td>
-                                  <td><input type="text" class="form-control" placeholder="내용"></td>
-                                  <td><input type="date" class="form-control"></td>`;
+                                  <td><input type="text" class="form-control do-not-submit" placeholder="명칭"></td>
+                                  <td><input type="text" class="form-control do-not-submit" placeholder="내용"></td>
+                                  <td><input type="date" class="form-control do-not-submit"></td>`;
     });
     
     academyMinus.addEventListener("click", function(e) {
