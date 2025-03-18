@@ -8,11 +8,15 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Category {
+public class Category { // (거래) 카테고리
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long category_id;
+    @Column(name = "category_id")
+    private Long categoryId; // 카테고리 ID
 
-    @Column(length = 100, nullable = false)
-    private String c_category;
+    @Column(name = "c_roles")
+    private int cRoles; // 1. 카테고리 구분
+
+    @Column(name = "c_category", length = 100, nullable = false)
+    private String cCategory; // 카테고리
 }

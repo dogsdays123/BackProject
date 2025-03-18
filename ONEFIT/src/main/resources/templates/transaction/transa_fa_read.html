@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneFit - 거래 글 보기(시설)</title>
+    <link rel="stylesheet" th:href="@{/css/transa_read.css}">
+    <link rel="stylesheet" th:href="@{/css/pagination.css}">
+</head>
+
+<body>
+<!-- 메인 start -->
+<div layout:fragment="transa_eq_read">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header p-4 d-flex justify-content-between align-items-center">
+                <h2 class="card-title mb-0"><span class="status-span">판매중</span>&nbsp;&nbsp;헬스장 전체 매매합니다</h2>
+                <div class="d-flex flex-column">
+                    <span class="text-muted float-end mt-4">2025-02-21 오후 1시 13분</span> <!-- 게시글 작성일 -->
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- 브레드크럼 -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb-container">
+                        <li class="breadcrumb-item"><a href="#">홈</a></li>
+                        <li class="breadcrumb-item"><a href="#">거래</a></li>
+                        <li class="breadcrumb-item"><a href="#">시설</a></li>
+                        <li class="breadcrumb-item"><a href="#">카테고리</a></li>
+                        <!-- <li class="breadcrumb-item active" aria-current="page">dd</li> -->
+                    </ol>
+                </nav>
+                <!-- 매물 이미지 -->
+                <div class="row mb-3 justify-content-center ms-auto img-info-container">
+                    <div class="col-12 col-md-6">
+                        <!-- 이미지 컨테이너 -->
+                        <div class="img-container ratio ratio-1x1">
+                            <img src="/image/shin/gym-2.jpg" alt="매물 이미지" class="img-fluid rounded shadow-sm">
+                        </div>
+
+                        <!-- 프로필 정보 -->
+                        <div class="d-flex align-items-center mt-3">
+                            <!-- 프로필 이미지 -->
+                            <img src="/image/shin/profile-2.jpg" alt="프로필 이미지" class="profile-img me-3 rounded-circle">
+
+                            <!-- 닉네임 및 추가 정보 -->
+                            <div>
+                                <h6 class="mb-1 fw-bold">스포츠코리아(주)</h6>
+                                <p class="mb-0 text-muted">기업 회원</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-6 read-info">
+                        <h3 class="price-text">50,000,000원</h3> <!-- 가격 -->
+
+                        <table class="table table-borderless mt-3">
+                            <tbody>
+                            <tr>
+                                <th>매매사유</th>
+                                <td>사업 확장으로 인한 이전</td>
+                            </tr>
+                            <tr>
+                                <th>거래 장소</th>
+                                <td>서울시 강남구 역삼동</td>
+                            </tr>
+                            <tr>
+                                <th>센터명</th>
+                                <td>서울 스포츠 센터</td>
+                            </tr>
+                            <tr>
+                                <th>보증금</th>
+                                <td>50,000,000 원</td>
+                            </tr>
+                            <tr>
+                                <th>월세</th>
+                                <td>1,500,000 원</td>
+                            </tr>
+                            <tr>
+                                <th>관리비</th>
+                                <td>300,000 원</td>
+                            </tr>
+                            <tr>
+                                <th>계약면적</th>
+                                <td>200㎡</td>
+                            </tr>
+                            <tr>
+                                <th>실면적</th>
+                                <td>180㎡</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <h4 class="content-title">판매내용</h4>
+                        <div class="content p-3 border rounded overflow-auto">근처 우리부동산에 문의하시면 더 자세한 사항 들으실 수 있습니다.
+                            카카오 대출 가능하고 월세로 전환도 가능하며 연락주세요!
+
+                            베란다가 크고 창문도 커서 빛이 잘들어옵니다.
+                            수원터미널과 멀지 않고 근처에 버스정류장 바로 있습니다.
+                            근처 도보 10분, 차로 2-3분 내에 하나로 마트 있습니다.
+                            침대 현재 4년, 쇼파2년 사용했는데 필요하시면 두고 가겠습니다.
+                            침대는 퀸사이즈고 프레임만 필요하시면 매트리스는 제가 정리할게요.
+                        </div>
+                        <div class="mt-4 d-flex justify-content-center align-items-center">
+                                <span class="like">
+                                    <!-- <i class="fa-solid fa-heart"></i> -->
+                                    <i class="fa-regular fa-heart"></i>
+                                </span>
+                            <button class="btn w-100 ms-auto m-0"><i
+                                    class="fas fa-comment kakao-rogo"></i>&nbsp;&nbsp;오픈채팅 바로가기
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h5 class="fw-bold">댓글 <span class="text-primary">1</span></h5>
+        <div class="card p-3 border-0">
+            <!-- 댓글 입력창 -->
+            <div class="d-flex align-items-center mb-3">
+                <img src="/image/shin/profile-2.jpg" class="rounded-circle me-2 profile-img" alt="프로필">
+                <input type="text" class="form-control rounded-pill" placeholder="댓글을 입력하세요...">
+                <button class="btn btn-primary ms-2 rounded-pill px-3 btn-default">등록</button>
+            </div>
+            <hr>
+
+            <!-- 개별 댓글 -->
+            <div class="d-flex align-items-start mb-3">
+                <img src="/image/shin/profile-2.jpg" class="rounded-circle me-2 profile-img" alt="프로필">
+                <div class="w-100">
+                    <div class="d-flex justify-content-between">
+                        <strong>홍길동</strong>
+                        <small class="text-muted">2시간 전</small>
+                    </div>
+                    <p class="mb-1">좋은 정보 감사합니다! 😊</p>
+                    <div class="d-flex align-items-center">
+                        <!-- <button class="btn btn-light btn-sm me-2"><i class="fa-regular fa-thumbs-up"></i> 5</button> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이지네이션 start -->
+            <div class="row">
+                <ul class="pagination justify-content-center">
+                    <a href="#" class="is-deactive">
+                        <li class="pagearrow leftarrow">&lt;</li>
+                    </a>
+                    <a href="#" class="is-active">
+                        <li class="pageitem">1</li>
+                    </a>
+                    <a href="#">
+                        <li class="pageitem">2</li>
+                    </a>
+                    <a href="#">
+                        <li class="pageitem">3</li>
+                    </a>
+                    <a href="#">
+                        <li class="pageitem">4</li>
+                    </a>
+                    <a href="#">
+                        <li class="pagearrow rightarrow">&gt;</li>
+                    </a>
+                </ul>
+            </div>
+            <!-- 페이지네이션 end -->
+
+        </div>
+    </div>
+    <!-- 댓글 end  -->
+</div>
+
+</body>
+
+</html>

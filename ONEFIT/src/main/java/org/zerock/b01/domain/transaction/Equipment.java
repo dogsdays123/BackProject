@@ -13,28 +13,29 @@ import java.time.LocalDate;
 public class Equipment { // (거래 - 상품) 기구
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long equipment_id; // 기구 ID
+    @Column(name = "equipment_id")
+    private Long equipmentId; // 기구 ID
 
-    @Column(length = 255, nullable = false)
-    private String e_name; // 1. 제품명
+    @Column(name = "e_name", length = 255, nullable = false)
+    private String eName; // 1. 제품명
 
-    @Column(length = 255, nullable = false)
-    private String e_brand; // 2. 제조사
+    @Column(name = "e_brand", length = 255, nullable = false)
+    private String eBrand; // 2. 제조사
 
-    @Column(length = 20, nullable = false)
-    private String e_status; // 3. 제품 상태(상, 중, 하)
+    @Column(name = "e_status", length = 20, nullable = false)
+    private String eStatus; // 3. 제품 상태(상, 중, 하)
 
-    @Column(length = 255, nullable = false)
-    private String e_pur_price; // 4. 구매가
+    @Column(name = "e_pur_price", length = 255, nullable = false)
+    private String ePurPrice; // 4. 구매가
 
-    @Column(nullable = false)
-    private LocalDate e_use_start; // 5. 사용 시작일
+    @Column(name = "e_use_start", nullable = false)
+    private LocalDate eUseStart; // 5. 사용 시작일
 
-    @Column(nullable = false)
-    private LocalDate e_use_end; // 6. 사용 종료일
+    @Column(name = "e_use_end", nullable = false)
+    private LocalDate eUseEnd; // 6. 사용 종료일
 
-    @Column(length = 20, nullable = false)
-    private String e_as; // 7. A/S 가능여부
+    @Column(name = "e_as", length = 20, nullable = false)
+    private String eAs; // 7. A/S 가능여부
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
