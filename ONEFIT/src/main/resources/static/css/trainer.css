@@ -1,0 +1,83 @@
+.resume-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.profile-img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+.section-title {
+  font-weight: bold;
+  border-bottom: 2px solid #000;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+.mb-2{
+display: flex;
+}
+.form-label{
+  width: 150px;
+}
+.top-of-regi .form-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 120px;
+  flex-shrink: 0;
+}
+.t-register-btn{
+  width: 100px;
+}
+.time-to-time{
+  display: flex;
+}
+.time-to-time span{
+  display: flex;
+  flex-direction: column;
+  justify-content: center !important;
+  font-weight: bold;
+  max-width: fit-content !important;
+  min-width: fit-content !important;
+  padding: 0 10px;
+  margin-bottom: 0;
+}
+.short-span{
+  max-width: 500px;
+}
+.true-fit-label{
+  max-width: fit-content;
+}
+.fit-label{
+  max-width: max-content;
+}
+.short-label{
+  max-width: 100px;
+}
+.medium-label{
+  max-width: 200px;
+}
+.long-label{
+  max-width: 300px;
+}
+.longlong-label{
+  max-width: 400px;
+}
+.no-outline .form-label{
+  padding-left: 13px;
+}
+.no-outline .form-control{
+  border-color: transparent;
+}
+.no-outline .form-control:focus{
+  box-shadow: none;
+}
+.no-outline input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.img-center {
+  text-align: center !important;
+}
+#register-delete-btn{
+  margin-top: 10px;
+}

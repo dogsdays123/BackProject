@@ -14,5 +14,5 @@ public class Trainer_ThumbnailsDTO {
     private Long tthumbnails_id;
     private String imgname;
     private int ord;
-    private Trainer trainer;
+    private Long trainerId;
 }
