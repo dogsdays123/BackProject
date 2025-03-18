@@ -14,38 +14,38 @@ import java.time.LocalDateTime;
 public class Business_Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long business_id;
+    private Long businessId;
 
     @Column(length = 100, nullable = false)
-    private String b_address;
+    private String bAddress;
 
     @Column(length = 30, nullable = false)
-    private String b_name;
+    private String bName;
 
     @Column(nullable = false)
-    private Long b_regnum;
+    private Long bRegnum;
 
     @Column(length = 30, nullable = false)
-    private String b_exponent;
+    private String bExponent;
 
     @Column(nullable = false)
-    private Long b_phone;
+    private Long bPhone;
 
-    private Long b_average;
+    private Long bAverage;
 
-    private Long b_employees;
+    private Long bEmployees;
 
-    private Long b_assets;
+    private Long bAssets;
 
     @Column(length = 10)
-    private String b_size;
+    private String bSize;
 
-    private LocalDateTime b_esta_date;
+    private LocalDateTime bEstaDate;
 
     @Column(length = 30)
-    private String b_homepage;
+    private String bHomepage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "all_id", nullable = false)
+    @JoinColumn(name = "allId", nullable = false)
     private All_Member all_member;
 }
