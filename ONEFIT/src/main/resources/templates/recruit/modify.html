@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>OneFit - 체육시설업 포털</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/recruit/recruit_register.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+<!-- 헤더 start -->
+<header>
+    <!-- 메인 메뉴 -->
+    <div class="nav-container">
+        <!-- 로고 -->
+        <a class="navbar-brand me-auto" href="/main">OneFit</a>
+
+        <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
+        <ul class="nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="recruit_list.html">채용정보</a></li>
+            <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
+            <li class="nav-item dropdown dropdown-main">
+                <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
+                   data-bs-toggle="dropdown">거래</a>
+                <ul class="dropdown-menu dropdown-main-menu">
+                    <li><a class="dropdown-item" href="transa_list">시설</a></li>
+                    <li><a class="dropdown-item" href="transa_list">기구</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown dropdown-main">
+                <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
+                   data-bs-toggle="dropdown">커뮤니티</a>
+                <ul class="dropdown-menu dropdown-main-menu">
+                    <li><a class="dropdown-item" href="#">Q&A</a></li>
+                    <li><a class="dropdown-item" href="#">공지사항</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- 사이드 메뉴(로그인, 회원가입 / 로그아웃, 마이페이지, 알림) -->
+        <div class="auth-links ms-auto">
+            <!-- 로그인 전 메뉴 -->
+            <div th:if="${all_memberDTO == null}">
+                <a type="button" class="basic-btn btn btn-primary btns" href="/login">
+                    로그인
+                </a>
+                <span class="separator">|</span>
+                <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
+                        data-bs-target="#signupModal">
+                    회원가입
+                </button>
+            </div>
+
+            <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 start -->
+            <button class="basic-btn btn btn-primary btns btn-default" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                판매하기
+            </button>
+            <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 start -->
+            <div class="dropdown">
+                <!-- 드롭다운 메뉴 -->
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
+                    <li><a class="dropdown-item" href="transa_fa_register">시설</a></li>
+                </ul>
+            </div>
+            <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 end -->
+            <span class="separator">|</span>
+            <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 end -->
+
+            <!-- 로그인 후 메뉴 -->
+            <div th:if="${all_memberDTO != null}">
+                <a type="button" class="basic-btn btn btn-primary btns" href="/logout">
+                    로그아웃
+                </a>
+                <span class="separator">|</span>
+                <button type="button" class="basic-btn btn btn-primary btns">
+                    <a href="/my" class="text-reset text-decoration-none">
+                        마이페이지
+                    </a>
+                </button>
+            </div>
+        </div>
+
+        <!-- 알림 start -->
+        <div class="dropdown">
+            <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            3
+                        </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                <li>
+                    <h6 class="dropdown-header">알림</h6>
+                </li>
+                <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
+                <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
+                <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
+            </ul>
+        </div>
+        <!-- 알림 end -->
+    </div>
+    </div>
+</header>
+<!-- 헤더 end -->
+
+<!-- 메인 start -->
+<main>
+    <div layout:fragment="myPage"></div>
+    <!-- 공고 등록 폼 start -->
+    <div layout:fragment="main">
+        <div class="recuit-container container mt-5 ">
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <h2 class="mb-4">채용 공고 수정</h2>
+                <div style="width: 550px;">
+                </div>
+                <div>
+                    <span style="color: red;">*</span> 필수 입력 항목
+                </div>
+            </div>
+            <form action="/recruit/register" method="post" id="jobForm">
+                <div class="card p-4 mb-4 shadow-sm">
+                    <!-- 스텝 1 -->
+                    <div class="step active">
+                        <h4 class="section-title">모집 내용</h4>
+                        <hr>
+                        <br>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 205px;"><strong><span style="color: red;">*</span>&nbsp;공고제목</strong></label>
+                            <input type="text" name="reTitle" id="recuit-title" th:value="${dto.reTitle}" class="form-control" maxlength="39" placeholder="공고 제목을 입력해 주세요 (최대 40자 / 예: MIT 휘트니스 오후 정규직 트레이너 모집)">
+                            <span id="title-counter" class="counter" style="color:  rgb(253, 93, 93); font-size: 15px;">0/40</span>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 205px;"><strong><span style="color: red;">*</span>&nbsp;근무회사명</strong></label>
+                            <input type="text" name="reCompany" id="recuit-name" th:value="${dto.reCompany}" class="form-control" maxlength="19" placeholder="근무 회사명을 입력해 주세요 (최대 20자 / 예: MIT 휘트니스 망포점)">
+                            <span id="name-counter" class="counter" style="color:  rgb(253, 93, 93); font-size: 15px;">0/20</span>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 170px;"><strong><span style="color: red;">*</span>&nbsp;고용형태</strong></label>
+                            <input type="checkbox" value="정규직" name="reJobType1" th:checked="${dto.reJobType == '정규직'}"><label>&nbsp;정규직</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="파트" name="reJobType1" th:checked="${dto.reJobType == '파트'}"><label>&nbsp;파트</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="프리랜서" name="reJobType1" th:checked="${dto.reJobType == '프리랜서'}"><label>프리</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="연습생/실습생" name="reJobType1" th:checked="${dto.reJobType == '연습생/실습생'}"><label>&nbsp;연습생/실습생</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="아르바이트" name="reJobType1" th:checked="${dto.reJobType == '아르바이트'}"><label>&nbsp;아르바이트</label>&nbsp;
+                            <input type="text" id="reJobType" name="reJobType" readonly/>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 158px;"><strong><span style="color: red;">*</span>&nbsp;업직종</strong></label>
+                            <select name="reIndustry" class="form-control" style="width: 300px;">
+                                <option value="" disabled hidden style="color: #dadada;">업직종을 선택하세요</option>
+                                <option value="헬스/PT" th:selected="${dto.reIndustry == '헬스/PT'}">헬스/PT</option>
+                                <option value="수영" th:selected="${dto.reIndustry == '수영'}">수영</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 158px;"><strong><span style="color: red;">*</span>&nbsp;모집인원</strong></label>
+                            <input type="num" name="reNumHiring" class="form-control" th:value="${dto.reNumHiring}" style="width: 50px;" maxlength="2">&nbsp;&nbsp;<span>명</span>&nbsp;&nbsp;
+                            <span style="color: rgb(253, 93, 93);">(숫자만 입력)</span>
+                        </div>
+                        <br>
+                    </div>
+                    <!-- 스텝 2 -->
+                    <div class="step">
+                        <h4 class="section-title">근무 조건</h4>
+                        <hr>
+                        <br>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 170px;"><strong><span style="color: red;">*</span>&nbsp;근무요일</strong></label>
+                            <input type="radio" name="reWorkDays" value="월~일" th:checked="${dto.reWorkDays == '월~일'}">&nbsp;<label>월~일</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~토" th:checked="${dto.reWorkDays == '월~토'}">&nbsp;<label>월~토</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~금" th:checked="${dto.reWorkDays == '월~금'}">&nbsp;<label>월~금</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="주말(토)" th:checked="${dto.reWorkDays == '주말(토)'}">&nbsp;<label>주말(토)</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="주말(일)" th:checked="${dto.reWorkDays == '주말(일)'}">&nbsp;<label>주말(일)</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="주말(토,일)" th:checked="${dto.reWorkDays == '주말(토,일)'}">&nbsp;<label>주말(토,일)</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="요일협의" th:checked="${dto.reWorkDays == '요일협의'}">&nbsp;<label>요일협의</label>&nbsp;
+                            <input type="checkbox" name="reDutyDays" value="1" th:checked="${dto.reWorkDays == '1'}">&nbsp;<label>주말당직</label>&nbsp;
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;근무시간</strong></label>
+                            <label></label>
+                            <select class="form-control" id="re_work_start_time" style="width: 70px;"></select>
+                            &nbsp;~&nbsp;
+                            <label></label>
+                            <select class="form-control" id="re_work_end_time" style="width: 70px;"></select>
+                            &nbsp;&nbsp;
+                            <input type="checkbox" name="reTimeNegotiable" value="1" id="re_time_negotiable" th:checked="${dto.reTimeNegotiable == 1}">&nbsp;<label>시간협의</label>&nbsp;
+                            <input type="hidden" name="reTimeNegotiable" value="0" id="hidden_reTimeNegotiable">
+                            <input type="text" id="hidden_start_time" name="reWorkStartTime" readonly>
+                            <input type="text" id="hidden_end_time" name="reWorkEndTime" readonly>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;급여</strong></label>
+                            <select class="form-control" name="reSalaryType" style="width: 65px;">
+                                <option value="일급" th:selected="${dto.reSalaryType == '일급'}">일급</option>
+                                <option value="주급" th:selected="${dto.reSalaryType == '주급'}">주급</option>
+                                <option value="월급" th:selected="${dto.reSalaryType == '월급'}">월급</option>
+                                <option value="연봉" th:selected="${dto.reSalaryType == '연봉'}">연봉</option>
+                            </select>
+                            <input type="text" class="form-control" name="reSalaryValue" maxlength="8" style="width: 130px;" placeholder="숫자만 입력" th:value="${dto.reSalaryValue}">&nbsp;<span>원</span>&nbsp;&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_agreement" name="agreement"><label for="check_agreement">협의가능</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_meal" name="meal"><label for="check_meal">식대지급</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_on_duty" name="on_duty"><label for="check_on_duty">당직비지급</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_probation" name="probation"><label for="check_probation">수습기간있음</label>&nbsp;
+                            <input type="text" id="salary_result" name="reSalaryCheck" readonly>
+                            <!--                            <div id="salary_result" name="reSalaryCheck"></div>-->
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 205px; color: white;"><strong>&nbsp;급여추가정보</strong></label>
+                            <input type="text" id="recuit-salary-detail" name="reSalaryDetail" class="form-control" th:value="${dto.reSalaryDetail}" maxlength="39" placeholder="급여추가정보를 입력해 주세요 (최대 40자 / 예: 기본급 100만원 타임당 150만원">
+                            <span id="salary-detail-counter" class="counter" style="color:  rgb(253, 93, 93); font-size: 15px;">0/40</span>
+                        </div>
+                        <br>
+                    </div>
+                    <!-- 스텝 3 -->
+                    <div class="step">
+                        <h4 class="section-title">지원 조건</h4>
+                        <hr>
+                        <br>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;성별</strong></label>
+                            <input type="radio" name="reGender" value="성별무관" th:checked="${dto.reGender == '성별무관'}">&nbsp;<label>성별무관</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="reGender" value="남자" th:checked="${dto.reGender == '남자'}">&nbsp;<label>남자</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="reGender" value="여자" th:checked="${dto.reGender == '여자'}">&nbsp;<label>여자</label>&nbsp;
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;연령</strong></label>
+                            <input type="radio" name="age" id="age_no_limit" th:checked="${dto.reMinAge == '연령무관'}">&nbsp;<label for="age_no_limit">연령무관</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="age" id="age_limit">&nbsp;<label for="age_limit">연령제한 있음</label>&nbsp;
+
+                            <select class="form-control" id="age_min" style="width: 55px;" disabled>
+                                <option value="" selected disabled hidden style="color: #dadada;"></option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                                <option value="32">32</option>
+                                <option value="33">33</option>
+                                <option value="34">34</option>
+                                <option value="35">35</option>
+                                <option value="36">36</option>
+                                <option value="37">37</option>
+                                <option value="38">38</option>
+                                <option value="39">39</option>
+                                <option value="40">40</option>
+                                <option value="41">41</option>
+                                <option value="42">42</option>
+                                <option value="43">43</option>
+                                <option value="44">44</option>
+                                <option value="45">45</option>
+                                <option value="46">46</option>
+                                <option value="47">47</option>
+                                <option value="48">48</option>
+                                <option value="49">49</option>
+                                <option value="50">50</option>
+                                <option value="51">51</option>
+                                <option value="52">52</option>
+                                <option value="53">53</option>
+                                <option value="54">54</option>
+                                <option value="55">55</option>
+                                <option value="56">56</option>
+                                <option value="57">57</option>
+                                <option value="58">58</option>
+                                <option value="59">59</option>
+                                <option value="60">60</option>
+                            </select>&nbsp;<span>세~</span>&nbsp;
+
+                            <select class="form-control" id="age_max" style="width: 55px;" disabled>
+                                <option value="" selected disabled hidden style="color: #dadada;"></option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                                <option value="32">32</option>
+                                <option value="33">33</option>
+                                <option value="34">34</option>
+                                <option value="35">35</option>
+                                <option value="36">36</option>
+                                <option value="37">37</option>
+                                <option value="38">38</option>
+                                <option value="39">39</option>
+                                <option value="40">40</option>
+                                <option value="41">41</option>
+                                <option value="42">42</option>
+                                <option value="43">43</option>
+                                <option value="44">44</option>
+                                <option value="45">45</option>
+                                <option value="46">46</option>
+                                <option value="47">47</option>
+                                <option value="48">48</option>
+                                <option value="49">49</option>
+                                <option value="50">50</option>
+                                <option value="51">51</option>
+                                <option value="52">52</option>
+                                <option value="53">53</option>
+                                <option value="54">54</option>
+                                <option value="55">55</option>
+                                <option value="56">56</option>
+                                <option value="57">57</option>
+                                <option value="58">58</option>
+                                <option value="59">59</option>
+                                <option value="60">60</option>
+                            </select>&nbsp;<span>세 이하</span>
+
+                            <!-- Hidden input for age -->
+                            <input type="text" id="hidden_age_min" name="reMinAge" readonly style="width: 100px;">
+                            <input type="text" id="hidden_age_max" name="reMaxAge" readonly style="width: 100px;">
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;경력</strong></label>
+                            <input type="radio" name="reJobHistory" value="신입">&nbsp;<label>신입</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="reJobHistory" value="경력">&nbsp;<label>경력</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="reJobHistory" value="경력무관">&nbsp;<label>경력무관</label>&nbsp;
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 155px;"><strong><span style="color: red;">*</span>&nbsp;학력조건</strong></label>
+                            <select class="form-control" name="reEducation" style="width: 200px;">
+                                <option value="" selected disabled hidden style="color: #f5f5f5;">학력을 선택해주세요</option>
+                                <option value="고등학교졸업">고등학교졸업</option>
+                                <option value="대학교졸업">대학교졸업</option>
+                                <option value="석사이상">석사이상</option>
+                                <option value="학력무관">학력무관</option>
+                            </select>&nbsp;
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 187px;"><strong>&nbsp;우대조건</strong></label>
+                            <input type="text" class="form-control" name="rePreference" placeholder="우대조건을 입력해주세요 (선택사항) 예: 전공자우대, 관련자격증보유 우대 ">
+                        </div>
+
+                        <br>
+                    </div>
+                    <!-- 스텝 4 -->
+                    <div class="step">
+                        <h4 class="section-title">접수 기간 / 방법</h4>
+                        <hr>
+                        <br>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;모집종료일</strong></label>
+                            <input type="datetime-local" class="form-control" name="reDeadline" style="width: 150px;">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;접수방법</strong></label>
+                            <input type="checkbox" class="apply_checkbox" id="check_online_apply">&nbsp;<label for="check_online_apply">온라인지원</label>&nbsp;
+                            <input type="checkbox" class="apply_checkbox" id="check_email_apply">&nbsp;<label for="check_email_apply">이메일지원</label>&nbsp;
+                            <input type="checkbox" class="apply_checkbox" id="check_msg_apply">&nbsp;<label for="check_msg_apply">문자지원</label>&nbsp;
+                            <input type="checkbox" class="apply_checkbox" id="check_tel_apply">&nbsp;<label for="check_tel_apply">전화연락</label>&nbsp;
+                            <input type="text" id="apply_result" name="reApplyMethod" readonly style="width: 100px;">
+                            <!--                            <div id="apply_result"></div>-->
+                        </div>
+                        <br>
+                    </div>
+                    <!-- 스텝 5 -->
+                    <div class="step">
+                        <h4 class="section-title">근무지 정보</h4>
+                        <hr>
+
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 225px;"><strong><span style="color: red;">*</span>&nbsp;근무지주소</strong></label>
+                            <input type="text" class="form-control" placeholder="상세 정보에 입력한 주소로 자동 입력됩니다 (변경을 원하시면 상세 정보 주소를 변경해주세요)">
+
+                        </div>
+                        <br>
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://map.naver.com/v5/" width="100%" height="300"></iframe>
+                        </div>
+                    </div>
+                    <!-- 스텝 6 -->
+                    <div class="step">
+                        <h4 class="section-title">근무지 정보</h4>
+                        <hr>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 225px;"><strong><span style="color: red;">*</span>&nbsp;근무회사사진</strong></label>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="https://dummyimage.com/150x150/000/fff" class="profile-img mb-3" alt="프로필 사진">
+
+                        </div>
+                        <input type="file" class="form-control">
+                    </div>
+                    <!-- 스텝 7 -->
+                    <div class="step">
+                        <h4 class="section-title">담당자 정보</h4>
+                        <hr>
+                        <br>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;담당자명</strong></label>
+                            <input type="text" class="form-control" name="reAdminName" style="width: 100px;">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;이메일</strong></label>
+                            <input type="text" class="form-control" id="email_local" style="width: 150px;">&nbsp;@&nbsp;
+                            <input type="text" class="form-control" id="email_custom" style="width: 150px;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="text" class="form-control" id="email_output" name="reAdminEmail" style="width: 400px;" readonly>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;연락처</strong></label>
+                            <input type="text" maxlength="3" class="form-control" id="phone_first" style="width: 60px;">&nbsp;-&nbsp;
+                            <input type="text" maxlength="4" class="form-control" id="phone_mid" style="width: 70px">&nbsp;-&nbsp;
+                            <input type="text" maxlength="4" class="form-control" id="phone_last" style="width: 70px">&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="text" class="form-control" id="phone_output" name="reAdminPhone" style="width: 200px" readonly>
+                        </div>
+                        <!--                        <div class="mb-2">-->
+                        <!--                            <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;bid</strong></label>-->
+                        <!--                            <input type="number" name="businessId" class="form-control" style="width: 60px;">-->
+                        <!--                        </div>-->
+
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-primary d-none modal-btn" id="submitBtn" style="float: right; margin-right: 23px;">등록하기</button>
+                    </div>
+                    <!-- 이전 버튼 -->
+                    <a class="carousel-control-prev" href="#instructorCarousel" role="button" data-slide="prev" id="prevBtn">
+                        <span class="carousel-control-prev-icon" aria-hidden="true" style="margin-top: 9px;"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+
+                    <!-- 다음 버튼 -->
+                    <a class="carousel-control-next" href="#instructorCarousel" role="button" data-slide="next" id="nextBtn">
+                        <span class="carousel-control-next-icon" aria-hidden="true" style="margin-top: 9px;"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <!-- 채용 공고 등록 최종 버튼 모달창 start -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">
+                                    <span class="rogo-span">OneFit</span> 채용 공고 등록 확인
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body delete-modal-body">
+                                <div class="mb-3">
+                                    <p>등록하시겠습니까?</p>
+
+                                </div>
+                                <div class="tab-content mt-3">
+                                    <button type="submit" class="btn btn-primary w-100 modal-btn" id="register-submit-ok-btn">등록하기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 채용 공고 등록 최종 버튼 모달창 end -->
+                <!--                <div class="tab-content mt-3">-->
+                <!--                    <button type="submit" class="btn btn-primary w-100 modal-btn" >등록하기</button>-->
+                <!--                </div>-->
+            </form>
+            <!-- 돌아가기 버튼 -->
+            <div>
+                <a href="/recruit/list" class="btn btn-outline-secondary">돌아가기</a>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- (거래) start -->
+    <!-- 판매 게시판 -->
+    <div layout:fragment="transa_list"></div>
+    <!-- 기구 판매 게시글 (읽기) -->
+    <div layout:fragment="transa_eq_read"></div>
+    <!-- 시설 매매 게시글 (읽기) -->
+    <div layout:fragment="transa_fa_read"></div>
+    <!-- 기구 판매 게시글 (등록) -->
+    <div layout:fragment="transa_eq_register"></div>
+    <!-- 시설 매매 게시글 (등록) -->
+    <div layout:fragment="transa_fa_register"></div>
+    <!-- (거래) end -->
+
+
+    <!--    테스트용-->
+    <div layout:fragment="index"></div>
+    <div layout:fragment="login"></div>
+    <div layout:fragment="join"></div>
+</main>
+<!-- 메인 end  -->
+
+<!--  회원가입 모달창 start -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel"> <span class="rogo-span">OneFit</span> 회원가입</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body signup-modal-body">
+                <div class="tab-content mt-3 div-sign-login" id="signupTabContent">
+                    <form id="registerForm" name="registerForm" action="/join" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">이름</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="홍길동" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">이메일</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="ex) email@onefit.com"
+                                   required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="allId" class="form-label">아이디</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="allId" id="allId"
+                                       placeholder="3자 이상, 16자 이하의 영어 또는 숫자로 구성" required>
+                                <button class="btn btn-outline-primary" type="button" id="check-username">
+                                    중복 확인
+                                </button>
+                            </div>
+                            <!-- 중복 확인 메시지 출력 공간 -->
+                            <div id="username-feedback" class="mt-1 input-feedback text-danger">이미 사용 중인 아이디입니다.</div>
+                            <!-- <div id="username-feedback" class="mt-1 input-feedback text-success">사용 가능한 아이디입니다.</div> -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="aPsw" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="aPsw"
+                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="aPswCheck" class="form-label">비밀번호 확인</label>
+                            <input type="password" class="form-control" name="aPsw" id="aPswCheck"
+                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
+                            <!-- 비밀번호 확인 메시지 출력 공간 -->
+                            <!-- <div id="password-feedback" class="mt-1 input-feedback text-danger">비밀번호가 일치하지 않습니다.</div> -->
+                            <div id="password-feedback" class="mt-1 input-feedback text-success">비밀번호가 일치합니다.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="aPhone" class="form-label">전화번호</label>
+                            <input type="tel" class="form-control" name="aPhone" id="aPhone" placeholder="ex) 010-1234-5678"
+                                   required>
+                        </div>
+                        <input type="hidden" name="memberType" value="default">
+                        <button type="submit" class="btn btn-success w-100 modal-btn"
+                                id="signupButton">가입하기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 회원가입 모달창 end -->
+
+<!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<!-- bootstrap js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="/js/basic.js"></script>
+<script src="/js/recruit/recruit_register.js"></script>
+<script layout:fragment="script" th:inline="javascript">
+    const error = [[${error}]]
+
+    if (error && error === 'allId') {
+        alert("동일한 아이디를 가진 계정이 존재합니다.")
+    }
+
+    //  @Valid 에러 메시지
+    const errors = [[${errors}]]
+    console.log(errors)
+
+    let errorMsg = ''
+
+    if (errors) {
+        for (let i = 0; i < errors.length; i++) {
+            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+        }
+        alert(errorMsg)
+    }
+
+    const result = [[${result}]]
+
+    if (result) {
+        alert(result)
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const textInput = document.getElementById('recuit-title');
+        const counter = document.getElementById('title-counter');
+
+        // 페이지 로드 시, 기존 값의 길이를 포함하여 카운터를 초기화
+        const initialLength = textInput.value.length;
+        counter.textContent = `${initialLength}/40`;
+
+        // 입력 중일 때마다 카운터 업데이트
+        textInput.addEventListener('input', () => {
+            const currentLength = textInput.value.length;
+            counter.textContent = `${currentLength}/40`;
+        });
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const textInput = document.getElementById('recuit-salary-detail');
+        const counter = document.getElementById('salary-detail-counter');
+
+        // 페이지 로드 시, 기존 값의 길이를 포함하여 카운터를 초기화
+        const initialLength = textInput.value.length;
+        counter.textContent = `${initialLength}/40`;
+
+        // 입력 중일 때마다 카운터 업데이트
+        textInput.addEventListener('input', () => {
+            const currentLength = textInput.value.length;
+            counter.textContent = `${currentLength}/40`;
+        });
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const textInput = document.getElementById('recuit-name');
+        const counter = document.getElementById('name-counter');
+
+        // 페이지 로드 시, 기존 값의 길이를 포함하여 카운터를 초기화
+        const initialLength = textInput.value.length;
+        counter.textContent = `${initialLength}/40`;
+
+        // 입력 중일 때마다 카운터 업데이트
+        textInput.addEventListener('input', () => {
+            const currentLength = textInput.value.length;
+            counter.textContent = `${currentLength}/40`;
+        });
+    });
+</script>
+</body>
+
+<!-- footer -->
+<th:block th:replace="foot/footer :: footer"></th:block>
+
+</html>
