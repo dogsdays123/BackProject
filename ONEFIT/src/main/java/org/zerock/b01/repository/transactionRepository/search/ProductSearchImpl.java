@@ -52,12 +52,12 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
             assert product1 != null;
             ProductListAllDTO dto = ProductListAllDTO.builder()
                     .productId(product1.getProductId()) // 상품 ID
-                    .allId(product1.getAllMember().getAll_id()) // 회원 ID
+                    .allId(product1.getAllMember().getAllId()) // 회원 ID
                     .pTitle(product1.getPTitle()) // 제목
                     .pStatus(product1.getPStatus()) // 거래 상태
                     .pPrice(product1.getPPrice()) // 가격
                     .pAddr(product1.getPAddr()) // 거래 장소
-                    .regDate(product1.getRegdate())  // 등록 시각
+                    //.regDate(product1.getRegdate())  // 등록 시각
                     .replyCount(replyCount) // 댓글 수
                     .build();
 
