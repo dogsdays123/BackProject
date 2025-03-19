@@ -34,8 +34,7 @@
 //    public void insertMember() {
 //
 //        All_Member member = All_Member.builder()
-//                //수정
-//                .all_id("member" + 1)
+//                .allId("member" + 1)
 //                .name(("1234") + 1)
 //                .email("email" + 1 + "@aaa.bbb")
 //                .a_psw(("1234") + 1)
@@ -120,4 +119,3 @@
 //
 //
 //    }
-//}
