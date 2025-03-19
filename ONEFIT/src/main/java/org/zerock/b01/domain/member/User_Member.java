@@ -15,22 +15,22 @@ import java.time.LocalDateTime;
 public class User_Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long userId;
 
     @Column(length = 30)
-    private String u_nickname;
+    private String uNickname;
 
-    private LocalDateTime u_birthday;
+    private LocalDateTime uBirthday;
 
     @Column(length = 20, nullable = false)
-    private String u_social;
+    private String uSocial;
 
     @Column(length = 100)
-    private String u_address;
+    private String uAddress;
 
-    private Long u_resident;
+    private Long uResident;
 
     @ManyToOne
-    @JoinColumn(name = "all_id", nullable = false)
+    @JoinColumn(name = "allId", nullable = false)
     private All_Member all_member;
 }

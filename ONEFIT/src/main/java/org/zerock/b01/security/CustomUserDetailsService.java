@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.repository.All_MemberRepository;
@@ -38,12 +39,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         MemberSecurityDTO memberSecurityDTO =
                 new MemberSecurityDTO(
-                        all_member.getAll_id(),
-                        all_member.getA_psw(),
+                        all_member.getAllId(),
+                        all_member.getAPsw(),
                         all_member.getEmail(),
                         all_member.getName(),
-                        all_member.getA_phone(),
-                        all_member.getMember_type(),
+                        all_member.getAPhone(),
+                        all_member.getMemberType(),
                         all_member.isDel(),
                         false,
                         all_member.getRoleSet()

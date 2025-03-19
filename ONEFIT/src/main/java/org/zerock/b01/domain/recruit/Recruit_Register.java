@@ -2,9 +2,11 @@ package org.zerock.b01.domain.recruit;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.zerock.b01.domain.BaseEntity;
 import org.zerock.b01.domain.member.Business_Member;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -12,88 +14,95 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Recruit_Register {
+public class Recruit_Register extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long recruit_id;
+    @Column(name = "recruit_id")
+    private Long recruitId; // 채용공고 ID
 
     @Column(length = 170, nullable = false)
-    private String re_title;
+    private String reTitle; // 공고제목
 
     @Column(length = 130, nullable = false)
-    private String re_company;
+    private String reCompany; // 회사명(근무지)
 
-    @Column(length = 50, nullable = false)
-    private String re_job_type;
+    @Column(name = "re_job_type" ,length = 50, nullable = false)
+    private String reJobType; // 고용형태(정규직, 프리, 파트)
 
     @Column(length = 100, nullable = false)
-    private String re_industry;
+    private String reIndustry; // 업직종(헬스/PT , 필라테스)
 
     @Column(nullable = false)
-    private int re_num_hiring;
+    private int reNumHiring; // 모집인원(00명)
 
     @Column(length = 50, nullable = false)
-    private String re_work_days;
+    private String reWorkDays; // 근무요일(월~금, 월~토)
 
     @Column(length = 10)
-    private String re_duty_days;
+    private String reDutyDays;
 
     @Column(length = 50, nullable = false)
-    private String re_work_start_time;
+    private String reWorkStartTime;
 
     @Column(length = 50, nullable = false)
-    private String re_work_end_time;
+    private String reWorkEndTime;
 
     @Column(length = 10, nullable = false)
-    private String re_time_negotiable;
+    private String reTimeNegotiable;
+
+    @Column(name="re_salary_type", length = 50, nullable = false)
+    private String reSalaryType;
 
     @Column(length = 50, nullable = false)
-    private String re_salary_type;
-
-    @Column(length = 50, nullable = false)
-    private String re_salary_value;
+    private String reSalaryValue;
 
     @Column(length = 255)
-    private String re_salary_check;
+    private String reSalaryCheck;
 
     @Column(length = 255)
-    private String re_salary_detail;
+    private String reSalaryDetail;
 
     @Column(length = 10, nullable = false)
-    private String re_gender;
+    private String reGender;
 
     @Column(length = 50, nullable = false)
-    private String re_min_age;
+    private String reMinAge;
 
     @Column(length = 50, nullable = false)
-    private String re_max_age;
+    private String reMaxAge;
 
     @Column(length = 50, nullable = false)
-    private String re_education;
+    private String reEducation;
 
     @Column(length = 255)
-    private String re_preference;
+    private String rePreference;
+
+//    @Column(nullable = false)
+//    private LocalDateTime regDate;
 
     @Column(nullable = false)
-    private LocalDate regdate;
-
-    @Column(nullable = false)
-    private LocalDate re_deadline;
+    private LocalDateTime reDeadline;
 
     @Column(length = 100, nullable = false)
-    private String re_apply_method;
+    private String reApplyMethod;
 
     @Column(length = 100, nullable = false)
-    private String re_admin_name;
+    private String reAdminName;
 
     @Column(length = 255, nullable = false)
-    private String re_admin_email;
+    private String reAdminEmail;
 
     @Column(nullable = false)
-    private String re_admin_phone;
+    private String reAdminPhone;
 
     @ManyToOne
     @JoinColumn(name = "business_id", nullable = false)
     private Business_Member business_member;
+
+    public void change(String title, String company, String jobType) {
+        this.reTitle = title;
+        this.reCompany = company;
+        this.reJobType = jobType;
+    }
 }

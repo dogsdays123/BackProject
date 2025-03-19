@@ -16,10 +16,7 @@ import org.zerock.b01.repository.All_MemberRepository;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -56,30 +53,24 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 break;
         }
 
-        log.info("----------------------");
-        log.info(email);
-        log.info("----------------------");
-
-        return generateDTO(email,paramMap);
+        return generateDTO(email, paramMap, clientName);
     }
 
     //회원추가도 DTO 객체랑 맞춰야됨 싀....
-    //회원추가도 DTO 객체랑 맞춰야됨 싀....
-    //회원추가도 DTO 객체랑 맞춰야됨 싀....
-    private MemberSecurityDTO generateDTO(String email, Map<String, Object> params){
+    private MemberSecurityDTO generateDTO(String email, Map<String, Object> params, String clientName){
         Optional<All_Member> result = all_memberRepository.findByEmail(email);
 
         //데이터베이스에 해당 이메일 사용자가 없다면
         if(result.isEmpty()){
             //회원 추가 -- all_id는 이메일 주소? / 패스워드는 1111
             All_Member all_member = All_Member.builder()
-                    .all_id(email)
-                    .name("kakaogoogle") //나중에 카카오에게 받은 이름
-                    .a_psw(passwordEncoder.encode("1111"))
+                    .allId(email)
+                    .name(clientName + email) //나중에 카카오에게 받은 이름
+                    .aPsw(passwordEncoder.encode("1111"))
                     .email(email)
-                    .a_phone(010)//나중에 카카오에게 받은 폰번호로
-                    .member_type("default") //나중에 회원전환 시 변경
-                    .a_social(true)
+                    .aPhone(010)//나중에 카카오에게 받은 폰번호로
+                    .memberType("default") //나중에 회원전환 시 변경
+                    .aSocial(true)
                     .build();
 
             all_member.addRole(MemberRole.USER);
@@ -87,24 +78,25 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             //MemberSecurityDTO 구성 및 반환
             MemberSecurityDTO memberSecurityDTO =
-                    new MemberSecurityDTO("name", email, "1111", email, 010,
+                    new MemberSecurityDTO(email, "1111", email, clientName, 010,
                             "default", false, true,
                             Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             memberSecurityDTO.setProps(params);
 
             return memberSecurityDTO;
+
         } else {
             All_Member all_member = result.get();
             MemberSecurityDTO memberSecurityDTO =
                     new MemberSecurityDTO(
-                            all_member.getAll_id(),
-                            all_member.getA_psw(),
+                            all_member.getAllId(),
+                            all_member.getAPsw(),
                             all_member.getEmail(),
                             all_member.getName(),
-                            all_member.getA_phone(),
-                            all_member.getMember_type(),
+                            all_member.getAPhone(),
+                            all_member.getMemberType(),
                             all_member.isDel(),
-                            all_member.isA_social(),
+                            all_member.isASocial(),
                             all_member.getRoleSet()
                                     .stream().map(memberRole ->
                                             new SimpleGrantedAuthority("ROLE_"+memberRole.name()))
