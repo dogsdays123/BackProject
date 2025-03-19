@@ -13,20 +13,30 @@ import org.zerock.b01.domain.BaseEntity;
 public class Notice_Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long notice_id;
+    private Long noticeId;
 
     @Column(length = 400, nullable = false)
-    private String n_title;
+    private String nTitle;
 
     @Column(length = 4000, nullable = false)
-    private String n_content;
+    private String nContent;
 
-    @Column(nullable = false)
-    private int n_hits;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int nHits;
 
     @ManyToOne
     @JoinColumn(name = "all_id", nullable = false)
-    private All_Member all_member;
+    private All_Member allMember;
+
+    public void changeNotice(String nTitle, String nContent) {
+        this.nTitle = nTitle;
+        this.nContent = nContent;
+    }
+
+    public void increaseNoticeHits() {
+
+        this.nHits++;
+    }
 
     //날짜는 baseEntity
     //날짜는 baseEntity

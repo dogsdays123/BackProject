@@ -25,5 +25,5 @@ public class Board_File {
 
     @ManyToOne
     @JoinColumn(name = "notice_id")
-    private Notice_Board notice_board;
+    private Notice_Board noticeBoard;
 }
