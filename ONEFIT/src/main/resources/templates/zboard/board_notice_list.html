@@ -145,36 +145,36 @@
             formObj.submit()
         },false)
 
-        // 검색 버튼 클릭 시 테이블 필터링
-        function filterTable() {
-            const startDate = document.getElementById("startDate").value;
-            const endDate = document.getElementById("endDate").value;
-            const keyword = document.getElementById("keyword").value.toLowerCase();
-            const rows = document.querySelectorAll("#noticeTable tbody tr");
-
-            rows.forEach(row => {
-                const regdate = row.getAttribute("data-regdate");
-                const title = row.querySelector("td").textContent.toLowerCase();
-
-                // 날짜 범위와 키워드로 필터링
-                const isDateInRange = (startDate === '' || regdate >= startDate) && (endDate === '' || regdate <= endDate);
-                const isKeywordMatch = (keyword === '' || title.includes(keyword));
-
-                if (isDateInRange && isKeywordMatch) {
-                    row.style.display = ""; // 조건에 맞으면 보이기
-                } else {
-                    row.style.display = "none"; // 조건에 맞지 않으면 숨기기
-                }
-            });
-        }
-
-        // 초기화 버튼 클릭 시 필터링 초기화
-        function clearFilters() {
-            document.getElementById("startDate").value = '';
-            document.getElementById("endDate").value = '';
-            document.getElementById("keyword").value = '';
-            filterTable();  // 필터링 실행
-        }
+        // // 검색 버튼 클릭 시 테이블 필터링
+        // function filterTable() {
+        //     const startDate = document.getElementById("startDate").value;
+        //     const endDate = document.getElementById("endDate").value;
+        //     const keyword = document.getElementById("keyword").value.toLowerCase();
+        //     const rows = document.querySelectorAll("#noticeTable tbody tr");
+        //
+        //     rows.forEach(row => {
+        //         const regdate = row.getAttribute("data-regdate");
+        //         const title = row.querySelector("td").textContent.toLowerCase();
+        //
+        //         // 날짜 범위와 키워드로 필터링
+        //         const isDateInRange = (startDate === '' || regdate >= startDate) && (endDate === '' || regdate <= endDate);
+        //         const isKeywordMatch = (keyword === '' || title.includes(keyword));
+        //
+        //         if (isDateInRange && isKeywordMatch) {
+        //             row.style.display = ""; // 조건에 맞으면 보이기
+        //         } else {
+        //             row.style.display = "none"; // 조건에 맞지 않으면 숨기기
+        //         }
+        //     });
+        // }
+        //
+        // // 초기화 버튼 클릭 시 필터링 초기화
+        // function clearFilters() {
+        //     document.getElementById("startDate").value = '';
+        //     document.getElementById("endDate").value = '';
+        //     document.getElementById("keyword").value = '';
+        //     filterTable();  // 필터링 실행
+        // }
 
     </script>
 
