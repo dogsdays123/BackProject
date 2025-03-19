@@ -36,14 +36,15 @@ public class NoticeBoardRepositoryTests {
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
             All_MemberDTO member = All_MemberDTO.builder()
-                    .allId("member" + i)
+                    //수정
+                    .all_id("member" + i)
                     .name(("1234") + i)
                     .email("email" + i + "@aaa.bbb")
-                    .aPsw(("1234") + i)
-                    .aPhone(123)
-                    .memberType("default")
+                    .a_psw(("1234") + i)
+                    .a_phone(123)
+                    .member_type("default")
                     .del(false)
-                    .aSocial(false)
+                    .a_social(false)
                     .build();
 
             String result = all_MemberService.register(member);
@@ -54,9 +55,9 @@ public class NoticeBoardRepositoryTests {
     @Test
     public void testInsertNotice() {
 
-        String allId = "member1";
+        String all_id = "member1";  //수정
 
-        All_Member all_member =All_Member.builder().allId(allId).build();
+        All_Member all_member =All_Member.builder().all_id(all_id).build(); //수정
 
         IntStream.rangeClosed(1, 100).forEach(i -> {
             Notice_Board notice_board = Notice_Board.builder()

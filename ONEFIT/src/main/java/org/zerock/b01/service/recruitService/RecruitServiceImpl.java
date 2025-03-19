@@ -57,7 +57,7 @@ public class RecruitServiceImpl implements RecruitService {
 
         Recruit_Register recruit_register = result.orElseThrow();
 
-        recruit_register.change(recruitDTO.getReTitle(), recruitDTO.getReCompany(), recruitDTO.getReJobType());
+        recruit_register.change(recruitDTO.getReTitle(), recruitDTO.getReCompany());
 
         recruitRepository.save(recruit_register);
     }

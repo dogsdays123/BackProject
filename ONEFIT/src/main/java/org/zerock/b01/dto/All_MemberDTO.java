@@ -21,11 +21,15 @@ public class All_MemberDTO {
 
     private String aPsw;
 
-    private int aPhone;
+    private Long aPhone;
 
     private String memberType;
 
     private boolean del;
 
     private boolean aSocial;
+
+    private LocalDateTime regDate;
+
+    private LocalDateTime modDate;
 }

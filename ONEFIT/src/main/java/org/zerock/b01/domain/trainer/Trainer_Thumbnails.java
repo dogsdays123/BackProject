@@ -12,7 +12,7 @@ import lombok.*;
 public class Trainer_Thumbnails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tthumbnails_id;
+    private Long tthumbnailsId;
 
     @Column(length = 100, nullable = false)
     private String imgname;

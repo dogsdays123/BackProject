@@ -33,31 +33,35 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info(userRequest);
 
         log.info("oauth2 user..........................");
+        //클라이언트 이름 구하기
         ClientRegistration clientRegistration = userRequest.getClientRegistration();
+        log.info(clientRegistration.getClientName());
         String clientName = clientRegistration.getClientName();
-
-        log.info("NAME: "+clientName);
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
         Map<String, Object> paramMap = oAuth2User.getAttributes();
+        log.info("@@param@@ : " + paramMap);
 
         String email = null;
+        String memberName = "";
 
         //여기서 정보 가져오기
         switch (clientName){
             case "kakao":
-                email = getKakaoEmail(paramMap);
+                email = getKakao(paramMap)[0];
+                memberName = getKakao(paramMap)[1];
                 break;
             case "google":
-                email = getGoogleEmail(paramMap);
+                email = getGoogle(paramMap)[0];
+                memberName = getGoogle(paramMap)[1];
                 break;
         }
 
-        return generateDTO(email, paramMap, clientName);
+        return generateDTO(email, paramMap, memberName);
     }
 
     //회원추가도 DTO 객체랑 맞춰야됨 싀....
-    private MemberSecurityDTO generateDTO(String email, Map<String, Object> params, String clientName){
+    private MemberSecurityDTO generateDTO(String email, Map<String, Object> params, String memberName){
         Optional<All_Member> result = all_memberRepository.findByEmail(email);
 
         //데이터베이스에 해당 이메일 사용자가 없다면
@@ -65,10 +69,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             //회원 추가 -- all_id는 이메일 주소? / 패스워드는 1111
             All_Member all_member = All_Member.builder()
                     .allId(email)
-                    .name(clientName + email) //나중에 카카오에게 받은 이름
+                    .name(memberName) //나중에 카카오에게 받은 이름
                     .aPsw(passwordEncoder.encode("1111"))
                     .email(email)
-                    .aPhone(010)//나중에 카카오에게 받은 폰번호로
+                    .aPhone(010L)//나중에 카카오에게 받은 폰번호로
                     .memberType("default") //나중에 회원전환 시 변경
                     .aSocial(true)
                     .build();
@@ -78,7 +82,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             //MemberSecurityDTO 구성 및 반환
             MemberSecurityDTO memberSecurityDTO =
-                    new MemberSecurityDTO(email, "1111", email, clientName, 010,
+                    new MemberSecurityDTO(email, "1111", email, memberName, 010L,
                             "default", false, true,
                             Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             memberSecurityDTO.setProps(params);
@@ -108,19 +112,23 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     //paramMap은 Oth2에서 사용하는 키-값 쌍의 형식 데이터 구조
     //기업마다 데이터구조가 다름
-    private String getKakaoEmail(Map<String, Object> paramMap){
+    private String[] getKakao(Map<String, Object> paramMap){
         log.info("KAKAO-------------------------------");
         Object value = paramMap.get("kakao_account");
         log.info(value);
         LinkedHashMap accountMap = (LinkedHashMap) value;
-        String email = (String) accountMap.get("email");
-        return email;
+        String[] kakaoData = new String[2];
+        kakaoData[0] = (String) accountMap.get("email");
+        kakaoData[1] = (String) accountMap.get("name");
+        return kakaoData;
     }
 
-    private String getGoogleEmail(Map<String, Object> paramMap) {
+    private String[] getGoogle(Map<String, Object> paramMap) {
         log.info("GOOGLE-------------------------------");
-        String email = (String) paramMap.get("email");
-        log.info("Email: " + email);
-        return email;
+        String[] googleData = new String[2];
+        googleData[0] = (String) paramMap.get("email");
+        googleData[1] = (String) paramMap.get("name");
+        log.info("Email: " + googleData[0] + "Name: " + googleData[1]);
+        return googleData;
     }
 }

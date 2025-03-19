@@ -32,6 +32,7 @@ public class All_MemberServiceImpl implements All_MemberService {
     @Override
     public All_MemberDTO readOne(String allId) {
         Optional<All_Member> result = all_MemberRepository.findById(allId);
+        log.info("Service@@@@" + result.toString());
         All_Member all_Member = result.orElseThrow();
         All_MemberDTO all_MemberDTO = modelMapper.map(all_Member, All_MemberDTO.class);
         return all_MemberDTO;
@@ -39,10 +40,13 @@ public class All_MemberServiceImpl implements All_MemberService {
 
     @Override
     public void modify(All_MemberDTO all_MemberDTO) {
+        log.info("AllId@@@@" + all_MemberDTO.getAllId());
         Optional<All_Member> result = all_MemberRepository.findById(all_MemberDTO.getAllId());
         All_Member all_Member = result.orElseThrow();
-        //all_Member.change(all_MemberDTO.getName(), all_MemberDTO.getEmail());
+        all_Member.modifyMember(all_MemberDTO.getAPsw(), all_MemberDTO.getAPhone(), all_MemberDTO.getMemberType());
+
         all_MemberRepository.save(all_Member);
+        log.info("modify@@@@" + all_Member);
     }
 
     @Override

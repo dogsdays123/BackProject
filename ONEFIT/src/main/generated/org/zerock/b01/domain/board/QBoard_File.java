@@ -24,7 +24,7 @@ public class QBoard_File extends EntityPathBase<Board_File> {
 
     public final StringPath fileName = createString("fileName");
 
-    public final QNotice_Board notice_board;
+    public final QNotice_Board noticeBoard;
 
     public final NumberPath<Integer> ord = createNumber("ord", Integer.class);
 
@@ -50,7 +50,7 @@ public class QBoard_File extends EntityPathBase<Board_File> {
 
     public QBoard_File(Class<? extends Board_File> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.notice_board = inits.isInitialized("notice_board") ? new QNotice_Board(forProperty("notice_board"), inits.get("notice_board")) : null;
+        this.noticeBoard = inits.isInitialized("noticeBoard") ? new QNotice_Board(forProperty("noticeBoard"), inits.get("noticeBoard")) : null;
         this.qnaBoard = inits.isInitialized("qnaBoard") ? new QQna_Board(forProperty("qnaBoard"), inits.get("qnaBoard")) : null;
     }
 

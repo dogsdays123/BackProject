@@ -4,7 +4,6 @@
       layout:decorate="~{layout/myPage.html}">
 
 <div layout:fragment="my_board">
-    <main>
       <div class="container mt-5">
         <h2 class="text-primary mb-4">내가 쓴 게시글</h2>
     
@@ -12,9 +11,9 @@
         <table class="table table-hover align-middle">
             <thead>
             <tr>
-                <th style="width: 60%;">제목</th>
-                <th style="width: 20%;">작성일</th>
-                <th style="width: 20%;">조회수</th>
+                <th style="width: 30%;">제목</th>
+                <th style="width: 10%;">작성일</th>
+                <th style="width: 10%;">조회수</th>
             </tr>
             </thead>
             <tbody id="noticeTable">
@@ -57,9 +56,8 @@
                   </ul>
               </nav>
           </div>
-
       </div>
-    </main>
+
     <!-- 임시 -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
