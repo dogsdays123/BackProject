@@ -1,5 +1,30 @@
 // (거래) 게시글 등록
 
+// 제출 버튼 클릭 시 이벤트 처리
+document.querySelector(".submitBtn").addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const target = document.querySelector(".uploadHidden");
+
+    const imagePreview = document.querySelector("#imagePreview");
+    const uploadFiles = imagePreview.querySelectorAll("img");
+
+    let str = '';
+
+    for (let i = 0; i < uploadFiles.length; i++) {
+        const uploadFile = uploadFiles[i];
+        const imgLink = uploadFile.getAttribute("data-src"); // 이미지의 data-src 속성 값 가져오기
+
+        str += `<input type="hidden" name="imageFileNames" value="${imgLink}">`;
+    }
+
+    target.innerHTML = str;
+
+    document.querySelector("form").submit();
+}, false);
+
+
 // 이미지 미리보기 기능
 document.addEventListener("DOMContentLoaded", function () {
     // 이미지 미리보기 기능 (복수 이미지 등록)
@@ -29,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function showUploadFile({uuid, fileName, link}) {
     let imgWrapper = $(`
                     <div class="position-relative d-inline-block me-2 mt-2">
-                        <img src="/view/${link}" data-src="${uuid + "_" + fileName}" class="preview-img rounded border">
+                        <img src="/view_transa/${link}" data-src="${uuid + "_" + fileName}" class="preview-img rounded border">
                         <button type="button" 
                         onclick="javascript:removeFile('${uuid}', '${fileName}', this)"
                         class="btn-close position-absolute top-0 start-100 

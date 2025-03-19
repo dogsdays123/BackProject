@@ -37,7 +37,11 @@ public class Equipment { // (거래 - 상품) 기구
     @Column(name = "e_as", length = 20, nullable = false)
     private String eAs; // 7. A/S 가능여부
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product; // (외래키) 상품 ID
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }
