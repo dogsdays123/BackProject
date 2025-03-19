@@ -83,7 +83,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             //MemberSecurityDTO 구성 및 반환
             MemberSecurityDTO memberSecurityDTO =
                     new MemberSecurityDTO(email, "1111", email, memberName, 010,
-                            "default", false, true,
+                            "일반", false, true,
                             Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             memberSecurityDTO.setProps(params);
 

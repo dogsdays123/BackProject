@@ -19,9 +19,18 @@
 <!-- 헤더 start -->
 <header>
     <!-- 메인 메뉴 -->
-    <div class="nav-container">
+    <div class="nav-container d-flex justify-content-between align-items-center">
         <!-- 로고 -->
-        <a class="navbar-brand me-auto" href="/main">OneFit</a>
+        <div class="auth-links flex-row align-items-center gap-3 justify-content-start">
+            <div class="me-auto">
+                <a class="navbar-brand me-auto" href="/main">OneFit</a>
+                <!-- 햄버거 버튼 -->
+                <button class="navbar-toggler round-btn toggle-sidebar btns" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar" th:if="${sidebar == true}">
+                    <span class="navbar-toggler-icon"><i class="fa-solid fa-bars-staggered"></i></span>
+                </button>
+            </div>
+        </div>
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
@@ -114,7 +123,6 @@
             </div>
             <!-- 알림 end -->
         </div>
-    </div>
 </header>
 <!-- 헤더 end -->
 
@@ -122,7 +130,7 @@
 <main>
     <div layout:fragment="main"></div>
 
-<!--    마이페이지 start-->
+<!--  마이페이지 start-->
     <div layout:fragment="myPage"></div>
 <!--  마이페이지 end-->
 
@@ -198,7 +206,7 @@
                             <input type="tel" class="form-control" name="aPhone" id="aPhone" placeholder="ex) 010-1234-5678"
                                    required>
                         </div>
-                        <input type="hidden" name="memberType" value="default">
+                        <input type="hidden" name="memberType" value="일반">
                         <button type="submit" class="btn btn-success w-100 modal-btn"
                                 id="signupButton">가입하기</button>
                     </form>
