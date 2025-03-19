@@ -48,6 +48,8 @@ public class TrainerDTO {
     @NotNull
     private Long userId;
 
+    private MultipartFile[] thumbnails;
+
     private LocalDateTime regdate;
     private LocalDateTime moddate;
 }

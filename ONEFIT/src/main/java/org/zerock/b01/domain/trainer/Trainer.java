@@ -5,12 +5,15 @@ import lombok.*;
 import org.zerock.b01.domain.BaseEntity;
 import org.zerock.b01.domain.member.User_Member;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "imageSet")
 public class Trainer extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,4 +70,8 @@ public class Trainer extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User_Member userMember;
+
+    @OneToMany(mappedBy = "trainer", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Builder.Default
+    private Set<Trainer_Thumbnails> imageSet = new HashSet<>();
 }
