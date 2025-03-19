@@ -29,7 +29,7 @@ public class All_MemberDTO {
 
     private boolean aSocial;
 
-    private LocalDateTime regdate;
+    private LocalDateTime regDate;
 
-    private LocalDateTime moddate;
+    private LocalDateTime modDate;
 }
