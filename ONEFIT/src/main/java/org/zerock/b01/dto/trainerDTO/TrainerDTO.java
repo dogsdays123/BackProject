@@ -1,5 +1,7 @@
 package org.zerock.b01.dto.trainerDTO;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,22 +15,38 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TrainerDTO {
-    private Long trainer_id;
+    private Long trainerId;
+    @NotEmpty
     private String title;
-    private LocalDateTime make_date;
-    private String academy_final;
+    @NotEmpty
+    private String academyFinal;
+    @NotEmpty
     private String academy;
-    private int career_period;
+    @NotNull
+    private int careerPeriod;
     private String career;
     private String license;
     private String prize;
-    private String want_job;
-    private String want_type;
-    private String want_legion;
-    private int want_time;
-    private int want_day;
-    private String want_day_type;
-    private String want_sal_type;
+    @NotEmpty
+    private String wantJob;
+    @NotEmpty
+    private String wantType;
+    @NotEmpty
+    private String wantLegion;
+    @NotNull
+    private Double wantTime;
+    @NotNull
+    private int wantDay;
+    @NotEmpty
+    private String wantDayType;
+    @NotEmpty
+    private String wantSalType;
+    @NotNull
+    private int wantSal;
     private String content;
-    private User_Member user_member;
+    @NotNull
+    private Long userId;
+
+    private LocalDateTime regdate;
+    private LocalDateTime moddate;
 }
