@@ -104,8 +104,9 @@
                                 </div>
                                 <hr>
                                 <div th:if="${all_memberDTO.aSocial == false}">
+                                    <div th:switch="${all_memberDTO.aSocial}">
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-6 mb-3" th:case=true>
                                             <label class="form-label">비밀번호</label>
                                             <input type="text" class="form-control" placeholder="비밀번호">
                                         </div>
@@ -118,6 +119,7 @@
                                         <label class="form-label">전화번호</label>
                                         <input type="text" class="form-control" name="aPhone" placeholder="전화번호 인증"
                                                required>
+                                    </div>
                                     </div>
                                 </div>
 
