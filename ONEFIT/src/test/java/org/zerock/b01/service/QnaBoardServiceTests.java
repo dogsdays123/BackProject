@@ -20,9 +20,9 @@ public class QnaBoardServiceTests {
     @Test
     public void testRegisterQna() {
 
-        String all_id = "member1"; //수정
+        String allId = "member1"; //수정
 
-        All_Member all_member =All_Member.builder().all_id(all_id).build(); //수정
+        All_Member all_member =All_Member.builder().allId(allId).build(); //수정
 
         log.info(qnaBoardService.getClass().getName());
 

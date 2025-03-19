@@ -20,9 +20,9 @@ public class NoticeBoardServiceTests {
     @Test
     public void testRegisterNotice() {
 
-        String all_id = "member1"; //수정
+        String allId = "member1";
 
-        All_Member all_member =All_Member.builder().all_id(all_id).build(); //수정
+        All_Member all_member =All_Member.builder().allId(allId).build();
 
         log.info(noticeBoardService.getClass().getName());
 
