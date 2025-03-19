@@ -21,7 +21,7 @@ public class All_MemberDTO {
 
     private String aPsw;
 
-    private int aPhone;
+    private Long aPhone;
 
     private String memberType;
 

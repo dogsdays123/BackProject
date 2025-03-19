@@ -90,4 +90,21 @@ public class All_MemberController {
     public void my_info_page() {
         log.info("my_info_page");
     }
+
+    //새로운 창 (회원 타입 변경)
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/set_default")
+    public void set_default() {
+        log.info("set_default");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/set_type")
+    public void set_type() {
+        log.info("set_type");
+    }
+    //새로운 창
+
+
+
 }

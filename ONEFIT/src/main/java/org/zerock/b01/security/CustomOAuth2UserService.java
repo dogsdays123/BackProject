@@ -72,7 +72,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .name(memberName) //나중에 카카오에게 받은 이름
                     .aPsw(passwordEncoder.encode("1111"))
                     .email(email)
-                    .aPhone(010)//나중에 카카오에게 받은 폰번호로
+                    .aPhone(010L)//나중에 카카오에게 받은 폰번호로
                     .memberType("default") //나중에 회원전환 시 변경
                     .aSocial(true)
                     .build();
@@ -82,8 +82,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             //MemberSecurityDTO 구성 및 반환
             MemberSecurityDTO memberSecurityDTO =
-                    new MemberSecurityDTO(email, "1111", email, memberName, 010,
-                            "일반", false, true,
+                    new MemberSecurityDTO(email, "1111", email, memberName, 010L,
+                            "default", false, true,
                             Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             memberSecurityDTO.setProps(params);
 

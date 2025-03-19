@@ -24,7 +24,7 @@ public class QAll_Member extends EntityPathBase<All_Member> {
 
     public final StringPath allId = createString("allId");
 
-    public final NumberPath<Integer> aPhone = createNumber("aPhone", Integer.class);
+    public final NumberPath<Long> aPhone = createNumber("aPhone", Long.class);
 
     public final StringPath aPsw = createString("aPsw");
 

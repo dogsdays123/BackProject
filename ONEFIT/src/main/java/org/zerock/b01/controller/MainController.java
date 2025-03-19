@@ -2,12 +2,14 @@ package org.zerock.b01.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,5 +87,14 @@ public class MainController {
 
         redirectAttributes.addFlashAttribute("result", "success");
         return "redirect:/login";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify")
+    public String modifyPOST(All_MemberDTO all_memberDTO, RedirectAttributes redirectAttributes) {
+        log.info("modify post........");
+        log.info("allId@@@@" + all_memberDTO.getAllId());
+        all_memberService.modify(all_memberDTO);
+        return "redirect:/member/my_default_page";
     }
 }
