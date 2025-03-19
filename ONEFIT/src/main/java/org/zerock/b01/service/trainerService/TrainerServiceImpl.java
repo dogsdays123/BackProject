@@ -20,12 +20,14 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public Long registerTrainer(TrainerDTO trainerDTO) {
-        modelMapper.addMappings(new PropertyMap<TrainerDTO, Trainer>() {
-            @Override
-            protected void configure() {
-                map(source.getUserId(), destination.getUserMember().getUserId());
-            }
-        });
+        if (modelMapper.getTypeMap(TrainerDTO.class, Trainer.class) == null) {
+            modelMapper.addMappings(new PropertyMap<TrainerDTO, Trainer>() {
+                @Override
+                protected void configure() {
+                    map(source.getUserId(), destination.getUserMember().getUserId());
+                }
+            });
+        }
 
         Trainer trainer = modelMapper.map(trainerDTO, Trainer.class);
         return trainerRepository.save(trainer).getTrainerId();

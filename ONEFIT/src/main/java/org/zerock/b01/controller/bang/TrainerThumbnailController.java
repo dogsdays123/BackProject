@@ -5,10 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.b01.dto.trainerDTO.Trainer_ThumbnailsDTO;
 
@@ -48,6 +45,25 @@ public class TrainerThumbnailController {
             return ResponseEntity.ok("Thumbnail Upload Complete: " + filePaths);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Thumbnail Upload Failed: " + e.getMessage());
+        }
+    }
+
+    @Operation(description = "Thumbnail Delete by Delete method")
+    @DeleteMapping("/delete/{filename}")
+    public ResponseEntity<String> deleteThumbnail(@PathVariable String filename) {
+        log.info("deleteThumbnail");
+
+        try {
+            Path filePath = Paths.get(thumbnailPath, filename);
+
+            if (Files.exists(filePath)) {
+                Files.delete(filePath);
+                return ResponseEntity.ok("파일이 성공적으로 삭제되었습니다.");
+            } else {
+                return ResponseEntity.status(404).body("파일이 존재하지 않습니다.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Thumbnail Delete Failed: " + e.getMessage());
         }
     }
 }

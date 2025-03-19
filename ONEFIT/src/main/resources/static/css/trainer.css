@@ -93,3 +93,23 @@ display: flex;
 .slider-box {
   position: relative;
 }
+.slider-arrow-left {
+  position: absolute;
+  top: 80px;
+  left: 10px;
+  border: none;
+  background: none;
+  font-size: 30px;
+  font-weight: bold;
+  color: grey;
+}
+.slider-arrow-right {
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 30px;
+  font-weight: bold;
+  color: grey;
+}

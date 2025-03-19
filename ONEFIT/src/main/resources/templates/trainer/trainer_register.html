@@ -50,10 +50,12 @@
                           </div>
                       </div>
                       <div class="col-md-4 img-center slider-box">
-                          <div class="profile-frame mb-3 rounded-circle">
+                          <button type="button" class="slider-arrow-left" id="left-slider">&lt;</button>
+                          <div class="profile-frame mb-3 rounded-circle" id="slider-frame">
                               <img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">
                           </div>
-                          <input type="file" name="thumbnails" id="thumbnails" class="form-control" multiple>
+                          <button type="button" class="slider-arrow-right" id="right-slider">&gt;</button>
+                          <input type="file" accept="image/*" name="thumbnails" id="thumbnails" class="form-control" multiple>
                       </div>
                   </div>
                   <br>
