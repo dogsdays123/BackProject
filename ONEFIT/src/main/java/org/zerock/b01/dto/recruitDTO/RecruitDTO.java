@@ -55,6 +55,8 @@ public class RecruitDTO {
 
     private String reMaxAge;
 
+    private String reJobHistory;
+
     private String reEducation;
 
     private String rePreference;

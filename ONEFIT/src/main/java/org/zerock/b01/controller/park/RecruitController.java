@@ -32,4 +32,9 @@ public class RecruitController {
 
 
     }
+
+    @GetMapping("/register")
+    public void registerGET(){
+
+    }
 }
