@@ -24,18 +24,18 @@ public class QNotice_Board extends EntityPathBase<Notice_Board> {
 
     public final org.zerock.b01.domain.QBaseEntity _super = new org.zerock.b01.domain.QBaseEntity(this);
 
-    public final org.zerock.b01.domain.QAll_Member all_member;
+    public final org.zerock.b01.domain.QAll_Member allMember;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modDate = _super.modDate;
 
-    public final StringPath n_content = createString("n_content");
+    public final StringPath nContent = createString("nContent");
 
-    public final NumberPath<Integer> n_hits = createNumber("n_hits", Integer.class);
+    public final NumberPath<Integer> nHits = createNumber("nHits", Integer.class);
 
-    public final StringPath n_title = createString("n_title");
+    public final NumberPath<Long> noticeId = createNumber("noticeId", Long.class);
 
-    public final NumberPath<Long> notice_id = createNumber("notice_id", Long.class);
+    public final StringPath nTitle = createString("nTitle");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDate = _super.regDate;
@@ -58,7 +58,7 @@ public class QNotice_Board extends EntityPathBase<Notice_Board> {
 
     public QNotice_Board(Class<? extends Notice_Board> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.all_member = inits.isInitialized("all_member") ? new org.zerock.b01.domain.QAll_Member(forProperty("all_member")) : null;
+        this.allMember = inits.isInitialized("allMember") ? new org.zerock.b01.domain.QAll_Member(forProperty("allMember")) : null;
     }
 
 }
