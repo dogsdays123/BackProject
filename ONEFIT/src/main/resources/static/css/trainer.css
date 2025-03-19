@@ -3,8 +3,8 @@
   margin: 0 auto;
 }
 .profile-img {
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 .section-title {
@@ -76,8 +76,40 @@ display: flex;
   display: none;
 }
 .img-center {
-  text-align: center !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #register-delete-btn{
   margin-top: 10px;
+}
+.profile-frame {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+.slider-box {
+  position: relative;
+}
+.slider-arrow-left {
+  position: absolute;
+  top: 80px;
+  left: 10px;
+  border: none;
+  background: none;
+  font-size: 30px;
+  font-weight: bold;
+  color: grey;
+}
+.slider-arrow-right {
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 30px;
+  font-weight: bold;
+  color: grey;
 }
