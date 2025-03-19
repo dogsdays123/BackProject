@@ -21,9 +21,9 @@ public class Board_File {
 
     @ManyToOne
     @JoinColumn(name = "qna_id")
-    private Qna_Board qna_board;
+    private Qna_Board qnaBoard;
 
     @ManyToOne
     @JoinColumn(name = "notice_id")
-    private Notice_Board notice_board;
+    private Notice_Board noticeBoard;
 }

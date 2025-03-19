@@ -13,20 +13,30 @@ import org.zerock.b01.domain.BaseEntity;
 public class Qna_Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long qna_id;
+    @Column(length = 400, nullable = false)
+    private Long qnaId;
 
     @Column(length = 400, nullable = false)
-    private String q_title;
+    private String qTitle;
 
     @Column(length = 4000, nullable = false)
-    private String q_content;
+    private String qContent;
 
-    @Column(nullable = false)
-    private int q_hits;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int qHits;
 
     @ManyToOne
     @JoinColumn(name = "all_id", nullable = false)
-    private All_Member all_member;
+    private All_Member allMember;
+
+    public void changeQna(String qTitle, String qContent) {
+        this.qTitle = qTitle;
+        this.qContent = qContent;
+    }
+
+    public void increaseQnaHits() {
+        this.qHits++;
+    }
 
     //날짜는 BaseEntity
     //날짜는 BaseEntity

@@ -13,22 +13,22 @@ import org.zerock.b01.domain.BaseEntity;
 public class Board_Reply extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reply_id;
+    private Long replyId;
 
     @Column(length = 1000, nullable = false)
     private String replyText;
 
     @ManyToOne
     @JoinColumn(name = "all_id", nullable = false)
-    private All_Member all_member;
+    private All_Member allMember;
 
     @ManyToOne
     @JoinColumn(name = "qna_id")
-    private Qna_Board qna_board;
+    private Qna_Board qnaBoard;
 
     @ManyToOne
     @JoinColumn(name = "notice_id")
-    private Notice_Board notice_board;
+    private Notice_Board noticeBoard;
 
     //날짜는 baseEntity
     //날짜는 baseEntity
