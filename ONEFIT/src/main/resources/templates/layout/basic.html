@@ -4,33 +4,23 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>OneFit - 체육시설업 포털</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/css/basic.css">
-    <link rel="stylesheet" href="/css/my.css">
 </head>
 
 <body>
 <!-- 헤더 start -->
 <header>
     <!-- 메인 메뉴 -->
-    <div class="nav-container d-flex justify-content-between align-items-center">
+    <div class="nav-container">
         <!-- 로고 -->
-        <div class="auth-links flex-row align-items-center gap-3 justify-content-start">
-            <div class="me-auto">
-                <a class="navbar-brand me-auto" href="/main">OneFit</a>
-                <!-- 햄버거 버튼 -->
-                <button class="navbar-toggler round-btn toggle-sidebar btns" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar" th:if="${sidebar == true}">
-                    <span class="navbar-toggler-icon"><i class="fa-solid fa-bars-staggered"></i></span>
-                </button>
-            </div>
-        </div>
+        <a class="navbar-brand me-auto" href="/main">OneFit</a>
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
@@ -68,34 +58,34 @@
                 </button>
             </div>
 
-            <div th:if="${all_memberDTO != null}">
+            <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 start -->
+            <button class="basic-btn btn btn-primary btns btn-default" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                판매하기
+            </button>
+            <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 start -->
+            <div class="dropdown">
+                <!-- 드롭다운 메뉴 -->
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
+                    <li><a class="dropdown-item" href="transa_fa_register">시설</a></li>
+                </ul>
+            </div>
             <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 end -->
             <span class="separator">|</span>
             <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 end -->
 
             <!-- 로그인 후 메뉴 -->
+            <div th:if="${all_memberDTO != null}">
                 <a type="button" class="basic-btn btn btn-primary btns" href="/logout">
                     로그아웃
                 </a>
                 <span class="separator">|</span>
                 <button type="button" class="basic-btn btn btn-primary btns">
-                    <a href="/member/my_default_page" class="text-reset text-decoration-none">
+                    <a href="/my" class="text-reset text-decoration-none">
                         마이페이지
                     </a>
                 </button>
-                <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 start -->
-                <button class="basic-btn btn btn-primary btns btn-default" type="button" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                    판매하기
-                </button>
-                <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 start -->
-                <div class="dropdown">
-                    <!-- 드롭다운 메뉴 -->
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
-                        <li><a class="dropdown-item" href="transa_fa_register">시설</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
 
@@ -123,17 +113,14 @@
             </div>
             <!-- 알림 end -->
         </div>
+    </div>
 </header>
 <!-- 헤더 end -->
 
 <!-- 메인 start -->
 <main>
-    <div layout:fragment="main"></div>
-    <div layout:fragment="login"></div>
-
-<!--  마이페이지 start-->
     <div layout:fragment="myPage"></div>
-<!--  마이페이지 end-->
+    <div layout:fragment="main"></div>
 
     <!-- (거래) start -->
     <!-- 판매 게시판 -->
@@ -148,8 +135,11 @@
     <div layout:fragment="transa_fa_register"></div>
     <!-- (거래) end -->
 
+
 <!--    테스트용-->
     <div layout:fragment="index"></div>
+    <div layout:fragment="login"></div>
+    <div layout:fragment="join"></div>
 </main>
 <!-- 메인 end  -->
 
@@ -215,6 +205,8 @@
 </div>
 <!-- 회원가입 모달창 end -->
 
+<!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <!-- bootstrap js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
@@ -231,6 +223,6 @@
 </body>
 
 <!-- footer -->
-<th:block th:replace="/foot/footer"></th:block>
+<th:block th:replace="foot/footer :: footer"></th:block>
 
 </html>
