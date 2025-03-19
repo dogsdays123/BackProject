@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,42 +23,59 @@ public class RecruitDTO {
 
     private Long recruitId;
 
+    @NotEmpty
+    @Size(min = 5, max = 40)
     private String reTitle;
 
+    @NotEmpty
     private String reCompany;
 
-    private String reJobType;// Job type을 저장할 필드
+    @NotEmpty
+    private String reJobType;
 
+    @NotEmpty
     private String reIndustry;
 
+    @NotEmpty
     private int reNumHiring;
 
+    @NotEmpty
     private String reWorkDays;
 
     private String reDutyDays;
 
+    @NotEmpty
     private String reWorkStartTime;
 
+    @NotEmpty
     private String reWorkEndTime;
 
+    @NotEmpty
     private String reTimeNegotiable;
 
-    private String reSalaryType;  // Salary type을 저장할 필드
+    @NotEmpty
+    private String reSalaryType;
 
+    @NotEmpty
     private String reSalaryValue;
 
     private String reSalaryCheck;
 
     private String reSalaryDetail;
 
+    @NotEmpty
     private String reGender;
 
+    @NotEmpty
     private String reMinAge;
 
+    @NotEmpty
     private String reMaxAge;
 
+    @NotEmpty
     private String reJobHistory;
 
+    @NotEmpty
     private String reEducation;
 
     private String rePreference;
@@ -65,14 +84,19 @@ public class RecruitDTO {
 
     private LocalDateTime modDate;
 
+    @NotEmpty
     private LocalDateTime reDeadline;
 
+    @NotEmpty
     private String reApplyMethod;
 
+    @NotEmpty
     private String reAdminName;
 
+    @NotEmpty
     private String reAdminEmail;
 
+    @NotEmpty
     private String reAdminPhone;
 
     private Business_Member business_member;
