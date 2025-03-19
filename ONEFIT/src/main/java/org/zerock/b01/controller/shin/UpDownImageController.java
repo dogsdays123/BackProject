@@ -1,4 +1,4 @@
-package org.zerock.b01.controller;
+package org.zerock.b01.controller.shin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
@@ -10,8 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.zerock.b01.dto.transactionDTO.upload.UploadFileDTO;
-import org.zerock.b01.dto.transactionDTO.upload.UploadResultDTO;
+import org.zerock.b01.dto.transactionDTO.upload.UploadImageFileDTO;
+import org.zerock.b01.dto.transactionDTO.upload.UploadImageResultDTO;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,18 +22,18 @@ import java.util.*;
 
 @RestController
 @Log4j2
-public class UpDownController {
+public class UpDownImageController {
     // import 시에 springframework로 시작하는 value
     @Value("C:\\upload")
     private String uploadPath;
 
     @Operation(description = "POST 방식으로 파일 업로드")
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public List<UploadResultDTO> upload(UploadFileDTO uploadFileDTO) {
+    @PostMapping(value = "/upload_transa", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public List<UploadImageResultDTO> upload(UploadImageFileDTO uploadFileDTO) {
         log.info(uploadFileDTO);
 
         if (uploadFileDTO.getFiles() != null) {
-            final List<UploadResultDTO> list = new ArrayList<>();
+            final List<UploadImageResultDTO> list = new ArrayList<>();
 
             uploadFileDTO.getFiles().forEach(multipartFile -> {
                 String originalName = multipartFile.getOriginalFilename();
@@ -48,19 +48,19 @@ public class UpDownController {
                     multipartFile.transferTo(savePath); // 실제 파일 저장
 
                     // 이미지 파일의 종류라면
-                    if (Files.probeContentType(savePath).startsWith("image")) {
+//                    if (Files.probeContentType(savePath).startsWith("image")) {
+//
+//                        // ******
+//                        image = true;
+//
+//                        // 섬네일 파일도 함께 생성
+//                        File thumbFile = new File(uploadPath, "s_" + uuid + "_" + originalName);
+//
+//                        // Thumbnailator: Java에서 간단하고 편리하게 이미지 썸네일을 생성할 수 있는 라이브러리
+//                        Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 200, 200);
+//                    }
 
-                        // ******
-                        image = true;
-
-                        // 섬네일 파일도 함께 생성
-                        File thumbFile = new File(uploadPath, "s_" + uuid + "_" + originalName);
-
-                        // Thumbnailator: Java에서 간단하고 편리하게 이미지 썸네일을 생성할 수 있는 라이브러리
-                        Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 200, 200);
-                    }
-
-                    list.add(UploadResultDTO.builder()
+                    list.add(UploadImageResultDTO.builder()
                             .uuid(uuid)
                             .fileName(originalName)
                             .img(image).build()
@@ -84,7 +84,7 @@ public class UpDownController {
     }
 
     @Operation(description = "GET 방식으로 업로드된 파일 조회")
-    @GetMapping("/view/{fileName}")
+    @GetMapping("/view_transa/{fileName}")
     public ResponseEntity<Resource> viewFileGET(@PathVariable String fileName) {
 
         Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
@@ -104,7 +104,7 @@ public class UpDownController {
     }
 
     @Operation(description = "DELETE 방식으로 파일 삭제")
-    @DeleteMapping("/remove/{fileName}")
+    @DeleteMapping("/remove_transa/{fileName}")
     public Map<String, Boolean> removeFile(@PathVariable String fileName) {
         Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
         log.info(resource);

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UploadResultDTO {
+public class UploadImageResultDTO {
     private String uuid;
 
     private String fileName;

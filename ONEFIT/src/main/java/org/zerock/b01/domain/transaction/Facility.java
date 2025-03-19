@@ -40,4 +40,8 @@ public class Facility { // (거래 - 상품) 시설
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product; // (외래키) 상품 ID
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

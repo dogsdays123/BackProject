@@ -140,222 +140,38 @@
                 <hr class="py-3">
 
                 <div class="row justify-content-center">
-                    <!-- 게시글 카드 샘플 -->
-                    <div class="col-md-3 mb-3">
+
+                    <!-- 게시글 카드 start -->
+                    <div class="col-md-3 mb-3" th:each="dto:${responseDTO.dtoList}">
                         <a href="transa_fa_read" class="text-reset text-decoration-none">
                             <div class="card">
-                                <div class="badge badge-status status-sale">판매중</div>
-                                <img src="/image/shin/gym-2.jpg" class="card-img-top" alt="상품 이미지">
+                                <div class="badge badge-status status-sale">[[${dto.pStatus}]]</div>
+                                <th:block th:each="image, stat : ${dto.imageFileList}" th:if="${stat.index == 0}">
+                                    <img class="card-img-top"
+                                         th:src="|/view_transa/${image.imageUuid}_${image.imageFileName}|"
+                                         alt="게시글 대표 이미지">
+                                </th:block>
+<!--                                <img th:src="" class="card-img-top" alt="상품 이미지">-->
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        헬스장 전체 매매합니다
+                                        [[${dto.pTitle}]]
                                     </h5>
-                                    <p class="card-text fw-bold board-price">₩ 50,000,000</p>
+<!--                                    <p class="card-text fw-bold board-price">₩ [[[dto.pPrice]]</p>-->
+                                    <p class="card-text fw-bold board-price">
+                                        ₩&nbsp;<span th:text="${#numbers.formatInteger(dto.pPrice, 1, 'COMMA')}"></span>
+                                    </p>
                                     <p class="card-text">
-                                        <i class="bi bi-geo-alt"></i> 강남구 역삼동
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span th:text="${dto.pAddr}"></span>
                                     </p>
                                 </div>
                                 <div class="card-footer">
-                                    <span>작성자: 홍길동</span> | <span>2025.03.13</span>
+                                    <span>[[${dto.allId}]]</span> | <span>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</span>
                                 </div>
                             </div>
                         </a>
                     </div>
-
-                    <div class="col-md-3 mb-3">
-                        <a href="transa_eq_read" class="text-reset text-decoration-none">
-                            <div class="card">
-                                <div class="badge badge-status status-reserve">예약중</div>
-                                <img src="/image/shin/product-2.jpg" class="card-img-top" alt="상품 이미지">
-                                <div class="card-body">
-                                    <h5 class="card-title">명품 덤벨 팔아요</h5>
-                                    <p class="card-text fw-bold board-price">₩ 1,000,000</p>
-                                    <p class="card-text">
-                                        <i class="bi bi-geo-alt"></i> 서초구 반포동
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="badge badge-status status-soldout">판매완료</div>
-                            <img src="/image/shin/product-1.jpg" class="card-img-top" alt="상품 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">판매 완료된 상품</h5>
-                                <p class="card-text fw-bold board-price">₩ 20,000</p>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> 송파구 잠실동
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="badge badge-status status-soldout">판매완료</div>
-                            <img src="/image/shin/product-1.jpg" class="card-img-top" alt="상품 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">판매 완료된 상품</h5>
-                                <p class="card-text fw-bold board-price">₩ 20,000</p>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> 송파구 잠실동
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row justify-content-center">
-                    <!-- 게시글 카드 샘플 -->
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="badge badge-status status-sale">판매중</div>
-                            <img src="/image/shin/gym-2.jpg" class="card-img-top" alt="상품 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">헬스 자전거 판매합니다</h5>
-                                <p class="card-text fw-bold board-price">₩ 50,000</p>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> 강남구 역삼동
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="badge badge-status status-reserve">예약중</div>
-                            <img src="/image/shin/product-2.jpg" class="card-img-top" alt="상품 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">다른 상품 제목</h5>
-                                <p class="card-text fw-bold board-price">₩ 30,000</p>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> 서초구 반포동
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="badge badge-status status-soldout">판매완료</div>
-                            <img src="/image/shin/product-1.jpg" class="card-img-top" alt="상품 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">판매 완료된 상품</h5>
-                                <p class="card-text fw-bold board-price">₩ 20,000</p>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> 송파구 잠실동
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="badge badge-status status-soldout">판매완료</div>
-                            <img src="/image/shin/product-1.jpg" class="card-img-top" alt="상품 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">판매 완료된 상품</h5>
-                                <p class="card-text fw-bold board-price">₩ 20,000</p>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> 송파구 잠실동
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row justify-content-center">
-                    <!-- 게시글 카드 샘플 -->
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="badge badge-status status-sale">판매중</div>
-                            <img src="/image/shin/gym-2.jpg" class="card-img-top" alt="상품 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">헬스 자전거 판매합니다</h5>
-                                <p class="card-text fw-bold board-price">₩ 50,000</p>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> 강남구 역삼동
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="badge badge-status status-reserve">예약중</div>
-                            <img src="/image/shin/product-2.jpg" class="card-img-top" alt="상품 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">다른 상품 제목</h5>
-                                <p class="card-text fw-bold board-price">₩ 30,000</p>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> 서초구 반포동
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="badge badge-status status-soldout">판매완료</div>
-                            <img src="/image/shin/product-1.jpg" class="card-img-top" alt="상품 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">판매 완료된 상품</h5>
-                                <p class="card-text fw-bold board-price">₩ 20,000</p>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> 송파구 잠실동
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <div class="card">
-                            <div class="badge badge-status status-soldout">판매완료</div>
-                            <img src="/image/shin/product-1.jpg" class="card-img-top" alt="상품 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">판매 완료된 상품</h5>
-                                <p class="card-text fw-bold board-price">₩ 20,000</p>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> 송파구 잠실동
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <span>작성자: 홍길동</span> | <span>2025.03.13</span>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- 게시글 카드 end -->
 
                 </div>
             </div>

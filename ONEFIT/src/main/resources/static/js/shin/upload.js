@@ -6,7 +6,7 @@ async function uploadToServer(formObj) {
     // Axios를 이용하여 서버에 파일 업로드 요청
     const response = await axios({
         method: 'post',
-        url: '/upload', // 업로드할 API 엔드포인트
+        url: '/upload_transa', // 업로드할 API 엔드포인트
         data: formObj, // 업로드할 데이터 (FormData 객체)
         headers: {
             'Content-Type': 'multipart/form-data', // 파일 업로드를 위한 헤더 설정
@@ -18,7 +18,7 @@ async function uploadToServer(formObj) {
 // 서버에서 파일을 삭제하는 비동기 함수
 async function removeFileToServer(uuid, fileName) {
     // 파일 삭제 요청
-    const response = await axios.delete(`/remove/${uuid}_${fileName}`);
+    const response = await axios.delete(`/remove_transa/${uuid}_${fileName}`);
 
     return response.data;
 }

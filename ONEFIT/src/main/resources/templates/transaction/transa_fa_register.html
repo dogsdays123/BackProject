@@ -60,14 +60,17 @@
                         <!-- 3. 카테고리 -->
                         <div class="col-md-6">
                             <label class="form-label">운동시설 카테고리</label>
-                            <select name="cCategory" class="form-select" required>
+                            <select name="categoryId" class="form-select" required>
                                 <option value="" disabled selected>카테고리 선택</option>
-                                <option value="헬스장">헬스장</option>
-                                <option value="수영장">수영장</option>
-                                <option value="배드민턴장">배드민턴장</option>
-                                <option value="테니스장">테니스장</option>
-                                <option value="스쿼시장">스쿼시장</option>
-                                <option value="풋살장">풋살장</option>
+                                <option value="8">헬스장</option>
+                                <option value="9">배드민턴장</option>
+                                <option value="10">스쿼시장</option>
+                                <option value="11">농구장</option>
+                                <option value="12">풋살장</option>
+                                <option value="13">수영장</option>
+                                <option value="14">테니스장</option>
+                                <option value="15">탁구장</option>
+                                <option value="16">볼링장</option>
                             </select>
                         </div>
 
@@ -97,12 +100,15 @@
                         <input type="url" class="form-control" name="pChatUrl"
                                placeholder="오픈채팅 URL를 입력하세요">
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 uploadHidden">
                         <!-- 7. 상품 이미지 -->
                         <label class="form-label">상품 이미지</label>
                         <div class="file-label" onclick="$('#imageUpload').click()">이미지 업로드</div>
                         <input type="file" name="files" class="form-control d-none" id="imageUpload" accept="image/*" multiple>
                         <div id="imagePreview" class="mt-2 d-flex flex-wrap"></div>
+                        <div class="mt-1 text-secondary">
+                            ※ 미리보기 첫 번째 이미지가 썸네일로 표시됩니다.
+                        </div>
                     </div>
                 </div>
 
@@ -149,13 +155,13 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="product-btn btn btn-primary w-100">등록하기</button>
+                <button type="submit" class="product-btn btn btn-primary w-100 submitBtn">등록하기</button>
             </form>
         </div>
     </div>
 
     <!-- JS 기능 추가 -->
-    <script th:src="@{/js/upload.js}"></script>
+    <script th:src="@{/js/shin/upload.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script th:src="@{/js/shin/transa_register.js}"></script>
 </div>

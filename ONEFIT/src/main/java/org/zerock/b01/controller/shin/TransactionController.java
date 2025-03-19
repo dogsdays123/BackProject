@@ -9,8 +9,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.b01.dto.PageRequestDTO;
+import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.transactionDTO.EquipmentDTO;
 import org.zerock.b01.dto.transactionDTO.FacilityDTO;
+import org.zerock.b01.dto.transactionDTO.ProductListAllDTO;
+import org.zerock.b01.service.transactionService.ProductService;
 
 import java.util.List;
 
@@ -20,10 +24,20 @@ import java.util.List;
 @RequestMapping("/transaction")
 public class TransactionController {
 
+    private final ProductService productService;
+
     // 거래 게시판
     @GetMapping("/transa_list")
-    public void list(Model model) {
+    public void list(PageRequestDTO pageRequestDTO, Model model) {
+        log.info("*****************************************************************");
+        log.info("/transaction/transa_list - GET");
+        log.info("*****************************************************************");
 
+        PageResponseDTO<ProductListAllDTO> responseDTO = productService.listWithAllProducts(pageRequestDTO);
+
+        log.info("list: " + responseDTO);
+
+        model.addAttribute("responseDTO", responseDTO);
     }
 
     // 기구 판매 게시글 (읽기) - Get
@@ -61,6 +75,11 @@ public class TransactionController {
         // 데이터 확인
         log.info(equipmentDTO);
 
+        // DB에 저장
+        Long equipmentId = productService.registerEquipment(equipmentDTO);
+
+        log.info("*** (상품 -기구) 거래 게시글 등록 완료 ***  equipmentId:{}", equipmentId);
+
         return "redirect:/transaction/transa_list";
     }
 
@@ -92,13 +111,18 @@ public class TransactionController {
         }
 
         // 기본값 세팅
-        // 판매 상품 구분 : 1(시설)
+        // 판매 상품 구분 : 2(시설)
         facilityDTO.setPRoles(2);
         // 거래 상태 : 판매중
         facilityDTO.setPStatus("판매중");
 
         // 데이터 확인
         log.info(facilityDTO);
+
+        // DB에 저장
+        Long facilityId = productService.registerFacility(facilityDTO);
+
+        log.info("*** (상품 -시설) 거래 게시글 등록 완료 ***  facilityId:{}", facilityId);
 
         return "redirect:/transaction/transa_list";
 
