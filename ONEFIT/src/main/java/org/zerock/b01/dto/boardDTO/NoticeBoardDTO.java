@@ -1,5 +1,6 @@
 package org.zerock.b01.dto.boardDTO;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,10 +17,13 @@ public class NoticeBoardDTO {
 
     private Long noticeId;
 
+    @NotEmpty
     private String nTitle;
 
+    @NotEmpty
     private String nContent;
 
+    @NotEmpty
     private int nHits;
 
     private All_Member allMember;
