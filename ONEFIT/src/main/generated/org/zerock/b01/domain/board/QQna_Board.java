@@ -24,18 +24,18 @@ public class QQna_Board extends EntityPathBase<Qna_Board> {
 
     public final org.zerock.b01.domain.QBaseEntity _super = new org.zerock.b01.domain.QBaseEntity(this);
 
-    public final org.zerock.b01.domain.QAll_Member all_member;
+    public final org.zerock.b01.domain.QAll_Member allMember;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modDate = _super.modDate;
 
-    public final StringPath q_content = createString("q_content");
+    public final StringPath qContent = createString("qContent");
 
-    public final NumberPath<Integer> q_hits = createNumber("q_hits", Integer.class);
+    public final NumberPath<Integer> qHits = createNumber("qHits", Integer.class);
 
-    public final StringPath q_title = createString("q_title");
+    public final NumberPath<Long> qnaId = createNumber("qnaId", Long.class);
 
-    public final NumberPath<Long> qna_id = createNumber("qna_id", Long.class);
+    public final StringPath qTitle = createString("qTitle");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDate = _super.regDate;
@@ -58,7 +58,7 @@ public class QQna_Board extends EntityPathBase<Qna_Board> {
 
     public QQna_Board(Class<? extends Qna_Board> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.all_member = inits.isInitialized("all_member") ? new org.zerock.b01.domain.QAll_Member(forProperty("all_member")) : null;
+        this.allMember = inits.isInitialized("allMember") ? new org.zerock.b01.domain.QAll_Member(forProperty("allMember")) : null;
     }
 
 }

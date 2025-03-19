@@ -11,7 +11,7 @@ import org.zerock.b01.domain.trainer.Trainer;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Trainer_ThumbnailsDTO {
-    private Long tthumbnails_id;
+    private Long tthumbnailsId;
     private String imgname;
     private int ord;
     private Long trainerId;

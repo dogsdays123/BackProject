@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Interest {
+public class Interest { // 관심상품
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "interest_id")

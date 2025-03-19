@@ -2,10 +2,13 @@ package org.zerock.b01.domain.transaction;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.BaseEntity;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -23,7 +26,7 @@ public class Product extends BaseEntity { // (거래) 상품
     private String pAddr; // 1. 거래 장소
 
     @Column(name = "p_roles", nullable = false)
-    private int pRoles; // 2. 상품 구분 (1: 기구 / 2: 시설)
+    private int pRoles; // 2. 상품 구분 - (1: 기구, 2: 시설)
 
     @Column(name = "p_status", nullable = false)
     private String pStatus; // 3. 거래 상태 (판매중 / 예약중 / 판매완료)
@@ -47,6 +50,38 @@ public class Product extends BaseEntity { // (거래) 상품
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category; // (외래키) 카테고리 ID
+
+    @OneToMany(mappedBy = "product",
+            cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,
+            orphanRemoval = true)
+    @Builder.Default
+    @BatchSize(size = 20)
+    private Set<ImageFile> imageSet = new HashSet<>();
+
+    public void addImageFile(String imageUuid, String imageFileName) {
+        ImageFile imageFile = ImageFile.builder()
+                .imageUuid(imageUuid)
+                .imageFileName(imageFileName)
+                .product(this)
+                .ord(imageSet.size())
+                .build();
+
+        this.imageSet.add(imageFile);
+    }
+
+    public void clearImageFiles() {
+        imageSet.forEach(imageFile -> imageFile.changeProduct(null));
+
+        this.imageSet.clear();
+    }
+
+    public void setAllMember(All_Member allMember) {
+        this.allMember = allMember;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     //날짜는 baseEntity
     //날짜는 baseEntity

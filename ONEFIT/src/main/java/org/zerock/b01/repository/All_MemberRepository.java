@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.repository.search.All_MemberSearch;
 
 import java.util.Optional;
@@ -21,6 +22,6 @@ public interface All_MemberRepository extends JpaRepository<All_Member, String> 
 
     @Modifying
     @Transactional
-    @Query("update All_Member m set m.aPsw =:aPsw where m.allId =:aMemberId")
-    void updatePassword(@Param("aPsw") String password, @Param("allId") String allId);
+    @Query("update All_Member m set m.aPsw =:aPsw, m.aPhone =:aPhone, m.memberType =:memberType where m.allId =:allId")
+    void updateMember(@Param("aPsw") String aPsw, @Param("aPhone") Long aPhone, @Param("memberType") String memberType, @Param("allId") String allId);
 }

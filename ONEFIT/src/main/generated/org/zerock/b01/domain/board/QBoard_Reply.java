@@ -24,19 +24,19 @@ public class QBoard_Reply extends EntityPathBase<Board_Reply> {
 
     public final org.zerock.b01.domain.QBaseEntity _super = new org.zerock.b01.domain.QBaseEntity(this);
 
-    public final org.zerock.b01.domain.QAll_Member all_member;
+    public final org.zerock.b01.domain.QAll_Member allMember;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modDate = _super.modDate;
 
-    public final QNotice_Board notice_board;
+    public final QNotice_Board noticeBoard;
 
-    public final QQna_Board qna_board;
+    public final QQna_Board qnaBoard;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDate = _super.regDate;
 
-    public final NumberPath<Long> reply_id = createNumber("reply_id", Long.class);
+    public final NumberPath<Long> replyId = createNumber("replyId", Long.class);
 
     public final StringPath replyText = createString("replyText");
 
@@ -58,9 +58,9 @@ public class QBoard_Reply extends EntityPathBase<Board_Reply> {
 
     public QBoard_Reply(Class<? extends Board_Reply> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.all_member = inits.isInitialized("all_member") ? new org.zerock.b01.domain.QAll_Member(forProperty("all_member")) : null;
-        this.notice_board = inits.isInitialized("notice_board") ? new QNotice_Board(forProperty("notice_board"), inits.get("notice_board")) : null;
-        this.qna_board = inits.isInitialized("qna_board") ? new QQna_Board(forProperty("qna_board"), inits.get("qna_board")) : null;
+        this.allMember = inits.isInitialized("allMember") ? new org.zerock.b01.domain.QAll_Member(forProperty("allMember")) : null;
+        this.noticeBoard = inits.isInitialized("noticeBoard") ? new QNotice_Board(forProperty("noticeBoard"), inits.get("noticeBoard")) : null;
+        this.qnaBoard = inits.isInitialized("qnaBoard") ? new QQna_Board(forProperty("qnaBoard"), inits.get("qnaBoard")) : null;
     }
 
 }

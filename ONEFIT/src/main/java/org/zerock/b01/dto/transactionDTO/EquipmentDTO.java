@@ -11,6 +11,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EquipmentDTO extends ProductDTO{ // (거래 - 상품) 기구
+    private Long equipmentId; // a. (기본키) 기구 ID
+
+    private Long productId; // b. (외래키) 상품 ID
+
     private String eName; // 1. 제품명
 
     private String eBrand; // 2. 제조사

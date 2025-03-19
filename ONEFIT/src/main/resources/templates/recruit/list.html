@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/css/basic.css">
-    <link rel="stylesheet" href="/css/recruit/list.css">
-    <link rel="stylesheet" href="/css/pagination.css">
+    <link rel="stylesheet" href="/css/recruit/recruit_list.css">
+    <link rel="stylesheet" href="/css/recruit/recruit_pagination.css">
 </head>
 
 <body>
@@ -216,11 +216,11 @@
                     <br>
                     <br>
                 </div>
-                <tbody>
+                <tbody th:with="link = ${pageRequestDTO.getLink()}">
                     <tr th:each="dto:${responseDTO.dtoList}" class="recurit-post">
                         <th scope="row" hidden="hidden">[[${dto.recruitId}]]</th>
                         <td valign="middle" style="height: 100px;">[[${dto.reCompany}]]</td>
-                        <td valign="middle"><a href="recruit_read.html">[[${dto.reTitle}]]</a></td>
+                        <td valign="middle"><a th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a></td>
                         <td valign="middle">[[${dto.reIndustry}]]</td>
                         <td valign="middle">근무지</td>
                         <td valign="middle">경력무관</td>
@@ -229,7 +229,45 @@
                     </tr>
                 </tbody>
             </table>
+
+
+            <div class="row">
+                <ul class="pagination justify-content-center">
+                    <li id="pagearrow leftarrow" class="page-item" th:if="${responseDTO.prev}">
+                        <a href="#" class="page-link" th:data-num="${responseDTO.start -1}">&lt;</a>
+                    </li>
+
+                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <li id="pageitem" th:class="${responseDTO.page == i}?'page-item active':'page-item'">
+                            <a href="#" id="is-active" class="page-link is-active" th:data-num="${i}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <li id="pagearrow rightarrow" class="page-item" th:if="${responseDTO.next}">
+                        <a href="#" class="page-link" th:data-num="${responseDTO.end + 1}">&gt;</a>
+                    </li>
+                </ul>
+            </div>
             <!-- 페이지네이션 start -->
+            <div class="row">
+                <ul class="pagination justify-content-center">
+                    <!-- 이전 페이지 버튼 -->
+                    <li class="pagearrow leftarrow" th:class="${responseDTO.prev ? '' : 'is-deactive'}">
+                        <a href="#" th:href="@{'?page=' + (responseDTO.start - 1)}" th:class="${responseDTO.prev ? '' : 'is-deactive'}">&lt;</a>
+                    </li>
+
+                    <!-- 페이지 번호들 -->
+                    <th:block th:each="i : ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <li class="pageitem" th:class="${responseDTO.page == i} ? 'is-active' : ''">
+                            <a href="#" th:href="@{'?page=' + i}" th:text="${i}"></a>
+                        </li>
+                    </th:block>
+
+                    <!-- 다음 페이지 버튼 -->
+                    <li class="pagearrow rightarrow" th:class="${responseDTO.next ? '' : 'is-deactive'}">
+                        <a href="#" th:href="@{'?page=' + (responseDTO.end + 1)}" th:class="${responseDTO.next ? '' : 'is-deactive'}">&gt;</a>
+                    </li>
+                </ul>
+            </div>
             <div class="pagination-container">
                 <ul class="pagination">
                     <li class="page-item" th:if="${responseDTO.prev}">
@@ -253,7 +291,89 @@
             <!-- 페이지네이션 end -->
         </div>
         <div id="registerButton" class="fixed-apply">
-            <a href="recruit_register.html" class="btn btn-outline-primary" id="registerBtn">공고등록 +</a>
+            <a href="#" class="btn btn-outline-primary" id="registerBtn">공고등록 +</a>
+        </div>
+        <!-- 이력서 지원 모달창 start -->
+        <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="applyModalLabel">
+                            <span class="rogo-span">OneFit</span> 지원 확인
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body apply-modal-body">
+                        <div class="mb-3">
+                            <p>해당 공고에 이력서를 지원하시겠습니까?</p>
+                        </div>
+                        <div class="tab-content mt-3">
+                            <form>
+                                <button type="submit" class="btn btn-primary w-100 modal-btn" id="confirmApplyBtn">지원하기</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 이력서 지원 모달창 end -->
+
+        <!-- 공고 등록 버튼 모달창 start -->
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerModalLabel">
+                            <span class="rogo-span">OneFit</span> 공고 등록 확인
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body register-modal-body">
+                        <div class="mb-3">
+                            <p><strong>채용 공고 등록</strong>을 진행하시겠습니까?</p>
+                        </div>
+                        <div class="tab-content mt-3">
+                            <form>
+                                <div class="d-flex flex-row-reverse">
+                                    <div>
+                                        <a href="#" class="btn btn-outline-secondary w-100 modal-btn" data-bs-dismiss="modal" id="confirmRegisterBtn1">아니오</a>
+                                    </div>
+                                    <div style="margin-right: 3px">
+                                        <a href="/recruit/register" class="btn btn-primary w-100 modal-btn" id="confirmRegisterBtn">네</a>
+                                    </div>
+                                </div>
+                                <!-- <button type="submit" class="btn btn-primary w-100 modal-btn" id="confirmRegisterBtn">등록하기</button> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 공고 등록 버튼 모달창 end -->
+
+        <div class="modal fade" id="registerResultModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerResultModalLabel">
+                            <span class="rogo-span">OneFit</span> 공고 등록 확인
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body register-modal-body">
+                        <div class="mb-3">
+                            <p><strong>채용 공고 등록</strong>이 완료되었습니다.</p>
+                        </div>
+                        <div class="tab-content mt-3">
+                            <div class="d-flex flex-row-reverse">
+                                <div>
+                                    <a href="#" class="btn btn-outline-secondary w-100 modal-btn" data-bs-dismiss="modal" id="confirmRegisterBtn1">닫기</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -269,6 +389,8 @@
 <!-- 푸터 layout start -->
 <div th:replace="~{/foot/footer}"></div>
 <!-- 푸터 layout end -->
+
+
 
 <!--  회원가입 모달창 start -->
 <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
@@ -384,35 +506,16 @@
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <!-- bootstrap js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="/js/basic.js"></script>
-<script src="/js/recruit/list.js"></script>
+<script src="/js/recruit/recruit_list.js"></script>
 <script layout:fragment="script" th:inline="javascript">
-    document.querySelector(".pagination").addEventListener("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation();
+    const result = [[${result}]]
 
-        const target = e.target;
-
-        // 클릭된 요소가 <a> 태그인지 확인
-        if (target.tagName !== 'A') {
-            return;
-        }
-
-        // 페이지 번호를 가져옵니다.
-        const num = target.getAttribute("data-num");
-
-        // form 객체를 찾아서 해당 페이지 번호를 hidden input으로 추가
-        const formObj = document.querySelector("form");
-
-        // hidden input 추가
-        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`;
-
-        // 폼 제출
-        formObj.submit();
-    }, false);
+    const modal = new bootstrap.Modal(document.getElementById("registerResultModal"))
+    if(result){
+        modal.show();
+    }
 </script>
 </body>
 
