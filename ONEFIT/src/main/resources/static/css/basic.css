@@ -26,7 +26,7 @@
 body {
     font-family: 'S-CoreDream-3Light';
     /* 기본 폰트 설정 */
-    background-color: #fff;
+    background-color: white;
     /* 전체 배경색 (연한 회색) */
 }
 
@@ -362,3 +362,11 @@ input::placeholder {
     /* font-weight: bold; */
 }
 
+
+.btn-default {
+    --bs-btn-active-bg: #fff !important;
+    --bs-btn-active-color: #007bff;
+    /* border-color: #dc3545;
+    background-color: #dc3545;
+    color: #fff; */
+}

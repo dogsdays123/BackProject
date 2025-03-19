@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneFit - 체육시설업 포털</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/trainer.css">
+</head>
+
+<body>
+    <header>
+        <!-- 상단 네비게이션 -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container d-flex justify-content-between align-items-center">
+                <a class="navbar-brand" href="#">OneFit</a>
+
+                <form class="d-flex">
+                    <div class="search-box">
+                        <input type="text" class="form-control search-bar me-2" placeholder="검색어를 입력하세요">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </form>
+
+                <div class="auth-links">
+                    <!-- 로그인 전 메뉴 -->
+                    <!-- <button type="button" class="basic-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        로그인
+                    </button>
+                    <span class="separator">|</span>
+                    <button type="button" class="basic-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupModal">
+                        회원가입
+                    </button> -->
+
+                    <!-- 로그인 후 메뉴 -->
+                    <button type="button" class="basic-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                        로그아웃
+                    </button>
+                    <span class="separator">|</span>
+                    <button type="button" class="basic-btn btn btn-primary" data-bs-toggle="modal">
+                        마이페이지
+                    </button>
+
+                    <div class="dropdown">
+                        <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                3
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                            <li>
+                                <h6 class="dropdown-header">알림</h6>
+                            </li>
+                            <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
+                            <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
+                            <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+        <!-- 메인 메뉴 -->
+        <div class="nav-container">
+            <ul class="nav">
+                <li class="nav-item"><a class="nav-link" href="recurit.html">채용정보</a></li>
+                <li class="nav-item"><a class="nav-link" href="trainer.html">강사찾기</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link  dropdown-toggle" href="#" id="tradeDropdown" role="button">거래</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">시설</a></li>
+                        <li><a class="dropdown-item" href="#">기구</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link  dropdown-toggle" href="#" id="communityDropdown" role="button">커뮤니티</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Q&A</a></li>
+                        <li><a class="dropdown-item" href="#">공지사항</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <!-- 이력서 뷰 폼 -->
+    <main>
+        <div class="container mt-5 resume-container">
+            <h2 class="text-center mb-4"></h2>
+            <div class="card p-4 mb-4 shadow-sm">
+                <form class="no-outline">
+                    <div class="row">
+                        <div class="col-md-8 top-of-regi">
+                            <h4 class="section-title">이력서 제목</h4>
+                            <div class="mb-2">
+                                <label class="form-label"><strong>이름:</strong></label>
+                                <input type="text" class="form-control" placeholder="이름" readonly>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label"><strong>성별:</strong></label>
+                                <select class="form-control">
+                                    <option>남</option>
+                                    <option>여</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label"><strong>생년월일:</strong></label>
+                                <input type="date" class="form-control" readonly>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label"><strong>이메일:</strong></label>
+                                <input type="email" class="form-control" placeholder="name@sample.email" readonly>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label"><strong>연락처:</strong></label>
+                                <input type="tel" class="form-control" placeholder="010-1234-5678" readonly>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label"><strong>주소:</strong></label>
+                                <input type="text" class="form-control" placeholder="OO도 OO시 OO로 OO" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4 img-center">
+                            <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle profile-img mb-3" alt="프로필 사진">
+<!--                            <input type="file" class="form-control">-->
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <form class="no-outline">
+                    <div>
+                        <h4 class="section-title">자기소개</h4>
+                        <textarea class="form-control" rows="5" placeholder="자기소개를 입력하세요" readonly></textarea>
+                    </div>
+                    <br>
+                    <div>
+                        <h4 class="section-title">학력</h4>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>최종학력</strong></label>
+                            <select class="form-control">
+                                <option value="고졸">고졸</option>
+                                <option value="대졸">대졸</option>
+                                <option value="석사 이상">석사 이상</option>
+                            </select>
+                        </div>
+                        <label class="form-label"><strong>학력 상세</strong></label>
+                        <table class="table table-bordered" id="academy-table">
+                            <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>상태</th>
+                                <th>졸업(예정)일</th>
+                                <th>학교명</th>
+                                <th>전공</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <select class="form-control">
+                                        <option value="고등학교">고등학교</option>
+                                        <option value="전문대학교">전문대학교</option>
+                                        <option value="대학교">대학교</option>
+                                        <option value="대학원">대학원</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control">
+                                        <option value="졸업">졸업</option>
+                                        <option value="재학">재학</option>
+                                        <option value="휴학">휴학</option>
+                                        <option value="중퇴">중퇴</option>
+                                    </select>
+                                </td>
+                                <td><input type="date" class="form-control" readonly></td>
+                                <td><input type="text" class="form-control" placeholder="학교명" readonly></td>
+                                <td><input type="text" class="form-control" value="-" readonly></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div>
+                        <h4 class="section-title">경력</h4>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>경력기간</strong></label>
+                            <select class="form-control">
+                                <option>신입</option>
+                                <option>1년 이상</option>
+                                <option>3년 이상</option>
+                                <option>5년 이상</option>
+                            </select>
+                        </div>
+                        <label class="form-label"><strong>경력 상세</strong></label>
+                        <table class="table table-bordered" id="career-table">
+                            <thead>
+                            <tr>
+                                <th>조직</th>
+                                <th>직함</th>
+                                <th>기간(년)</th>
+                                <th>내용</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="text" class="form-control" placeholder="조직명" readonly></td>
+                                <td><input type="text" class="form-control" placeholder="직함" readonly></td>
+                                <td><input type="number" class="form-control" min="0" placeholder="기간" readonly></td>
+                                <td><input type="text" class="form-control" placeholder="경력 내용" readonly></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div>
+                        <h4 class="section-title">자격증</h4>
+                        <table class="table table-bordered" id="license-table">
+                            <thead>
+                            <tr>
+                                <th>명칭</th>
+                                <th>발급기관</th>
+                                <th>취득일</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="text" class="form-control" placeholder="명칭" readonly></td>
+                                <td><input type="text" class="form-control" placeholder="기관명" readonly></td>
+                                <td><input type="date" class="form-control" readonly></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div>
+                        <h4 class="section-title">수상경력</h4>
+                        <table class="table table-bordered" id="prize-table">
+                            <thead>
+                            <tr>
+                                <th>명칭</th>
+                                <th>수상</th>
+                                <th>취득일</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="text" class="form-control" placeholder="명칭" readonly></td>
+                                <td><input type="text" class="form-control" placeholder="내용" readonly></td>
+                                <td><input type="date" class="form-control" readonly></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div>
+                        <h4 class="section-title">희망근무조건</h4>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>업종</strong></label>
+                            <input type="text" class="form-control" placeholder="ex)피트니스강사" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>근무형태</strong></label>
+                            <select class="form-control">
+                                <option>정규직</option>
+                                <option>계약직</option>
+                                <option>계약직(정규직전환가능)</option>
+                                <option>인턴직</option>
+                                <option>인턴직(정규직전환가능)</option>
+                                <option>아르바이트</option>
+                                <option>파견직</option>
+                                <option>프리랜서</option>
+                                <oprion>교육생</oprion>
+                                <option>파트타임</option>
+                                <option>전임</option>
+                                <option>기간제</option>
+                                <option>일용</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>지역</strong></label>
+                            <select class="form-control">
+                                <option>서울</option>
+                                <option>경기도</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>근무시간</strong></label>
+                            <div class="time-to-time">
+                                <input type="time" class="form-control medium-label" id="work-start" readonly>
+                                <span class="form-label text-center">&Tilde;</span>
+                                <input type="time" class="form-control medium-label" id="work-end" readonly>
+                                <span class="form-label text-center" id="worktime-counter">: 0.0시간</span>
+                                <input type="number" id="worktime-counter-real" hidden>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>근무일수</strong></label>
+                            <div class="time-to-time">
+                                <select class="form-control medium-label">
+                                    <option>주 1일</option>
+                                    <option>주 2일</option>
+                                    <option>주 3일</option>
+                                    <option>주 4일</option>
+                                    <option>주 5일</option>
+                                    <option>주 6일</option>
+                                    <option>주 7일</option>
+                                </select>
+                                <span class="form-label text-center"></span>
+                                <select class="form-control medium-label">
+                                    <option>평일</option>
+                                    <option>주말</option>
+                                    <option>평일, 주말</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 short-span">
+                            <label class="form-label"><strong>희망임금</strong></label>
+                            <div class="time-to-time">
+                                <input type="number" class="form-control medium-label" min="0" placeholder="10030" readonly>
+                                <span class="form-label text-center">&#8361;</span>
+                                <select class="form-control fit-label">
+                                    <option>시급</option>
+                                    <option>일급</option>
+                                    <option>주급</option>
+                                    <option>월급</option>
+                                    <option>연봉</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+                <a href="/trainer/trainer_view" class="btn btn-primary w-100 modal-btn" id="register-submit-btn">이력서 수정</a>
+            </div>
+        </div>
+    </main>
+    <!-- 푸터 -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <!-- 회사 정보 -->
+                <div class="col-md-3 mb-3">
+                    <h5>회사 정보</h5>
+                    <ul class="list-styled">
+                        <li><a href="#" class="text-white">회사 소개</a></li>
+                        <li><a href="#" class="text-white">채용 정보</a></li>
+                        <li><a href="#" class="text-white">서비스 이용약관</a></li>
+                        <li><a href="#" class="text-white">개인정보 처리방침</a></li>
+                    </ul>
+                </div>
+
+                <!-- 고객 지원 -->
+                <div class="col-md-3 mb-3">
+                    <h5>고객 지원</h5>
+                    <ul class="list-styled">
+                        <li><a href="#" class="text-white">FAQ</a></li>
+                        <li><a href="#" class="text-white">고객센터</a></li>
+                        <li><a href="#" class="text-white">1:1 문의</a></li>
+                    </ul>
+                </div>
+
+                <!-- 소셜 미디어 -->
+                <div class="col-md-3 mb-3">
+                    <h5>소셜 미디어</h5>
+                    <ul class="list-unstyled d-flex">
+                        <li><a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#" class="text-white me-3"><i class="fab fa-linkedin"></i></a></li>
+                        <li><a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                </div>
+
+                <!-- 뉴스레터 구독 -->
+                <div class="col-md-3 mb-3">
+                    <h5>뉴스레터 구독</h5>
+                    <form>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="이메일을 입력하세요" required>
+                            <button class="btn btn-primary" type="submit">구독</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <hr class="bg-white">
+
+            <div class="row">
+                <div class="col text-center">
+                    <p>&copy; 2025 OneFit. 모든 권리 보유.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--  회원가입 모달창 -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalLabel"> <span class="rogo-span">OneFit</span> 회원가입</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body signup-modal-body">
+                    <div class="tab-content mt-3" id="signupTabContent">
+                        <form>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">이름</label>
+                                <input type="text" class="form-control" id="name" placeholder="홍길동" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">이메일</label>
+                                <input type="email" class="form-control" id="email" placeholder="ex) email@onefit.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">아이디</label>
+                                <input type="text" class="form-control" id="username"  placeholder="3자 이상, 16자 이하의 영어 또는 숫자로 구성" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">비밀번호</label>
+                                <input type="password" class="form-control" id="password" placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">전화번호</label>
+                                <input type="tel" class="form-control" id="phone" placeholder="ex) 010-1234-5678" required>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100 modal-btn" id="signupButton">가입하기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로그인 모달창 -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel"> <span class="rogo-span">OneFit</span> 로그인</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- 탭 메뉴 -->
+                    <ul class="nav nav-tabs" id="loginTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="social-tab" data-bs-toggle="tab"
+                                data-bs-target="#socialLogin" type="button" role="tab">소셜 로그인</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="general-tab" data-bs-toggle="tab" data-bs-target="#generalLogin"
+                                type="button" role="tab">일반 로그인</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3" id="signupTabContent">
+                        <!-- 소셜 로그인 -->
+                        <div class="tab-pane fade show active" id="socialLogin" role="tabpanel">
+                            <div class="d-grid gap-2">
+                                <button class="btn kakao-btn modal-btn"><i class="fas fa-comment"></i> 카카오톡으로 로그인</button>
+                                <button class="btn btn-light border modal-btn google-btn"><img src="img/google_rogo.png" width="16px" height="16px"> 구글로 로그인</button>
+                            </div>
+                        </div>
+                        <!-- 일반 로그인 -->
+                        <div class="general-sign-up tab-pane fade" id="generalLogin" role="tabpanel">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">아이디</label>
+                                    <input type="text" class="form-control" id="username"  placeholder="아이디를 입력하세요" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">비밀번호</label>
+                                    <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요" required>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100 modal-btn" id="loginButton">로그인</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+     <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/trainer_function.js"></script>
+    <script src="/js/trainer_view.js"></script>
+</body>
+
+</html>

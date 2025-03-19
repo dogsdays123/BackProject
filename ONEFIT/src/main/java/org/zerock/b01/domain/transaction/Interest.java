@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 public class Interest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long interest_id;
+    @Column(name = "interest_id")
+    private Long interestId;
 
     @Column(nullable = false)
     private LocalDateTime regdate;
@@ -25,5 +26,5 @@ public class Interest {
 
     @ManyToOne
     @JoinColumn(name = "all_id", nullable = false)
-    private All_Member all_member;
+    private All_Member allMember;
 }

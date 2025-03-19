@@ -25,13 +25,13 @@ public class All_MemberServiceImpl implements All_MemberService {
     @Override
     public String register(All_MemberDTO all_MemberDTO) {
         All_Member all_Member = modelMapper.map(all_MemberDTO, All_Member.class);
-        String all_id = all_MemberRepository.save(all_Member).getAll_id();
-        return all_id;
+        String allId = all_MemberRepository.save(all_Member).getAllId();
+        return allId;
     }
 
     @Override
-    public All_MemberDTO readOne(String all_id) {
-        Optional<All_Member> result = all_MemberRepository.findById(all_id);
+    public All_MemberDTO readOne(String allId) {
+        Optional<All_Member> result = all_MemberRepository.findById(allId);
         All_Member all_Member = result.orElseThrow();
         All_MemberDTO all_MemberDTO = modelMapper.map(all_Member, All_MemberDTO.class);
         return all_MemberDTO;
@@ -39,28 +39,29 @@ public class All_MemberServiceImpl implements All_MemberService {
 
     @Override
     public void modify(All_MemberDTO all_MemberDTO) {
-        Optional<All_Member> result = all_MemberRepository.findById(all_MemberDTO.getAll_id());
+        Optional<All_Member> result = all_MemberRepository.findById(all_MemberDTO.getAllId());
         All_Member all_Member = result.orElseThrow();
         //all_Member.change(all_MemberDTO.getName(), all_MemberDTO.getEmail());
         all_MemberRepository.save(all_Member);
     }
 
     @Override
-    public void remove(String all_id) {
-        all_MemberRepository.deleteById(all_id);
+    public void remove(String allId) {
+        all_MemberRepository.deleteById(allId);
     }
 
     @Override
     public void join(All_MemberDTO all_memberDTO) throws MidExistException{
-        String all_id = all_memberDTO.getAll_id();
-        boolean exist = all_MemberRepository.existsById(all_id);
+        String allId = all_memberDTO.getAllId();
+        log.info("look at me @@@@@@@@@@   " + allId);
+        boolean exist = all_MemberRepository.existsById(allId);
 
         if(exist){
             throw new MidExistException();
         }
 
         All_Member all_member = modelMapper.map(all_memberDTO, All_Member.class);
-        all_member.changeA_psw(passwordEncoder.encode(all_memberDTO.getA_psw()));
+        all_member.changeAPsw(passwordEncoder.encode(all_memberDTO.getAPsw()));
         all_member.addRole(MemberRole.USER);
 
         log.info("=======================");

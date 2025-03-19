@@ -6,9 +6,9 @@ import org.zerock.b01.dto.PageResponseDTO;
 
 public interface All_MemberService {
     String register(All_MemberDTO all_MemberDTO);
-    All_MemberDTO readOne(String all_id);
+    All_MemberDTO readOne(String allId);
     void modify(All_MemberDTO all_MemberDTO);
-    void remove(String all_id);
+    void remove(String allId);
 
     static class MidExistException extends Exception {
 

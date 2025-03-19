@@ -16,31 +16,31 @@ import java.util.Map;
 @ToString
 public class MemberSecurityDTO extends User implements OAuth2User {
 
-    private String all_id;
-    private String a_psw;
+    private String allId;
+    private String aPsw;
     private String email;
     private String name;
-    private int a_phone;
-    private String member_type;
+    private int aPhone;
+    private String memberType;
     private boolean del;
-    private boolean a_social;
+    private boolean aSocial;
 
     private Map<String, Object> props;
 
     public MemberSecurityDTO(String userid, String password, String email, String name,
-                             int a_phone, String member_type, boolean del, boolean social,
+                             int aPhone, String memberType, boolean del, boolean social,
                              Collection<? extends GrantedAuthority> authorities) {
 
         super(userid, password, authorities);
 
-        this.all_id = userid;
-        this.a_psw = password;
+        this.allId = userid;
+        this.aPsw = password;
         this.email = email;
         this.name = name;
-        this.a_phone = a_phone;
-        this.member_type = member_type;
+        this.aPhone = aPhone;
+        this.memberType = memberType;
         this.del = del;
-        this.a_social = social;
+        this.aSocial = social;
     }
 
     @Override
@@ -51,6 +51,6 @@ public class MemberSecurityDTO extends User implements OAuth2User {
     //그냥 연습용으로 id가져옴
     @Override
     public String getName() {
-        return this.all_id;
+        return this.allId;
     }
 }

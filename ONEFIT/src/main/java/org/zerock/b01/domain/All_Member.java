@@ -16,7 +16,7 @@ import java.util.Set;
 public class All_Member extends BaseEntity {
 
     @Id
-    private String all_id;
+    private String allId;
 
     @Column(length = 30, nullable = false)
     private String name;
@@ -25,15 +25,15 @@ public class All_Member extends BaseEntity {
     private String email;
 
     @Column(length = 100, nullable = false)
-    private String a_psw;
+    private String aPsw;
 
-    private int a_phone;
+    private int aPhone;
 
     @Column(length = 20, nullable = false)
-    private String member_type;
+    private String memberType;
 
     private boolean del;
-    private boolean a_social;
+    private boolean aSocial;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
@@ -42,9 +42,9 @@ public class All_Member extends BaseEntity {
     public void changeName(String name) {this.name = name;}
     public void changeEmail(String email) {this.email = email;}
 
-    public void changeA_psw(String a_psw) {this.a_psw = a_psw;}
-    public void changeMember_type(String member_type) {this.member_type = member_type;}
-    public void changeA_phone(int a_phone) {this.a_phone = a_phone;}
+    public void changeAPsw(String aPsw) {this.aPsw = aPsw;}
+    public void changeMemberType(String memberType) {this.memberType = memberType;}
+    public void changeAPhone(int aPhone) {this.aPhone = aPhone;}
 
     public void addRole(MemberRole memberRole){
         this.roleSet.add(memberRole);
