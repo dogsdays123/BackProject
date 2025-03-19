@@ -27,8 +27,20 @@ public class Recruit_Register extends BaseEntity {
     @Column(length = 130, nullable = false)
     private String reCompany; // 회사명(근무지)
 
-    @Column(length = 50, nullable = false)
-    private String reJobType; // 고용형태(정규직, 프리, 파트)
+    @Column(length = 10)
+    private String reJobTypeFull; // 고용형태(정규직, 프리, 파트)
+
+    @Column(length = 10)
+    private String reJobTypePart; // 고용형태(정규직, 프리, 파트)
+
+    @Column(length = 10)
+    private String reJobTypeFree; // 고용형태(정규직, 프리, 파트)
+
+    @Column(length = 10)
+    private String reJobTypeTrainee; // 고용형태(정규직, 프리, 파트)
+
+    @Column(length = 10)
+    private String reJobTypeAlba; // 고용형태(정규직, 프리, 파트)
 
     @Column(length = 100, nullable = false)
     private String reIndustry; // 업직종(헬스/PT , 필라테스)
@@ -48,7 +60,7 @@ public class Recruit_Register extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String reWorkEndTime; // 근무종료시간
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10, nullable = false, columnDefinition = "varchar(10) default '0'")
     private String reTimeNegotiable; // 시간협의가능여부
 
     @Column(length = 50, nullable = false)
@@ -100,12 +112,11 @@ public class Recruit_Register extends BaseEntity {
     private String reAdminPhone; // 담당자전화번호
 
     @ManyToOne
-    @JoinColumn(name = "business_id", nullable = false)
+    @JoinColumn(name = "business_id")
     private Business_Member business_member;
 
-    public void change(String title, String company, String jobType) {
+    public void change(String title, String company) {
         this.reTitle = title;
         this.reCompany = company;
-        this.reJobType = jobType;
     }
 }

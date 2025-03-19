@@ -128,7 +128,7 @@
     <div layout:fragment="main">
         <div class="recuit-container container mt-5 ">
             <div style="display: flex; justify-content: space-around; align-items: center;">
-                <h2 class="mb-4">채용 공고 등록</h2>
+                <h2 class="mb-4">채용 공고 수정</h2>
                 <div style="width: 550px;">
                 </div>
                 <div>
@@ -144,34 +144,34 @@
                         <br>
                         <div class="mb-2">
                             <label class="form-label" style="width: 205px;"><strong><span style="color: red;">*</span>&nbsp;공고제목</strong></label>
-                            <input type="text" name="reTitle" id="recuit-title" class="form-control" maxlength="39" placeholder="공고 제목을 입력해 주세요 (최대 40자 / 예: MIT 휘트니스 오후 정규직 트레이너 모집)">
+                            <input type="text" name="reTitle" id="recuit-title" th:value="${dto.reTitle}" class="form-control" maxlength="39" placeholder="공고 제목을 입력해 주세요 (최대 40자 / 예: MIT 휘트니스 오후 정규직 트레이너 모집)">
                             <span id="title-counter" class="counter" style="color:  rgb(253, 93, 93); font-size: 15px;">0/40</span>
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 205px;"><strong><span style="color: red;">*</span>&nbsp;근무회사명</strong></label>
-                            <input type="text" name="reCompany" id="recuit-name" class="form-control" maxlength="19" placeholder="근무 회사명을 입력해 주세요 (최대 20자 / 예: MIT 휘트니스 망포점)">
+                            <input type="text" name="reCompany" id="recuit-name" th:value="${dto.reCompany}" class="form-control" maxlength="19" placeholder="근무 회사명을 입력해 주세요 (최대 20자 / 예: MIT 휘트니스 망포점)">
                             <span id="name-counter" class="counter" style="color:  rgb(253, 93, 93); font-size: 15px;">0/20</span>
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 170px;"><strong><span style="color: red;">*</span>&nbsp;고용형태</strong></label>
-                            <input type="radio" value="정규직" name="reJobTypeFull"><label>&nbsp;정규직</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" value="파트" name="reJobTypePart"><label>&nbsp;파트</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" value="프리랜서" name="reJobTypeFree"><label>프리</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" value="연습생/실습생" name="reJobTypeTrainee"><label>&nbsp;연습생/실습생</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" value="아르바이트" name="reJobTypeAlba"><label>&nbsp;아르바이트</label>&nbsp;
+                            <input type="checkbox" value="정규직" name="reJobType1" th:checked="${dto.reJobType == '정규직'}"><label>&nbsp;정규직</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="파트" name="reJobType1" th:checked="${dto.reJobType == '파트'}"><label>&nbsp;파트</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="프리랜서" name="reJobType1" th:checked="${dto.reJobType == '프리랜서'}"><label>프리</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="연습생/실습생" name="reJobType1" th:checked="${dto.reJobType == '연습생/실습생'}"><label>&nbsp;연습생/실습생</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="아르바이트" name="reJobType1" th:checked="${dto.reJobType == '아르바이트'}"><label>&nbsp;아르바이트</label>&nbsp;
                             <input type="text" id="reJobType" name="reJobType" readonly/>
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 158px;"><strong><span style="color: red;">*</span>&nbsp;업직종</strong></label>
                             <select name="reIndustry" class="form-control" style="width: 300px;">
-                                <option value="" selected disabled hidden style="color: #dadada;">업직종을 선택하세요</option>
-                                <option value="헬스/PT">헬스/PT</option>
-                                <option value="수영">수영</option>
+                                <option value="" disabled hidden style="color: #dadada;">업직종을 선택하세요</option>
+                                <option value="헬스/PT" th:selected="${dto.reIndustry == '헬스/PT'}">헬스/PT</option>
+                                <option value="수영" th:selected="${dto.reIndustry == '수영'}">수영</option>
                             </select>
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 158px;"><strong><span style="color: red;">*</span>&nbsp;모집인원</strong></label>
-                            <input type="num" name="reNumHiring" class="form-control" style="width: 50px;" maxlength="2">&nbsp;&nbsp;<span>명</span>&nbsp;&nbsp;
+                            <input type="num" name="reNumHiring" class="form-control" th:value="${dto.reNumHiring}" style="width: 50px;" maxlength="2">&nbsp;&nbsp;<span>명</span>&nbsp;&nbsp;
                             <span style="color: rgb(253, 93, 93);">(숫자만 입력)</span>
                         </div>
                         <br>
@@ -183,14 +183,14 @@
                         <br>
                         <div class="mb-2">
                             <label class="form-label" style="width: 170px;"><strong><span style="color: red;">*</span>&nbsp;근무요일</strong></label>
-                            <input type="radio" name="reWorkDays" value="월~일">&nbsp;<label>월~일</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="월~토">&nbsp;<label>월~토</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="월~금">&nbsp;<label>월~금</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="주말(토)">&nbsp;<label>주말(토)</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="주말(일)">&nbsp;<label>주말(일)</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="주말(토,일)">&nbsp;<label>주말(토,일)</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="요일협의">&nbsp;<label>요일협의</label>&nbsp;
-                            <input type="radio" name="reDutyDays" value="1">&nbsp;<label>주말당직</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~일" th:checked="${dto.reWorkDays == '월~일'}">&nbsp;<label>월~일</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~토" th:checked="${dto.reWorkDays == '월~토'}">&nbsp;<label>월~토</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~금" th:checked="${dto.reWorkDays == '월~금'}">&nbsp;<label>월~금</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="주말(토)" th:checked="${dto.reWorkDays == '주말(토)'}">&nbsp;<label>주말(토)</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="주말(일)" th:checked="${dto.reWorkDays == '주말(일)'}">&nbsp;<label>주말(일)</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="주말(토,일)" th:checked="${dto.reWorkDays == '주말(토,일)'}">&nbsp;<label>주말(토,일)</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="요일협의" th:checked="${dto.reWorkDays == '요일협의'}">&nbsp;<label>요일협의</label>&nbsp;
+                            <input type="checkbox" name="reDutyDays" value="1" th:checked="${dto.reWorkDays == '1'}">&nbsp;<label>주말당직</label>&nbsp;
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;근무시간</strong></label>
@@ -200,7 +200,7 @@
                             <label></label>
                             <select class="form-control" id="re_work_end_time" style="width: 70px;"></select>
                             &nbsp;&nbsp;
-                            <input type="radio" name="reTimeNegotiable" value="1" id="re_time_negotiable">&nbsp;<label>시간협의</label>&nbsp;
+                            <input type="checkbox" name="reTimeNegotiable" value="1" id="re_time_negotiable" th:checked="${dto.reTimeNegotiable == 1}">&nbsp;<label>시간협의</label>&nbsp;
                             <input type="hidden" name="reTimeNegotiable" value="0" id="hidden_reTimeNegotiable">
                             <input type="text" id="hidden_start_time" name="reWorkStartTime" readonly>
                             <input type="text" id="hidden_end_time" name="reWorkEndTime" readonly>
@@ -208,22 +208,22 @@
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;급여</strong></label>
                             <select class="form-control" name="reSalaryType" style="width: 65px;">
-                                <option value="일급">일급</option>
-                                <option value="주급">주급</option>
-                                <option selected value="월급">월급</option>
-                                <option value="연봉">연봉</option>
+                                <option value="일급" th:selected="${dto.reSalaryType == '일급'}">일급</option>
+                                <option value="주급" th:selected="${dto.reSalaryType == '주급'}">주급</option>
+                                <option value="월급" th:selected="${dto.reSalaryType == '월급'}">월급</option>
+                                <option value="연봉" th:selected="${dto.reSalaryType == '연봉'}">연봉</option>
                             </select>
-                            <input type="text" class="form-control" name="reSalaryValue" maxlength="8" style="width: 130px;" placeholder="숫자만 입력">&nbsp;<span>원</span>&nbsp;&nbsp;
-                            <input type="radio" class="salary_checkbox" id="check_agreement" name="reSalaryCheckAgree" value="1"><label for="check_agreement">협의가능</label>&nbsp;
-                            <input type="radio" class="salary_checkbox" id="check_meal" name="reSalaryCheckMeal" value="1"><label for="check_meal">식대지급</label>&nbsp;
-                            <input type="radio" class="salary_checkbox" id="check_on_duty" name="reSalaryCheckDuty" value="1"><label for="check_on_duty">당직비지급</label>&nbsp;
-                            <input type="radio" class="salary_checkbox" id="check_probation" name="reSalaryCheckProb" value="1"><label for="check_probation">수습기간있음</label>&nbsp;
+                            <input type="text" class="form-control" name="reSalaryValue" maxlength="8" style="width: 130px;" placeholder="숫자만 입력" th:value="${dto.reSalaryValue}">&nbsp;<span>원</span>&nbsp;&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_agreement" name="agreement"><label for="check_agreement">협의가능</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_meal" name="meal"><label for="check_meal">식대지급</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_on_duty" name="on_duty"><label for="check_on_duty">당직비지급</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_probation" name="probation"><label for="check_probation">수습기간있음</label>&nbsp;
                             <input type="text" id="salary_result" name="reSalaryCheck" readonly>
-<!--                            <div id="salary_result" name="reSalaryCheck"></div>-->
+                            <!--                            <div id="salary_result" name="reSalaryCheck"></div>-->
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 205px; color: white;"><strong>&nbsp;급여추가정보</strong></label>
-                            <input type="text" id="recuit-salary-detail" name="reSalaryDetail" class="form-control" maxlength="39" placeholder="급여추가정보를 입력해 주세요 (최대 40자 / 예: 기본급 100만원 타임당 150만원">
+                            <input type="text" id="recuit-salary-detail" name="reSalaryDetail" class="form-control" th:value="${dto.reSalaryDetail}" maxlength="39" placeholder="급여추가정보를 입력해 주세요 (최대 40자 / 예: 기본급 100만원 타임당 150만원">
                             <span id="salary-detail-counter" class="counter" style="color:  rgb(253, 93, 93); font-size: 15px;">0/40</span>
                         </div>
                         <br>
@@ -235,14 +235,14 @@
                         <br>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;성별</strong></label>
-                            <input type="radio" name="reGender" value="성별무관">&nbsp;<label>성별무관</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="reGender" value="남자">&nbsp;<label>남자</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="reGender" value="여자">&nbsp;<label>여자</label>&nbsp;
+                            <input type="radio" name="reGender" value="성별무관" th:checked="${dto.reGender == '성별무관'}">&nbsp;<label>성별무관</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="reGender" value="남자" th:checked="${dto.reGender == '남자'}">&nbsp;<label>남자</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="reGender" value="여자" th:checked="${dto.reGender == '여자'}">&nbsp;<label>여자</label>&nbsp;
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;연령</strong></label>
-                            <input type="radio" name="reAgeType" value="1" id="age_no_limit">&nbsp;<label for="age_no_limit">연령무관</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="reAgeType" value="0" id="age_limit">&nbsp;<label for="age_limit">연령제한 있음</label>&nbsp;
+                            <input type="radio" name="age" id="age_no_limit" th:checked="${dto.reMinAge == '연령무관'}">&nbsp;<label for="age_no_limit">연령무관</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="age" id="age_limit">&nbsp;<label for="age_limit">연령제한 있음</label>&nbsp;
 
                             <select class="form-control" id="age_min" style="width: 55px;" disabled>
                                 <option value="" selected disabled hidden style="color: #dadada;"></option>
@@ -382,12 +382,12 @@
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;접수방법</strong></label>
-                            <input type="radio" class="apply_checkbox" name="reApplyMethodOnline" value="1" id="check_online_apply">&nbsp;<label for="check_online_apply">온라인지원</label>&nbsp;
-                            <input type="radio" class="apply_checkbox" name="reApplyMethodEmail" value="1" id="check_email_apply">&nbsp;<label for="check_email_apply">이메일지원</label>&nbsp;
-                            <input type="radio" class="apply_checkbox" name="reApplyMethodMsg" value="1" id="check_msg_apply">&nbsp;<label for="check_msg_apply">문자지원</label>&nbsp;
-                            <input type="radio" class="apply_checkbox" name="reApplyMethodTel" value="1" id="check_tel_apply">&nbsp;<label for="check_tel_apply">전화연락</label>&nbsp;
+                            <input type="checkbox" class="apply_checkbox" id="check_online_apply">&nbsp;<label for="check_online_apply">온라인지원</label>&nbsp;
+                            <input type="checkbox" class="apply_checkbox" id="check_email_apply">&nbsp;<label for="check_email_apply">이메일지원</label>&nbsp;
+                            <input type="checkbox" class="apply_checkbox" id="check_msg_apply">&nbsp;<label for="check_msg_apply">문자지원</label>&nbsp;
+                            <input type="checkbox" class="apply_checkbox" id="check_tel_apply">&nbsp;<label for="check_tel_apply">전화연락</label>&nbsp;
                             <input type="text" id="apply_result" name="reApplyMethod" readonly style="width: 100px;">
-<!--                            <div id="apply_result"></div>-->
+                            <!--                            <div id="apply_result"></div>-->
                         </div>
                         <br>
                     </div>
@@ -442,10 +442,10 @@
                             <input type="text" maxlength="4" class="form-control" id="phone_last" style="width: 70px">&nbsp;&nbsp;&nbsp;&nbsp;
                             <input type="text" class="form-control" id="phone_output" name="reAdminPhone" style="width: 200px" readonly>
                         </div>
-<!--                        <div class="mb-2">-->
-<!--                            <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;bid</strong></label>-->
-<!--                            <input type="number" name="businessId" class="form-control" style="width: 60px;">-->
-<!--                        </div>-->
+                        <!--                        <div class="mb-2">-->
+                        <!--                            <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;bid</strong></label>-->
+                        <!--                            <input type="number" name="businessId" class="form-control" style="width: 60px;">-->
+                        <!--                        </div>-->
 
                     </div>
                     <div class="mt-3">
@@ -486,9 +486,9 @@
                     </div>
                 </div>
                 <!-- 채용 공고 등록 최종 버튼 모달창 end -->
-<!--                <div class="tab-content mt-3">-->
-<!--                    <button type="submit" class="btn btn-primary w-100 modal-btn" >등록하기</button>-->
-<!--                </div>-->
+                <!--                <div class="tab-content mt-3">-->
+                <!--                    <button type="submit" class="btn btn-primary w-100 modal-btn" >등록하기</button>-->
+                <!--                </div>-->
             </form>
             <!-- 돌아가기 버튼 -->
             <div>
@@ -614,6 +614,49 @@
     if (result) {
         alert(result)
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const textInput = document.getElementById('recuit-title');
+        const counter = document.getElementById('title-counter');
+
+        // 페이지 로드 시, 기존 값의 길이를 포함하여 카운터를 초기화
+        const initialLength = textInput.value.length;
+        counter.textContent = `${initialLength}/40`;
+
+        // 입력 중일 때마다 카운터 업데이트
+        textInput.addEventListener('input', () => {
+            const currentLength = textInput.value.length;
+            counter.textContent = `${currentLength}/40`;
+        });
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const textInput = document.getElementById('recuit-salary-detail');
+        const counter = document.getElementById('salary-detail-counter');
+
+        // 페이지 로드 시, 기존 값의 길이를 포함하여 카운터를 초기화
+        const initialLength = textInput.value.length;
+        counter.textContent = `${initialLength}/40`;
+
+        // 입력 중일 때마다 카운터 업데이트
+        textInput.addEventListener('input', () => {
+            const currentLength = textInput.value.length;
+            counter.textContent = `${currentLength}/40`;
+        });
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const textInput = document.getElementById('recuit-name');
+        const counter = document.getElementById('name-counter');
+
+        // 페이지 로드 시, 기존 값의 길이를 포함하여 카운터를 초기화
+        const initialLength = textInput.value.length;
+        counter.textContent = `${initialLength}/40`;
+
+        // 입력 중일 때마다 카운터 업데이트
+        textInput.addEventListener('input', () => {
+            const currentLength = textInput.value.length;
+            counter.textContent = `${currentLength}/40`;
+        });
+    });
 </script>
 </body>
 

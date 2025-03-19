@@ -51,7 +51,7 @@ public class RecruitController {
             log.info("has errors");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
 
-            return "redirect:/recruit/list";
+            return "redirect:/recruit/register";
         }
 
         log.info(recruitDTO);
@@ -61,5 +61,16 @@ public class RecruitController {
         redirectAttributes.addFlashAttribute("result", recruitId);
 
         return "redirect:/recruit/list";
+    }
+
+    @GetMapping({"/read","/modify"})
+    public void read(Long recruitId, PageRequestDTO pageRequestDTO, Model model) {
+        log.info("recruit_read Get...............");
+
+        RecruitDTO recruitDTO = recruitService.readOne(recruitId);
+
+        log.info(recruitDTO);
+
+        model.addAttribute("dto", recruitDTO);
     }
 }
