@@ -1,253 +1,123 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/basic.css">
-    <link rel="stylesheet" href="/css/my.css">
-</head>
-
-<body>
-<header class="my-header">
-    <div class="auth-links flex-row align-items-center gap-3 justify-content-end">
-        <div class="me-auto my-rogo">
-            <a class="navbar-brand" href="index.html">OneFit</a>
-            <!-- 햄버거 버튼 -->
-            <button class="navbar-toggler round-btn toggle-sidebar btns btns-hanbuger" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
-                <span class="navbar-toggler-icon"><i class="fa-solid fa-bars-staggered"></i></span>
-            </button>
+<div layout:fragment="myPage">
+    <!-- 사이드바 -->
+    <nav id="offcanvasSidebar" class="sidebar-nav col-md-3 offcanvas offcanvas-start text-white sidebars show"
+         data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1">
+        <div class="side-header d-flex justify-content-between offcanvas-header">
+            <a class="navbar-brand me-auto" href="/main">OneFit</a>
+            <button type="button" class="btn-close ms-0 toggle-sidebar" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
         </div>
-
-        <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
-        <ul class="nav mx-auto">
-            <li class="nav-item"><a class="nav-link" href="recruit_list.html">채용정보</a></li>
-            <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
-            <li class="nav-item dropdown dropdown-main">
-                <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
-                   data-bs-toggle="dropdown">거래</a>
-                <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" href="transa_list.html">시설</a></li>
-                    <li><a class="dropdown-item" href="transa_list.html">기구</a></li>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" style="pointer-events: none;"><i class="fas fa-user"></i> 내 정보</a>
+                <ul class="nav flex-column ml-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/member/my_default_page">
+                            <i class="fas fa-edit"></i> 회원 정보
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/member/my_board"><i class="fas fa-file-alt"></i> 내가 작성한 게시글</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed d-flex justify-content-between" href="#" data-bs-toggle="collapse"
+                           data-bs-target="#tradeMenu1">
+                            <span><i class="fas fa-exchange-alt"></i> 거래</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div id="tradeMenu1" class="collapse">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fas fa-cogs"></i> 기구</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fas fa-building"></i> 시설</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </li>
-            <li class="nav-item dropdown dropdown-main">
-                <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
-                   data-bs-toggle="dropdown">커뮤니티</a>
-                <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" href="board_qa_list.html">Q&A</a></li>
-                    <li><a class="dropdown-item" href="board_notice_list.html">공지사항</a></li>
+
+            <li class="nav-item">
+                <a class="nav-link" style="pointer-events: none;"><i class="fas fa-user-tie"></i> 개인회원</a>
+                <ul class="nav flex-column ml-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/member/my_user_page"><i class="fas fa-id-card"></i> 내 이력서 보기</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed d-flex justify-content-between" href="#" data-bs-toggle="collapse"
+                           data-bs-target="#tradeMenu2">
+                            <span><i class="fas fa-exchange-alt"></i> 거래</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div id="tradeMenu2" class="collapse">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fas fa-cogs"></i> 기구</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fas fa-building"></i> 시설</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" style="pointer-events: none;"><i class="fas fa-building"></i> 기업회원</a>
+                <ul class="nav flex-column ml-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/member/my_business_page"><i class="fas fa-industry"></i> 기업 정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-clipboard-list"></i> 공고 등록 현황</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed d-flex justify-content-between" href="#" data-bs-toggle="collapse"
+                           data-bs-target="#tradeMenu3">
+                            <span><i class="fas fa-exchange-alt"></i> 거래</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div id="tradeMenu3" class="collapse">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fas fa-cogs"></i> 기구</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fas fa-building"></i> 시설</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </li>
         </ul>
-
-        <!-- 로그인 후 메뉴 -->
-        <button type="button" class="basic-btn btn btn-primary btns logout-btn" data-bs-toggle="modal"
-                data-bs-target="#logoutModal">
-            <a href="index-no-login.html" class="text-reset text-decoration-none">
-                로그아웃
-            </a>
-        </button>
-        <!-- 알림 start -->
-        <div class="dropdown">
-            <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-bell"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        3
-                    </span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
-                <li>
-                    <h6 class="dropdown-header">알림</h6>
-                </li>
-                <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
-                <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
-                <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item text-center cursor-pointer" data-bs-toggle="modal"
-                       data-bs-target="#notificationsModal">모두 보기</a></li>
-            </ul>
+    </nav>
+    <!-- 메인 콘텐츠 -->
+    <div class="container-fluid align-items-center">
+        <div class="my-main-header">
+            <h2 class="my-name" th:text="${all_memberDTO.name} + ' 님'"></h2>
+            <hr>
         </div>
-        <!-- 알림 end -->
-
-        <!-- 알림 모달 시작 -->
-        <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="notificationsModalLabel">모든 알림</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                📢 새로운 공지가 있습니다.
-                                <span class="badge bg-info rounded-pill">2분 전</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                📩 새로운 메시지가 도착했습니다.
-                                <span class="badge bg-info rounded-pill">10분 전</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                ✔️ 회원 가입이 완료되었습니다.
-                                <span class="badge bg-info rounded-pill">1시간 전</span>
-                            </li>
-                            <!-- 추가 알림 항목들 -->
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                🔔 새로운 거래가 있습니다.
-                                <span class="badge bg-info rounded-pill">3시간 전</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                📝 새로운 피드백이 도착했습니다.
-                                <span class="badge bg-info rounded-pill">5시간 전</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="row">
+            <div layout:fragment="my_default_page"></div>
+            <div layout:fragment="my_user_page"></div>
+            <div layout:fragment="my_business_page"></div>
         </div>
-        <!-- 알림 모달 끝 -->
-
     </div>
-
-</header>
-
-
-
-
-<!-- 사이드바 -->
-<nav id="offcanvasSidebar" data-bs-scroll="true" class="sidebar-nav col-md-3 offcanvas offcanvas-start text-white sidebars show"
-     data-bs-backdrop="false" tabindex="-1">
-    <div class="side-header d-flex justify-content-between offcanvas-header">
-        <a class="navbar-brand" href="index.html">OneFit</a>
-        <button type="button" class="btn-close ms-0 toggle-sidebar" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
-    </div>
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fas fa-user"></i> 내 정보</a>
-            <ul class="nav flex-column ml-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-edit"></i> 회원 정보 수정
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-file-alt"></i> 내가 작성한 게시글</a>
-                </li>
-
-                <!-- 거래 메뉴 -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed d-flex justify-content-between" href="#" data-bs-toggle="collapse"
-                       data-bs-target="#tradeMenu">
-                        <span><i class="fas fa-exchange-alt"></i> 거래</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </a>
-                    <div id="tradeMenu" class="collapse">
-                        <ul class="nav flex-column ms-3">
-                            <!-- 내가 작성한 게시글 -->
-                            <li class="nav-item">
-                                <a class="nav-link collapsed d-flex justify-content-between nav-width" href="#"
-                                   data-bs-toggle="collapse" data-bs-target="#myPostsMenu">
-                                    <span><i class="fas fa-file-alt"></i> 작성한 글</span>
-                                    <i class="fas fa-chevron-down"></i>
-                                </a>
-                                <div id="myPostsMenu" class="collapse">
-                                    <ul class="nav flex-column ms-3">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><i class="fas fa-cogs"></i> 기구</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><i class="fas fa-building"></i> 시설</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-
-                            <!-- 관심상품 리스트 -->
-                            <li class="nav-item">
-                                <a class="nav-link collapsed d-flex justify-content-between nav-width" href="#"
-                                   data-bs-toggle="collapse" data-bs-target="#wishlistMenu">
-                                    <span><i class="fas fa-heart"></i> 관심상품</span>
-                                    <i class="fas fa-chevron-down"></i>
-                                </a>
-                                <div id="wishlistMenu" class="collapse">
-                                    <ul class="nav flex-column ms-3">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><i class="fas fa-cogs"></i> 기구</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><i class="fas fa-building"></i> 시설</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-            </ul>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fas fa-user-tie"></i> 개인회원</a>
-            <ul class="nav flex-column ml-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-id-card"></i> 내 이력서 보기</a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fas fa-building"></i> 기업회원</a>
-            <ul class="nav flex-column ml-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-industry"></i> 기업 정보</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-clipboard-list"></i> 공고 등록 현황</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-</nav>
-
-
-
-<div class="container-fluid align-items-center">
-    <div class="my-main-header">
-        <h2 class="my-name">홍길동 님</h2>
-        <hr>
-    </div>
-    <div class="row">
-        <!-- 메인 콘텐츠 -->
-        <div layout:fragment="my_board"></div>
-        <div layout:fragment="my_default_page"></div>
-        <div layout:fragment="my_business_page"></div>
-        <div layout:fragment="my_info_page"></div>
-        <!--메인끝-->
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $('.toggle-sidebar').click(function () {
-            $('.container-fluid').toggleClass('shifted');
-        });
-
-
-    </script>
-    <!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <!-- bootstrap js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
+    <div layout:fragment="my_board"></div>
+    <div layout:fragment="my_info_page"></div>
+</div>
+<!--메인끝-->
+<script>
+    $('.toggle-sidebar').click(function () {
+        $('.container-fluid').toggleClass('shifted');
+    });
+</script>
 </html>

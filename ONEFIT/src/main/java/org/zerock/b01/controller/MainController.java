@@ -52,7 +52,12 @@ public class MainController {
                 log.info("##### 일반 로그인 사용자 정보: " + all_memberDTO);
             }
 
-            model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
+            if(all_memberDTO != null) {
+                model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
+            } else{
+                model.addAttribute("all_memberDTO", null);
+            }
+            model.addAttribute("sidebar", false);
         }
     }
 

@@ -48,12 +48,17 @@ public class All_MemberController {
                 String username = principal.getAllId(); // MemberSecurityDTO에서 사용자 이름 가져오기
 
                 // 일반 로그인 사용자 정보 가져오기
-                all_memberDTO = all_memberService.readOne(username);
-                log.info("##### 일반 로그인 사용자 정보: " + all_memberDTO);
+                    all_memberDTO = all_memberService.readOne(username);
+                    log.info("##### 일반 로그인 사용자 정보: " + all_memberDTO);
             }
-
-            model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
         }
+
+        if(all_memberDTO != null) {
+            model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
+        } else{
+            model.addAttribute("all_memberDTO", null);
+        }
+            model.addAttribute("sidebar", false);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -66,6 +71,12 @@ public class All_MemberController {
     @GetMapping("/my_default_page")
     public void my_default_page() {
         log.info("my_default_page");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/my_user_page")
+    public void my_user_page() {
+        log.info("my_user_page");
     }
 
     @PreAuthorize("isAuthenticated()")

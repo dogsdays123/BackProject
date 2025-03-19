@@ -12,15 +12,25 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/my.css">
 </head>
 
 <body>
 <!-- 헤더 start -->
 <header>
     <!-- 메인 메뉴 -->
-    <div class="nav-container">
+    <div class="nav-container d-flex justify-content-between align-items-center">
         <!-- 로고 -->
-        <a class="navbar-brand me-auto" href="/main">OneFit</a>
+        <div class="auth-links flex-row align-items-center gap-3 justify-content-start">
+            <div class="me-auto">
+                <a class="navbar-brand me-auto" href="/main">OneFit</a>
+                <!-- 햄버거 버튼 -->
+                <button class="navbar-toggler round-btn toggle-sidebar btns" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar" th:if="${sidebar == true}">
+                    <span class="navbar-toggler-icon"><i class="fa-solid fa-bars-staggered"></i></span>
+                </button>
+            </div>
+        </div>
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
@@ -58,34 +68,34 @@
                 </button>
             </div>
 
-            <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 start -->
-            <button class="basic-btn btn btn-primary btns btn-default" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                판매하기
-            </button>
-            <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 start -->
-            <div class="dropdown">
-                <!-- 드롭다운 메뉴 -->
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
-                    <li><a class="dropdown-item" href="transa_fa_register">시설</a></li>
-                </ul>
-            </div>
+            <div th:if="${all_memberDTO != null}">
             <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 end -->
             <span class="separator">|</span>
             <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 end -->
 
             <!-- 로그인 후 메뉴 -->
-            <div th:if="${all_memberDTO != null}">
                 <a type="button" class="basic-btn btn btn-primary btns" href="/logout">
                     로그아웃
                 </a>
                 <span class="separator">|</span>
                 <button type="button" class="basic-btn btn btn-primary btns">
-                    <a href="/my" class="text-reset text-decoration-none">
+                    <a href="/member/my_default_page" class="text-reset text-decoration-none">
                         마이페이지
                     </a>
                 </button>
+                <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 start -->
+                <button class="basic-btn btn btn-primary btns btn-default" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    판매하기
+                </button>
+                <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 start -->
+                <div class="dropdown">
+                    <!-- 드롭다운 메뉴 -->
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
+                        <li><a class="dropdown-item" href="transa_fa_register">시설</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -113,14 +123,16 @@
             </div>
             <!-- 알림 end -->
         </div>
-    </div>
 </header>
 <!-- 헤더 end -->
 
 <!-- 메인 start -->
 <main>
-    <div layout:fragment="myPage"></div>
     <div layout:fragment="main"></div>
+
+<!--  마이페이지 start-->
+    <div layout:fragment="myPage"></div>
+<!--  마이페이지 end-->
 
     <!-- (거래) start -->
     <!-- 판매 게시판 -->
@@ -194,7 +206,7 @@
                             <input type="tel" class="form-control" name="aPhone" id="aPhone" placeholder="ex) 010-1234-5678"
                                    required>
                         </div>
-                        <input type="hidden" name="memberType" value="default">
+                        <input type="hidden" name="memberType" value="일반">
                         <button type="submit" class="btn btn-success w-100 modal-btn"
                                 id="signupButton">가입하기</button>
                     </form>

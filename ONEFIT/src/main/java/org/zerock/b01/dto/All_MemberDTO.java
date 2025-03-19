@@ -28,4 +28,8 @@ public class All_MemberDTO {
     private boolean del;
 
     private boolean aSocial;
+
+    private LocalDateTime regDate;
+
+    private LocalDateTime modDate;
 }
