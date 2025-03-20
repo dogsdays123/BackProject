@@ -44,31 +44,29 @@ public class TrainerServiceImpl implements TrainerService {
             });
         }
 
-        // 매핑
+        // ModelMapper 매핑
         Trainer trainer = modelMapper.map(trainerDTO, Trainer.class);
 
         // 썸네일 파일 처리
-        try {
-            for (MultipartFile file : trainerDTO.getThumbnails()) {
-                if (!file.isEmpty()) {
-                    Path path = Paths.get(thumbnailPath, UUID.randomUUID().toString() + file.getOriginalFilename());
-                    Files.copy(file.getInputStream(), path);
-                    filePaths.add(path.toString());
+        if (trainerDTO.getThumbnails() != null) {
+            try {
+                for (MultipartFile file : trainerDTO.getThumbnails()) {
+                    if (!file.isEmpty()) {
+                        String tuuId = UUID.randomUUID().toString();
+                        log.info(tuuId + "_" + file.getOriginalFilename());
+                        trainer.addImage(tuuId, file.getOriginalFilename());    // imageSet 에 OneToMany
+
+                        Path path = Paths.get(thumbnailPath, tuuId + "_" + file.getOriginalFilename());
+                        Files.copy(file.getInputStream(), path);
+                        filePaths.add(path.toString());
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-//        try {
-//            for (MultipartFile profileImage : trainerDTO.getThumbnails()) {
-//                String filename = profileImage.getOriginalFilename();
-//                profileImage.transferTo(new java.io.File("/uploads/" + filename));
-//                System.out.println("파일 저장: " + filename);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
 
         return trainerRepository.save(trainer).getTrainerId();
     }

@@ -9,18 +9,22 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Trainer_Thumbnails {
+public class Trainer_Thumbnails implements Comparable<Trainer_Thumbnails> {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tthumbnailsId;
-
-    @Column(length = 100, nullable = false)
+    private String thumbnailUuid;
     private String imgname;
-
-    @Column(nullable = false)
     private int ord;
 
     @ManyToOne
     @JoinColumn(name = "trainer_id", nullable = false)
     private Trainer trainer;
+
+    @Override
+    public int compareTo(Trainer_Thumbnails o) {
+        return this.ord - o.ord;
+    }
+
+    public void changeTrainer(Trainer trainer) {
+        this.trainer = trainer;
+    }
 }

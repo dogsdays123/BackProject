@@ -17,6 +17,7 @@ async function uploadThumbnails(formObj) {
 }
 
 // 썸네일 파일 삭제 함수
+// 이거 하나씩 삭제하는 것 같은데??
 // TODO: 지금 안 쓰고 있으니 검토 후 삭제 또는 수정
 async function removeThumbnails(uuid, fileName) {
     const response = await axios.delete(`/trainer_thumbnail/remove/${uuid}_${fileName}`);
@@ -106,7 +107,7 @@ thumbnails.addEventListener("change", function(e) {
         paraRepresentButton.classList.add("btn", "btn-light");
         paraRepresentButton.style.padding = "0 5px";
 
-        // 최상위 요소에 append
+        // 부모 요소에 append
         sliderFrame.appendChild(imagePreview);
         thumbnailsList.appendChild(imagePara);
 
@@ -142,21 +143,27 @@ thumbnails.addEventListener("change", function(e) {
         });
 
         // 대표 이미지로 만들기 버튼 이벤트 등록
-        paraRepresentButton.addEventListener("click", function(e) {
-           e.preventDefault();
-           e.stopPropagation();
+        // 첫 번째 버튼을 제외하고 이벤트를 등록한다.
+        if (i !== 0) {
+            paraRepresentButton.addEventListener("click", function(e) {
+               e.preventDefault();
+               e.stopPropagation();
 
-           const transfer = new DataTransfer();
-           transfer.items.add(thumbnailsTransfer.files[i]);
-           thumbnailsTransfer.items.remove(i);
-
-           for (let i = 0; i < thumbnailsTransfer.items.length; i++) {
+               const transfer = new DataTransfer();
                transfer.items.add(thumbnailsTransfer.files[i]);
-           }
+               thumbnailsTransfer.items.remove(i);
 
-           thumbnails.files = transfer.files;
-           thumbnails.dispatchEvent(new Event('change'));
-        });
+               for (let i = 0; i < thumbnailsTransfer.items.length; i++) {
+                   transfer.items.add(thumbnailsTransfer.files[i]);
+               }
+
+               thumbnails.files = transfer.files;
+               thumbnails.dispatchEvent(new Event('change'));
+            });
+        } else {
+            // 첫 번째 버튼은 클릭이 안 되도록 한다.
+            paraRepresentButton.style.pointerEvents = "none";
+        }
 
         // 파일 읽기
         reader.readAsDataURL(files[i]);
@@ -174,6 +181,7 @@ thumbnails.addEventListener("change", function(e) {
     rightSlider.disabled = false;
 });
 
+// 썸네일 슬라이드 화살표 버튼용 이벤트 등록
 leftSlider.addEventListener("click", function(e) {
    e.preventDefault();
    e.stopPropagation();
