@@ -4,10 +4,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
 import org.zerock.b01.service.trainerService.TrainerService;
 
@@ -45,8 +47,11 @@ public class TrainerController {
     }
 
     @GetMapping("/trainer_view")
-    public void trainer_view() {
+    public void trainer_view(Long trainerId, PageRequestDTO pageRequestDTO, Model model) {
         log.info("trainer_view");
+        TrainerDTO trainerDTO = trainerService.viewOne(trainerId);
+        log.info(trainerDTO);
+        model.addAttribute("dto", trainerDTO);
     }
 
     @GetMapping("/trainer_modify")
