@@ -23,8 +23,10 @@ public class RecruitDTO {
 
     private Long recruitId;
 
+    @NotEmpty
     private String reTitle;
 
+    @NotEmpty
     private String reCompany;
 
     private String reJobTypeFull; // 고용형태(정규직, 프리, 파트)
@@ -37,19 +39,21 @@ public class RecruitDTO {
 
     private String reJobTypeAlba; // 고용형태(정규직, 프리, 파트)
 
+    @NotEmpty
     private String reIndustry;
 
     private int reNumHiring;
 
+    @NotEmpty
     private String reWorkDays;
 
     private String reDutyDays;
 
+    @NotEmpty
     private String reWorkStartTime;
 
-
+    @NotEmpty
     private String reWorkEndTime;
-
 
     private String reTimeNegotiable;
 

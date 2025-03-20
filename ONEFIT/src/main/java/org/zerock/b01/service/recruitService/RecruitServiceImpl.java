@@ -53,11 +53,22 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Override
     public void modify(RecruitDTO recruitDTO) {
+        if (recruitDTO.getRecruitId() == null) {
+            throw new IllegalArgumentException("Recruit ID cannot be null");
+        }
         Optional<Recruit_Register> result = recruitRepository.findById(recruitDTO.getRecruitId());
 
         Recruit_Register recruit_register = result.orElseThrow();
 
-        recruit_register.change(recruitDTO.getReTitle(), recruitDTO.getReCompany());
+        recruit_register.change(recruitDTO.getReTitle(), recruitDTO.getReCompany(), recruitDTO.getReJobTypeFull(), recruitDTO.getReJobTypePart()
+                ,recruitDTO.getReJobTypeFree(), recruitDTO.getReJobTypeTrainee(), recruitDTO.getReJobTypeAlba()
+                ,recruitDTO.getReIndustry(), recruitDTO.getReNumHiring(), recruitDTO.getReWorkDays(), recruitDTO.getReDutyDays()
+        ,recruitDTO.getReWorkStartTime(), recruitDTO.getReWorkEndTime(), recruitDTO.getReTimeNegotiable(), recruitDTO.getReSalaryType()
+        ,recruitDTO.getReSalaryValue(), recruitDTO.getReSalaryCheckAgree(), recruitDTO.getReSalaryCheckMeal(), recruitDTO.getReSalaryCheckDuty()
+        ,recruitDTO.getReSalaryCheckProb(), recruitDTO.getReSalaryDetail(), recruitDTO.getReGender(), recruitDTO.getReAgeType()
+        ,recruitDTO.getReMinAge(), recruitDTO.getReMaxAge(), recruitDTO.getReJobHistory(), recruitDTO.getReEducation(),recruitDTO.getRePreference()
+        ,recruitDTO.getReDeadline(), recruitDTO.getReApplyMethodOnline(), recruitDTO.getReApplyMethodEmail(), recruitDTO.getReApplyMethodMsg(),
+                recruitDTO.getReApplyMethodTel(), recruitDTO.getReAdminName(), recruitDTO.getReAdminEmail(), recruitDTO.getReAdminPhone());
 
         recruitRepository.save(recruit_register);
     }

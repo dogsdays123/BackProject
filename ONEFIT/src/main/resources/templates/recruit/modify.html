@@ -28,7 +28,7 @@
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
-            <li class="nav-item"><a class="nav-link" href="recruit_list.html">채용정보</a></li>
+            <li class="nav-item"><a class="nav-link" href="/recruit/list">채용정보</a></li>
             <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
             <li class="nav-item dropdown dropdown-main">
                 <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
@@ -139,7 +139,8 @@
                 <div class="card p-4 mb-4 shadow-sm">
                     <!-- 스텝 1 -->
                     <div class="step active">
-                        <input type="text" th:value="${dto.recruitId}" readonly>
+                        <input type="hidden" th:value="${dto.recruitId}" name="recruitId" readonly>
+
 <!--                        <span th:text="${dto.reJobTypeAlba}"></span>-->
                         <h4 class="section-title">모집 내용</h4>
                         <hr>
@@ -159,7 +160,7 @@
                             <input type="checkbox"  value="정규직" name="reJobTypeFull" th:checked="${dto.reJobTypeFull == '정규직'}"><label>&nbsp;정규직</label>&nbsp;&nbsp;&nbsp;
                             <input type="checkbox"  value="파트" name="reJobTypePart" th:checked="${dto.reJobTypePart == '파트'}"><label>&nbsp;파트</label>&nbsp;&nbsp;&nbsp;
                             <input type="checkbox"  value="프리랜서" name="reJobTypeFree" th:checked="${dto.reJobTypeFree == '프리랜서'}" ><label>프리</label>&nbsp;&nbsp;&nbsp;
-                            <input type="checkbox"  value="연습생" name="reJobTypeTrainee" th:checked="${dto.reJobTypeFree == '연습생'}"><label>&nbsp;연습생/실습생</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox"  value="연습생" name="reJobTypeTrainee" th:checked="${dto.reJobTypeFree == '연습생'}"><label>&nbsp;연습생</label>&nbsp;&nbsp;&nbsp;
                             <input type="checkbox"  value="아르바이트" name="reJobTypeAlba" th:checked="${dto.reJobTypeAlba == '아르바이트'}"><label>&nbsp;아르바이트</label>&nbsp;
                             <!--                            <input type="text" id="reJobType" name="reJobType" readonly/>-->
                         </div>
@@ -456,6 +457,7 @@
 
                     </div>
                     <div class="mt-3">
+<!--                        <button type="button" class="btn btn-danger" id="removeBtn">삭제하기</button>-->
                         <button class="btn btn-primary d-none modal-btn" id="modifyBtn" style="float: right; margin-right: 23px;">수정하기</button>
                     </div>
                     <!-- 이전 버튼 -->
@@ -505,8 +507,9 @@
                 <!--                </div>-->
             </form>
             <!-- 돌아가기 버튼 -->
-            <div>
+            <div th:with="link = ${pageRequestDTO.getLink()}">
                 <a th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|" class="btn btn-outline-secondary">돌아가기</a>
+                <button type="button" class="btn btn-danger" id="removeBtn">삭제하기</button>
             </div>
         </div>
 
@@ -604,11 +607,11 @@
 <script src="/js/basic.js"></script>
 <script src="/js/recruit/recruit_modify.js"></script>
 <script layout:fragment="script" th:inline="javascript">
-    const error = [[${error}]]
-
-    if (error && error === 'allId') {
-        alert("동일한 아이디를 가진 계정이 존재합니다.")
-    }
+    // const error = [[${error}]]
+    //
+    // if (error && error === 'allId') {
+    //     alert("동일한 아이디를 가진 계정이 존재합니다.")
+    // }
 
     //  @Valid 에러 메시지
     const errors = [[${errors}]]
@@ -675,7 +678,7 @@
         });
     });
 
-
+    // th:with="link = ${pageRequestDTO.getLink()}"
     const link = [[${pageRequestDTO.getLink()}]]
     const formObj = document.querySelector("#f1")
 
@@ -688,7 +691,14 @@
         formObj.submit();
     }, false)
 
-
+    // document.querySelector("#removeBtn").addEventListener("click", function(e){
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //
+    //     formObj.action = "/recruit/remove"
+    //     formObj.method = 'post'
+    //     formObj.submit()
+    // }, false)
 
 </script>
 </body>

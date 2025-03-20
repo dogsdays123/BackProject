@@ -6,15 +6,15 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.service.recruitService.RecruitService;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Controller
 @RequestMapping("/recruit")
@@ -69,15 +69,33 @@ public class RecruitController {
 
         RecruitDTO recruitDTO = recruitService.readOne(recruitId);
 
+        LocalDateTime deadline = recruitDTO.getReDeadline();  // 마감일 (LocalDateTime)
+        LocalDateTime now = LocalDateTime.now();  // 현재 시간
 
-        log.info("reJobTypeFull: " + recruitDTO.getReJobTypeFull()); // 추가
-        log.info("reJobTypeFull: " + recruitDTO.getReJobTypeAlba()); // 추가
+        long daysLeft = ChronoUnit.DAYS.between(now, deadline);  // 남은 날짜 계산
+
+        // D-0이면 "오늘 마감", D-음수면 "마감 종료" 표시
+        String dDayText = daysLeft > 0 ? "D-" + daysLeft : (daysLeft == 0 ? "D-Day" : "마감 종료");
+
+        model.addAttribute("dDayText", dDayText);
+
+        log.info("Recruit ID: " + recruitDTO.getRecruitId());
 
         model.addAttribute("dto", recruitDTO);
     }
 
+    @PostMapping("/remove")
+    public String remove(Long recruitId, RedirectAttributes redirectAttributes) {
+
+        log.info("remove post .. " + recruitId);
+        recruitService.remove(recruitId);
+
+        redirectAttributes.addFlashAttribute("result", "removed");
+        return "redirect:/recruit/list";
+    }
+
     @PostMapping("/modify")
-    public String modify(PageRequestDTO pageRequestDTO, @Valid RecruitDTO recruitDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String modify(PageRequestDTO pageRequestDTO, RecruitDTO recruitDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.info("recruit_modify post...............");
 
         if(bindingResult.hasErrors()) {
@@ -100,5 +118,7 @@ public class RecruitController {
 
         return "redirect:/recruit/read";
     }
+
+
 
 }

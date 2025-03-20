@@ -18,7 +18,6 @@ public class Recruit_Register extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recruit_id")
     private Long recruitId; // 채용공고 ID
 
     @Column(length = 170, nullable = false)
@@ -60,7 +59,7 @@ public class Recruit_Register extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String reWorkEndTime; // 근무종료시간
 
-    @Column(length = 10, nullable = false, columnDefinition = "varchar(10) default '0'")
+    @Column(length = 10)
     private String reTimeNegotiable; // 시간협의가능여부
 
     @Column(length = 50, nullable = false)
@@ -136,8 +135,50 @@ public class Recruit_Register extends BaseEntity {
     @JoinColumn(name = "business_id")
     private Business_Member business_member;
 
-    public void change(String title, String company) {
+    public void change(String title, String company, String reJobTypeFull, String reJobTypePart, String reJobTypeFree, String reJobTypeTrainee
+    , String reJobTypeAlba, String reIndustry, int reNumHiring, String reWorkDays, String reDutyDays, String reWorkStartTime, String reWorkEndTime,
+                       String reTimeNegotiable, String reSalaryType, String reSalaryValue, String reSalaryCheckAgree, String reSalaryCheckMeal
+    ,String reSalaryCheckDuty, String reSalaryCheckProb, String reSalaryDetail, String reGender, String reAgeType, String reMinAge, String reMaxAge
+    ,String reJobHistory, String reEducation, String rePreference, LocalDateTime reDeadline, String reApplyMethodOnline, String reApplyMethodEmail
+    ,String reApplyMethodMsg, String reApplyMethodTel, String reAdminName, String reAdminEmail, String reAdminPhone) {
         this.reTitle = title;
         this.reCompany = company;
+        this.reJobTypeFull = reJobTypeFull;
+        this.reJobTypePart = reJobTypePart;
+        this.reJobTypeFree = reJobTypeFree;
+
+        this.reJobTypeTrainee = reJobTypeTrainee;
+        this.reJobTypeAlba = reJobTypeAlba;
+        this.reIndustry = reIndustry;
+        this.reNumHiring = reNumHiring;
+        this.reWorkDays = reWorkDays;
+        this.reDutyDays = reDutyDays;
+
+        this.reWorkStartTime = reWorkStartTime;
+        this.reWorkEndTime = reWorkEndTime;
+
+        this.reTimeNegotiable = reTimeNegotiable;
+        this.reSalaryType = reSalaryType;
+        this.reSalaryValue = reSalaryValue;
+        this.reSalaryCheckAgree = reSalaryCheckAgree;
+        this.reSalaryCheckMeal = reSalaryCheckMeal;
+        this.reSalaryCheckDuty = reSalaryCheckDuty;
+        this.reSalaryCheckProb = reSalaryCheckProb;
+        this.reSalaryDetail = reSalaryDetail;
+        this.reGender = reGender;
+        this.reAgeType = reAgeType;
+        this.reMinAge = reMinAge;
+        this.reMaxAge = reMaxAge;
+        this.reJobHistory = reJobHistory;
+        this.reEducation = reEducation;
+        this.rePreference = rePreference;
+        this.reDeadline = reDeadline;
+        this.reApplyMethodOnline = reApplyMethodOnline;
+        this.reApplyMethodEmail = reApplyMethodEmail;
+        this.reApplyMethodMsg = reApplyMethodMsg;
+        this.reApplyMethodTel = reApplyMethodTel;
+        this.reAdminName = reAdminName;
+        this.reAdminEmail = reAdminEmail;
+        this.reAdminPhone = reAdminPhone;
     }
 }

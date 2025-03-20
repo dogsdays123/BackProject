@@ -28,7 +28,7 @@
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
-            <li class="nav-item"><a class="nav-link" href="recruit_list.html">채용정보</a></li>
+            <li class="nav-item"><a class="nav-link" href="/recruit/list">채용정보</a></li>
             <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
             <li class="nav-item dropdown dropdown-main">
                 <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
@@ -157,7 +157,7 @@
                             <input type="checkbox" value="정규직" name="reJobTypeFull"><label>&nbsp;정규직</label>&nbsp;&nbsp;&nbsp;
                             <input type="checkbox" value="파트" name="reJobTypePart"><label>&nbsp;파트</label>&nbsp;&nbsp;&nbsp;
                             <input type="checkbox" value="프리랜서" name="reJobTypeFree"><label>프리</label>&nbsp;&nbsp;&nbsp;
-                            <input type="checkbox" value="연습생" name="reJobTypeTrainee"><label>&nbsp;연습생/실습생</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="연습생" name="reJobTypeTrainee"><label>&nbsp;연습생</label>&nbsp;&nbsp;&nbsp;
                             <input type="checkbox" value="아르바이트" name="reJobTypeAlba"><label>&nbsp;아르바이트</label>&nbsp;
 <!--                            <input type="text" id="reJobType" name="reJobType" readonly/>-->
                         </div>
@@ -212,11 +212,11 @@
                                 <option selected value="월급">월급</option>
                                 <option value="연봉">연봉</option>
                             </select>
-                            <input type="text" class="form-control" name="reSalaryValue" maxlength="4" style="width: 80px;" placeholder="숫자만 입력">&nbsp;<span>만원</span>&nbsp;&nbsp;
-                            <input type="checkbox" class="salary_checkbox" id="check_agreement" name="reSalaryCheckAgree" value="급여협의가능"><label for="check_agreement">>&nbsp;협의가능</label>&nbsp;
-                            <input type="checkbox" class="salary_checkbox" id="check_meal" name="reSalaryCheckMeal" value="식대지급"><label for="check_meal">>&nbsp;식대지급</label>&nbsp;
-                            <input type="checkbox" class="salary_checkbox" id="check_on_duty" name="reSalaryCheckDuty" value="당직비지급"><label for="check_on_duty">>&nbsp;당직비지급</label>&nbsp;
-                            <input type="checkbox" class="salary_checkbox" id="check_probation" name="reSalaryCheckProb" value="수습기간있음"><label for="check_probation">>&nbsp;수습기간있음</label>&nbsp;
+                            <input type="text" class="form-control" name="reSalaryValue" maxlength="4" style="width: 80px;" placeholder="숫자입력">&nbsp;<span>만원</span>&nbsp;&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_agreement" name="reSalaryCheckAgree" value="급여협의가능"><label for="check_agreement">&nbsp;협의가능</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_meal" name="reSalaryCheckMeal" value="식대지급"><label for="check_meal">&nbsp;식대지급</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_on_duty" name="reSalaryCheckDuty" value="당직비지급"><label for="check_on_duty">&nbsp;당직비지급</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_probation" name="reSalaryCheckProb" value="수습기간있음"><label for="check_probation">&nbsp;수습기간있음</label>&nbsp;
 <!--                            <input type="text" id="salary_result" name="reSalaryCheck" readonly>-->
 <!--                            <div id="salary_result" name="reSalaryCheck"></div>-->
                         </div>
@@ -478,7 +478,14 @@
 
                                 </div>
                                 <div class="tab-content mt-3">
-                                    <button type="submit" class="btn btn-primary w-100 modal-btn" id="register-submit-ok-btn">등록하기</button>
+                                    <div class="d-flex flex-row-reverse">
+                                        <div>
+                                            <a href="#" class="btn btn-outline-secondary w-100 modal-btn" data-bs-dismiss="modal" id="confirmModifyBtn4">아니오</a>
+                                        </div>
+                                        <div style="margin-right: 3px">
+                                            <button type="submit" class="btn btn-primary w-100 modal-btn" id="register-submit-ok-btn">네</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -590,11 +597,11 @@
 <script src="/js/recruit/recruit_register.js"></script>
 
 <script layout:fragment="script" th:inline="javascript">
-    const error = [[${error}]]
-
-    if (error && error === 'allId') {
-        alert("동일한 아이디를 가진 계정이 존재합니다.")
-    }
+    // const error = [[${error}]]
+    //
+    // if (error && error === 'allId') {
+    //     alert("동일한 아이디를 가진 계정이 존재합니다.")
+    // }
 
     //  @Valid 에러 메시지
     const errors = [[${errors}]]

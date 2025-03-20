@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/css/basic.css">
     <link rel="stylesheet" href="/css/recruit/recruit_read.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -25,7 +26,7 @@
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
-            <li class="nav-item"><a class="nav-link" href="recruit_list.html">채용정보</a></li>
+            <li class="nav-item"><a class="nav-link" href="/recruit/list">채용정보</a></li>
             <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
             <li class="nav-item dropdown dropdown-main">
                 <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
@@ -123,7 +124,10 @@
     <div layout:fragment="myPage"></div>
     <div layout:fragment="main">
         <div class="recruit-container container mt-5">
-            <input type="hidden" class="form-control" th:value="${dto.recruitId}" name="recruitId" readonly>
+            <form th:action="@{/recruit/modify}" method="post" id="deleteForm">
+                <input type="hidden" th:value="${dto.recruitId}" name="recruitId" readonly>
+
+
             <div style="float: right;">
                 작성일 : <span th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></span>
             </div>
@@ -137,6 +141,7 @@
                             <h2 class="card-title fw-bold" th:text="${dto.reTitle}"></h2>
 <!--                            <input type="text" th:value="${dto.reTitle}" readonly>-->
                             <p class="text-muted" th:text="${dto.reCompany}">근무회사명</p>
+                            <span class="badge bg-warning" th:text="${dDayText}"></span>
                             <span class="badge bg-danger" th:if="${dto.reSalaryCheckAgree == '급여협의가능'}" th:text="급여협의가능"></span>
                             <span class="badge bg-secondary" th:if="${dto.reSalaryCheckMeal == '식대지급'}" th:text="식대지급"></span>
                             <span class="badge bg-primary" th:if="${dto.reSalaryCheckDuty == '당직비지급'}" th:text="당직비지급"></span>
@@ -165,14 +170,14 @@
                                 <li class="label-list">
                                     <span class="label">근무요일</span>
                                     <span th:text="${dto.reWorkDays}"></span>
-                                    <span style="font-size: 13px;" th:if="${dto.reDutyDays == '주말당직'}" th:text="(주말당직있음)"></span>
+                                    <span style="font-size: 13px;" th:if="${dto.reDutyDays == '주말당직'}" th:text="'(주말당직있음)'"></span>
                                 </li>
                                 <li class="label-list">
                                     <span class="label">근무시간</span>
                                     <span th:text="${dto.reWorkStartTime}"></span>
                                     ~
                                     <span th:text="${dto.reWorkEndTime}"></span>
-                                    <span style="font-size: 13px;" th:if="${dto.reTimeNegotiable == '시간협의'}" th:text="(시간협의가능)"></span>
+                                    <span style="font-size: 13px;" th:if="${dto.reTimeNegotiable == '시간협의'}" th:text="'(시간협의가능)'"></span>
                                 </li>
                             </ul>
                             <ul class="label-list-group w-50">
@@ -182,11 +187,11 @@
                                 </li>
                                 <li class="label-list">
                                     <span class="label">고용형태</span>
-                                    <span th:if="${dto.reJobTypeAlba == '아르바이트'}" th:text="아르바이트"></span>
-                                    <span th:if="${dto.reJobTypeFree == '프리랜서'}" th:text="프리랜서"></span>
-                                    <span th:if="${dto.reJobTypeFull == '정규직'}" th:text="정규직"></span>
-                                    <span th:if="${dto.reJobTypePart == '파트'}" th:text="파트"></span>
-                                    <span th:if="${dto.reJobTypeTrainee == '연습생'}" th:text="연습생/실습생"></span>
+                                    <span th:if="${dto.reJobTypeAlba == '아르바이트'}" th:text="아르바이트" style="margin-right: 5px"></span>
+                                    <span th:if="${dto.reJobTypeFree == '프리랜서'}" th:text="프리랜서" style="margin-right: 5px"></span>
+                                    <span th:if="${dto.reJobTypeFull == '정규직'}" th:text="정규직" style="margin-right: 5px"></span>
+                                    <span th:if="${dto.reJobTypePart == '파트'}" th:text="파트" style="margin-right: 5px"></span>
+                                    <span th:if="${dto.reJobTypeTrainee == '연습생'}" th:text="연습생" style="margin-right: 5px"></span>
                                 </li>
                             </ul>
                         </div>
@@ -202,7 +207,7 @@
                         <ul class="label-list-group">
                             <li class="label-list">
                                 <span class="label">학력</span>
-                                <span th:text="${dto.reEducation}"></span>↑
+                                <span th:text="${dto.reEducation}"></span>
                             </li>
                             <li class="label-list">
                                 <span class="label">경력</span>
@@ -214,8 +219,8 @@
                             </li>
                             <li class="label-list">
                                 <span class="label">모집마감일</span>
+                                <span class="badge bg-primary" th:text="${dDayText}"></span>
                                 <span th:text="${#temporals.format(dto.reDeadline, 'yyyy-MM-dd HH:mm')}"></span>
-
                             </li>
                         </ul>
                     </div>
@@ -242,12 +247,20 @@
             <div>
                 <h4 class="fw-bold">지원방법</h4>
                 <div class="card" style="background-color: #f3f3f3;;">
-                    <div class="card-body" style="width: 600px; padding: 40px;">
-                        <li class="label-list">
-                            <span th:if="${dto.reApplyMethodEmail == '이메일지원'}" th:text="이메일지원"></span>
-                            <span th:if="${dto.reApplyMethodMsg == '문자지원'}" th:text="문자지원"></span>
-                            <span th:if="${dto.reApplyMethodOnline == '온라인지원'}" th:text="온라인지원"></span>
-                            <span th:if="${dto.reApplyMethodTel == '전화연락'}" th:text="전화연락"></span>
+                    <div class="card-body" style="width: 800px; padding: 40px;">
+                        <li class="label-list" style="list-style: none; width: 800px;">
+                            <span th:if="${dto.reApplyMethodEmail == '이메일지원'}" style="margin-right: 5px">
+                                <i class="bi bi-envelope-at-fill fs-3" style="margin-right: 5px"></i> 이메일지원
+                            </span>
+                            <span th:if="${dto.reApplyMethodMsg == '문자지원'}"  style="margin-right: 5px">
+                                <i class="bi bi-chat-dots-fill fs-3" style="margin-right: 5px"></i> 문자지원
+                            </span>
+                            <span th:if="${dto.reApplyMethodOnline == '온라인지원'}" style="margin-right: 5px">
+                                <i class="bi bi-globe-americas fs-3" style="margin-right: 5px"></i> 온라인지원
+                            </span>
+                            <span th:if="${dto.reApplyMethodTel == '전화연락'}" style="margin-right: 5px">
+                                <i class="bi bi-telephone-inbound-fill fs-3" style="margin-right: 5px"></i> 전화연락
+                            </span>
                         </li>
 
                     </div>
@@ -303,23 +316,26 @@
             <br>
             <!-- 지원하기 버튼 -->
             <div style="text-decoration: none" id="applyButton" class="fixed-apply" th:with="link=${pageRequestDTO.getLink()}">
-                <a href="#" class="btn btn-outline-primary" id="modifyBtn">🔧</a>
+                <a href="#" class="btn btn-outline-primary" id="modifyBtn"><i class="bi bi-highlighter"></i></a>
+                <a href="#" class="btn btn-outline-danger" id="removeBtn"><i class="bi bi-trash"></i>️</a>
                 <a th:href="|@{/recruit/list}?${link}|" class="btn btn-outline-secondary">돌아가기</a>
                 <button class="btn btn-primary" id="applyBtn">지원하기</button>
+
             </div>
 
+            </form>
 
-        </div>
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+
+        <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">
+                        <h5 class="modal-title" id="modifyModalLabel">
                             <span class="rogo-span">OneFit</span> 채용 공고 수정 확인
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body delete-modal-body">
+                    <div class="modal-body modify-modal-body">
                         <div class="mb-3">
                             <p>채용 공고를 수정하시겠습니까?</p>
 
@@ -329,7 +345,7 @@
                                 <div>
                                     <a href="#" class="btn btn-outline-secondary w-100 modal-btn" data-bs-dismiss="modal" id="confirmRegisterBtn1">아니오</a>
                                 </div>
-                                <div style="margin-right: 3px">
+                                <div style="margin-right: 3px" th:with="link = ${pageRequestDTO.getLink()}">
                                     <a th:href="|@{/recruit/modify(recruitId=${dto.recruitId})}&${link}|" class="btn btn-primary w-100 modal-btn" id="confirmRegisterBtn">네</a>
                                 </div>
                             </div>
@@ -339,7 +355,35 @@
             </div>
         </div>
     </div>
+        <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="removeModalLabel">
+                            <span class="rogo-span">OneFit</span> 채용 공고 삭제 확인
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body remove-modal-body">
+                        <div class="mb-3">
+                            <p>해당 공고를 정말 삭제하시겠습니까?</p>
 
+                        </div>
+                        <div class="tab-content mt-3">
+                            <div class="d-flex flex-row-reverse">
+                                <div>
+                                    <a href="#" class="btn btn-outline-danger w-100 modal-btn" data-bs-dismiss="modal" id="confirmRegisterBtn2">아니오</a>
+                                </div>
+                                <div style="margin-right: 3px" th:with="link = ${pageRequestDTO.getLink()}">
+                                    <a th:href="|@{/recruit/modify(recruitId=${dto.recruitId})}&${link}|" class="btn btn-danger w-100 modal-btn" id="confirmRemoveBtn">네</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- (거래) start -->
     <!-- 판매 게시판 -->
     <div layout:fragment="transa_list"></div>
@@ -429,13 +473,58 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="/js/basic.js"></script>
-<script src="/js/recruit/recruit_modify.js"></script>
+<!--<script src="/js/recruit/recruit_modify.js"></script>-->
 <script layout:fragment="script" th:inline="javascript">
     const error = [[${error}]]
 
     if(error && error === 'allId'){
         alert("동일한 아이디를 가진 계정이 존재합니다.")
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const submitBtn = document.getElementById("modifyBtn");
+        const modalTitle = document.getElementById("modifyModalLabel");
+        const modalBody = document.querySelector(".modify-modal-body p");
+        const deleteModal = new bootstrap.Modal(document.getElementById("modifyModal"));
+
+        submitBtn.addEventListener("click", function (event) {
+            event.preventDefault(); // 기본 폼 제출 방지
+
+            // 모달 제목 및 내용 변경
+            modalTitle.innerHTML = '<span class="rogo-span">OneFit</span> 등록 확인';
+
+            // 삭제 확인 입력 필드 및 버튼 숨기기
+
+
+            // 모달 열기
+            deleteModal.show();
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const submitBtn = document.getElementById("removeBtn");
+        const modalTitle = document.getElementById("removeModalLabel");
+        const modalBody = document.querySelector(".remove-modal-body p");
+        const deleteModal = new bootstrap.Modal(document.getElementById("removeModal"));
+
+        submitBtn.addEventListener("click", function (event) {
+            event.preventDefault(); // 기본 폼 제출 방지
+
+            deleteModal.show();
+        });
+    });
+
+    const formObj = document.querySelector("#deleteForm")
+
+    document.getElementById('confirmRemoveBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        formObj.action = `/recruit/remove`;
+        formObj.method = 'post';
+        formObj.submit()
+    },false);
+
 </script>
 </body>
 
