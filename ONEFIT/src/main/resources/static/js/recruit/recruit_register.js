@@ -120,6 +120,10 @@ textInput2.addEventListener('input', () => {
     counter2.textContent = `${currentLength2}/40`;
 });
 
+// reJopType 라디오버튼 처리
+// 라디오 버튼을 클릭할 때 체크를 해제하도록 하는 이벤트 리스너 추가
+
+
 // 근무 시간
 function generateTimeOptions(selectElement) {
     const startHour = 0;  // 00:00부터 시작
