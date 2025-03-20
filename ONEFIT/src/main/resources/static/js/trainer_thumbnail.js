@@ -1,5 +1,5 @@
 // 썸네일 파일 업로드 함수
-// TODO: 지금 안 쓰고 있으니 검토 후 삭제 또는 수정
+// TODO: 지금 안 쓰고 있으니 용도 검토하기 바람
 async function uploadThumbnails(formObj) {
     console.log("upload thumbnails");
     console.log(formObj);
@@ -18,7 +18,7 @@ async function uploadThumbnails(formObj) {
 
 // 썸네일 파일 삭제 함수
 // 이거 하나씩 삭제하는 것 같은데??
-// TODO: 지금 안 쓰고 있으니 검토 후 삭제 또는 수정
+// TODO: 지금 안 쓰고 있으니 용도 검토하기 바람
 async function removeThumbnails(uuid, fileName) {
     const response = await axios.delete(`/trainer_thumbnail/remove/${uuid}_${fileName}`);
     return response.data;
@@ -48,7 +48,7 @@ function checkSlide() {
         currentSlide = sliderFrame.childElementCount - 1;
     }
 
-    console.log(currentSlide);
+    console.log("slide: " + currentSlide);
 
     leftSlider.disabled = currentSlide === 0;
     rightSlider.disabled = sliderFrame.childElementCount - 1 <= currentSlide;
@@ -56,7 +56,24 @@ function checkSlide() {
     sliderFrame.scroll(currentSlide * sliderFrame.offsetWidth, 0);
 }
 
-// 미리보기 스크롤 이벤트
+// 썸네일 슬라이드 화살표 버튼 이벤트
+leftSlider.addEventListener("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    currentSlide = currentSlide - 1;
+    checkSlide();
+});
+
+rightSlider.addEventListener("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    currentSlide = currentSlide + 1;
+    checkSlide();
+});
+
+// 파일 업로드 이벤트
 // 업로드 준비중인 파일 리스트를 삭제했을 때 강제 이벤트 발생으로 리셋하는 역할도 하고있다.
 thumbnails.addEventListener("change", function(e) {
     e.preventDefault();
@@ -179,21 +196,4 @@ thumbnails.addEventListener("change", function(e) {
     sliderFrame.scroll(0, 0);
     leftSlider.disabled = false;
     rightSlider.disabled = false;
-});
-
-// 썸네일 슬라이드 화살표 버튼용 이벤트 등록
-leftSlider.addEventListener("click", function(e) {
-   e.preventDefault();
-   e.stopPropagation();
-
-   currentSlide = currentSlide - 1;
-   checkSlide();
-});
-
-rightSlider.addEventListener("click", function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    currentSlide = currentSlide + 1;
-    checkSlide();
 });
