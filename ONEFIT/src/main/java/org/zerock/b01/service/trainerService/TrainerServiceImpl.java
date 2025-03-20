@@ -34,6 +34,7 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public Long registerTrainer(TrainerDTO trainerDTO) {
+        // UserMember 수동 매핑 없을시 추가
         if (modelMapper.getTypeMap(TrainerDTO.class, Trainer.class) == null) {
             modelMapper.addMappings(new PropertyMap<TrainerDTO, Trainer>() {
                 @Override
@@ -43,8 +44,10 @@ public class TrainerServiceImpl implements TrainerService {
             });
         }
 
+        // 매핑
         Trainer trainer = modelMapper.map(trainerDTO, Trainer.class);
 
+        // 썸네일 파일 처리
         try {
             for (MultipartFile file : trainerDTO.getThumbnails()) {
                 if (!file.isEmpty()) {

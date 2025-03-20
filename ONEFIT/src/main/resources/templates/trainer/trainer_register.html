@@ -55,7 +55,9 @@
                               <img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">
                           </div>
                           <button type="button" class="slider-arrow-right" id="right-slider">&gt;</button>
-                          <input type="file" accept="image/*" name="thumbnails" id="thumbnails" class="form-control" multiple>
+                          <label for="thumbnails" class="btn btn-outline-secondary">이미지 선택(PNG, JPG)</label>
+                          <input type="file" accept=".jpg, .jpeg, .png" name="thumbnails" id="thumbnails" class="form-control" multiple>
+                          <div class="card mt-3 listbox" id="thumbnails-list" hidden></div>
                       </div>
                   </div>
                   <br>
