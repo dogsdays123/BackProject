@@ -137,10 +137,10 @@
                             <h2 class="card-title fw-bold" th:text="${dto.reTitle}"></h2>
 <!--                            <input type="text" th:value="${dto.reTitle}" readonly>-->
                             <p class="text-muted" th:text="${dto.reCompany}">근무회사명</p>
-                            <span class="badge bg-danger">부트캠프</span>
-                            <span class="badge bg-secondary">고용보험</span>
-                            <span class="badge bg-primary">기업인증</span>
-                            <span class="badge bg-danger" style="font-size: 13px;" th:text="${dto.reSalaryCheck}"></span>
+                            <span class="badge bg-danger" th:if="${dto.reSalaryCheckAgree == '급여협의가능'}" th:text="급여협의가능"></span>
+                            <span class="badge bg-secondary" th:if="${dto.reSalaryCheckMeal == '식대지급'}" th:text="식대지급"></span>
+                            <span class="badge bg-primary" th:if="${dto.reSalaryCheckDuty == '당직비지급'}" th:text="당직비지급"></span>
+                            <span class="badge bg-danger" style="font-size: 13px;"></span>
                         </div>
                         <img src="https://dummyimage.com/150x150/000/fff" alt="회사 로고" class="img-fluid" width="150" height="150">
                     </div>
@@ -165,14 +165,14 @@
                                 <li class="label-list">
                                     <span class="label">근무요일</span>
                                     <span th:text="${dto.reWorkDays}"></span>
-                                    <span style="font-size: 13px;" th:if="${dto.reDutyDays == '1'}" th:text="'(주말당직있음)'"></span>
+                                    <span style="font-size: 13px;" th:if="${dto.reDutyDays == '주말당직'}" th:text="(주말당직있음)"></span>
                                 </li>
                                 <li class="label-list">
                                     <span class="label">근무시간</span>
                                     <span th:text="${dto.reWorkStartTime}"></span>
                                     ~
                                     <span th:text="${dto.reWorkEndTime}"></span>
-
+                                    <span style="font-size: 13px;" th:if="${dto.reTimeNegotiable == '시간협의'}" th:text="(시간협의가능)"></span>
                                 </li>
                             </ul>
                             <ul class="label-list-group w-50">
@@ -182,7 +182,11 @@
                                 </li>
                                 <li class="label-list">
                                     <span class="label">고용형태</span>
-                                    <span th:text="${dto.reJobType}"></span>
+                                    <span th:if="${dto.reJobTypeAlba == '아르바이트'}" th:text="아르바이트"></span>
+                                    <span th:if="${dto.reJobTypeFree == '프리랜서'}" th:text="프리랜서"></span>
+                                    <span th:if="${dto.reJobTypeFull == '정규직'}" th:text="정규직"></span>
+                                    <span th:if="${dto.reJobTypePart == '파트'}" th:text="파트"></span>
+                                    <span th:if="${dto.reJobTypeTrainee == '연습생'}" th:text="연습생/실습생"></span>
                                 </li>
                             </ul>
                         </div>
@@ -239,7 +243,13 @@
                 <h4 class="fw-bold">지원방법</h4>
                 <div class="card" style="background-color: #f3f3f3;;">
                     <div class="card-body" style="width: 600px; padding: 40px;">
-                        <p th:text="${dto.reApplyMethod}"></p>
+                        <li class="label-list">
+                            <span th:if="${dto.reApplyMethodEmail == '이메일지원'}" th:text="이메일지원"></span>
+                            <span th:if="${dto.reApplyMethodMsg == '문자지원'}" th:text="문자지원"></span>
+                            <span th:if="${dto.reApplyMethodOnline == '온라인지원'}" th:text="온라인지원"></span>
+                            <span th:if="${dto.reApplyMethodTel == '전화연락'}" th:text="전화연락"></span>
+                        </li>
+
                     </div>
                 </div>
             </div>
@@ -293,14 +303,41 @@
             <br>
             <!-- 지원하기 버튼 -->
             <div style="text-decoration: none" id="applyButton" class="fixed-apply" th:with="link=${pageRequestDTO.getLink()}">
-                <a th:href="|@{/recruit/modify(recruitId=${dto.recruitId})}&${link}|" class="btn btn-outline-primary">🔧</a>
+                <a href="#" class="btn btn-outline-primary" id="modifyBtn">🔧</a>
                 <a th:href="|@{/recruit/list}?${link}|" class="btn btn-outline-secondary">돌아가기</a>
                 <button class="btn btn-primary" id="applyBtn">지원하기</button>
             </div>
 
 
         </div>
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">
+                            <span class="rogo-span">OneFit</span> 채용 공고 수정 확인
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body delete-modal-body">
+                        <div class="mb-3">
+                            <p>채용 공고를 수정하시겠습니까?</p>
 
+                        </div>
+                        <div class="tab-content mt-3">
+                            <div class="d-flex flex-row-reverse">
+                                <div>
+                                    <a href="#" class="btn btn-outline-secondary w-100 modal-btn" data-bs-dismiss="modal" id="confirmRegisterBtn1">아니오</a>
+                                </div>
+                                <div style="margin-right: 3px">
+                                    <a th:href="|@{/recruit/modify(recruitId=${dto.recruitId})}&${link}|" class="btn btn-primary w-100 modal-btn" id="confirmRegisterBtn">네</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- (거래) start -->
@@ -391,9 +428,8 @@
 <!-- bootstrap js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/basic.js"></script>
+<script src="/js/recruit/recruit_modify.js"></script>
 <script layout:fragment="script" th:inline="javascript">
     const error = [[${error}]]
 

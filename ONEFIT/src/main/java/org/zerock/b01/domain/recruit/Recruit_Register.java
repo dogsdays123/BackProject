@@ -69,14 +69,26 @@ public class Recruit_Register extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String reSalaryValue; // 급여
 
-    @Column(length = 255)
-    private String reSalaryCheck; // 급여추가정보선택
+    @Column(length = 10)
+    private String reSalaryCheckAgree; // 급여추가정보선택
+
+    @Column(length = 10)
+    private String reSalaryCheckMeal; // 급여추가정보선택
+
+    @Column(length = 10)
+    private String reSalaryCheckDuty; // 급여추가정보선택
+
+    @Column(length = 10)
+    private String reSalaryCheckProb; // 급여추가정보선택
 
     @Column(length = 255)
     private String reSalaryDetail; // 급여상세정보
 
     @Column(length = 10, nullable = false)
     private String reGender; //성별
+
+    @Column(length = 10, nullable = false)
+    private String reAgeType;
 
     @Column(length = 50, nullable = false)
     private String reMinAge; // 최소연령
@@ -99,8 +111,17 @@ public class Recruit_Register extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime reDeadline; // 접수마감일
 
-    @Column(length = 100, nullable = false)
-    private String reApplyMethod; // 접수방법
+    @Column(length = 10)
+    private String reApplyMethodOnline; // 접수방법
+
+    @Column(length = 10)
+    private String reApplyMethodEmail; // 접수방법
+
+    @Column(length = 10)
+    private String reApplyMethodMsg; // 접수방법
+
+    @Column(length = 10)
+    private String reApplyMethodTel; // 접수방법
 
     @Column(length = 100, nullable = false)
     private String reAdminName; // 담당자이름

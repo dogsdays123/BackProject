@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -68,8 +69,36 @@ public class RecruitController {
 
         RecruitDTO recruitDTO = recruitService.readOne(recruitId);
 
-        log.info(recruitDTO);
+
+        log.info("reJobTypeFull: " + recruitDTO.getReJobTypeFull()); // 추가
+        log.info("reJobTypeFull: " + recruitDTO.getReJobTypeAlba()); // 추가
 
         model.addAttribute("dto", recruitDTO);
     }
+
+    @PostMapping("/modify")
+    public String modify(PageRequestDTO pageRequestDTO, @Valid RecruitDTO recruitDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        log.info("recruit_modify post...............");
+
+        if(bindingResult.hasErrors()) {
+            log.info("has errors");
+
+            String link = pageRequestDTO.getLink();
+
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+
+            redirectAttributes.addAttribute("recruitId", recruitDTO.getRecruitId());
+
+            return "redirect:/recruit/modify?"+link;
+        }
+
+        recruitService.modify(recruitDTO);
+
+        redirectAttributes.addFlashAttribute("result", "modified");
+
+        redirectAttributes.addAttribute("recruitId", recruitDTO.getRecruitId());
+
+        return "redirect:/recruit/read";
+    }
+
 }

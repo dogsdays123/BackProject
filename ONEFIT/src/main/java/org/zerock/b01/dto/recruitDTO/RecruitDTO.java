@@ -27,18 +27,23 @@ public class RecruitDTO {
 
     private String reCompany;
 
-    private String reJobType;
+    private String reJobTypeFull; // 고용형태(정규직, 프리, 파트)
+
+    private String reJobTypePart; // 고용형태(정규직, 프리, 파트)
+
+    private String reJobTypeFree; // 고용형태(정규직, 프리, 파트)
+
+    private String reJobTypeTrainee; // 고용형태(정규직, 프리, 파트)
+
+    private String reJobTypeAlba; // 고용형태(정규직, 프리, 파트)
 
     private String reIndustry;
 
-
     private int reNumHiring;
-
 
     private String reWorkDays;
 
     private String reDutyDays;
-
 
     private String reWorkStartTime;
 
@@ -54,13 +59,20 @@ public class RecruitDTO {
 
     private String reSalaryValue;
 
-    private String reSalaryCheck;
+    private String reSalaryCheckAgree; // 급여추가정보선택
+
+    private String reSalaryCheckMeal; // 급여추가정보선택
+
+    private String reSalaryCheckDuty; // 급여추가정보선택
+
+    private String reSalaryCheckProb; // 급여추가정보선택
 
     private String reSalaryDetail;
 
 
     private String reGender;
 
+    private String reAgeType;
 
     private String reMinAge;
 
@@ -82,15 +94,17 @@ public class RecruitDTO {
 
     private LocalDateTime reDeadline;
 
+    private String reApplyMethodOnline; // 접수방법
 
-    private String reApplyMethod;
+    private String reApplyMethodEmail; // 접수방법
 
+    private String reApplyMethodMsg; // 접수방법
+
+    private String reApplyMethodTel; // 접수방법
 
     private String reAdminName;
 
-
     private String reAdminEmail;
-
 
     private String reAdminPhone;
 

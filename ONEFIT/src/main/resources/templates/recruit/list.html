@@ -230,7 +230,7 @@
                 </tbody>
             </table>
 
-
+            <!-- 페이지네이션 start -->
             <div class="row">
                 <ul class="pagination justify-content-center">
                     <li id="pagearrow leftarrow" class="page-item" th:if="${responseDTO.prev}">
@@ -247,48 +247,8 @@
                     </li>
                 </ul>
             </div>
-            <!-- 페이지네이션 start -->
-            <div class="row">
-                <ul class="pagination justify-content-center">
-                    <!-- 이전 페이지 버튼 -->
-                    <li class="pagearrow leftarrow" th:class="${responseDTO.prev ? '' : 'is-deactive'}">
-                        <a href="#" th:href="@{'?page=' + (responseDTO.start - 1)}" th:class="${responseDTO.prev ? '' : 'is-deactive'}">&lt;</a>
-                    </li>
-
-                    <!-- 페이지 번호들 -->
-                    <th:block th:each="i : ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                        <li class="pageitem" th:class="${responseDTO.page == i} ? 'is-active' : ''">
-                            <a href="#" th:href="@{'?page=' + i}" th:text="${i}"></a>
-                        </li>
-                    </th:block>
-
-                    <!-- 다음 페이지 버튼 -->
-                    <li class="pagearrow rightarrow" th:class="${responseDTO.next ? '' : 'is-deactive'}">
-                        <a href="#" th:href="@{'?page=' + (responseDTO.end + 1)}" th:class="${responseDTO.next ? '' : 'is-deactive'}">&gt;</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="pagination-container">
-                <ul class="pagination">
-                    <li class="page-item" th:if="${responseDTO.prev}">
-                        <a class="page-link" th:data-num="${responseDTO.start -1}" id="preNext" aria-label="Previous">
-                            &lt;
-                        </a>
-                    </li>
-                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                        <li th:class="${responseDTO.page == i}?'page-item active':'page-item'">
-                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
-                        </li>
-                    </th:block>
-                    <li class="page-item" th:if="${responseDTO.next}">
-                        <a class="page-link" th:data-num="${responseDTO.end + 1}" id="preNext" aria-label="Next">
-                            &gt;
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
             <!-- 페이지네이션 end -->
+
         </div>
         <div id="registerButton" class="fixed-apply">
             <a href="#" class="btn btn-outline-primary" id="registerBtn">공고등록 +</a>
