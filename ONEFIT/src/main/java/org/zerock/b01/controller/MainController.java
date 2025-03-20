@@ -88,13 +88,4 @@ public class MainController {
         redirectAttributes.addFlashAttribute("result", "success");
         return "redirect:/login";
     }
-
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/modify")
-    public String modifyPOST(All_MemberDTO all_memberDTO, RedirectAttributes redirectAttributes) {
-        log.info("modify post........");
-        log.info("allId@@@@" + all_memberDTO.getAllId());
-        all_memberService.modify(all_memberDTO);
-        return "redirect:/member/my_default_page";
-    }
 }

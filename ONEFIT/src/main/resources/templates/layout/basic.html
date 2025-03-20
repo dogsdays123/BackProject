@@ -21,7 +21,17 @@
     <!-- 메인 메뉴 -->
     <div class="nav-container">
         <!-- 로고 -->
-        <a class="navbar-brand me-auto" href="/main">OneFit</a>
+        <div class="d-flex align-items-center justify-content-between">
+            <a class="navbar-brand me-auto" href="/main">OneFit</a>
+            <!-- 햄버거 버튼 -->
+            <div th:if="${sidebar == true}">
+                <button class="navbar-toggler round-btn toggle-sidebar btns btns-hanbuger" type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                    <span class="navbar-toggler-icon"><i class="fa-solid fa-bars-staggered"></i></span>
+                </button>
+            </div>
+        </div>
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
@@ -83,37 +93,37 @@
                 </a>
                 <span class="separator">|</span>
                 <button type="button" class="basic-btn btn btn-primary btns">
-                    <a href="/my" class="text-reset text-decoration-none">
+                    <a href="/member/my_default_page" class="text-reset text-decoration-none">
                         마이페이지
                     </a>
                 </button>
             </div>
         </div>
 
-            <!-- 알림 start -->
-            <div class="dropdown">
-                <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-bell"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        <!-- 알림 start -->
+        <div class="dropdown">
+            <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             3
                         </span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
-                    <li>
-                        <h6 class="dropdown-header">알림</h6>
-                    </li>
-                    <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
-                    <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
-                    <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
-                </ul>
-            </div>
-            <!-- 알림 end -->
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                <li>
+                    <h6 class="dropdown-header">알림</h6>
+                </li>
+                <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
+                <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
+                <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
+            </ul>
         </div>
+        <!-- 알림 end -->
+    </div>
     </div>
 </header>
 <!-- 헤더 end -->
@@ -142,7 +152,7 @@
     <!-- QnA 게시판1 -->
     <div layout:fragment="board_qa_list"></div>
 
-<!--    테스트용-->
+    <!--    테스트용-->
     <div layout:fragment="index"></div>
     <div layout:fragment="login"></div>
     <div layout:fragment="join"></div>
@@ -154,7 +164,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="signupModalLabel"> <span class="rogo-span">OneFit</span> 회원가입</h5>
+                <h5 class="modal-title" id="signupModalLabel"><span class="rogo-span">OneFit</span> 회원가입</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body signup-modal-body">
@@ -166,7 +176,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">이메일</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="ex) email@onefit.com"
+                            <input type="email" class="form-control" name="email" id="email"
+                                   placeholder="ex) email@onefit.com"
                                    required>
                         </div>
                         <div class="mb-3">
@@ -197,12 +208,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="aPhone" class="form-label">전화번호</label>
-                            <input type="tel" class="form-control" name="aPhone" id="aPhone" placeholder="ex) 010-1234-5678"
+                            <input type="tel" class="form-control" name="aPhone" id="aPhone"
+                                   placeholder="ex) 010-1234-5678"
                                    required>
                         </div>
                         <input type="hidden" name="memberType" value="default">
                         <button type="submit" class="btn btn-success w-100 modal-btn"
-                                id="signupButton">가입하기</button>
+                                id="signupButton">가입하기
+                        </button>
                     </form>
                 </div>
             </div>
@@ -222,7 +235,7 @@
 <script layout:fragment="script" th:inline="javascript">
     const error = [[${error}]]
 
-    if(error && error === 'allId'){
+    if (error && error === 'allId') {
         alert("동일한 아이디를 가진 계정이 존재합니다.")
     }
 </script>

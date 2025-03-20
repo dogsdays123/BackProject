@@ -3,10 +3,11 @@ package org.zerock.b01.domain.member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.zerock.b01.domain.All_Member;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +24,7 @@ public class Business_Member {
     private String bName;
 
     @Column(nullable = false)
-    private Long bRegnum;
+    private Long bRegNum;
 
     @Column(length = 30, nullable = false)
     private String bExponent;
@@ -40,12 +41,11 @@ public class Business_Member {
     @Column(length = 10)
     private String bSize;
 
-    private LocalDateTime bEstaDate;
+    private LocalDate bEstaDate;
 
     @Column(length = 30)
     private String bHomepage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "allId", nullable = false)
-    private All_Member all_member;
+    private All_Member allMember;
 }

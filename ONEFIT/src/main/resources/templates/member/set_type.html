@@ -1,3 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+</head>
+
 <div>
-    <h1>set type</h1>
+    <h1>회원전환 요구사항</h1>
+    <label class="form-label">정보이용 동의서</label>
+    <input type="checkbox" value="동의합니다.">
+
+    <div th:if="${all_memberDTO != null}">
+        <form id="modifyMemberType" name="modifyMemberType" action="/member/set_type" method="post">
+            <input type="hidden" th:name="allId" th:value="${all_memberDTO.allId}" readonly>
+            <div class="form-section">
+                <h5 class="product-h5">회원 정보</h5>
+                <hr>
+                <div class="mb-3">
+                    <label class="form-label">이름</label>
+                    <input type="text" class="form-control" th:value="${all_memberDTO.name}"
+                           readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">이메일</label>
+                    <input type="text" class="form-control" th:value="${all_memberDTO.email}"
+                           readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">아이디</label>
+                    <input type="text" class="form-control" th:value="${all_memberDTO.allId}"
+                           readonly>
+                </div>
+
+                <hr>
+<!--                추가작성사항-->
+                <div class="mb-3">
+                    <label class="form-label">별칭</label>
+                    <input type="text" class="form-control" name="uNickname" placeholder="별칭" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">생년월일</label>
+                    <input type="date" class="form-control" name="uBirthday" placeholder="생년월일" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">주소</label>
+                    <input type="text" class="form-control" name="uAddress" placeholder="주소" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">주민등록번호</label>
+                    <input type="text" class="form-control" name="uResident" placeholder="주민등록번호" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <button type="submit" class="product-btn btn btn-primary w-100">확인
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div th:if="${all_memberDTO == null}">
+        <h5>잘못된 접근입니다!</h5>
+    </div>
 </div>
+</html>
