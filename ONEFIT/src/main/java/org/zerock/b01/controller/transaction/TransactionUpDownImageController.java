@@ -2,7 +2,6 @@ package org.zerock.b01.controller.shin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
-import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -22,7 +21,7 @@ import java.util.*;
 
 @RestController
 @Log4j2
-public class UpDownImageController {
+public class TransactionUpDownImageController {
     // import 시에 springframework로 시작하는 value
     @Value("C:\\upload")
     private String uploadPath;

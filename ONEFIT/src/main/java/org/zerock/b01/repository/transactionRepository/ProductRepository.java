@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.zerock.b01.domain.transaction.Product;
-import org.zerock.b01.repository.transactionRepository.search.ProductSearch;
+import org.zerock.b01.repository.search.transaction.ProductSearch;
 
 import java.util.Optional;
 

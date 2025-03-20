@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.b01.domain.board.Notice_Board;
-import org.zerock.b01.repository.search.NoticeBoardSearch;
+import org.zerock.b01.repository.search.board.NoticeBoardSearch;
 
 public interface NoticeBoardRepository extends JpaRepository<Notice_Board, Long>, NoticeBoardSearch {
 

@@ -54,7 +54,17 @@ public class QRecruit_Register extends EntityPathBase<Recruit_Register> {
 
     public final StringPath reIndustry = createString("reIndustry");
 
-    public final StringPath reJobType = createString("reJobType");
+    public final StringPath reJobHistory = createString("reJobHistory");
+
+    public final StringPath reJobTypeAlba = createString("reJobTypeAlba");
+
+    public final StringPath reJobTypeFree = createString("reJobTypeFree");
+
+    public final StringPath reJobTypeFull = createString("reJobTypeFull");
+
+    public final StringPath reJobTypePart = createString("reJobTypePart");
+
+    public final StringPath reJobTypeTrainee = createString("reJobTypeTrainee");
 
     public final StringPath reMaxAge = createString("reMaxAge");
 

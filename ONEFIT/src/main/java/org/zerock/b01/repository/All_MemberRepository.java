@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerock.b01.domain.All_Member;
-import org.zerock.b01.dto.All_MemberDTO;
-import org.zerock.b01.repository.search.All_MemberSearch;
 
 import java.util.Optional;
 

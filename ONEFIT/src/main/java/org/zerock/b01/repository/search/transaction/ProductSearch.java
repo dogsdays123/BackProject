@@ -1,4 +1,4 @@
-package org.zerock.b01.repository.transactionRepository.search;
+package org.zerock.b01.repository.search.transaction;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

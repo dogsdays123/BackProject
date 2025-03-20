@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.b01.domain.board.Qna_Board;
-import org.zerock.b01.repository.search.QnaBoardSearch;
+import org.zerock.b01.repository.search.board.QnaBoardSearch;
 
 public interface QnaBoardRepository extends JpaRepository<Qna_Board, Long>, QnaBoardSearch {
 

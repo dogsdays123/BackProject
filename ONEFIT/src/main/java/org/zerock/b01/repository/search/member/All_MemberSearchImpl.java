@@ -1,4 +1,4 @@
-package org.zerock.b01.repository.search;
+package org.zerock.b01.repository.search.member;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;

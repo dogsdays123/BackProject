@@ -28,6 +28,8 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final QCategory category;
 
+    public final SetPath<ImageFile, QImageFile> imageSet = this.<ImageFile, QImageFile>createSet("imageSet", ImageFile.class, QImageFile.class, PathInits.DIRECT2);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modDate = _super.modDate;
 

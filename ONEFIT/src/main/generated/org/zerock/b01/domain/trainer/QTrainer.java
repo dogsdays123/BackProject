@@ -34,6 +34,8 @@ public class QTrainer extends EntityPathBase<Trainer> {
 
     public final StringPath content = createString("content");
 
+    public final SetPath<Trainer_Thumbnails, QTrainer_Thumbnails> imageSet = this.<Trainer_Thumbnails, QTrainer_Thumbnails>createSet("imageSet", Trainer_Thumbnails.class, QTrainer_Thumbnails.class, PathInits.DIRECT2);
+
     public final StringPath license = createString("license");
 
     //inherited

@@ -1,4 +1,4 @@
-package org.zerock.b01.controller.bang;
+package org.zerock.b01.controller.trainer;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.zerock.b01.dto.trainerDTO.Trainer_ThumbnailsDTO;
 
 import java.util.List;
 
 @RestController
 @Log4j2
-public class UpDownController {
+public class TrainerUpDownController {
     @Value("${org.zerock.upload.thumbnailPath}")
     private String filePath;
 

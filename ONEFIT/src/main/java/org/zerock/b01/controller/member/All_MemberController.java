@@ -1,6 +1,5 @@
-package org.zerock.b01.controller.seo;
+package org.zerock.b01.controller.member;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -1,4 +1,4 @@
-package org.zerock.b01.controller.bang;
+package org.zerock.b01.controller.trainer;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -28,7 +28,7 @@ public class QTrainer_Thumbnails extends EntityPathBase<Trainer_Thumbnails> {
 
     public final QTrainer trainer;
 
-    public final NumberPath<Long> tthumbnails_id = createNumber("tthumbnails_id", Long.class);
+    public final NumberPath<Long> tthumbnailsId = createNumber("tthumbnailsId", Long.class);
 
     public QTrainer_Thumbnails(String variable) {
         this(Trainer_Thumbnails.class, forVariable(variable), INITS);

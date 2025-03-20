@@ -1,8 +1,7 @@
-package org.zerock.b01.repository.transactionRepository.search;
+package org.zerock.b01.repository.search.transaction;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
