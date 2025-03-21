@@ -17,6 +17,7 @@ function prizeToJson() {
 tableTimeCalc();
 tableRowManipulate();
 
+// 등록 버튼 이벤트
 document.getElementById("register-submit-btn").addEventListener("click", function(e) {
     e.preventDefault();
     e.stopPropagation();

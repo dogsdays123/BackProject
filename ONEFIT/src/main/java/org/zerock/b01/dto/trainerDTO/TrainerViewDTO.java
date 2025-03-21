@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TrainerDTO {
+public class TrainerViewDTO {
     private Long trainerId;
     @NotEmpty
     private String title;
@@ -48,10 +47,14 @@ public class TrainerDTO {
     @NotNull
     private Long userId;
 
-    // thumbnails 는 받아올 때, original 은 원래 썸네일들의 정보를 담음
-    // DB 에서 삭제되지 않으면 조회할 때에도 삭제되지 않는 원리를 이용
-    private MultipartFile[] thumbnails;
-    private List<String> originalThumbnails;
+    private List<String> thumbnails;
+
+    private String name;
+    private String gender;
+    private LocalDateTime birthday;
+    private String email;
+    private String phone;
+    private String address;
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;

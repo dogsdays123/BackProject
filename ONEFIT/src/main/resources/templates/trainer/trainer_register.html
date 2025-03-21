@@ -55,7 +55,9 @@
                               <img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">
                           </div>
                           <button type="button" class="slider-arrow-right" id="right-slider">&gt;</button>
-                          <input type="file" accept="image/*" name="thumbnails" id="thumbnails" class="form-control" multiple>
+                          <label for="thumbnails" class="btn btn-outline-secondary">이미지 선택(PNG, JPG)</label>
+                          <input type="file" accept=".jpg, .jpeg, .png" name="thumbnails" id="thumbnails" class="form-control" multiple>
+                          <div class="card mt-3 listbox" id="thumbnails-list" hidden></div>
                       </div>
                   </div>
                   <br>
@@ -279,62 +281,5 @@
     <script src="/js/trainer_function.js"></script>
     <script src="/js/trainer_register.js"></script>
     <script src="/js/trainer_thumbnail.js"></script>
-    <!-- 푸터 -->
-    <footer class="bg-dark text-white py-4">
-        <div class="container">
-            <div class="row">
-                <!-- 회사 정보 -->
-                <div class="col-md-3 mb-3">
-                    <h5>회사 정보</h5>
-                    <ul class="list-styled">
-                        <li><a href="#" class="text-white">회사 소개</a></li>
-                        <li><a href="#" class="text-white">채용 정보</a></li>
-                        <li><a href="#" class="text-white">서비스 이용약관</a></li>
-                        <li><a href="#" class="text-white">개인정보 처리방침</a></li>
-                    </ul>
-                </div>
-
-                <!-- 고객 지원 -->
-                <div class="col-md-3 mb-3">
-                    <h5>고객 지원</h5>
-                    <ul class="list-styled">
-                        <li><a href="#" class="text-white">FAQ</a></li>
-                        <li><a href="#" class="text-white">고객센터</a></li>
-                        <li><a href="#" class="text-white">1:1 문의</a></li>
-                    </ul>
-                </div>
-
-                <!-- 소셜 미디어 -->
-                <div class="col-md-3 mb-3">
-                    <h5>소셜 미디어</h5>
-                    <ul class="list-unstyled d-flex">
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a></li>
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-linkedin"></i></a></li>
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a></li>
-                    </ul>
-                </div>
-
-                <!-- 뉴스레터 구독 -->
-                <div class="col-md-3 mb-3">
-                    <h5>뉴스레터 구독</h5>
-                    <form>
-                        <div class="input-group">
-                            <input type="email" class="form-control" placeholder="이메일을 입력하세요" required>
-                            <button class="btn btn-primary" type="submit">구독</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <hr class="bg-white">
-
-            <div class="row">
-                <div class="col text-center">
-                    <p>&copy; 2025 OneFit. 모든 권리 보유.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>
 </html>
