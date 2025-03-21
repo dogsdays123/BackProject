@@ -4,14 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.zerock.b01.domain.All_Member;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
+@Table(name = "User_Member", indexes = {
+        @Index(name = "idx_user_member_no", columnList = "all_Member_allId")
+})
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "allMember")
 public class User_Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,17 +24,13 @@ public class User_Member {
     @Column(length = 30)
     private String uNickname;
 
-    private LocalDateTime uBirthday;
-
-    @Column(length = 20, nullable = false)
-    private String uSocial;
+    private LocalDate uBirthday;
 
     @Column(length = 100)
     private String uAddress;
 
     private Long uResident;
 
-    @ManyToOne
-    @JoinColumn(name = "allId", nullable = false)
-    private All_Member all_member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private All_Member allMember;
 }
