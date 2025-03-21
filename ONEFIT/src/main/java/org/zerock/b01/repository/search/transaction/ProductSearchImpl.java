@@ -11,6 +11,8 @@ import org.zerock.b01.domain.transaction.QProduct;
 import org.zerock.b01.domain.transaction.QProductReply;
 import org.zerock.b01.dto.transactionDTO.ImageFileDTO;
 import org.zerock.b01.dto.transactionDTO.ProductListAllDTO;
+import org.zerock.b01.repository.search.transaction.ProductSearch;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +43,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
 
         JPQLQuery<Tuple> tupleJPQLQuery = productJPQLQuery.select(product, reply.countDistinct());
 
-        List<Tuple> tupleList = tupleJPQLQuery.fetch(); // 에러 발생 지점
+        List<Tuple> tupleList = tupleJPQLQuery.fetch();
 
         List<ProductListAllDTO> dtoList = tupleList.stream().map(tuple -> {
             Product product1 = (Product) tuple.get(product);
@@ -53,10 +55,11 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
                     .productId(product1.getProductId()) // 상품 ID
                     .allId(product1.getAllMember().getAllId()) // 회원 ID
                     .pTitle(product1.getPTitle()) // 제목
+                    .pRoles(product1.getPRoles()) // 상품 구분
                     .pStatus(product1.getPStatus()) // 거래 상태
                     .pPrice(product1.getPPrice()) // 가격
                     .pAddr(product1.getPAddr()) // 거래 장소
-                    //.regDate(product1.getRegdate())  // 등록 시각
+                    .regDate(product1.getRegDate())  // 등록 시각
                     .replyCount(replyCount) // 댓글 수
                     .build();
 

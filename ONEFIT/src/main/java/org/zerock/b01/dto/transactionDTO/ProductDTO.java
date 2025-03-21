@@ -20,7 +20,7 @@ public class ProductDTO { // (거래) 상품
 
     private Long categoryId; // b. (외래키) 카테고리 ID
 
-    private Long allId; // c. (외래키) 회원 ID
+    private String allId; // c. (외래키) 회원 ID
 
     private String pAddr; // 1. 거래 장소
 
@@ -41,6 +41,7 @@ public class ProductDTO { // (거래) 상품
     // 이미지 파일의 이름들
     private List<String> imageFileNames;
 
-    private LocalDateTime creDate; // 9. 게시글 등록일
+    private LocalDateTime regDate; // 9. 게시글 등록일
     private LocalDateTime modDate; // 10. 게시글 수정일
+
 }

@@ -1,5 +1,6 @@
 package org.zerock.b01.controller.transaction;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -30,6 +31,7 @@ public class TransactionController {
         log.info("/transaction/transa_list - GET");
         log.info("*****************************************************************");
 
+        pageRequestDTO.setSize(12);
         PageResponseDTO<ProductListAllDTO> responseDTO = productService.listWithAllProducts(pageRequestDTO);
 
         log.info("list: " + responseDTO);
@@ -38,9 +40,21 @@ public class TransactionController {
     }
 
     // 기구 판매 게시글 (읽기) - Get
-    @GetMapping("/transa_eq_read")
-    public void eqReadGet(Model model) {
+    // 기구 판매 게시글 (수정) - Get
+    @GetMapping({"/transa_eq_read", "/transa_eq_modify"})
+    @Operation
+    public void eqReadModifyGet(Long productId, PageRequestDTO pageRequestDTO, Model model) {
+        log.info("******************************************************************");
+        log.info("/transaction/transa_eq_read - GET");
+        log.info("******************************************************************");
 
+        log.info("productId: {}", productId);
+
+        EquipmentDTO equipmentDTO = productService.readEquipmentOne(productId);
+
+        log.info("equipmentDTO: {}", equipmentDTO);
+
+        model.addAttribute("dto", equipmentDTO);
     }
 
     // 기구 판매 게시글 (등록) - Get
@@ -82,8 +96,18 @@ public class TransactionController {
 
     // 시설 판매 게시글 (읽기) - Get
     @GetMapping("/transa_fa_read")
-    public void faReadGet(Model model) {
+    public void faReadGet(Long productId, PageRequestDTO pageRequestDTO, Model model) {
+        log.info("***************************************************************");
+        log.info("/transaction/transa_fa_read - GET");
+        log.info("***************************************************************");
 
+        log.info("productId: {}", productId);
+
+        FacilityDTO facilityDTO = productService.readFacilityOne(productId);
+
+        log.info("facilityDTO: {}", facilityDTO);
+
+        model.addAttribute("dto", facilityDTO);
     }
 
     // 시설 판매 게시글 (등록) - Get

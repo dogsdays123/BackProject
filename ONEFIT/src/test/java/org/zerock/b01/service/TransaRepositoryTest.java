@@ -1,34 +1,34 @@
-//package org.zerock.b01.service;
-//
-//import lombok.extern.log4j.Log4j2;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.zerock.b01.domain.All_Member;
-//import org.zerock.b01.domain.transaction.Category;
-//import org.zerock.b01.domain.transaction.Equipment;
-//import org.zerock.b01.domain.transaction.Product;
-//import org.zerock.b01.dto.All_MemberDTO;
-//import org.zerock.b01.repository.All_MemberRepository;
-//import org.zerock.b01.repository.transactionRepository.CategoryRepository;
-//import org.zerock.b01.repository.transactionRepository.EquipmentRepository;
-//import org.zerock.b01.repository.transactionRepository.ProductRepository;
-//
-//import java.math.BigDecimal;
-//import java.time.LocalDate;
-//import java.util.stream.IntStream;
-//
-//@SpringBootTest
-//@Log4j2
-//public class TransaRepositoryTest {
-//    @Autowired
-//    private ProductRepository productRepository;
-//    @Autowired
-//    private CategoryRepository categoryRepository;
-//    @Autowired
-//    private EquipmentRepository equipmentRepository;
-//    @Autowired
-//    private All_MemberRepository all_MemberRepository;
+package org.zerock.b01.service;
+
+import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.transaction.Category;
+import org.zerock.b01.domain.transaction.Equipment;
+import org.zerock.b01.domain.transaction.Product;
+import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.repository.All_MemberRepository;
+import org.zerock.b01.repository.transactionRepository.CategoryRepository;
+import org.zerock.b01.repository.transactionRepository.EquipmentRepository;
+import org.zerock.b01.repository.transactionRepository.ProductRepository;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.stream.IntStream;
+
+@SpringBootTest
+@Log4j2
+public class TransaRepositoryTest {
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private EquipmentRepository equipmentRepository;
+    @Autowired
+    private All_MemberRepository all_MemberRepository;
 //
 //    @Test
 //    public void insertMember() {
@@ -46,42 +46,43 @@
 //
 //        all_MemberRepository.save(member);
 //
-////        IntStream.rangeClosed(1, 10).forEach(i -> {
-////
-////            All_MemberDTO member = All_MemberDTO.builder()
-////                    //수정
-////                    .all_id("member" + i)
-////                    .name(("1234") + i)
-////                    .email("email" + i + "@aaa.bbb")
-////                    .a_psw(("1234") + i)
-////                    .a_phone(123)
-////                    .member_type("default") // << 일반 1. 개인(user), 2. 기업(business)
-////                    .del(false)
-////                    .a_social(false)
-////                    .build();
-////
-////            String result = all_MemberService.register(member);
-////            log.info("Notice_id: " + result);
-////        });
+
+    /// /        IntStream.rangeClosed(1, 10).forEach(i -> {
+    /// /
+    /// /            All_MemberDTO member = All_MemberDTO.builder()
+    /// /                    //수정
+    /// /                    .all_id("member" + i)
+    /// /                    .name(("1234") + i)
+    /// /                    .email("email" + i + "@aaa.bbb")
+    /// /                    .a_psw(("1234") + i)
+    /// /                    .a_phone(123)
+    /// /                    .member_type("default") // << 일반 1. 개인(user), 2. 기업(business)
+    /// /                    .del(false)
+    /// /                    .a_social(false)
+    /// /                    .build();
+    /// /
+    /// /            String result = all_MemberService.register(member);
+    /// /            log.info("Notice_id: " + result);
+    /// /        });
 //    }
 //
-//    @Test
-//    public void testRegisterEquipment() {
-//        log.info("Register equipment");
-//
-//        All_Member member = All_Member.builder()
-//                //수정
-//                .all_id("member" + 1)
-//                .name(("1234") + 1)
-//                .email("email" + 1 + "@aaa.bbb")
-//                .a_psw(("1234") + 1)
-//                .a_phone(123)
-//                .member_type("default") // << 일반 1. 개인(user), 2. 기업(business)
-//                .del(false)
-//                .a_social(false)
-//                .build();
-//
-//        all_MemberRepository.save(member);
+    @Test
+    public void testRegisterEquipment() {
+        log.info("Register equipment");
+
+        All_Member member = All_Member.builder()
+                //수정
+                .allId("member" + 1)
+                .name(("1234") + 1)
+                .email("email" + 1 + "@aaa.bbb")
+                .aPsw(("1234") + 1)
+                .aPhone(123L)
+                .memberType("default") // << 일반 1. 개인(user), 2. 기업(business)
+                .del(false)
+                .aSocial(false)
+                .build();
+
+        all_MemberRepository.save(member);
 //
 //        Category category = Category.builder()
 //                .cCategory("수영")
@@ -116,6 +117,7 @@
 //                .build();
 //
 //        equipmentRepository.save(equipment);
+    }
 //
 //
-//    }
+}
