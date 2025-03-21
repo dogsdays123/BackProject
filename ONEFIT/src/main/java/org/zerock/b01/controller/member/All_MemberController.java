@@ -154,6 +154,7 @@ public class All_MemberController {
     @PostMapping("/set_type")
     public String PostSet_type(@Valid User_MemberDTO user_MemberDTO, String allId
             , RedirectAttributes redirectAttributes
+                               , Model model
             , BindingResult bindingResult) throws BindException {
         log.info("set_type post.......");
         user_MemberDTO.setAllId(allId);
@@ -163,8 +164,11 @@ public class All_MemberController {
             throw new BindException(bindingResult);
         }
 
+        //확인 및 적용
         Long a = member_Set_Type_Service.UserRegister(user_MemberDTO);
         log.info("user_Member Id @@@@" + a);
+
+        //피니시 창 반영
         return "redirect:/member/finishedChange";
     }
 
@@ -179,6 +183,7 @@ public class All_MemberController {
     @PostMapping("/set_type_b")
     public String PostSet_type_b(@Valid Business_MemberDTO business_memberDTO, String allId
             , RedirectAttributes redirectAttributes
+                                 , Model model
             , BindingResult bindingResult) throws BindException {
         log.info("set_type_b post.......");
         business_memberDTO.setAllId(allId);
@@ -190,6 +195,7 @@ public class All_MemberController {
 
         Long a = member_Set_Type_Service.BusinessRegister(business_memberDTO);
         log.info("business_Member Id @@@@" + a);
+
         return "redirect:/member/finishedChange";
     }
     //타입 부여end
