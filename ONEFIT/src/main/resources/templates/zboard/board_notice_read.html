@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
+
+<body>
+    <div layout:fragment="board_notice_read">
+        <div class="container mt-5">
+          <div class="card p-4 shadow-sm">
+            <!-- 제목 & 작성일 -->
+            <div class="d-flex justify-content-between align-items-center">
+              <h2 class="text-primary post-title">[[${dto.nTitle}]]</h2>
+              <span class="text-muted post-date">[[${#temporals.format(dto.regDate,'yyyy-MM-dd HH:mm:ss')}]]</span>
+            </div>
+
+            <!-- 작성자 & 조회수 -->
+            <div class="d-flex justify-content-between text-muted post-meta mt-2">
+              <span>작성자: <strong>[[${dto.allId}]]</strong></span>
+              <span>조회수: <strong>[[${dto.nHits}]]</strong></span>
+            </div>
+
+            <hr>
+
+            <!-- 본문 내용 -->
+            <div class="mt-4">
+              <p>
+                [[${dto.nContent}]]
+              </p>
+            </div>
+
+            <hr>
+
+            <!-- 첨부파일 섹션 -->
+            <div class="attachment-box">
+              <h5>첨부파일</h5>
+              <div id="attachmentSection">
+                <a href="uploads/sample.pdf" download>sample.pdf</a>
+              </div>
+            </div>
+
+            <!-- 버튼 그룹 -->
+            <div class="d-flex justify-content-end mt-3" th:with="link = ${pageRequestDTO.getLink()}">
+              <a th:href="|@{/zboard/board_notice_list}?${link}|" class="btn btn-secondary me-2">목록</a>
+              <a
+                      th:href="|@{/zboard/board_notice_modify(noticeId=${dto.noticeId})}&${link}|"
+                 class="btn btn-primary">수정</a>
+            </div>
+
+            <!-- 댓글 섹션 -->
+            <div class="comment-box mt-5">
+              <h4>댓글</h4>
+              <ul class="comment-list" id="commentList">
+                <!-- 댓글이 여기에 추가됨 -->
+              </ul>
+
+              <!-- 댓글 작성 폼 -->
+              <div class="mt-3">
+                <textarea id="commentInput" class="form-control" rows="3" placeholder="댓글을 입력하세요..."></textarea>
+                <div class="text-end mt-2">
+                  <button class="btn btn-primary" onclick="addComment()">댓글 등록</button>
+                </div>
+              </div>
+
+              <!-- 댓글 페이징 버튼 -->
+              <nav>
+                <ul class="pagination justify-content-center" id="pagination"></ul>
+              </nav>
+            </div>
+          </div>
+          <br>
+          <br>
+        </div>
+    </div>
+
+    <!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script layout:fragment="script" layout:inline="javascript">
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>OneFit - 체육시설업 포털</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/recruit/recruit_list.css">
+    <link rel="stylesheet" href="/css/recruit/recruit_pagination.css">
+</head>
+
+<body>
+<!-- 헤더 start -->
+<header>
+    <!-- 메인 메뉴 -->
+    <div class="nav-container">
+        <!-- 로고 -->
+        <a class="navbar-brand me-auto" href="index.html">OneFit</a>
+
+        <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
+        <ul class="nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="/recruit/list">채용정보</a></li>
+            <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
+            <li class="nav-item dropdown dropdown-main">
+                <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
+                   data-bs-toggle="dropdown">거래</a>
+                <ul class="dropdown-menu dropdown-main-menu">
+                    <li><a class="dropdown-item" href="transa_list.html">시설</a></li>
+                    <li><a class="dropdown-item" href="transa_list.html">기구</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown dropdown-main">
+                <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
+                   data-bs-toggle="dropdown">커뮤니티</a>
+                <ul class="dropdown-menu dropdown-main-menu">
+                    <li><a class="dropdown-item" href="#">Q&A</a></li>
+                    <li><a class="dropdown-item" href="#">공지사항</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- 사이드 메뉴(로그인, 회원가입 / 로그아웃, 마이페이지, 알림) -->
+        <div class="auth-links ms-auto">
+            <!-- 로그인 전 메뉴 -->
+            <!-- <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
+                data-bs-target="#loginModal">
+                로그인
+            </button>
+            <span class="separator">|</span>
+            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
+                data-bs-target="#signupModal">
+                회원가입
+            </button> -->
+
+            <!-- 로그인 후 메뉴 -->
+            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                로그아웃
+            </button>
+            <span class="separator">|</span>
+            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal">
+                <a href="my.html" class="text-reset text-decoration-none">
+                    마이페이지
+                </a>
+            </button>
+
+            <!-- 알림 start -->
+            <div class="dropdown">
+                <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-bell"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            3
+                        </span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                    <li>
+                        <h6 class="dropdown-header">알림</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
+                    <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
+                    <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
+                </ul>
+            </div>
+            <!-- 알림 end -->
+        </div>
+    </div>
+</header>
+<!-- 헤더 end -->
+
+<!-- 메인 start -->
+<main>
+    <div layout:fragment="myPage"></div>
+    <div layout:fragment="main">
+        <!-- 채용공고 컨텐츠 -->
+        <div class="recruit-container container mt-5">
+            <!-- 검색 필터 -->
+            <div>
+                <div class="row mb-3">
+                    <a href="/recruit/list"><h4 style="font-weight: 600;">전체 채용 정보</h4></a>
+                    <br>
+                    <br>
+                    <div>
+                        <form class="search-form" action="/recruit/list" method="get">
+                            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                            <div class="d-flex col-md-5 justify-content-between position-relative" id="parentContainer">
+                                <button class="btn btn-outline-secondary flex-grow-1 mx-1" type="button" data-bs-toggle="collapse" data-bs-target="#locationFilters">
+                                    지역 ▾
+                                </button>
+
+                                <button class="btn btn-outline-secondary flex-grow-1 mx-1" type="button" data-bs-toggle="collapse" data-bs-target="#jobFilters">
+                                    업직종 ▾
+                                </button>
+
+                                <button class="btn btn-outline-secondary flex-grow-1 mx-1" type="button" data-bs-toggle="collapse" data-bs-target="#detailFilters">
+                                    상세조건 ▾
+                                </button>
+                                <button type="submit" class="btn btn-primary mx-1">필터 적용 하기</button>
+                            </div>
+
+                            <!-- 필터 옵션 컨테이너 -->
+                            <div class="position-relative">
+                                <div class="collapse mt-2 w-100" id="locationFilters" data-bs-parent="#parentContainer">
+                                    <div class="card card-body" style="max-width: 1000px; width: 90vw; min-height: 300px;">
+                                        <p>지역 필터 내용</p>
+                                    </div>
+                                </div>
+
+                                <div class="collapse mt-2 w-100" id="jobFilters" data-bs-parent="#parentContainer">
+                                    <div class="card card-body" style="max-width: 1000px; width: 90vw; min-height: 300px;">
+                                        <p>업직종 필터 내용</p>
+                                    </div>
+                                </div>
+
+                                <div class="collapse mt-2 w-100" id="detailFilters" data-bs-parent="#parentContainer">
+                                    <div class="card card-body" style="max-width: 1000px; width: 90vw; min-height: 300px;">
+
+                                        <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
+                                            <label class="form-label" style="width: 100px;">성별</label>
+                                            <input type="hidden" name="type" value="g">
+                                            <input type="checkbox" name="gender" value="성별무관" >&nbsp;<label>성별무관</label>&nbsp;&nbsp;&nbsp;
+                                            <input type="checkbox" name="gender" value="남자" >&nbsp;<label>남자</label>&nbsp;&nbsp;&nbsp;
+                                            <input type="checkbox" name="gender" value="여자" >&nbsp;<label>여자</label>&nbsp;
+                                        </div>
+                                        <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
+                                            <label class="form-label" style="width: 100px;">연령</label>
+                                            <input type="hidden" name="type" value="a">
+                                            <input type="checkbox" name="age" value="연령무관" >&nbsp;<label>연령무관</label>&nbsp;
+                                            <select class="form-control" name="age" style="width: 130px;">
+                                                <option value="" selected>연령선택 ▾</option>
+                                                <option value="10">10세</option>
+                                                <option value="11">11세</option>
+                                                <option value="12">12세</option>
+                                                <option value="13">13세</option>
+                                                <option value="14">14세</option>
+                                                <option value="15">15세</option>
+                                                <option value="16">16세</option>
+                                                <option value="17">17세</option>
+                                                <option value="18">18세</option>
+                                                <option value="19">19세</option>
+                                                <option value="20">20세</option>
+                                                <option value="21">21세</option>
+                                                <option value="22">22세</option>
+                                                <option value="23">23세</option>
+                                                <option value="24">24세</option>
+                                                <option value="25">25세</option>
+                                                <option value="26">26세</option>
+                                                <option value="27">27세</option>
+                                                <option value="28">28세</option>
+                                                <option value="29">29세</option>
+                                                <option value="30">30세</option>
+                                                <option value="31">31세</option>
+                                                <option value="32">32세</option>
+                                                <option value="33">33세</option>
+                                                <option value="34">34세</option>
+                                                <option value="35">35세</option>
+                                                <option value="36">36세</option>
+                                                <option value="37">37세</option>
+                                                <option value="38">38세</option>
+                                                <option value="39">39세</option>
+                                                <option value="40">40세</option>
+                                                <option value="41">41세</option>
+                                                <option value="42">42세</option>
+                                                <option value="43">43세</option>
+                                                <option value="44">44세</option>
+                                                <option value="45">45세</option>
+                                                <option value="46">46세</option>
+                                                <option value="47">47세</option>
+                                                <option value="48">48세</option>
+                                                <option value="49">49세</option>
+                                                <option value="50">50세</option>
+                                                <option value="51">51세</option>
+                                                <option value="52">52세</option>
+                                                <option value="53">53세</option>
+                                                <option value="54">54세</option>
+                                                <option value="55">55세</option>
+                                                <option value="56">56세</option>
+                                                <option value="57">57세</option>
+                                                <option value="58">58세</option>
+                                                <option value="59">59세</option>
+                                                <option value="60">60세</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                    </div>
+                    <form class="search-form" action="/recruit/list" method="get">
+                        <div class="d-flex col-md-11">
+                            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                            <input type="hidden" name="type" value="tcw">
+                            <input type="text" id="search" class="form-control" placeholder="🔍 검색어를 입력하세요" name="keyword" th:value="${pageRequestDTO.keyword}">
+                            <button type="submit" style="margin-left:10px; width: 70px;" class="btn btn-primary">검색</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 채용 공고 리스트 -->
+            <br>
+            <div class="d-flex justify-content-between">
+                <h5 style="font-size: 14px;">총 <span class="text-primary">1,513</span> 건</h5>
+                <form>
+                    <div class="d-flex" style="margin-bottom: 10px;">
+
+                        <div class="dropdown">
+                            <select class="form-control" style="width: 130px;">
+                                <option value="" selected>등록일 전체 ▾</option>
+                                <option>오늘 등록</option>
+                                <option>3일이내 등록</option>
+                                <option>7일이내 등록</option>
+                            </select>
+                        </div>
+                        <div class="dropdown" style="margin-left: 10px;">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                정렬
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <table class="table table-hover" th:with="link= ${pageRequestDTO.getLink()}">
+                <thead style="border-top: 1px solid black;">
+                <tr style="height: 60px; text-align: center;">
+                    <th valign="middle">회사명</th>
+                    <th valign="middle">공고제목</th>
+                    <th valign="middle">업직종</th>
+                    <th valign="middle">근무지역</th>
+                    <th valign="middle">경력</th>
+                    <th valign="middle">등록일</th>
+                    <th valign="middle"></th>
+                </tr>
+                </thead>
+                <div th:if="${#lists.isEmpty(responseDTO.dtoList)}" class="no-posts" style="text-align: center;">
+                    <br>
+                    <br>
+                    <p><strong>공고가 존재하지 않습니다.</strong>
+                        <br>검색어를 다시 입력하거나 필터를 재설정 해보세요.
+                    </p>
+                    <br>
+                    <br>
+                </div>
+                <tbody th:with="link = ${pageRequestDTO.getLink()}">
+                    <tr th:each="dto:${responseDTO.dtoList}" class="recurit-post">
+                        <th scope="row" hidden="hidden">[[${dto.recruitId}]]</th>
+                        <td valign="middle" style="height: 100px;">[[${dto.reCompany}]]</td>
+                        <td valign="middle"><a th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a></td>
+                        <td valign="middle">[[${dto.reIndustry}]]</td>
+                        <td valign="middle">근무지</td>
+                        <td valign="middle">경력무관</td>
+                        <td valign="middle">[[${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}]]</td>
+                        <td valign="middle"><button class="btn btn-outline-danger" id="applyBtn">입사지원</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 페이지네이션 start -->
+<!--            <div class="row">-->
+<!--                <ul class="pagination justify-content-center">-->
+<!--                    <li id="pagearrow leftarrow" class="page-item" th:if="${responseDTO.prev}">-->
+<!--                        <a href="#" class="page-link" th:data-num="${responseDTO.start -1}">&lt;</a>-->
+<!--                    </li>-->
+
+<!--                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">-->
+<!--                        <li id="pageitem" th:class="${responseDTO.page == i}?'page-item active':'page-item'">-->
+<!--                            <a href="#" id="is-active" class="page-link is-active" th:data-num="${i}">[[${i}]]</a>-->
+<!--                        </li>-->
+<!--                    </th:block>-->
+<!--                    <li id="pagearrow rightarrow" class="page-item" th:if="${responseDTO.next}">-->
+<!--                        <a href="#" class="page-link" th:data-num="${responseDTO.end + 1}">&gt;</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+            <!-- 페이지네이션 end -->
+            <!-- 페이지네이션 start -->
+            <div class="row">
+                <ul class="pagination justify-content-center" id="listPagination">
+                    <li href="#" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'">
+                        <a class="pagearrow leftarrow" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'"
+                           th:data-num="${responseDTO.start -1}">&lt;</a>
+                    </li>
+                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <li href="#" th:class="${responseDTO.page == i}? 'is-active':''">
+                            <a class="pageitem" th:data-num="${i}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <li href="#" th:classappend="${responseDTO.next} ? '' : 'is-deactive'">
+                        <a class="pagearrow rightarrow" th:classappend="${responseDTO.next} ? '' : 'is-deactive'"
+                           th:data-num="${responseDTO.end + 1}">&gt;</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 페이지네이션 end -->
+
+        </div>
+        <div id="registerButton" class="fixed-apply">
+            <a href="#" class="btn btn-outline-primary" id="registerBtn">공고등록 +</a>
+        </div>
+        <!-- 이력서 지원 모달창 start -->
+        <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="applyModalLabel">
+                            <span class="rogo-span">OneFit</span> 지원 확인
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body apply-modal-body">
+                        <div class="mb-3">
+                            <p>해당 공고에 이력서를 지원하시겠습니까?</p>
+                        </div>
+                        <div class="tab-content mt-3">
+                            <form>
+                                <button type="submit" class="btn btn-primary w-100 modal-btn" id="confirmApplyBtn">지원하기</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 이력서 지원 모달창 end -->
+
+        <!-- 공고 등록 버튼 모달창 start -->
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerModalLabel">
+                            <span class="rogo-span">OneFit</span> 공고 등록 확인
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body register-modal-body">
+                        <div class="mb-3">
+                            <p><strong>채용 공고 등록</strong>을 진행하시겠습니까?</p>
+                        </div>
+                        <div class="tab-content mt-3">
+                            <form>
+                                <div class="d-flex flex-row-reverse">
+                                    <div>
+                                        <a href="#" class="btn btn-outline-secondary w-100 modal-btn" data-bs-dismiss="modal" id="confirmRegisterBtn1">아니오</a>
+                                    </div>
+                                    <div style="margin-right: 3px">
+                                        <a href="/recruit/register" class="btn btn-primary w-100 modal-btn" id="confirmRegisterBtn">네</a>
+                                    </div>
+                                </div>
+                                <!-- <button type="submit" class="btn btn-primary w-100 modal-btn" id="confirmRegisterBtn">등록하기</button> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 공고 등록 버튼 모달창 end -->
+
+        <div class="modal fade" id="registerResultModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerResultModalLabel">
+                            <span class="rogo-span">OneFit</span> 확인
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body register-modal-body">
+                        <div class="mb-3">
+                            <p><strong>완료되었습니다.</p>
+                        </div>
+                        <div class="tab-content mt-3">
+                            <div class="d-flex flex-row-reverse">
+                                <div>
+                                    <a href="#" class="btn btn-outline-secondary w-100 modal-btn" data-bs-dismiss="modal" id="confirmRegisterBtn1">닫기</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <!--    테스트용-->
+    <div layout:fragment="index"></div>
+    <div layout:fragment="login"></div>
+    <div layout:fragment="join"></div>
+</main>
+<!-- 메인 end  -->
+
+<!-- 푸터 layout start -->
+<div th:replace="~{/foot/footer}"></div>
+<!-- 푸터 layout end -->
+
+
+
+<!--  회원가입 모달창 start -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel"> <span class="rogo-span">OneFit</span> 회원가입</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body signup-modal-body">
+                <div class="tab-content mt-3 div-sign-login" id="signupTabContent">
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">이름</label>
+                            <input type="text" class="form-control" id="name" placeholder="홍길동" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">이메일</label>
+                            <input type="email" class="form-control" id="email" placeholder="ex) email@onefit.com"
+                                   required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">아이디</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="username"
+                                       placeholder="3자 이상, 16자 이하의 영어 또는 숫자로 구성" required>
+                                <button class="btn btn-outline-primary" type="button" id="check-username">
+                                    중복 확인
+                                </button>
+                            </div>
+                            <!-- 중복 확인 메시지 출력 공간 -->
+                            <div id="username-feedback" class="mt-1 input-feedback text-danger">이미 사용 중인 아이디입니다.</div>
+                            <!-- <div id="username-feedback" class="mt-1 input-feedback text-success">사용 가능한 아이디입니다.</div> -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="password"
+                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">비밀번호 확인</label>
+                            <input type="password" class="form-control" id="password"
+                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
+                            <!-- 비밀번호 확인 메시지 출력 공간 -->
+                            <!-- <div id="password-feedback" class="mt-1 input-feedback text-danger">비밀번호가 일치하지 않습니다.</div> -->
+                            <div id="password-feedback" class="mt-1 input-feedback text-success">비밀번호가 일치합니다.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">전화번호</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="ex) 010-1234-5678"
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 modal-btn"
+                                id="signupButton">가입하기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 회원가입 모달창 end -->
+
+<!-- 로그인 모달창 start -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel"> <span class="rogo-span">OneFit</span> 로그인</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 일반 로그인 -->
+                <div class="div-sign-login" id="generalLogin">
+                    <form>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">아이디</label>
+                            <input type="text" class="form-control" id="username" placeholder="아이디를 입력하세요" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요"
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 modal-btn" id="loginButton">
+                            로그인
+                        </button>
+                    </form>
+                    <!-- 소셜 로그인 -->
+                    <div class="login-container">
+                        <div class="text-center my-3">
+                            <hr class="line">
+                            <span class="hr-text">소셜 계정으로 간편 로그인</span>
+                            <hr class="line">
+                        </div>
+                        <div class="social-login-buttons">
+                            <button class="social-btn google-btn">
+                                <img src="img/google_rogo.png" alt="Google Logo">
+                            </button>
+                            <button class="social-btn kakao-btn">
+                                <i class="fas fa-comment kakao-rogo"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- 로그인 모달창 end -->
+<!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<!-- bootstrap js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="/js/basic.js"></script>
+<script src="/js/recruit/recruit_list.js"></script>
+<script layout:fragment="script" th:inline="javascript">
+
+    const result = [[${result}]]
+
+    const modal = new bootstrap.Modal(document.getElementById("registerResultModal"))
+    if(result){
+        alert(result)
+        modal.show();
+    }
+</script>
+</body>
+
+</html>

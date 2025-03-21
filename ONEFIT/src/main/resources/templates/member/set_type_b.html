@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+</head>
+
+<div>
+    <h1>회원전환 요구사항</h1>
+    <label class="form-label">정보이용 동의서</label>
+    <input type="checkbox" value="동의합니다.">
+
+    <div th:if="${all_memberDTO != null}">
+        <form id="modifyMemberType" name="modifyMemberType" action="/member/set_type_b" method="post">
+            <input type="hidden" th:name="allId" th:value="${all_memberDTO.allId}" readonly>
+            <div class="form-section">
+                <h5 class="product-h5">회원 정보</h5>
+                <hr>
+                <div class="mb-3">
+                    <label class="form-label">이름</label>
+                    <input type="text" class="form-control" th:value="${all_memberDTO.name}"
+                           readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">이메일</label>
+                    <input type="text" class="form-control" th:value="${all_memberDTO.email}"
+                           readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">아이디</label>
+                    <input type="text" class="form-control" th:value="${all_memberDTO.allId}"
+                           readonly>
+                </div>
+
+                <hr>
+                <!--                추가작성사항-->
+                <div class="mb-3">
+                    <label class="form-label">기업 이름</label>
+                    <input type="text" class="form-control" name="bName" placeholder="이름">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">기업 주소</label>
+                    <input type="text" class="form-control" name="bAddress" placeholder="주소"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">사업자등록번호</label>
+                    <input type="text" class="form-control" name="bRegNum" placeholder="주소"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">대표자</label>
+                    <input type="text" class="form-control" name="bExponent" placeholder="대표자"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">기업 전화번호</label>
+                    <input type="text" class="form-control" name="bPhone" placeholder="전화번호"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">기업 홈페이지</label>
+                    <input type="text" class="form-control" name="bHomepage" placeholder="홈페이지">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">근로자 수</label>
+                    <input type="text" class="form-control" name="bEmployees" placeholder="근로자 수">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">자산 총액</label>
+                    <input type="text" class="form-control" name="bAssets" placeholder="자산 총액">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">평균 매출액</label>
+                    <input type="text" class="form-control" name="bAverage" placeholder="평균 매출액">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">설립일</label>
+                    <input type="date" class="form-control" name="bEstaDate" placeholder="설립일">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <button type="submit" class="product-btn btn btn-primary w-100">확인
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div th:if="${all_memberDTO == null}">
+        <h5>잘못된 접근입니다!</h5>
+    </div>
+</div>
+</html>

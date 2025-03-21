@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneFit - 판매글(기구) 등록</title>
+    <link rel="stylesheet" th:href="@{/css/transaction/transa_register.css}">
+</head>
+
+<body>
+<div layout:fragment="transa_eq_register">
+    <div class="container mt-5">
+        <div class="post-container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-container">
+                    <li class="breadcrumb-item"><a href="#">홈</a></li>
+                    <li class="breadcrumb-item"><a href="#">거래</a></li>
+                    <li class="breadcrumb-item"><a href="#">기구</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">게시글 등록</li>
+                </ol>
+            </nav>
+            <form id="eq_Form" name="eq_Form" action="/transaction/transa_eq_register" method="post">
+                <div class="form-section">
+                    <h5 class="product-h5">상품 정보</h5>
+                    <hr>
+                    <div class="mb-3">
+                        <!-- 1. 제목 -->
+                        <label class="form-label">제목</label>
+                        <input type="text" name="pTitle" id="pTitle"
+                               class="form-control" placeholder="제목을 입력하세요" required>
+<!--                        <div id="pTitle-feedback" class="mt-1 input-feedback text-danger">-->
+<!--                            제목을 입력해주세요.-->
+<!--                        </div>-->
+                    </div>
+
+                    <div class="row g-3">
+                        <!-- 거래 상태 (게시글 수정 시에 보임)-->
+                        <!-- <div class="form-section col-md-6">
+                            <label class="form-label">거래 상태</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" id="status-sale" name="status" value="판매중"
+                                    checked>
+                                <label for="status-sale" class="btn btn-outline-primary">판매중</label>
+
+                                <input type="radio" class="btn-check" id="status-reserved" name="status"
+                                    value="예약중">
+                                <label for="status-reserved" class="btn btn-outline-primary">예약중</label>
+
+                                <input type="radio" class="btn-check" id="status-done" name="status" value="거래완료">
+                                <label for="status-done" class="btn btn-outline-primary">거래완료</label>
+                            </div>
+                        </div> -->
+                        <div class="col-md-6">
+                            <!-- 2. 판매가 -->
+                            <label class="form-label">판매가</label>
+                            <input type="text" class="form-control" name="pPrice" placeholder="판매 가격 입력" required>
+                        </div>
+
+                        <!-- 3. 카테고리 -->
+                        <div class="col-md-6">
+                            <label class="form-label">카테고리</label>
+                            <select name="categoryId" class="form-select" required>
+                                <option value="" disabled selected>카테고리 선택</option>
+                                <option value="1">수영</option>
+                                <option value="2">헬스</option>
+                                <option value="3">요가</option>
+                                <option value="4">축구</option>
+                                <option value="5">배드민턴</option>
+                                <option value="6">테니스</option>
+                                <option value="7">스포츠 보충제</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="form-section">
+                    <h5 class="product-h5">상세 설명</h5>
+                    <hr>
+                    <div class="mb-3">
+                        <!-- 4. 판매내용 -->
+                        <label class="form-label">판매 내용</label>
+                        <textarea class="form-control" rows="5" name="pContent"
+                                  placeholder="판매 내용을 입력하세요" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <!-- 5. 거래 장소 -->
+                        <label class="form-label">희망 거래 장소</label>
+                        <input type="text" class="form-control" name="pAddr"
+                               placeholder="주소를 입력하세요" required>
+                    </div>
+                    <div class="mb-3">
+                        <!-- 6. 오픈 채팅 URL -->
+                        <label class="form-label">카카오톡 오픈채팅 URL</label>
+                        <input type="url" class="form-control" name="pChatUrl"
+                               placeholder="오픈채팅 URL를 입력하세요">
+                    </div>
+                    <div class="mb-3 uploadHidden">
+                        <!-- 7. 상품 이미지 -->
+                        <label class="form-label">상품 이미지</label>
+                        <div class="file-label" onclick="$('#imageUpload').click()">이미지 업로드</div>
+                        <input type="file" class="form-control d-none" id="imageUpload" accept="image/*" multiple>
+                        <div id="imagePreview" class="mt-2 d-flex flex-wrap"></div>
+                        <div class="mt-1 text-secondary">
+                            ※ 미리보기 첫 번째 이미지가 썸네일로 표시됩니다.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h5 class="product-h5 detail-h5">기구 판매 정보</h5>
+                    <hr>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <!-- 8. 제품명 -->
+                            <label class="form-label">제품명</label>
+                            <input type="text" class="form-control" name="eName"
+                                   placeholder="제품명을 가격을 입력하세요" required>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- 9. 제조사 -->
+                            <label class="form-label">제조사</label>
+                            <input type="text" class="form-control" name="eBrand"
+                                   placeholder="제조사를를 입력하세요" required>
+                        </div>
+                        <div class="form-section col-md-6">
+                            <!-- 10. 제품 상태 -->
+                            <label class="form-label">제품 상태</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" id="status-a" name="eStatus" value="상"
+                                       checked>
+                                <label for="status-a" class="btn btn-outline-primary">상</label>
+                                <input type="radio" class="btn-check" id="status-b" name="eStatus" value="중">
+                                <label for="status-b" class="btn btn-outline-primary">중</label>
+                                <input type="radio" class="btn-check" id="status-c" name="eStatus" value="하">
+                                <label for="status-c" class="btn btn-outline-primary">하</label>
+                            </div>
+                        </div>
+                        <div class="form-section col-md-6">
+                            <!-- 11. A/S 가능여부 -->
+                            <label class="form-label">A/S 가능여부</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" id="as-yes" name="eAs" value="가능" checked>
+                                <label for="as-yes" class="btn btn-outline-primary">가능</label>
+                                <input type="radio" class="btn-check" id="as-no" name="eAs" value="불가">
+                                <label for="as-no" class="btn btn-outline-primary">불가</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-0">
+                            <!-- 12. 구매가 -->
+                            <label class="form-label">구매가</label>
+                            <input type="text" class="form-control" name="ePurPrice"
+                                   placeholder="구매 가격을 입력하세요" required>
+                        </div>
+                    </div>
+                    <div class="use-date-div row g-3">
+                        <div class="col-md-6">
+                            <!-- 13. 사용 시작일 -->
+                            <label class="form-label">사용 시작일</label>
+                            <input type="date" class="form-control" name="eUseStart"
+                                   placeholder="판매 가격 입력" required>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- 14. 사용 종료일 -->
+                            <label class="form-label">사용 종료일</label>
+                            <input type="date" class="form-control" name="eUseEnd"
+                                   placeholder="판매 가격 입력" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="product-btn btn btn-primary w-100 submitBtn">등록하기</button>
+            </form>
+        </div>
+    </div>
+    <!-- JS 기능 추가 -->
+    <script th:src="@{/js/transaction/upload.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script th:src="@{/js/transaction/transa_register.js}"></script>
+</div>
+
+
+</body>
+
+</html>

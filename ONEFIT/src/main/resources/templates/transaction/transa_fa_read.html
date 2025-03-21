@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneFit - 거래 글 보기(시설)</title>
+    <link rel="stylesheet" th:href="@{/css/transaction/transa_read.css}">
+    <link rel="stylesheet" th:href="@{/css/pagination.css}">
+</head>
+
+<body>
+<!-- 메인 start -->
+<div layout:fragment="transa_eq_read">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header p-3 d-flex justify-content-between align-items-center">
+                <h2 class="card-title mb-0">
+                    <span class="status-span"
+                          th:text="${dto.pStatus}"
+                          th:class="${dto.pStatus == '판매중' ? 'text-success' : (dto.pStatus == '예약중' ? 'text-primary' : (dto.pStatus == '판매완료' ? 'text-muted' : ''))}">
+                    </span>&nbsp;&nbsp;[[${dto.pTitle}]]
+                </h2>
+                <div class="d-flex flex-column">
+                    <!-- 수정 삭제 케밥 메뉴 -->
+                    <button class="btn btn-light border-0 float-end ms-auto"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">수정하기</a></li>
+                        <li><a class="dropdown-item text-danger" href="#">삭제하기</a></li>
+                    </ul>
+                    <!-- 게시글 작성일 -->
+                    <span class="text-muted float-end mt-4">
+                        [[${#temporals.format(dto.modDate,'yyyy-MM-dd a h시 mm분')}]]
+                    </span>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- 브레드크럼 -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb-container">
+                        <li class="breadcrumb-item"><a href="#">홈</a></li>
+                        <li class="breadcrumb-item"><a href="#">거래</a></li>
+                        <li class="breadcrumb-item"><a href="#">시설</a></li>
+                        <li class="breadcrumb-item"><a href="#">[[${dto.cCategory}]]</a></li>
+                        <!-- <li class="breadcrumb-item active" aria-current="page">dd</li> -->
+                    </ol>
+                </nav>
+                <!-- 매물 이미지 -->
+                <div class="row mb-3 justify-content-center ms-auto img-info-container">
+                    <div class="col-12 col-md-6">
+                        <!-- 매물 이미지 슬라이드 -->
+                        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner"
+                                 th:if="${dto.imageFileNames != null && dto.imageFileNames.size() > 0}">
+                                <div th:each="imageName, stat: ${dto.imageFileNames}" class="carousel-item"
+                                     th:classappend="${stat.first} ? ' active' : ''">
+                                    <div class="carousel-img-container">
+                                        <img th:src="|/view_transa/${imageName}|"
+                                             class="d-block w-100 h-100 carousel-img"
+                                             th:alt="${imageName}" onclick="openModal(this)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 이전, 다음 버튼 -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel"
+                                    data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel"
+                                    data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+
+                        <!-- 이미지 전체 보기 모달 -->
+                        <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" id="closeModalBtn"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <img id="modalImage" src="" class="img-fluid rounded">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 프로필 정보 -->
+                        <div class="d-flex align-items-center mt-3">
+                            <!-- 프로필 이미지 -->
+                            <img src="/image/transaction/profile-1.jpg" alt="프로필 이미지"
+                                 class="profile-img me-3 rounded-circle">
+
+                            <!-- 닉네임 및 추가 정보 -->
+                            <div>
+                                <h6 class="mb-1 fw-bold">[[${dto.allId}]]</h6>
+                                <p class="mb-0 text-muted">개인 회원</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-6 read-info">
+                        <!-- 가격 -->
+                        <h3 class="price-text">
+                            <span th:text="${#numbers.formatInteger(dto.pPrice, 1, 'COMMA')}"></span>
+                            원
+                        </h3>
+
+                        <table class="table table-borderless mt-3">
+                            <tbody>
+                            <tr>
+                                <th>매매사유</th>
+                                <td>[[${dto.fReasonSale}]]</td>
+                            </tr>
+                            <tr>
+                                <th>거래 장소</th>
+                                <td>[[${dto.pAddr}]]</td>
+                            </tr>
+                            <tr>
+                                <th>센터명</th>
+                                <td>[[${dto.fCenterName}]]</td>
+                            </tr>
+                            <tr>
+                                <th>보증금</th>
+                                <td>[[${dto.fDeposit}]]</td>
+                            </tr>
+                            <tr>
+                                <th>월세</th>
+                                <td>
+                                    <span th:text="${#numbers.formatInteger(dto.fMonthRent, 1, 'COMMA')}"></span>
+                                    원
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>관리비</th>
+                                <td>
+                                    <span th:text="${#numbers.formatInteger(dto.fAdminCost, 1, 'COMMA')}"></span>
+                                    원
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>계약면적</th>
+                                <td>
+                                    <span th:text="${#numbers.formatInteger(dto.fContArea, 1, 'COMMA')}"></span>
+                                    ㎡
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>실면적</th>
+                                <td>
+                                    <span th:text="${#numbers.formatInteger(dto.fRealArea, 1, 'COMMA')}"></span>
+                                    ㎡
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <h4 class="content-title">판매내용</h4>
+                        <div class="content p-3 border rounded overflow-auto">[[${dto.pContent}]]
+                        </div>
+                        <div class="mt-4 d-flex justify-content-center align-items-center">
+                                <span class="like">
+                                    <!-- <i class="fa-solid fa-heart"></i> -->
+                                    <i class="fa-regular fa-heart"></i>
+                                </span>
+                            <button class="btn w-100 ms-auto m-0" id="chatButton"
+                                    th:attr="data-link=${dto.pChatUrl}" onclick="openChatPopup()">
+                                <i class="fas fa-comment kakao-rogo"></i>&nbsp;&nbsp;오픈채팅 바로가기
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h5 class="fw-bold">댓글 <span class="text-primary">1</span></h5>
+        <div class="card p-3 border-0">
+            <!-- 댓글 입력창 -->
+            <div class="d-flex align-items-center mb-3">
+                <img src="/image/transaction/profile-2.jpg" class="rounded-circle me-2 profile-img" alt="프로필">
+                <input type="text" class="form-control rounded-pill" placeholder="댓글을 입력하세요...">
+                <button class="btn btn-primary ms-2 rounded-pill px-3 reply-btn">등록</button>
+            </div>
+            <hr>
+
+            <!-- 개별 댓글 -->
+            <div class="d-flex align-items-start mb-3">
+                <img src="/image/transaction/profile-2.jpg" class="rounded-circle me-2 profile-img" alt="프로필">
+                <div class="w-100">
+                    <div class="d-flex justify-content-between">
+                        <strong>홍길동</strong>
+                        <small class="text-muted">2시간 전</small>
+                    </div>
+                    <p class="mb-1">좋은 정보 감사합니다! 😊</p>
+                    <div class="d-flex align-items-center">
+                        <!-- <button class="btn btn-light btn-sm me-2"><i class="fa-regular fa-thumbs-up"></i> 5</button> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이지네이션 start -->
+            <div class="row">
+                <ul class="pagination justify-content-center">
+                    <a href="#" class="is-deactive">
+                        <li class="pagearrow leftarrow">&lt;</li>
+                    </a>
+                    <a href="#" class="is-active">
+                        <li class="pageitem">1</li>
+                    </a>
+                    <a href="#">
+                        <li class="pageitem">2</li>
+                    </a>
+                    <a href="#">
+                        <li class="pageitem">3</li>
+                    </a>
+                    <a href="#">
+                        <li class="pageitem">4</li>
+                    </a>
+                    <a href="#">
+                        <li class="pagearrow rightarrow">&gt;</li>
+                    </a>
+                </ul>
+            </div>
+            <!-- 페이지네이션 end -->
+
+        </div>
+    </div>
+    <!-- 댓글 end  -->
+    <!-- JS 기능 추가 -->
+    <script th:src="@{/js/transaction/transa_read.js}"></script>
+</div>
+
+</body>
+
+</html>
