@@ -60,8 +60,9 @@ public class TrainerServiceImpl implements TrainerService {
                         log.info(tuuId + "_" + file.getOriginalFilename());
                         trainer.addImage(tuuId, file.getOriginalFilename());    // imageSet 에 OneToMany
 
+                        // 업로드
                         Path path = Paths.get(thumbnailPath, tuuId + "_" + file.getOriginalFilename());
-                        Files.copy(file.getInputStream(), path);
+                        file.transferTo(path);
                         filePaths.add(path.toString());
                     }
                 }
@@ -90,13 +91,10 @@ public class TrainerServiceImpl implements TrainerService {
 
         TrainerViewDTO trainerViewDTO = modelMapper.map(trainer, TrainerViewDTO.class);
 
-        // 썸네일 파일 경로
-        // 문제가 생기면 thumbnailPath 를 Path 에서 따오지 말고 아래 new File() 에 파일 이름과 같이 집어넣을 것
+        // 썸네일 파일 이름들
         List<String> filePaths = trainer.getImageSet().stream().sorted()
                 .map(trainerThumbnails ->
-                        Paths.get(thumbnailPath, trainerThumbnails.getThumbnailUuid() +
-                                "_" + trainerThumbnails.getImgname()
-                        ).toString()
+                        trainerThumbnails.getThumbnailUuid() + "_" + trainerThumbnails.getImgname()
                 ).collect(Collectors.toList());
 
         trainerViewDTO.setThumbnails(filePaths);

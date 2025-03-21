@@ -1,5 +1,3 @@
-thumbnails.dispatchEvent(new Event('change'));
-
 const academyContent = parseIfNotEmpty(viewDTO.academy);
 const careerContent = parseIfNotEmpty(viewDTO.career);
 const licenseContent = parseIfNotEmpty(viewDTO.license);
@@ -9,6 +7,7 @@ const careerTable = document.getElementById("career-table-body");
 const licenseTable = document.getElementById("license-table-body");
 const prizeTable = document.getElementById("prize-table-body");
 
+// 데이터가 없으면 JSON.parse() 가 오류를 뱉으므로 이렇게 처리
 function parseIfNotEmpty(str) {
     if (str !== null && str.length > 0) {
         return JSON.parse(str);
@@ -90,9 +89,9 @@ if (prizeContent !== null) {
         const prize = prizeContent[key];
         const row = document.createElement("tr");
 
-        const c1 = createTableData(license["ti"]);
-        const c2 = createTableData(license["in"]);
-        const c3 = createTableData(license["dt"]);
+        const c1 = createTableData(prize["ti"]);
+        const c2 = createTableData(prize["in"]);
+        const c3 = createTableData(prize["dt"]);
 
         row.appendChild(c1);
         row.appendChild(c2);
@@ -102,4 +101,6 @@ if (prizeContent !== null) {
     }
 }
 
-tableTimeCalc();
+// 마지막으로 이미지를 새로고침
+// 현재 실제 이미지를 들여보내는 것은 아니기 때문에 오류의 소지가 있음
+// thumbnails.dispatchEvent(new Event('change'));

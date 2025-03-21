@@ -46,7 +46,12 @@
                     <div class="col-md-4 img-center slider-box">
                         <button type="button" class="slider-arrow-left" id="left-slider">&lt;</button>
                         <div class="profile-frame mb-3 rounded-circle" id="slider-frame">
-                            <img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">
+                            <th:block th:if="${dto.thumbnails != null && dto.thumbnails.size() > 0}">
+                                <img class="profile-img" th:each="fileName: ${dto.thumbnails}" th:src="|/trainer_thumbnail/view/${fileName}|">
+                            </th:block>
+                            <th:block th:unless="${dto.thumbnails != null && dto.thumbnails.size() > 0}">
+                                <img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">
+                            </th:block>
                         </div>
                         <button type="button" class="slider-arrow-right" id="right-slider">&gt;</button>
                         <input type="file" accept=".jpg, .jpeg, .png" name="thumbnails" id="thumbnails" class="form-control" multiple>
@@ -67,7 +72,7 @@
                     </div>
                     <label class="form-label"><strong>학력 상세</strong></label>
                     <input type="text" name="academy" id="academy-real" hidden>
-                    <table class="table table-bordered" id="academy-table">
+                    <table class="table table-bordered" id="academy-table" th:if="${dto.academy.length > 0}">
                         <thead>
                         <tr>
                             <th>구분</th>
@@ -88,9 +93,9 @@
                         <label class="form-label"><strong>경력기간</strong></label>
                         <input type="text" class="form-control do-not-submit" th:value="${dto.careerPeriod == 0 ? '신입' : dto.careerPeriod + '년 이상'}" required readonly>
                     </div>
-                    <label class="form-label"><strong>경력 상세</strong></label>
+                    <label class="form-label" th:if="${dto.career.length > 0}"><strong>경력 상세</strong></label>
                     <input type="text" name="career" id="career-real" hidden>
-                    <table class="table table-bordered" id="career-table">
+                    <table class="table table-bordered" id="career-table" th:if="${dto.career.length > 0}">
                         <thead>
                         <tr>
                             <th>조직</th>
@@ -107,7 +112,7 @@
                 <div>
                     <h4 class="section-title">자격증</h4>
                     <input type="text" name="license" id="license-real" hidden>
-                    <table class="table table-bordered" id="license-table">
+                    <table class="table table-bordered" id="license-table" th:if="${dto.license.length > 0}">
                         <thead>
                         <tr>
                             <th>명칭</th>
@@ -123,7 +128,7 @@
                 <div>
                     <h4 class="section-title">수상경력</h4>
                     <input type="text" name="prize" id="prize-real" hidden>
-                    <table class="table table-bordered" id="prize-table">
+                    <table class="table table-bordered" id="prize-table" th:if="${dto.prize.length > 0}">
                         <thead>
                         <tr>
                             <th>명칭</th>

@@ -3,12 +3,16 @@ package org.zerock.b01.controller.trainer;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.b01.dto.trainerDTO.Trainer_ThumbnailsDTO;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,29 +28,6 @@ public class TrainerThumbnailController {
     private String thumbnailPath;
 
     List<String> filePaths = new ArrayList<>();
-
-    @Operation(description = "Thumbnail Upload POST")
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadThumbnail(@RequestParam("thumbnails") MultipartFile[] files) {
-        log.info("uploadThumbnail");
-
-        if (files.length == 0) {
-            return ResponseEntity.badRequest().body("파일이 비어 있습니다.");
-        }
-
-        try {
-            for (MultipartFile file : files) {
-                if (!file.isEmpty()) {
-                    Path path = Paths.get(thumbnailPath, UUID.randomUUID().toString() + file.getOriginalFilename());
-                    Files.copy(file.getInputStream(), path);
-                    filePaths.add(path.toString());
-                }
-            }
-            return ResponseEntity.ok("Thumbnail Upload Complete: " + filePaths);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Thumbnail Upload Failed: " + e.getMessage());
-        }
-    }
 
     @Operation(description = "Thumbnail Delete by Delete method")
     @DeleteMapping("/delete/{filename}")
@@ -65,5 +46,22 @@ public class TrainerThumbnailController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Thumbnail Delete Failed: " + e.getMessage());
         }
+    }
+
+    @Operation(description = "GET방식으로 업로드된 파일 조회")
+    @GetMapping("/view/{fileName}")
+    public ResponseEntity<Resource> viewFileGET(@PathVariable String fileName){
+        log.info("viewFileGET");
+        Resource resource = new FileSystemResource(thumbnailPath + File.separator + fileName);
+        String resourceName = resource.getFilename();
+        log.info(resourceName);
+        HttpHeaders headers = new HttpHeaders();
+
+        try{
+            headers.add("Content-Type", Files.probeContentType( resource.getFile().toPath()));  //aaa.jpg -> aaa/jpg
+        } catch(Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().headers(headers).body(resource);
     }
 }
