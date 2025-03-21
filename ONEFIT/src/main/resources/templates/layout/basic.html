@@ -75,7 +75,7 @@
             <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 end -->
 
             <!-- 로그인 전 메뉴 -->
-            <div th:if="${all_memberDTO == null}">
+            <div th:if="${all_memberDTO.allId == null}">
                 <a type="button" class="basic-btn btn btn-primary btns" href="/login">
                     로그인
                 </a>
@@ -87,7 +87,7 @@
             </div>
 
             <!-- 로그인 후 메뉴 -->
-            <div th:if="${all_memberDTO != null}">
+            <div th:if="${all_memberDTO.allId != null}">
                 <a type="button" class="basic-btn btn btn-primary btns" href="/logout">
                     로그아웃
                 </a>
@@ -248,6 +248,6 @@
 </body>
 
 <!-- footer -->
-<th:block th:replace="foot/footer :: footer"></th:block>
+<th:block th:replace="/foot/footer"></th:block>
 
 </html>
