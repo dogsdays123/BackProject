@@ -38,7 +38,7 @@ public class RecruitDTO {
     private String reJobTypeTrainee; // 고용형태(정규직, 프리, 파트)
 
     private String reJobTypeAlba; // 고용형태(정규직, 프리, 파트)
-    
+
     @NotEmpty
     private String reIndustry;
 
@@ -71,13 +71,12 @@ public class RecruitDTO {
 
     private String reSalaryCheckProb; // 급여추가정보선택
 
-
     private String reSalaryDetail;
 
 
     private String reGender;
 
-    private String reAgeType;
+    private String reAgeType; // 최소연령
 
     private String reMinAge;
 

@@ -129,226 +129,227 @@
                 <div style="float: right;">
                     작성일 : <span th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </div>
-            <br>
-            <br>
-            <!--공고 Header -->
-            <div>
-                <div class="card">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <h2 class="card-title fw-bold" th:text="${dto.reTitle}"></h2>
-                            <p class="text-muted" th:text="${dto.reCompany}"></p>
-                            <span class="badge bg-warning" th:text="${dDayText}"></span>
-                            <span class="badge bg-danger" th:if="${dto.reSalaryCheckAgree == '급여협의가능'}" th:text="급여협의가능"></span>
-                            <span class="badge bg-secondary" th:if="${dto.reSalaryCheckMeal == '식대지급'}" th:text="식대지급"></span>
-                            <span class="badge bg-primary" th:if="${dto.reSalaryCheckDuty == '당직비지급'}" th:text="당직비지급"></span>
+                <br>
+                <br>
+                <!--공고 Header -->
+                <div>
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2 class="card-title fw-bold" th:text="${dto.reTitle}"></h2>
+                                <p class="text-muted" th:text="${dto.reCompany}"></p>
+                                <span class="badge bg-warning" th:text="${dDayText}"></span>
+                                <span class="badge bg-danger" th:if="${dto.reSalaryCheckAgree == '급여협의가능'}" th:text="급여협의가능"></span>
+                                <span class="badge bg-secondary" th:if="${dto.reSalaryCheckMeal == '식대지급'}" th:text="식대지급"></span>
+                                <span class="badge bg-primary" th:if="${dto.reSalaryCheckDuty == '당직비지급'}" th:text="당직비지급"></span>
+                            </div>
+                            <img src="https://dummyimage.com/150x150/000/fff" alt="회사 로고" class="img-fluid" width="150" height="150">
                         </div>
-                        <img src="https://dummyimage.com/150x150/000/fff" alt="회사 로고" class="img-fluid" width="150" height="150">
                     </div>
                 </div>
-            </div>
-            <br>
-            <!-- 공고 근무조건 -->
-            <div>
-                <h4 class="fw-bold">근무조건</h4>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <ul class="label-list-group w-50">
-                                <li class="label-list" style="margin-bottom: 5px">
-                                    <span class="label">급여</span><span class="badge bg-danger" th:text="${dto.reSalaryType}"></span>
-                                    <span th:text="${dto.reSalaryValue}"></span> 만원
-                                </li>
+                <br>
+                <!-- 공고 근무조건 -->
+                <div>
+                    <h4 class="fw-bold">근무조건</h4>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <ul class="label-list-group w-50">
+                                    <li class="label-list" style="margin-bottom: 5px">
+                                        <span class="label">급여</span><span class="badge bg-danger" th:text="${dto.reSalaryType}"></span>
+                                        <span th:text="${dto.reSalaryValue}"></span> 만원
+                                    </li>
+                                    <li class="label-list">
+                                        <span class="label"></span>
+                                        <span style="font-size: 13px;" class="label" th:text="${dto.reSalaryDetail}"></span>
+                                    </li>
+                                    <li class="label-list">
+                                        <span class="label">근무요일</span>
+                                        <span th:text="${dto.reWorkDays}"></span>
+                                        <span style="font-size: 13px;" th:if="${dto.reDutyDays == '주말당직'}" th:text="'(주말당직있음)'"></span>
+                                        <span></span>
+                                        <span style="font-size: 13px;"></span>
+                                    </li>
+                                    <li class="label-list">
+                                        <span class="label">근무시간</span>
+                                        <span th:text="${dto.reWorkStartTime}"></span>
+                                        ~
+                                        <span th:text="${dto.reWorkEndTime}"></span>
+                                        <span style="font-size: 13px;" th:if="${dto.reTimeNegotiable == '시간협의'}" th:text="'(시간협의가능)'"></span>
+                                        <span></span>
+                                    </li>
+                                </ul>
+                                <ul class="label-list-group w-50">
+                                    <li class="label-list">
+                                        <span class="label">업직종</span>
+                                        <span th:text="${dto.reIndustry}"></span>
+                                    </li>
+                                    <li class="label-list">
+                                        <span class="label">고용형태</span>
+                                        <span th:if="${dto.reJobTypeAlba == '아르바이트'}" th:text="아르바이트" style="margin-right: 5px"></span>
+                                        <span th:if="${dto.reJobTypeFree == '프리랜서'}" th:text="프리랜서" style="margin-right: 5px"></span>
+                                        <span th:if="${dto.reJobTypeFull == '정규직'}" th:text="정규직" style="margin-right: 5px"></span>
+                                        <span th:if="${dto.reJobTypePart == '파트'}" th:text="파트" style="margin-right: 5px"></span>
+                                        <span th:if="${dto.reJobTypeTrainee == '연습생'}" th:text="연습생" style="margin-right: 5px"></span>
+                                        <span ></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <!-- 공고 모집조건 -->
+                <div>
+                    <h4 class="fw-bold">모집조건</h4>
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="label-list-group">
                                 <li class="label-list">
-                                    <span class="label"></span>
-                                    <span style="font-size: 13px;" class="label" th:text="${dto.reSalaryDetail}"></span>
-                                </li>
-                                <li class="label-list">
-                                    <span class="label">근무요일</span>
-                                    <span th:text="${dto.reWorkDays}"></span>
-                                    <span style="font-size: 13px;" th:if="${dto.reDutyDays == '주말당직'}" th:text="'(주말당직있음)'"></span>
+                                    <span class="label">학력</span>
+                                    <span th:text="${dto.reEducation}"></span>
                                     <span></span>
-                                    <span style="font-size: 13px;"></span>
                                 </li>
                                 <li class="label-list">
-                                    <span class="label">근무시간</span>
-                                    <span th:text="${dto.reWorkStartTime}"></span>
-                                    ~
-                                    <span th:text="${dto.reWorkEndTime}"></span>
-                                    <span style="font-size: 13px;" th:if="${dto.reTimeNegotiable == '시간협의'}" th:text="'(시간협의가능)'"></span>
+                                    <span class="label">경력</span>
+                                    <span th:text="${dto.reJobHistory}"></span>
+                                </li>
+                                <li class="label-list">
+                                    <span class="label">모집인원</span>
+                                    <span th:text="${dto.reNumHiring}"></span>명
+
+                                </li>
+                                <li class="label-list">
+                                    <span class="label">모집마감일</span>
+                                    <span class="badge bg-primary" th:text="${dDayText}"></span>
+                                    <span th:text="${#temporals.format(dto.reDeadline, 'yyyy-MM-dd HH:mm')}"></span>
                                     <span></span>
+
                                 </li>
                             </ul>
-                            <ul class="label-list-group w-50">
-                                <li class="label-list">
-                                    <span class="label">업직종</span>
-                                    <span th:text="${dto.reIndustry}"></span>
-                                </li>
-                                <li class="label-list">
-                                    <span class="label">고용형태</span>
-                                    <span th:if="${dto.reJobTypeAlba == '아르바이트'}" th:text="아르바이트" style="margin-right: 5px"></span>
-                                    <span th:if="${dto.reJobTypeFree == '프리랜서'}" th:text="프리랜서" style="margin-right: 5px"></span>
-                                    <span th:if="${dto.reJobTypeFull == '정규직'}" th:text="정규직" style="margin-right: 5px"></span>
-                                    <span th:if="${dto.reJobTypePart == '파트'}" th:text="파트" style="margin-right: 5px"></span>
-                                    <span th:if="${dto.reJobTypeTrainee == '연습생'}" th:text="연습생" style="margin-right: 5px"></span>
-                                    <span ></span>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
-            <!-- 공고 모집조건 -->
-            <div>
-                <h4 class="fw-bold">모집조건</h4>
-                <div class="card">
-                    <div class="card-body">
-                        <ul class="label-list-group">
-                            <li class="label-list">
-                                <span class="label">학력</span>
-                                <span th:text="${dto.reEducation}"></span>
-                                <span></span>
-                            </li>
-                            <li class="label-list">
-                                <span class="label">경력</span>
-                                <span th:text="${dto.reJobHistory}"></span>
-                            </li>
-                            <li class="label-list">
-                                <span class="label">모집인원</span>
-                                <span th:text="${dto.reNumHiring}"></span>명
-
-                            </li>
-                            <li class="label-list">
-                                <span class="label">모집마감일</span>
-                                <span class="badge bg-primary" th:text="${dDayText}"></span>
-                                <span th:text="${#temporals.format(dto.reDeadline, 'yyyy-MM-dd HH:mm')}"></span>
-                                <span></span>
-
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div>
-                <h4 class="fw-bold">근무지역</h4>
-                <p>대전 동구 동서대로 1701 (용전동) 1,2층</p>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="https://map.naver.com/v5/" width="100%" height="300"></iframe>
+                <br>
+                <div>
+                    <h4 class="fw-bold">근무지역</h4>
+                    <p>대전 동구 동서대로 1701 (용전동) 1,2층</p>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" src="https://map.naver.com/v5/" width="100%" height="300"></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
-            <!-- 공고 상세요강 -->
+                <br>
+                <!-- 공고 상세요강 -->
 
-            <br>
-            <br>
-            <!-- 공고 지원 방법 -->
-            <div>
-                <h4 class="fw-bold">지원방법</h4>
-                <div class="card" style="background-color: #f3f3f3;;">
-                    <div class="card-body" style="width: 800px; padding: 40px;">
-                        <li class="label-list" style="list-style: none; width: 800px;">
+                <br>
+                <br>
+                <!-- 공고 지원 방법 -->
+                <div>
+                    <h4 class="fw-bold">지원방법</h4>
+                    <div class="card" style="background-color: #f3f3f3;;">
+                        <div class="card-body" style="width: 800px; padding: 40px;">
+                            <li class="label-list" style="list-style: none; width: 800px;">
                             <span th:if="${dto.reApplyMethodEmail == '이메일지원'}" style="margin-right: 5px">
                                 <i class="bi bi-envelope-at-fill fs-3" style="margin-right: 5px"></i> 이메일지원
                             </span>
-                            <span th:if="${dto.reApplyMethodMsg == '문자지원'}"  style="margin-right: 5px">
+                                <span th:if="${dto.reApplyMethodMsg == '문자지원'}"  style="margin-right: 5px">
                                 <i class="bi bi-chat-dots-fill fs-3" style="margin-right: 5px"></i> 문자지원
                             </span>
-                            <span th:if="${dto.reApplyMethodOnline == '온라인지원'}" style="margin-right: 5px">
+                                <span th:if="${dto.reApplyMethodOnline == '온라인지원'}" style="margin-right: 5px">
                                 <i class="bi bi-globe-americas fs-3" style="margin-right: 5px"></i> 온라인지원
                             </span>
-                            <span th:if="${dto.reApplyMethodTel == '전화연락'}" style="margin-right: 5px">
+                                <span th:if="${dto.reApplyMethodTel == '전화연락'}" style="margin-right: 5px">
                                 <i class="bi bi-telephone-inbound-fill fs-3" style="margin-right: 5px"></i> 전화연락
                             </span>
-                        </li>
-                </div>
-            </div>
-            <br>
-            <br>
-            <!-- 공고 채용담당자 연락처 -->
-            <div>
-                <h4 class="fw-bold">채용담당자 연락처</h4>
-                <div class="card" style="background-color: #f3f3f3;;">
-                    <div class="card-body d-flex flex-column" style="width: 600px; padding: 40px;">
-                        <div class="d-flex justify-content-between">
-                            <p><span class="label">담당자</span><span th:text="${dto.reAdminName}"></span></p>
-                            <p><span class="label">이메일</span><span th:text="${dto.reAdminEmail}"></span></p>
-                        </div>
-                        <p>
-                            <span class="label">전화</span><span th:text="${dto.reAdminPhone}"></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <br>
-            <!-- 기업정보 -->
-            <div>
-                <h4 class="fw-bold">기업정보</h4>
-                <div class="card">
-                    <div class="card-body" >
-                        <div style="display: flex; align-items: center; justify-content: space-around; width: 500px; ">
-                            <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle profile-img mb-3" alt="프로필 사진">
-                            <h5>MIT짐 수원망포역점</h5>
-                        </div>
-                        <hr>
-                        <br>
-                        <div>
-                            <ul class="label-list-group">
-                                <li class="label-list"><span class="label">대표</span> 홍길동</li>
-                                <li class="label-list"><span class="label">설립일</span> 2025-03-12</li>
-                                <li class="label-list"><span class="label">사업내용</span> 헬스장</li>
-                                <li class="label-list"><span class="label">회사주소</span> 대전 동구 동서대로 1701</li>
-                            </ul>
+                            </li>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- 돌아가기 버튼 -->
-            <br>
-            <br>
+                    <br>
+                    <br>
+                    <!-- 공고 채용담당자 연락처 -->
+                    <div>
+                        <h4 class="fw-bold">채용담당자 연락처</h4>
+                        <div class="card" style="background-color: #f3f3f3;;">
+                            <div class="card-body d-flex flex-column" style="width: 600px; padding: 40px;">
+                                <div class="d-flex justify-content-between">
+                                    <p><span class="label">담당자</span><span th:text="${dto.reAdminName}"></span></p>
+                                    <p><span class="label">이메일</span><span th:text="${dto.reAdminEmail}"></span></p>
+                                </div>
+                                <p>
+                                    <span class="label">전화</span><span th:text="${dto.reAdminPhone}"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <!-- 기업정보 -->
+                    <div>
+                        <h4 class="fw-bold">기업정보</h4>
+                        <div class="card">
+                            <div class="card-body" >
+                                <div style="display: flex; align-items: center; justify-content: space-around; width: 500px; ">
+                                    <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle profile-img mb-3" alt="프로필 사진">
+                                    <h5>MIT짐 수원망포역점</h5>
+                                </div>
+                                <hr>
+                                <br>
+                                <div>
+                                    <ul class="label-list-group">
+                                        <li class="label-list"><span class="label">대표</span> 홍길동</li>
+                                        <li class="label-list"><span class="label">설립일</span> 2025-03-12</li>
+                                        <li class="label-list"><span class="label">사업내용</span> 헬스장</li>
+                                        <li class="label-list"><span class="label">회사주소</span> 대전 동구 동서대로 1701</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 돌아가기 버튼 -->
+                    <br>
+                    <br>
 
-            <br>
-            <br>
-            <br>
-            <!-- 지원하기 버튼 -->
-            <div style="text-decoration: none" id="applyButton" class="fixed-apply" th:with="link=${pageRequestDTO.getLink()}">
-                <a href="#" class="btn btn-outline-primary" id="modifyBtn"><i class="bi bi-highlighter"></i></a>
-                <a href="#" class="btn btn-outline-danger" id="removeBtn"><i class="bi bi-trash"></i>️</a>
-                <a th:href="|@{/recruit/list}?${link}|" class="btn btn-outline-secondary">돌아가기</a>
-                <button class="btn btn-primary" id="applyBtn">지원하기</button>
+                    <br>
+                    <br>
+                    <br>
+                    <!-- 지원하기 버튼 -->
+                    <div style="text-decoration: none" id="applyButton" class="fixed-apply" th:with="link=${pageRequestDTO.getLink()}">
+                        <a href="#" class="btn btn-outline-primary" id="modifyBtn"><i class="bi bi-highlighter"></i></a>
+                        <a href="#" class="btn btn-outline-danger" id="removeBtn"><i class="bi bi-trash"></i>️</a>
+                        <a th:href="|@{/recruit/list}?${link}|" class="btn btn-outline-secondary">돌아가기</a>
+                        <button class="btn btn-primary" id="applyBtn">지원하기</button>
 
-            </div>
+                    </div>
 
             </form>
 
 
-        <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modifyModalLabel">
-                            <span class="rogo-span">OneFit</span> 채용 공고 수정 확인
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body modify-modal-body">
-                        <div class="mb-3">
-                            <p>채용 공고를 수정하시겠습니까?</p>
-
+            <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modifyModalLabel">
+                                <span class="rogo-span">OneFit</span> 채용 공고 수정 확인
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="tab-content mt-3">
-                            <div class="d-flex flex-row-reverse">
-                                <div>
-                                    <a href="#" class="btn btn-outline-secondary w-100 modal-btn" data-bs-dismiss="modal" id="confirmRegisterBtn1">아니오</a>
-                                </div>
-                                <div style="margin-right: 3px" th:with="link = ${pageRequestDTO.getLink()}">
-                                    <a th:href="|@{/recruit/modify(recruitId=${dto.recruitId})}&${link}|" class="btn btn-primary w-100 modal-btn" id="confirmRegisterBtn">네</a>
+                        <div class="modal-body modify-modal-body">
+                            <div class="mb-3">
+                                <p>채용 공고를 수정하시겠습니까?</p>
+
+                            </div>
+                            <div class="tab-content mt-3">
+                                <div class="d-flex flex-row-reverse">
+                                    <div>
+                                        <a href="#" class="btn btn-outline-secondary w-100 modal-btn" data-bs-dismiss="modal" id="confirmRegisterBtn1">아니오</a>
+                                    </div>
+                                    <div style="margin-right: 3px" th:with="link = ${pageRequestDTO.getLink()}">
+                                        <a th:href="|@{/recruit/modify(recruitId=${dto.recruitId})}&${link}|" class="btn btn-primary w-100 modal-btn" id="confirmRegisterBtn">네</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -356,7 +357,6 @@
                 </div>
             </div>
         </div>
-    </div>
         <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

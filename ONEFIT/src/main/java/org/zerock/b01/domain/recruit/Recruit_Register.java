@@ -71,8 +71,6 @@ public class Recruit_Register extends BaseEntity {
     @Column(length = 10)
     private String reSalaryCheckAgree; // 급여추가정보선택
 
-    @Column(length = 10)
-
     private String reSalaryCheckMeal; // 급여추가정보선택
 
     @Column(length = 10)
@@ -89,7 +87,7 @@ public class Recruit_Register extends BaseEntity {
 
     @Column(length = 10, nullable = false)
     private String reAgeType;
-    
+
 
     @Column(length = 50, nullable = false)
     private String reMinAge; // 최소연령
