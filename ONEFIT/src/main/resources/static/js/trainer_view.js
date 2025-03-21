@@ -100,7 +100,3 @@ if (prizeContent !== null) {
         prizeTable.appendChild(row);
     }
 }
-
-// 마지막으로 이미지를 새로고침
-// 현재 실제 이미지를 들여보내는 것은 아니기 때문에 오류의 소지가 있음
-// thumbnails.dispatchEvent(new Event('change'));

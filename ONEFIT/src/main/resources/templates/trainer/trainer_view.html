@@ -180,7 +180,7 @@
                     </div>
                 </div>
                 <br>
-                <button type="submit" class="btn btn-primary w-100 modal-btn" id="modify-submit-btn">이력서 수정</button>
+                <a class="btn btn-primary w-100 modal-btn" id="modify-submit-btn" th:href="|@{/trainer/trainer_modify(tid=${dto.trainerId})}&${pageRequestDTO.getLink()}|">이력서 수정</a>
             </form>
         </div>
     </div>

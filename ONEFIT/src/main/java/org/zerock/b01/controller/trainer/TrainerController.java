@@ -1,5 +1,6 @@
 package org.zerock.b01.controller.trainer;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -125,9 +126,10 @@ public class TrainerController {
         return "redirect:/trainer/trainer_list";
     }
 
-    @GetMapping("/trainer_view")
+    @Operation
+    @GetMapping({"/trainer_view", "/trainer_modify"})
     public void trainer_view(Long tid, PageRequestDTO pageRequestDTO, Model model) {
-        log.info("trainer_view");
+        log.info("trainer_view or trainer_modify");
         log.info(tid);
         TrainerViewDTO trainerViewDTO = trainerService.viewOne(tid);
 
@@ -135,8 +137,4 @@ public class TrainerController {
         model.addAttribute("dto", trainerViewDTO);
     }
 
-    @GetMapping("/trainer_modify")
-    public void trainer_modify() {
-        log.info("trainer_modify");
-    }
 }
