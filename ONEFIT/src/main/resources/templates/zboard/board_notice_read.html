@@ -15,7 +15,7 @@
 
             <!-- 작성자 & 조회수 -->
             <div class="d-flex justify-content-between text-muted post-meta mt-2">
-              <span>작성자: <strong>[[${dto.allId}]]</strong></span>
+              <span>작성자: <strong>[[${dto.allMember.allId}]]</strong></span>
               <span>조회수: <strong>[[${dto.nHits}]]</strong></span>
             </div>
 
@@ -41,8 +41,7 @@
             <!-- 버튼 그룹 -->
             <div class="d-flex justify-content-end mt-3" th:with="link = ${pageRequestDTO.getLink()}">
               <a th:href="|@{/zboard/board_notice_list}?${link}|" class="btn btn-secondary me-2">목록</a>
-              <a
-                      th:href="|@{/zboard/board_notice_modify(noticeId=${dto.noticeId})}&${link}|"
+              <a th:href="|@{/zboard/board_notice_modify(noticeId=${dto.noticeId})}&${link}|"
                  class="btn btn-primary">수정</a>
             </div>
 

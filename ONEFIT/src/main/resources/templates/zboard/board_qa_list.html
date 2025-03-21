@@ -86,7 +86,7 @@
                             <i class="fas fa-paperclip file-icon"></i> <span></span>
                         </span>
               </td>
-              <td th:text="${dto.allId}"></td>
+              <td th:text="${dto.allMember.allId}"></td>
               <td th:text="${#temporals.format(dto.regDate, dto.regDate.toLocalDate()
                                  .equals(#temporals.createNow().toLocalDate()) ? 'HH:mm:ss' : 'yyyy-MM-dd')}"></td>
               <td th:text="${dto.qHits}"></td>

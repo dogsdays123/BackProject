@@ -27,7 +27,6 @@ public class QnaBoardDTO {
     @NotNull
     private int qHits;
 
-    @NotEmpty
     private All_Member allMember;
 
     private LocalDateTime regDate;

@@ -154,7 +154,7 @@ public class NoticeBoardController {
 
     }
 
-    @PreAuthorize("principal.username == #noticeBoardDTO.allId")
+//    @PreAuthorize("principal.username == #noticeBoardDTO.allMember")
     @PostMapping("/board_notice_modify")
     public String modifyNotice(PageRequestDTO pageRequestDTO, @Valid NoticeBoardDTO noticeBoardDTO,
                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
@@ -184,7 +184,7 @@ public class NoticeBoardController {
 
     }
 
-    @PreAuthorize("principal.username == #noticeBoardDTO.allId")
+//    @PreAuthorize("principal.username == #noticeBoardDTO.allMember")
     @PostMapping("/board_notice_remove")
     public String removeNotice(Long noticeId, RedirectAttributes redirectAttributes) {
 

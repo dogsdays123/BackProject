@@ -10,6 +10,10 @@
 
             <!-- 수정 폼 -->
             <form th:action="@{/zboard/board_notice_modify}" method="post" id="f1">
+              <!-- qnaId -->
+              <div class="mb-3">
+                  <input type="hidden" name="noticeId" class="form-control" th:value="${dto.noticeId}" >
+              </div>
               <!-- 제목 -->
               <div class="mb-3">
                 <label class="form-label">제목</label>
@@ -22,42 +26,42 @@
                 <textarea name="nContent" class="form-control" rows="6">[[${dto.nContent}]]</textarea>
               </div>
 
-              <div class="input-group mb-3">
-                  <span class="input-group-text">작성일</span>
-                  <input type="text" class="form-control" th:value="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
-              </div>
-
-
-
-              <!-- 기존 첨부파일 목록 -->
+              <!-- 작성자 -->
               <div class="mb-3">
-                <label class="form-label">첨부파일</label>
-                <div id="fileList" class="file-list">
-                  <div class="file-item">
-                    <a href="uploads/sample.pdf" download>sample.pdf</a>
-                    <button type="button" onclick="removeFile(this)">❌</button>
-                  </div>
-                  <div class="file-item">
-                    <a href="uploads/sample.jpg" download>sample.jpg</a>
-                    <button type="button" onclick="removeFile(this)">❌</button>
-                  </div>
-                </div>
+                  <input type="hidden" name="allMember" class="form-control" th:value="${dto.allMember.allId}" >
               </div>
 
-              <!-- 새로운 파일 추가 -->
-              <div class="mb-3">
-                <label for="newFiles" class="form-label">새로운 파일 추가</label>
-                <input type="file" id="newFiles" name="files[]" class="form-control" multiple>
-              </div>
+
+
+<!--              &lt;!&ndash; 기존 첨부파일 목록 &ndash;&gt;-->
+<!--              <div class="mb-3">-->
+<!--                <label class="form-label">첨부파일</label>-->
+<!--                <div id="fileList" class="file-list">-->
+<!--                  <div class="file-item">-->
+<!--                    <a href="uploads/sample.pdf" download>sample.pdf</a>-->
+<!--                    <button type="button" onclick="removeFile(this)">❌</button>-->
+<!--                  </div>-->
+<!--                  <div class="file-item">-->
+<!--                    <a href="uploads/sample.jpg" download>sample.jpg</a>-->
+<!--                    <button type="button" onclick="removeFile(this)">❌</button>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              &lt;!&ndash; 새로운 파일 추가 &ndash;&gt;-->
+<!--              <div class="mb-3">-->
+<!--                <label for="newFiles" class="form-label">새로운 파일 추가</label>-->
+<!--                <input type="file" id="newFiles" name="files[]" class="form-control" multiple>-->
+<!--              </div>-->
 
               <!-- 버튼 그룹 -->
               <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-primary ms-2 modBtn">저장</button>
-                <button type="button" class="btn btn-secondary ms-2 cancelBtn">취소</button>
+                <button type="button" class="btn btn-secondary ms-2 listBtn">목록</button>
+                <button type="submit" class="btn btn-primary ms-2 modBtn">저장</button>
                 <button type="button" class="btn btn-danger ms-2 removeBtn">삭제</button>
               </div>
             </form>
-          </div>
+<!--          </div>-->
 
         <br>
         <br>
@@ -113,12 +117,12 @@
             formObj.submit()
         }, false)
 
-        document.querySelector(".cancelBtn").addEventListener("click", function(e){
+        document.querySelector(".listBtn").addEventListener("click", function(e){
             e.preventDefault()
             e.stopPropagation()
 
             formObj.reset()
-            self.location =`/zboard/board_notice_read?${link}`
+            self.location =`/zboard/board_notice_list?${link}`
 
         }, false)
 

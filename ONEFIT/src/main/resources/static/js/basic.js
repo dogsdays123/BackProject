@@ -1,17 +1,17 @@
-// 공지사항 JS ---- //
-const notices = document.querySelectorAll('.notice-text');
-let noticeCurrentIndex = 0;
-
-function changeNotice() {
-    // 현재 보이는 공지사항 숨기기
-    notices[noticeCurrentIndex].classList.remove('show');
-    // 다음 공지사항 표시
-    noticeCurrentIndex = (noticeCurrentIndex + 1) % notices.length;
-    notices[noticeCurrentIndex].classList.add('show');
-}
-
-// 5초 간격으로 changeNotice 함수 실행
-setInterval(changeNotice, 5000);
+// // 공지사항 JS ---- //
+// const notices = document.querySelectorAll('.notice-text');
+// let noticeCurrentIndex = 0;
+//
+// function changeNotice() {
+//     // 현재 보이는 공지사항 숨기기
+//     notices[noticeCurrentIndex].classList.remove('show');
+//     // 다음 공지사항 표시
+//     noticeCurrentIndex = (noticeCurrentIndex + 1) % notices.length;
+//     notices[noticeCurrentIndex].classList.add('show');
+// }
+//
+// // 5초 간격으로 changeNotice 함수 실행
+// setInterval(changeNotice, 5000);
 
 
 
