@@ -78,17 +78,6 @@
                         </tr>
                         </thead>
                         <tbody id="academy-table-body">
-                        <tr>
-                            <td>
-                                <input type="text" class="form-control do-not-submit" placeholder="학교구분" required readonly>
-                            </td>
-                            <td>
-                                <input type="text" class="form-control do-not-submit" placeholder="상태" required readonly>
-                            </td>
-                            <td><input type="date" class="form-control do-not-submit" required readonly></td>
-                            <td><input type="text" class="form-control do-not-submit" placeholder="학교명" required readonly></td>
-                            <td><input type="text" class="form-control do-not-submit" value="-" required readonly></td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -97,7 +86,7 @@
                     <h4 class="section-title">경력</h4>
                     <div class="mb-3">
                         <label class="form-label"><strong>경력기간</strong></label>
-                        <input type="text" class="form-control do-not-submit" placeholder="경력기간" required readonly>
+                        <input type="text" class="form-control do-not-submit" th:value="${dto.careerPeriod == 0 ? '신입' : dto.careerPeriod + '년 이상'}" required readonly>
                     </div>
                     <label class="form-label"><strong>경력 상세</strong></label>
                     <input type="text" name="career" id="career-real" hidden>
@@ -111,12 +100,6 @@
                         </tr>
                         </thead>
                         <tbody id="career-table-body">
-                        <tr>
-                            <td><input type="text" class="form-control do-not-submit" placeholder="조직명" readonly></td>
-                            <td><input type="text" class="form-control do-not-submit" placeholder="직함" readonly></td>
-                            <td><input type="number" class="form-control do-not-submit" min="0" placeholder="기간" readonly></td>
-                            <td><input type="text" class="form-control do-not-submit" placeholder="경력 내용" readonly></td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -133,11 +116,6 @@
                         </tr>
                         </thead>
                         <tbody id="license-table-body">
-                        <tr>
-                            <td><input type="text" class="form-control do-not-submit" placeholder="명칭" readonly></td>
-                            <td><input type="text" class="form-control do-not-submit" placeholder="기관명" readonly></td>
-                            <td><input type="date" class="form-control do-not-submit" readonly></td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -154,11 +132,6 @@
                         </tr>
                         </thead>
                         <tbody id="prize-table-body">
-                        <tr>
-                            <td><input type="text" class="form-control do-not-submit" placeholder="명칭" readonly></td>
-                            <td><input type="text" class="form-control do-not-submit" placeholder="내용" readonly></td>
-                            <td><input type="date" class="form-control do-not-submit" readonly></td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -167,40 +140,37 @@
                     <h4 class="section-title">희망근무조건</h4>
                     <div class="mb-3">
                         <label class="form-label"><strong>업종</strong></label>
-                        <input type="text" class="form-control" name="wantJob" placeholder="희망업종" required readonly>
+                        <input type="text" class="form-control" name="wantJob" th:value="${dto.wantJob}" required readonly>
                     </div>
                     <div class="mb-3">
                         <label class="form-label"><strong>근무형태</strong></label>
-                        <input type="text" class="form-control do-not-submit" placeholder="희망형태" required readonly>
+                        <input type="text" class="form-control do-not-submit" th:value="${dto.wantType}" required readonly>
                     </div>
                     <div class="mb-3">
                         <label class="form-label"><strong>지역</strong></label>
-                        <input type="text" class="form-control do-not-submit" placeholder="희망지역" required readonly>
+                        <input type="text" class="form-control do-not-submit" th:value="${dto.wantLegion}" required readonly>
                     </div>
                     <div class="mb-3">
                         <label class="form-label"><strong>근무시간</strong></label>
                         <input type="text" name="wantTime" id="want-time-real" hidden>
                         <div class="time-to-time">
-                            <input type="time" class="form-control medium-label do-not-submit" id="work-start" required readonly>
-                            <span class="form-label text-center">&Tilde;</span>
-                            <input type="time" class="form-control medium-label do-not-submit" id="work-end" required readonly>
-                            <span class="form-label text-center" id="worktime-counter">: 0.0시간</span>
+                            <input type="text" class="form-control do-not-submit" th:value="|${dto.wantTime} 시간|" required readonly>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label"><strong>근무일수</strong></label>
                         <div class="time-to-time">
-                            <input type="text" class="form-control medium-label do-not-submit" placeholder="희망일수" required readonly>
+                            <input type="text" class="form-control short-label do-not-submit" th:value="${dto.wantDay}" required readonly>
                             <span class="form-label text-center"></span>
-                            <input type="text" class="form-control do-not-submit" placeholder="희망일" required readonly>
+                            <input type="text" class="form-control do-not-submit" th:value="${dto.wantDayType}" required readonly>
                         </div>
                     </div>
                     <div class="mb-3 short-span">
                         <label class="form-label"><strong>희망임금</strong></label>
                         <div class="time-to-time">
-                            <input type="number" class="form-control medium-label" min="0" name="wantSal" placeholder="10030" required readonly>
+                            <input type="number" class="form-control short-label" min="0" name="wantSal" th:value="${dto.wantSal}" required readonly>
                             <span class="form-label text-center">&#8361;</span>
-                            <input type="text" class="form-control do-not-submit" placeholder="임금" required readonly>
+                            <input type="text" class="form-control do-not-submit" th:value="${dto.wantSalType}" required readonly>
                         </div>
                     </div>
                 </div>
