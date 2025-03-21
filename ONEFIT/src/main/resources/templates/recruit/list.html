@@ -109,9 +109,16 @@
                     <a href="/recruit/list"><h4 style="font-weight: 600;">전체 채용 정보</h4></a>
                     <br>
                     <br>
-                    <div>
-                        <form class="search-form" action="/recruit/list" method="get">
+                <div>
+<!--                        <form class="search-form1" action="/recruit/list" method="get">-->
+
+<!--                        </form>-->
+                        <br>
+                    </div>
+                    <form class="search-form" action="/recruit/list" method="get">
+                        <div class="col-md-12">
                             <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                            <div class="col-md-12">
                             <div class="d-flex col-md-5 justify-content-between position-relative" id="parentContainer">
                                 <button class="btn btn-outline-secondary flex-grow-1 mx-1" type="button" data-bs-toggle="collapse" data-bs-target="#locationFilters">
                                     지역 ▾
@@ -131,13 +138,155 @@
                             <div class="position-relative">
                                 <div class="collapse mt-2 w-100" id="locationFilters" data-bs-parent="#parentContainer">
                                     <div class="card card-body" style="max-width: 1000px; width: 90vw; min-height: 300px;">
-                                        <p>지역 필터 내용</p>
+                                        <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
+                                            <label class="form-label" style="width: 100px;">지역</label>
+                                            <input type="hidden" name="type" value="i">
+                                            <select class="form-control" style="width: 170px;">
+                                                <option value="" selected disabled hidden style="color: #dadada;">도 선택 ▾</option>
+                                                <option value="서울">서울특별시</option>
+                                                <option value="부산">부산광역시</option>
+                                                <option value="대구">대구광역시</option>
+                                                <option value="인천">인천광역시</option>
+                                                <option value="광주">광주광역시</option>
+                                                <option value="대전">대전광역시</option>
+                                                <option value="울산">울산광역시</option>
+                                                <option value="세종">세종특별자치시</option>
+                                                <option value="경기">경기도</option>
+                                                <option value="강원">강원도</option>
+                                                <option value="충북">충청북도</option>
+                                                <option value="충남">충청남도</option>
+                                                <option value="전북">전라북도</option>
+                                                <option value="전남">전라남도</option>
+                                                <option value="경북">경상북도</option>
+                                                <option value="경남">경상남도</option>
+                                                <option value="제주">제주도</option>
+                                            </select>
+                                            <select class="form-control" style="width: 170px;">
+                                                <option value="" selected disabled hidden style="color: #dadada;">시 선택 ▾</option>
+                                                <!-- 서울특별시 -->
+                                                <option value="서울">서울특별시</option>
+                                                <!-- 부산광역시 -->
+                                                <option value="부산">부산광역시</option>
+                                                <!-- 대구광역시 -->
+                                                <option value="대구">대구광역시</option>
+                                                <!-- 인천광역시 -->
+                                                <option value="인천">인천광역시</option>
+                                                <!-- 광주광역시 -->
+                                                <option value="광주">광주광역시</option>
+                                                <!-- 대전광역시 -->
+                                                <option value="대전">대전광역시</option>
+                                                <!-- 울산광역시 -->
+                                                <option value="울산">울산광역시</option>
+                                                <!-- 세종특별자치시 -->
+                                                <option value="세종">세종특별자치시</option>
+                                                <!-- 경기도 -->
+                                                <option value="수원">수원시</option>
+                                                <option value="성남">성남시</option>
+                                                <option value="고양">고양시</option>
+                                                <option value="용인">용인시</option>
+                                                <option value="안산">안산시</option>
+                                                <option value="평택">평택시</option>
+                                                <option value="화성">화성시</option>
+                                                <option value="시흥">시흥시</option>
+                                                <option value="의정부">의정부시</option>
+                                                <option value="군포">군포시</option>
+                                                <option value="부천">부천시</option>
+                                                <option value="광명">광명시</option>
+                                                <!-- 강원도 -->
+                                                <option value="춘천">춘천시</option>
+                                                <option value="원주">원주시</option>
+                                                <option value="강릉">강릉시</option>
+                                                <option value="동해">동해시</option>
+                                                <option value="태백">태백시</option>
+                                                <option value="속초">속초시</option>
+                                                <option value="홍천">홍천시</option>
+                                                <option value="철원">철원군</option>
+                                                <!-- 충청북도 -->
+                                                <option value="청주">청주시</option>
+                                                <option value="제천">제천시</option>
+                                                <option value="진천">진천군</option>
+                                                <option value="음성">음성군</option>
+                                                <option value="보은">보은군</option>
+                                                <!-- 충청남도 -->
+                                                <option value="천안">천안시</option>
+                                                <option value="아산">아산시</option>
+                                                <option value="공주">공주시</option>
+                                                <option value="서산">서산시</option>
+                                                <option value="당진">당진시</option>
+                                                <option value="보령">보령시</option>
+                                                <!-- 전라북도 -->
+                                                <option value="전주">전주시</option>
+                                                <option value="익산">익산시</option>
+                                                <option value="군산">군산시</option>
+                                                <option value="정읍">정읍시</option>
+                                                <option value="김제">김제시</option>
+                                                <!-- 전라남도 -->
+                                                <option value="목포">목포시</option>
+                                                <option value="여수">여수시</option>
+                                                <option value="순천">순천시</option>
+                                                <option value="광양">광양시</option>
+                                                <option value="담양">담양군</option>
+                                                <option value="해남">해남군</option>
+                                                <!-- 경상북도 -->
+                                                <option value="포항">포항시</option>
+                                                <option value="경주">경주시</option>
+                                                <option value="구미">구미시</option>
+                                                <option value="안동">안동시</option>
+                                                <option value="영주">영주시</option>
+                                                <option value="김천">김천시</option>
+                                                <option value="상주">상주시</option>
+                                                <!-- 경상남도 -->
+                                                <option value="창원">창원시</option>
+                                                <option value="김해">김해시</option>
+                                                <option value="진주">진주시</option>
+                                                <option value="양산">양산시</option>
+                                                <option value="거제">거제시</option>
+                                                <option value="통영">통영시</option>
+                                                <option value="밀양">밀양시</option>
+                                                <!-- 제주도 -->
+                                                <option value="제주">제주시</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="collapse mt-2 w-100" id="jobFilters" data-bs-parent="#parentContainer">
                                     <div class="card card-body" style="max-width: 1000px; width: 90vw; min-height: 300px;">
-                                        <p>업직종 필터 내용</p>
+                                        <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
+                                            <label class="form-label" style="width: 100px;">업직종</label>
+                                            <input type="hidden" name="type" value="i">
+                                            <select class="form-control" name="industry" style="width: 170px;">
+                                                <option value="" selected disabled hidden style="color: #dadada;">업직종 선택 ▾</option>
+                                                <option value="헬스/PT">헬스/PT</option>
+                                                <option value="수영">수영</option>
+                                                <option value="댄스">댄스</option>
+                                                <option value="요가">요가</option>
+                                                <option value="스피닝">스피닝</option>
+                                                <option value="에어로빅">에어로빅</option>
+                                                <option value="재즈댄스">재즈댄스</option>
+                                                <option value="발레/무용">발레/무용</option>
+                                                <option value="필라테스">필라테스</option>
+                                                <option value="스쿼시">스쿼시</option>
+                                                <option value="줄넘기">줄넘기</option>
+                                                <option value="태권도">태권도</option>
+                                                <option value="유도">유도</option>
+                                                <option value="검도">검도</option>
+                                                <option value="합기도">합기도</option>
+                                                <option value="축구">축구</option>
+                                                <option value="농구">농구</option>
+                                                <option value="배구">배구</option>
+                                                <option value="배드민턴">배드민턴</option>
+                                                <option value="학교체육">학교체육</option>
+                                                <option value="방과후강사">방과후강사</option>
+                                                <option value="유아/특수체육">유아/특수체육</option>
+                                                <option value="골프">골프</option>
+                                                <option value="양궁">양궁</option>
+                                                <option value="사격">사격</option>
+                                                <option value="장애인체육">장애인체육</option>
+                                                <option value="재활">재활</option>
+                                                <option value="물리치료">물리치료</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -154,9 +303,9 @@
                                         <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
                                             <label class="form-label" style="width: 100px;">연령</label>
                                             <input type="hidden" name="type" value="a">
-                                            <input type="checkbox" name="age" value="연령무관" >&nbsp;<label>연령무관</label>&nbsp;
                                             <select class="form-control" name="age" style="width: 130px;">
                                                 <option value="" selected>연령선택 ▾</option>
+                                                <option value="연령무관">연령무관</option>
                                                 <option value="10">10세</option>
                                                 <option value="11">11세</option>
                                                 <option value="12">12세</option>
@@ -210,52 +359,170 @@
                                                 <option value="60">60세</option>
                                             </select>
                                         </div>
+                                        <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
+                                            <label class="form-label" style="width: 100px;">근무요일</label>
+                                            <input type="hidden" name="type" value="d">
+                                            <input type="checkbox" name="jobTypeFull" value="정규직" >&nbsp;<label>정규직</label>&nbsp;&nbsp;&nbsp;
+                                            <input type="checkbox" name="jobTypePart" value="파트" >&nbsp;<label>파트</label>&nbsp;&nbsp;&nbsp;
+                                            <input type="checkbox" name="jobTypeFree" value="프리랜서" >&nbsp;<label>프리</label>&nbsp;&nbsp;
+                                            <input type="checkbox" name="jobTypeTrainee" value="연습생" >&nbsp;<label>연습생</label>&nbsp;&nbsp;
+                                            <input type="checkbox" name="jobTypeAlba" value="아르바이트" >&nbsp;<label>아르바이트</label>&nbsp;&nbsp;
+                                        </div>
+                                        <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
+                                            <label class="form-label" style="width: 100px;">근무요일</label>
+                                            <input type="hidden" name="type" value="j">
+                                            <input type="checkbox" name="workDays" value="월 ~ 금" >&nbsp;<label>월 ~ 금</label>&nbsp;&nbsp;&nbsp;
+                                            <input type="checkbox" name="workDays" value="월 ~ 토" >&nbsp;<label>월 ~ 토</label>&nbsp;&nbsp;&nbsp;
+                                            <input type="checkbox" name="workDays" value="월 ~ 일" >&nbsp;<label>월 ~ 일</label>&nbsp;&nbsp;
+                                            <input type="checkbox" name="workDays" value="주말(토)" >&nbsp;<label>주말(토)</label>&nbsp;&nbsp;
+                                            <input type="checkbox" name="workDays" value="주말(일)" >&nbsp;<label>주말(일)</label>&nbsp;&nbsp;
+                                            <input type="checkbox" name="workDays" value="주말(토,일)" >&nbsp;<label>주말(토,일)</label>&nbsp;&nbsp;
+                                            <input type="checkbox" name="workDays" value="요일협의" >&nbsp;<label>요일협의</label>&nbsp;&nbsp;
+                                            <input type="checkbox" name="dutyDays" value="null" >&nbsp;<label>주말당직없음</label>&nbsp;&nbsp;
+                                        </div>
+                                        <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
+                                            <label class="form-label" style="width: 100px;">근무시간</label>
+                                            <input type="hidden" name="type" value="st">
+                                            <input type="checkbox" name="timeNegotiable" value="시간협의" >&nbsp;<label>시간협의가능</label>&nbsp;&nbsp;
+                                            <select class="form-control" name="startTime" style="width: 130px;">
+                                                <option value="" selected>시작시간 ▾</option>
+                                                <option value="00:00">00:00</option>
+                                                <option value="00:30">00:30</option>
+                                                <option value="01:00">01:00</option>
+                                                <option value="01:30">01:30</option>
+                                                <option value="02:00">02:00</option>
+                                                <option value="02:30">02:30</option>
+                                                <option value="03:00">03:00</option>
+                                                <option value="03:30">03:30</option>
+                                                <option value="04:00">04:00</option>
+                                                <option value="04:30">04:30</option>
+                                                <option value="05:00">05:00</option>
+                                                <option value="05:30">05:30</option>
+                                                <option value="06:00">06:00</option>
+                                                <option value="06:30">06:30</option>
+                                                <option value="07:00">07:00</option>
+                                                <option value="07:30">07:30</option>
+                                                <option value="08:00">08:00</option>
+                                                <option value="08:30">08:30</option>
+                                                <option value="09:00">09:00</option>
+                                                <option value="09:30">09:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                                <option value="17:30">17:30</option>
+                                                <option value="18:00">18:00</option>
+                                                <option value="18:30">18:30</option>
+                                                <option value="19:00">19:00</option>
+                                                <option value="19:30">19:30</option>
+                                                <option value="20:00">20:00</option>
+                                                <option value="20:30">20:30</option>
+                                                <option value="21:00">21:00</option>
+                                                <option value="21:30">21:30</option>
+                                                <option value="22:00">22:00</option>
+                                                <option value="22:30">22:30</option>
+                                                <option value="23:00">23:00</option>
+                                                <option value="23:30">23:30</option>
+                                            </select>
+                                            <select class="form-control" name="endTime" style="width: 130px;">
+                                                <option value="" selected>종료시간 ▾</option>
+                                                <option value="00:00">00:00</option>
+                                                <option value="00:30">00:30</option>
+                                                <option value="01:00">01:00</option>
+                                                <option value="01:30">01:30</option>
+                                                <option value="02:00">02:00</option>
+                                                <option value="02:30">02:30</option>
+                                                <option value="03:00">03:00</option>
+                                                <option value="03:30">03:30</option>
+                                                <option value="04:00">04:00</option>
+                                                <option value="04:30">04:30</option>
+                                                <option value="05:00">05:00</option>
+                                                <option value="05:30">05:30</option>
+                                                <option value="06:00">06:00</option>
+                                                <option value="06:30">06:30</option>
+                                                <option value="07:00">07:00</option>
+                                                <option value="07:30">07:30</option>
+                                                <option value="08:00">08:00</option>
+                                                <option value="08:30">08:30</option>
+                                                <option value="09:00">09:00</option>
+                                                <option value="09:30">09:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="12:30">12:30</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="13:30">13:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                                <option value="17:30">17:30</option>
+                                                <option value="18:00">18:00</option>
+                                                <option value="18:30">18:30</option>
+                                                <option value="19:00">19:00</option>
+                                                <option value="19:30">19:30</option>
+                                                <option value="20:00">20:00</option>
+                                                <option value="20:30">20:30</option>
+                                                <option value="21:00">21:00</option>
+                                                <option value="21:30">21:30</option>
+                                                <option value="22:00">22:00</option>
+                                                <option value="22:30">22:30</option>
+                                                <option value="23:00">23:00</option>
+                                                <option value="23:30">23:30</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                        <br>
-                    </div>
-                    <form class="search-form" action="/recruit/list" method="get">
-                        <div class="d-flex col-md-11">
-                            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                            <br>
+                            </div>
+                            <div class="d-flex col-md-10">
                             <input type="hidden" name="type" value="tcw">
                             <input type="text" id="search" class="form-control" placeholder="🔍 검색어를 입력하세요" name="keyword" th:value="${pageRequestDTO.keyword}">
                             <button type="submit" style="margin-left:10px; width: 70px;" class="btn btn-primary">검색</button>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="d-flex justify-content-between align-items-center" style="height: 25px">
+                            <h5 style="font-size: 14px; margin-top: 20px">총 <span class="text-primary" th:text="${responseDTO.total}"></span> 건</h5>
+                            <div class="d-flex">
+                                <div class="dropdown">
+                                    <select class="form-control" name="regDateFilter" style="width: 130px;" onchange="submitForm()">
+                                        <option value="">등록일 전체 ▾</option>
+                                        <option value="today" th:selected="${pageRequestDTO.regDateFilter == 'today'}">오늘 등록</option>
+                                        <option value="3days" th:selected="${pageRequestDTO.regDateFilter == '3days'}">3일이내 등록</option>
+                                        <option value="7days" th:selected="${pageRequestDTO.regDateFilter == '7days'}">7일이내 등록</option>
+                                    </select>
+                                </div>
+                                <div class="dropdown" style="margin-left: 10px;">
+                                    <select class="form-control" name="sizeFilter" style="width: 130px;">
+                                        <option value="10">10개씩</option>
+                                        <option value="20">20개씩</option>
+                                        <option value="30">30개씩</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
-
-            <!-- 채용 공고 리스트 -->
-            <br>
-            <div class="d-flex justify-content-between">
-                <h5 style="font-size: 14px;">총 <span class="text-primary">1,513</span> 건</h5>
-                <form>
-                    <div class="d-flex" style="margin-bottom: 10px;">
-
-                        <div class="dropdown">
-                            <select class="form-control" style="width: 130px;">
-                                <option value="" selected>등록일 전체 ▾</option>
-                                <option>오늘 등록</option>
-                                <option>3일이내 등록</option>
-                                <option>7일이내 등록</option>
-                            </select>
-                        </div>
-                        <div class="dropdown" style="margin-left: 10px;">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                정렬
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
             <table class="table table-hover" th:with="link= ${pageRequestDTO.getLink()}">
                 <thead style="border-top: 1px solid black;">
                 <tr style="height: 60px; text-align: center;">
@@ -284,7 +551,7 @@
                         <td valign="middle"><a th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a></td>
                         <td valign="middle">[[${dto.reIndustry}]]</td>
                         <td valign="middle">근무지</td>
-                        <td valign="middle">경력무관</td>
+                        <td valign="middle">[[${dto.reJobHistory}]]</td>
                         <td valign="middle">[[${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}]]</td>
                         <td valign="middle"><button class="btn btn-outline-danger" id="applyBtn">입사지원</button></td>
                     </tr>
@@ -557,6 +824,41 @@
     if(result){
         alert(result)
         modal.show();
+    }
+
+    document.querySelector("#listPagination").addEventListener("click", function (e) {
+        paginationEvent(e, 12); // 12는 한페이지에 게시할 게시글 갯수
+    }, false);
+
+    function paginationEvent(e, size, code) {
+        console.log("페이지 번호 클릭됨!")
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const target = e.target;
+
+        if (target.tagName !== 'A') {
+            console.log("-- 리턴 --")
+            return;
+        }
+
+        const num = target.getAttribute("data-num");
+
+        console.log("num: " + num); // 출력 결과 null 나옴!
+
+        const formObj = document.querySelector("form");
+
+        formObj.innerHTML += `<input type="hidden" name="page" value="${num}">`;
+
+        formObj.innerHTML += `<input type="hidden" name="size" value="${size}">`;
+
+        formObj.submit();
+    }
+
+    function submitForm() {
+        var formObj = document.querySelector('.search-form'); // select 옵션 변경 시 form 자동 제출
+        formObj.submit();
     }
 </script>
 </body>

@@ -142,7 +142,7 @@
                         <input type="hidden" th:value="${dto.recruitId}" name="recruitId" readonly>
 
 <!--                        <span th:text="${dto.reJobTypeAlba}"></span>-->
-                        <h4 class="section-title">모집 내용</h4>
+                        <h4 class="section-title">모집 내용&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(1/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -181,7 +181,7 @@
                     </div>
                     <!-- 스텝 2 -->
                     <div class="step">
-                        <h4 class="section-title">근무 조건</h4>
+                        <h4 class="section-title">근무 조건&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(2/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -237,7 +237,7 @@
                     </div>
                     <!-- 스텝 3 -->
                     <div class="step">
-                        <h4 class="section-title">지원 조건</h4>
+                        <h4 class="section-title">지원 조건&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(3/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -380,7 +380,7 @@
                     </div>
                     <!-- 스텝 4 -->
                     <div class="step">
-                        <h4 class="section-title">접수 기간 / 방법</h4>
+                        <h4 class="section-title">접수 기간 / 방법&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(4/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -400,7 +400,7 @@
                     </div>
                     <!-- 스텝 5 -->
                     <div class="step">
-                        <h4 class="section-title">근무지 정보</h4>
+                        <h4 class="section-title">근무지 정보&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(5/7)</span></h4>
                         <hr>
 
                         <div class="mb-2">
@@ -415,7 +415,7 @@
                     </div>
                     <!-- 스텝 6 -->
                     <div class="step">
-                        <h4 class="section-title">근무지 정보</h4>
+                        <h4 class="section-title">근무지 정보&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(6/7)</span></h4>
                         <hr>
                         <div class="mb-2">
                             <label class="form-label" style="width: 225px;"><strong><span style="color: red;">*</span>&nbsp;근무회사사진</strong></label>
@@ -428,7 +428,7 @@
                     </div>
                     <!-- 스텝 7 -->
                     <div class="step">
-                        <h4 class="section-title">담당자 정보</h4>
+                        <h4 class="section-title">담당자 정보&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(7/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -509,7 +509,6 @@
             <!-- 돌아가기 버튼 -->
             <div th:with="link = ${pageRequestDTO.getLink()}">
                 <a th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|" class="btn btn-outline-secondary">돌아가기</a>
-                <button type="button" class="btn btn-danger" id="removeBtn">삭제하기</button>
             </div>
         </div>
 

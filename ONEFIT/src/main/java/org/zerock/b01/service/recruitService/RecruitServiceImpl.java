@@ -83,10 +83,23 @@ public class RecruitServiceImpl implements RecruitService {
         String keyword = pageRequestDTO.getKeyword();
         String gender = pageRequestDTO.getGender();
         String age = pageRequestDTO.getAge();
+        String jobTypeFull = pageRequestDTO.getJobTypeFull();
+        String jobTypePart = pageRequestDTO.getJobTypePart();
+        String jobTypeFree = pageRequestDTO.getJobTypeFree();
+        String jobTypeTrainee = pageRequestDTO.getJobTypeTrainee();
+        String jobTypeAlba = pageRequestDTO.getJobTypeAlba();
+        String workDays = pageRequestDTO.getWorkDays();
+        String dutyDays = pageRequestDTO.getDutyDays();
+        String startTime = pageRequestDTO.getStartTime();
+        String endTime = pageRequestDTO.getEndTime();
+        String timeNegotiable = pageRequestDTO.getTimeNegotiable();
+        String industry = pageRequestDTO.getIndustry();
+        String regDateFilter = pageRequestDTO.getRegDateFilter();
 
         Pageable pageable = pageRequestDTO.getPageable("recruitId");
 
-        Page<Recruit_Register> result = recruitRepository.searchAll(types, keyword, gender, age, pageable);
+        Page<Recruit_Register> result = recruitRepository.searchAll(types, keyword, gender, age,
+                jobTypeFull, jobTypePart, jobTypeFree, jobTypeTrainee, jobTypeAlba, workDays, dutyDays, startTime, endTime, timeNegotiable, industry, regDateFilter, pageable);
 
 
         List<RecruitDTO> dtoList = result.getContent().stream()

@@ -126,6 +126,7 @@
         <div class="recruit-container container mt-5">
             <form th:action="@{/recruit/modify}" method="post" id="deleteForm">
                 <input type="hidden" th:value="${dto.recruitId}" name="recruitId" readonly>
+<!--                <input type="text" th:value="${businessMemberDTO.businessId}" name="businessId" readonly>-->
                 <div style="float: right;">
                     작성일 : <span th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </div>
@@ -213,6 +214,10 @@
                                 <li class="label-list">
                                     <span class="label">경력</span>
                                     <span th:text="${dto.reJobHistory}"></span>
+                                </li>
+                                <li class="label-list">
+                                    <span class="label">우대조건 </span>
+                                    <span th:text="${dto.rePreference}"></span>
                                 </li>
                                 <li class="label-list">
                                     <span class="label">모집인원</span>

@@ -8,9 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
+import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
+import org.zerock.b01.service.All_MemberService;
+import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 import org.zerock.b01.service.recruitService.RecruitService;
 
 import java.time.LocalDateTime;
@@ -23,6 +27,9 @@ import java.time.temporal.ChronoUnit;
 public class RecruitController {
 
     private final RecruitService recruitService;
+
+    private final All_MemberService all_memberService;
+    private final Member_Set_Type_Service member_Set_Type_Service;
 
     @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model) {
@@ -64,10 +71,13 @@ public class RecruitController {
     }
 
     @GetMapping({"/read","/modify"})
-    public void read(Long recruitId, PageRequestDTO pageRequestDTO, Model model) {
+    public void read(Long recruitId, PageRequestDTO pageRequestDTO,  Business_MemberDTO businessMemberDTO, Model model, All_MemberDTO all_memberDTO) {
         log.info("recruit_read Get...............");
 
         RecruitDTO recruitDTO = recruitService.readOne(recruitId);
+
+        businessMemberDTO = member_Set_Type_Service.BusinessRead(businessMemberDTO.getAllId());
+
 
         LocalDateTime deadline = recruitDTO.getReDeadline();  // 마감일 (LocalDateTime)
         LocalDateTime now = LocalDateTime.now();  // 현재 시간
@@ -80,7 +90,8 @@ public class RecruitController {
         model.addAttribute("dDayText", dDayText);
 
         log.info("Recruit ID: " + recruitDTO.getRecruitId());
-
+        model.addAttribute("businessMemberDTO", businessMemberDTO);
+        log.info("BusinessMemberDTO: " + businessMemberDTO);
         model.addAttribute("dto", recruitDTO);
     }
 

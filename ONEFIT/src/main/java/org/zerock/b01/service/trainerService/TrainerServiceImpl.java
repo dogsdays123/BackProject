@@ -92,29 +92,29 @@ public class TrainerServiceImpl implements TrainerService {
 
         // 썸네일 파일 경로
         // 문제가 생기면 thumbnailPath 를 Path 에서 따오지 말고 아래 new File() 에 파일 이름과 같이 집어넣을 것
-        List<String> filePaths = trainer.getImageSet().stream().sorted()
-                .map(trainerThumbnails ->
-                        Paths.get(thumbnailPath, trainerThumbnails.getThumbnailUuid() +
-                                "_" + trainerThumbnails.getImgname()
-                        ).toString()
-                ).collect(Collectors.toList());
+//        List<String> filePaths = trainer.getImageSet().stream().sorted()
+//                .map(trainerThumbnails ->
+//                        Paths.get(thumbnailPath, trainerThumbnails.getThumbnailUuid() +
+//                                "_" + trainerThumbnails.getImgname()
+//                        ).toString()
+//                ).collect(Collectors.toList());
+//
+//        trainerViewDTO.setThumbnails(filePaths);
+//
+//        Optional<User_Member> userMember = trainerRepository.findUserMemberById(trainer.getUserMember().getUserId());
+//        User_Member user = userMember.orElseThrow();
+//
+//        Optional<All_Member> allMember = trainerRepository.findAllMemberById(user.getAll_member().getAllId());
+//        All_Member all = allMember.orElseThrow();
+//
+//        trainerViewDTO.setName(all.getName());
+//        trainerViewDTO.setGender(user.getUResident().toString().charAt(0) == '1' ? "남" : "여");
+//        trainerViewDTO.setBirthday(user.getUBirthday());
+//        trainerViewDTO.setEmail(all.getEmail());
+//        trainerViewDTO.setPhone(all.getAPhone().toString());
+//        trainerViewDTO.setAddress(user.getUAddress());
 
-        trainerViewDTO.setThumbnails(filePaths);
-
-        Optional<User_Member> userMember = trainerRepository.findUserMemberById(trainer.getUserMember().getUserId());
-        User_Member user = userMember.orElseThrow();
-
-        Optional<All_Member> allMember = trainerRepository.findAllMemberById(user.getAll_member().getAllId());
-        All_Member all = allMember.orElseThrow();
-
-        trainerViewDTO.setName(all.getName());
-        trainerViewDTO.setGender(user.getUResident().toString().charAt(0) == '1' ? "남" : "여");
-        trainerViewDTO.setBirthday(user.getUBirthday());
-        trainerViewDTO.setEmail(all.getEmail());
-        trainerViewDTO.setPhone(all.getAPhone().toString());
-        trainerViewDTO.setAddress(user.getUAddress());
-
-        return trainerViewDTO;
+        return null;
     }
 
     private String getFileExtension(String fileName) {
