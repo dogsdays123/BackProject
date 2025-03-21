@@ -8,5 +8,7 @@ public interface RecruitSearch {
 
     Page<Recruit_Register> search1(Pageable pageable);
 
-    Page<Recruit_Register> searchAll(String[] types, String keyword, Pageable pageable);
+    Page<Recruit_Register> searchAll(String[] types, String keyword, String gender, String age, Pageable pageable);
+
+//    Page<Recruit_Register> searchDetailFilters(String[] types, String keyword, Pageable pageable);
 }

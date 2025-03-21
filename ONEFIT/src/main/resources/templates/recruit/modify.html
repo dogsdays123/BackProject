@@ -438,14 +438,14 @@
                         <div class="mb-2">
                             <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;이메일</strong></label>
 
-                            <input type="text" class="form-control" id="email_output" name="reAdminEmail" style="width: 400px;" th:value="${dto.reAdminEmail}" readonly>
+                            <input type="text" class="form-control" id="email_output" name="reAdminEmail" style="width: 400px;" th:value="${dto.reAdminEmail}">
                             <input type="hidden" class="form-control" id="email_local" style="width: 150px;">&nbsp;&nbsp;
                             <input type="hidden" class="form-control" id="email_custom" style="width: 150px;">
                             &nbsp;&nbsp;&nbsp;&nbsp;
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;연락처</strong></label>
-                            <input type="text" class="form-control" id="phone_output" name="reAdminPhone" th:value="${dto.reAdminPhone}" style="width: 200px" readonly>
+                            <input type="text" class="form-control" id="phone_output" name="reAdminPhone" th:value="${dto.reAdminPhone}" style="width: 200px">
                             <input type="hidden" maxlength="3" class="form-control" id="phone_first" style="width: 60px;">&nbsp;&nbsp;
                             <input type="hidden" maxlength="4" class="form-control" id="phone_mid" style="width: 70px">&nbsp;&nbsp;
                             <input type="hidden" maxlength="4" class="form-control" id="phone_last" style="width: 70px">&nbsp;&nbsp;&nbsp;&nbsp;

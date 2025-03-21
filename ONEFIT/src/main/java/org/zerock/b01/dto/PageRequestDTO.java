@@ -27,6 +27,10 @@ public class PageRequestDTO {
 
     private String keyword;
 
+    private String gender; // 채용 공고 필터링으로 인해 변수 추가
+
+    private String age; // 채용 공고 필터링으로 인해 변수 추가
+
     public String[] getTypes() {
         if(type == null || type.isEmpty()) {
             return null;

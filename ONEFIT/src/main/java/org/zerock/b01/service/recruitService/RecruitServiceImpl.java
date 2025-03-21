@@ -1,10 +1,8 @@
 package org.zerock.b01.service.recruitService;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -83,10 +81,13 @@ public class RecruitServiceImpl implements RecruitService {
 
         String[] types = pageRequestDTO.getTypes();
         String keyword = pageRequestDTO.getKeyword();
+        String gender = pageRequestDTO.getGender();
+        String age = pageRequestDTO.getAge();
 
         Pageable pageable = pageRequestDTO.getPageable("recruitId");
 
-        Page<Recruit_Register> result = recruitRepository.searchAll(types, keyword, pageable);
+        Page<Recruit_Register> result = recruitRepository.searchAll(types, keyword, gender, age, pageable);
+
 
         List<RecruitDTO> dtoList = result.getContent().stream()
                 .map(recruitRegister -> modelMapper.map(recruitRegister, RecruitDTO.class)).
@@ -98,5 +99,9 @@ public class RecruitServiceImpl implements RecruitService {
                 .total((int)result.getTotalElements())
                 .build();
     }
+
+
+
+
 
 }
