@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.zerock.b01.domain.recruit.QRecruit_Register;
 import org.zerock.b01.domain.recruit.Recruit_Register;
+import com.querydsl.core.types.dsl.NumberTemplate;
 
 import java.util.List;
 
@@ -36,14 +37,16 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
     }
 
     @Override
-    public Page<Recruit_Register> searchAll(String[] types, String keyword, Pageable pageable) {
+    public Page<Recruit_Register> searchAll(String[] types, String keyword, String gender, String age, Pageable pageable) {
 
         QRecruit_Register recruit_register = QRecruit_Register.recruit_Register;
 
         JPQLQuery<Recruit_Register> query = from(recruit_register);
 
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
         if((types != null && types.length > 0) && keyword != null) {
-            BooleanBuilder booleanBuilder = new BooleanBuilder();
+
 
             for(String type : types) {
                 switch (type) {
@@ -56,11 +59,36 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
                     case "w":
                         booleanBuilder.or(recruit_register.reIndustry.contains(keyword));
                         break;
-
                 }
             }
-            query.where(booleanBuilder);
+
         }
+        if (gender != null && !gender.isEmpty()) {
+            if (!"성별무관".equals(gender)) {
+                booleanBuilder.and(recruit_register.reGender.eq(gender)); // "남자" or "여자"만 필터링
+            }
+        }
+
+
+        if ("연령무관".equals(age)) {
+            // 연령무관이 선택되었을 때 필터 적용
+            booleanBuilder.and(
+                    recruit_register.reMinAge.eq("연령무관")  // reMinAge가 '연령무관'인 데이터만 필터링
+                            .and(recruit_register.reMaxAge.eq("연령무관"))  // reMaxAge가 '연령무관'인 데이터만 필터링
+            );
+        } else {
+            // 실제 연령이 선택된 경우
+            if (age != null && !age.isEmpty()) {
+                // 실제 연령을 기준으로 연령 범위 필터링
+                booleanBuilder.and(
+                        recruit_register.reMinAge.loe(age)  // reMinAge가 선택된 연령보다 작거나 같음
+                                .and(recruit_register.reMaxAge.goe(age))  // reMaxAge가 선택된 연령보다 크거나 같음
+                );
+            }
+        }
+
+
+        query.where(booleanBuilder);
         query.where(recruit_register.recruitId.gt(0L));
 
         this.getQuerydsl().applyPagination(pageable, query);
@@ -71,7 +99,6 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
 
         return new PageImpl<>(list, pageable, count);
     }
-
 
 
 }

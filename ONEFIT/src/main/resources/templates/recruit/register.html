@@ -28,7 +28,7 @@
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
-            <li class="nav-item"><a class="nav-link" href="recruit_list.html">채용정보</a></li>
+            <li class="nav-item"><a class="nav-link" href="/recruit/list">채용정보</a></li>
             <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
             <li class="nav-item dropdown dropdown-main">
                 <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
@@ -154,12 +154,11 @@
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 170px;"><strong><span style="color: red;">*</span>&nbsp;고용형태</strong></label>
-                            <input type="radio" value="정규직" name="reJobTypeFull"><label>&nbsp;정규직</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" value="파트" name="reJobTypePart"><label>&nbsp;파트</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" value="프리랜서" name="reJobTypeFree"><label>프리</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" value="연습생/실습생" name="reJobTypeTrainee"><label>&nbsp;연습생/실습생</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" value="아르바이트" name="reJobTypeAlba"><label>&nbsp;아르바이트</label>&nbsp;
-                            <input type="text" id="reJobType" name="reJobType" readonly/>
+                            <input type="checkbox" value="정규직" name="reJobTypeFull"><label>&nbsp;정규직</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="파트" name="reJobTypePart"><label>&nbsp;파트</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="프리랜서" name="reJobTypeFree"><label>프리</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="연습생" name="reJobTypeTrainee"><label>&nbsp;연습생</label>&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" value="아르바이트" name="reJobTypeAlba"><label>&nbsp;아르바이트</label>&nbsp;
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 158px;"><strong><span style="color: red;">*</span>&nbsp;업직종</strong></label>
@@ -167,6 +166,32 @@
                                 <option value="" selected disabled hidden style="color: #dadada;">업직종을 선택하세요</option>
                                 <option value="헬스/PT">헬스/PT</option>
                                 <option value="수영">수영</option>
+                                <option value="댄스">댄스</option>
+                                <option value="요가">요가</option>
+                                <option value="스피닝">스피닝</option>
+                                <option value="에어로빅">에어로빅</option>
+                                <option value="재즈댄스">재즈댄스</option>
+                                <option value="발레/무용">발레/무용</option>
+                                <option value="필라테스">필라테스</option>
+                                <option value="스쿼시">스쿼시</option>
+                                <option value="줄넘기">줄넘기</option>
+                                <option value="태권도">태권도</option>
+                                <option value="유도">유도</option>
+                                <option value="검도">검도</option>
+                                <option value="합기도">합기도</option>
+                                <option value="축구">축구</option>
+                                <option value="농구">농구</option>
+                                <option value="배구">배구</option>
+                                <option value="배드민턴">배드민턴</option>
+                                <option value="학교체육">학교체육</option>
+                                <option value="방과후강사">방과후강사</option>
+                                <option value="유아/특수체육">유아/특수체육</option>
+                                <option value="골프">골프</option>
+                                <option value="양궁">양궁</option>
+                                <option value="사격">사격</option>
+                                <option value="장애인체육">장애인체육</option>
+                                <option value="재활">재활</option>
+                                <option value="물리치료">물리치료</option>
                             </select>
                         </div>
                         <div class="mb-2">
@@ -183,27 +208,26 @@
                         <br>
                         <div class="mb-2">
                             <label class="form-label" style="width: 170px;"><strong><span style="color: red;">*</span>&nbsp;근무요일</strong></label>
-                            <input type="radio" name="reWorkDays" value="월~일">&nbsp;<label>월~일</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="월~토">&nbsp;<label>월~토</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="월~금">&nbsp;<label>월~금</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월 ~ 금">&nbsp;<label>월~금</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월 ~ 토">&nbsp;<label>월~토</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월 ~ 일">&nbsp;<label>월~일</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="주말(토)">&nbsp;<label>주말(토)</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="주말(일)">&nbsp;<label>주말(일)</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="주말(토,일)">&nbsp;<label>주말(토,일)</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="요일협의">&nbsp;<label>요일협의</label>&nbsp;
-                            <input type="radio" name="reDutyDays" value="1">&nbsp;<label>주말당직</label>&nbsp;
+                            <input type="checkbox" name="reDutyDays" value="주말당직">&nbsp;<label>주말당직</label>&nbsp;
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;근무시간</strong></label>
                             <label></label>
-                            <select class="form-control" id="re_work_start_time" style="width: 70px;"></select>
+                            <select class="form-control" id="re_work_start_time" name="reWorkStartTime" style="width: 70px;"></select>
                             &nbsp;~&nbsp;
                             <label></label>
-                            <select class="form-control" id="re_work_end_time" style="width: 70px;"></select>
+                            <select class="form-control" id="re_work_end_time" name="reWorkEndTime" style="width: 70px;"></select>
                             &nbsp;&nbsp;
-                            <input type="radio" name="reTimeNegotiable" value="1" id="re_time_negotiable">&nbsp;<label>시간협의</label>&nbsp;
-                            <input type="hidden" name="reTimeNegotiable" value="0" id="hidden_reTimeNegotiable">
-                            <input type="text" id="hidden_start_time" name="reWorkStartTime" readonly>
-                            <input type="text" id="hidden_end_time" name="reWorkEndTime" readonly>
+                            <input type="checkbox" name="reTimeNegotiable" value="시간협의" id="re_time_negotiable">&nbsp;<label>시간협의</label>&nbsp;
+                            <input type="hidden" id="hidden_start_time" readonly>
+                            <input type="hidden" id="hidden_end_time" readonly>
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;급여</strong></label>
@@ -213,13 +237,11 @@
                                 <option selected value="월급">월급</option>
                                 <option value="연봉">연봉</option>
                             </select>
-                            <input type="text" class="form-control" name="reSalaryValue" maxlength="8" style="width: 130px;" placeholder="숫자만 입력">&nbsp;<span>원</span>&nbsp;&nbsp;
-                            <input type="radio" class="salary_checkbox" id="check_agreement" name="reSalaryCheckAgree" value="1"><label for="check_agreement">협의가능</label>&nbsp;
-                            <input type="radio" class="salary_checkbox" id="check_meal" name="reSalaryCheckMeal" value="1"><label for="check_meal">식대지급</label>&nbsp;
-                            <input type="radio" class="salary_checkbox" id="check_on_duty" name="reSalaryCheckDuty" value="1"><label for="check_on_duty">당직비지급</label>&nbsp;
-                            <input type="radio" class="salary_checkbox" id="check_probation" name="reSalaryCheckProb" value="1"><label for="check_probation">수습기간있음</label>&nbsp;
-                            <input type="text" id="salary_result" name="reSalaryCheck" readonly>
-<!--                            <div id="salary_result" name="reSalaryCheck"></div>-->
+                            <input type="text" class="form-control" name="reSalaryValue" maxlength="4" style="width: 80px;" placeholder="숫자입력">&nbsp;<span>만원</span>&nbsp;&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_agreement" name="reSalaryCheckAgree" value="급여협의가능"><label for="check_agreement">&nbsp;협의가능</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_meal" name="reSalaryCheckMeal" value="식대지급"><label for="check_meal">&nbsp;식대지급</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_on_duty" name="reSalaryCheckDuty" value="당직비지급"><label for="check_on_duty">&nbsp;당직비지급</label>&nbsp;
+                            <input type="checkbox" class="salary_checkbox" id="check_probation" name="reSalaryCheckProb" value="수습기간있음"><label for="check_probation">&nbsp;수습기간있음</label>&nbsp;
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 205px; color: white;"><strong>&nbsp;급여추가정보</strong></label>
@@ -241,8 +263,8 @@
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;연령</strong></label>
-                            <input type="radio" name="reAgeType" value="1" id="age_no_limit">&nbsp;<label for="age_no_limit">연령무관</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="reAgeType" value="0" id="age_limit">&nbsp;<label for="age_limit">연령제한 있음</label>&nbsp;
+                            <input type="radio" name="reAgeType" value="연령무관" id="age_no_limit">&nbsp;<label for="age_no_limit">연령무관</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="reAgeType" value="연령제한" id="age_limit">&nbsp;<label for="age_limit">연령제한 있음</label>&nbsp;
 
                             <select class="form-control" id="age_min" style="width: 55px;" disabled>
                                 <option value="" selected disabled hidden style="color: #dadada;"></option>
@@ -343,8 +365,8 @@
                             </select>&nbsp;<span>세 이하</span>
 
                             <!-- Hidden input for age -->
-                            <input type="text" id="hidden_age_min" name="reMinAge" readonly style="width: 100px;">
-                            <input type="text" id="hidden_age_max" name="reMaxAge" readonly style="width: 100px;">
+                            <input type="hidden" id="hidden_age_min" name="reMinAge" readonly style="width: 100px;">
+                            <input type="hidden" id="hidden_age_max" name="reMaxAge" readonly style="width: 100px;">
                         </div>
 
                         <div class="mb-2">
@@ -359,6 +381,7 @@
                             <select class="form-control" name="reEducation" style="width: 200px;">
                                 <option value="" selected disabled hidden style="color: #f5f5f5;">학력을 선택해주세요</option>
                                 <option value="고등학교졸업">고등학교졸업</option>
+                                <option value="전문대졸업">고등학교졸업</option>
                                 <option value="대학교졸업">대학교졸업</option>
                                 <option value="석사이상">석사이상</option>
                                 <option value="학력무관">학력무관</option>
@@ -378,16 +401,14 @@
                         <br>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;모집종료일</strong></label>
-                            <input type="datetime-local" class="form-control" name="reDeadline" style="width: 150px;">
+                            <input type="datetime-local" class="form-control" name="reDeadline" style="width: 230px;">
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;접수방법</strong></label>
-                            <input type="radio" class="apply_checkbox" name="reApplyMethodOnline" value="1" id="check_online_apply">&nbsp;<label for="check_online_apply">온라인지원</label>&nbsp;
-                            <input type="radio" class="apply_checkbox" name="reApplyMethodEmail" value="1" id="check_email_apply">&nbsp;<label for="check_email_apply">이메일지원</label>&nbsp;
-                            <input type="radio" class="apply_checkbox" name="reApplyMethodMsg" value="1" id="check_msg_apply">&nbsp;<label for="check_msg_apply">문자지원</label>&nbsp;
-                            <input type="radio" class="apply_checkbox" name="reApplyMethodTel" value="1" id="check_tel_apply">&nbsp;<label for="check_tel_apply">전화연락</label>&nbsp;
-                            <input type="text" id="apply_result" name="reApplyMethod" readonly style="width: 100px;">
-<!--                            <div id="apply_result"></div>-->
+                            <input type="checkbox" class="apply_checkbox" name="reApplyMethodOnline" value="온라인지원" id="check_online_apply">&nbsp;<label for="check_online_apply">온라인지원</label>&nbsp;
+                            <input type="checkbox" class="apply_checkbox" name="reApplyMethodEmail" value="이메일지원" id="check_email_apply">&nbsp;<label for="check_email_apply">이메일지원</label>&nbsp;
+                            <input type="checkbox" class="apply_checkbox" name="reApplyMethodMsg" value="문자지원" id="check_msg_apply">&nbsp;<label for="check_msg_apply">문자지원</label>&nbsp;
+                            <input type="checkbox" class="apply_checkbox" name="reApplyMethodTel" value="전화연락" id="check_tel_apply">&nbsp;<label for="check_tel_apply">전화연락</label>&nbsp;
                         </div>
                         <br>
                     </div>
@@ -433,19 +454,19 @@
                             <input type="text" class="form-control" id="email_local" style="width: 150px;">&nbsp;@&nbsp;
                             <input type="text" class="form-control" id="email_custom" style="width: 150px;">
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="text" class="form-control" id="email_output" name="reAdminEmail" style="width: 400px;" readonly>
+                            <input type="hidden" class="form-control" id="email_output" name="reAdminEmail" style="width: 400px;" readonly>
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;연락처</strong></label>
                             <input type="text" maxlength="3" class="form-control" id="phone_first" style="width: 60px;">&nbsp;-&nbsp;
                             <input type="text" maxlength="4" class="form-control" id="phone_mid" style="width: 70px">&nbsp;-&nbsp;
                             <input type="text" maxlength="4" class="form-control" id="phone_last" style="width: 70px">&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="text" class="form-control" id="phone_output" name="reAdminPhone" style="width: 200px" readonly>
+                            <input type="hidden" class="form-control" id="phone_output" name="reAdminPhone" style="width: 200px" readonly>
                         </div>
-<!--                        <div class="mb-2">-->
-<!--                            <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;bid</strong></label>-->
-<!--                            <input type="number" name="businessId" class="form-control" style="width: 60px;">-->
-<!--                        </div>-->
+                        <!--                        <div class="mb-2">-->
+                        <!--                            <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;bid</strong></label>-->
+                        <!--                            <input type="number" name="businessId" class="form-control" style="width: 60px;">-->
+                        <!--                        </div>-->
 
                     </div>
                     <div class="mt-3">
@@ -479,16 +500,23 @@
 
                                 </div>
                                 <div class="tab-content mt-3">
-                                    <button type="submit" class="btn btn-primary w-100 modal-btn" id="register-submit-ok-btn">등록하기</button>
+                                    <div class="d-flex flex-row-reverse">
+                                        <div>
+                                            <a href="#" class="btn btn-outline-secondary w-100 modal-btn" data-bs-dismiss="modal" id="confirmModifyBtn4">아니오</a>
+                                        </div>
+                                        <div style="margin-right: 3px">
+                                            <button type="submit" class="btn btn-primary w-100 modal-btn" id="register-submit-ok-btn">네</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- 채용 공고 등록 최종 버튼 모달창 end -->
-<!--                <div class="tab-content mt-3">-->
-<!--                    <button type="submit" class="btn btn-primary w-100 modal-btn" >등록하기</button>-->
-<!--                </div>-->
+                <!--                <div class="tab-content mt-3">-->
+                <!--                    <button type="submit" class="btn btn-primary w-100 modal-btn" >등록하기</button>-->
+                <!--                </div>-->
             </form>
             <!-- 돌아가기 버튼 -->
             <div>
@@ -589,12 +617,13 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="/js/basic.js"></script>
 <script src="/js/recruit/recruit_register.js"></script>
-<script layout:fragment="script" th:inline="javascript">
-    const error = [[${error}]]
 
-    if (error && error === 'allId') {
-        alert("동일한 아이디를 가진 계정이 존재합니다.")
-    }
+<script layout:fragment="script" th:inline="javascript">
+    // const error = [[${error}]]
+    //
+    // if (error && error === 'allId') {
+    //     alert("동일한 아이디를 가진 계정이 존재합니다.")
+    // }
 
     //  @Valid 에러 메시지
     const errors = [[${errors}]]

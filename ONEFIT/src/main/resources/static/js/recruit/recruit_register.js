@@ -120,6 +120,10 @@ textInput2.addEventListener('input', () => {
     counter2.textContent = `${currentLength2}/40`;
 });
 
+// reJopType 라디오버튼 처리
+// 라디오 버튼을 클릭할 때 체크를 해제하도록 하는 이벤트 리스너 추가
+
+
 // 근무 시간
 function generateTimeOptions(selectElement) {
     const startHour = 0;  // 00:00부터 시작
@@ -134,17 +138,6 @@ function generateTimeOptions(selectElement) {
     }
 }
 
-// 시간협의 체크박스
-document.getElementById("jobForm").addEventListener("submit", function(event) {
-    const checkbox = document.getElementById("re_time_negotiable");
-    const hiddenInput = document.getElementById("hidden_reTimeNegotiable");
-
-    if (checkbox.checked) {
-        hiddenInput.value = "1"; // 체크박스가 선택되면 1로 설정
-    } else {
-        hiddenInput.value = "0"; // 체크박스가 선택되지 않으면 0으로 설정
-    }
-});
 
 // 드롭다운 옵션 생성
 const startTimeSelect = document.getElementById("re_work_start_time");
@@ -156,15 +149,6 @@ generateTimeOptions(endTimeSelect);
 startTimeSelect.value = "09:00";
 endTimeSelect.value = "18:00";
 updateHiddenInput(); // 초기값 반영
-
-
-// 근무 시간
-const startTime = startTimeSelect.value;
-const endTime = endTimeSelect.value;
-const hiddenStart = document.getElementById("hidden_start_time");
-const hiddenEnd = document.getElementById("hidden_end_time");
-const agreementCheckbox = document.getElementById("re_time_negotiable");
-
 
 function updateHiddenInput() {
     const startTime = startTimeSelect.value;
@@ -180,95 +164,9 @@ function updateHiddenInput() {
     hiddenEnd.value = endTime;
 }
 
-// 드롭다운 & 체크박스 변경 시 자동 업데이트
-startTimeSelect.addEventListener("change", updateHiddenInput);
-endTimeSelect.addEventListener("change", updateHiddenInput);
-document.querySelector("input[type='checkbox']").addEventListener("change", updateHiddenInput);
-
-
-function updateSalaryCheck() {
-    const checkboxes = document.querySelectorAll('input[class="salary_checkbox"]:checked'); // 체크된 체크박스들
-    const selectedValues = Array.from(checkboxes).map(checkbox => checkbox.nextElementSibling.textContent.trim()); // 라벨 텍스트를 배열로 수집
-    const resultText = selectedValues.join(', ');  // 선택된 값들을 ','로 구분하여 합침
-    document.getElementById('salary_result').value = resultText;  // 텍스트 필드에 값 설정
-}
-
-// 체크박스가 변경될 때마다 업데이트
-document.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
-    checkbox.addEventListener('change', updateSalaryCheck);
-});
-
-function updateApplyCheck() {
-    const checkboxes = document.querySelectorAll('input[class="apply_checkbox"]:checked'); // 체크된 체크박스들
-    const selectedValues = Array.from(checkboxes).map(checkbox => checkbox.nextElementSibling.textContent.trim()); // 라벨 텍스트를 배열로 수집
-    const resultText = selectedValues.join(', ');  // 선택된 값들을 ','로 구분하여 합침
-    document.getElementById('apply_result').value = resultText;  // 텍스트 필드에 값 설정
-}
-
-// 체크박스가 변경될 때마다 업데이트
-document.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
-    checkbox.addEventListener('change', updateApplyCheck);
-});
-
-function updateResult1() {
-    const selectedValues = []; // 배열 변수 이름을 일관되게 selectedValues로 수정
-
-    // 각 체크박스에 대해 상태를 체크하고, 체크된 항목의 라벨 값을 배열에 저장
-    if (document.getElementById("check_online_apply").checked) {
-        selectedValues.push(document.querySelector("label[for='check_online_apply']").innerText);
-    }
-    if (document.getElementById("check_email_apply").checked) {
-        selectedValues.push(document.querySelector("label[for='check_email_apply']").innerText);
-    }
-    if (document.getElementById("check_msg_apply").checked) {
-        selectedValues.push(document.querySelector("label[for='check_msg_apply']").innerText);
-    }
-    if (document.getElementById("check_tel_apply").checked) {
-        selectedValues.push(document.querySelector("label[for='check_tel_apply']").innerText);
-    }
-
-    // 결과를 ','로 구분하여 출력
-    const resultText1 = selectedValues.length > 0 ? selectedValues.join(', ') : '';
-    document.getElementById("apply_result").textContent = resultText1;
-}
-
-// <label className="form-label" style="width: 160px;"><strong><span
-//     style="color: red;">*</span>&nbsp;접수방법</strong></label>
-// <input type="checkbox" id="check_online_apply"/> & nbsp;
-// <label htmlFor="check_online_apply">온라인지원</label> & nbsp;
-// <input type="checkbox" id="check_email_apply"/> & nbsp;
-// <label htmlFor="check_email_apply">이메일지원</label> & nbsp;
-// <input type="checkbox" id="check_msg_apply"/> & nbsp;
-// <label htmlFor="check_msg_apply">문자지원</label> & nbsp;
-// <input type="checkbox" id="check_tel_apply"/> & nbsp;
-// <label htmlFor="check_tel_apply">전화연락</label> & nbsp;
-// <input type="text" id="apply_result" name="reApplyMethod" readOnly style="width: 100px;"/>
-// 체크박스 상태가 변경될 때마다 결과 업데이트
-document.getElementById("check_online_apply").addEventListener("change", updateResult1);
-document.getElementById("check_email_apply").addEventListener("change", updateResult1);
-document.getElementById("check_msg_apply").addEventListener("change", updateResult1);
-document.getElementById("check_tel_apply").addEventListener("change", updateResult1);
-
-// 초기 결과 업데이트
-updateResult1();
-
-
-// 체크박스가 변경될 때마다 호출되는 함수
-function updateJobType() {
-    const checkboxes = document.querySelectorAll('input[name="reJobType1"]:checked');
-    const selectedValues = Array.from(checkboxes).map(checkbox => checkbox.value);
-    const jobTypeText = selectedValues.join(',');  // 선택된 값들을 ','로 구분하여 합침
-    document.getElementById('reJobType').value = jobTypeText;  // 텍스트 필드에 값 설정
-}
-
-// 체크박스가 변경될 때마다 업데이트
-document.querySelectorAll('input[name="reJobType1"]').forEach(function (checkbox) {
-    checkbox.addEventListener('change', updateJobType);
-});
-
 // 연령 처리 함수
 function updateAge() {
-    const ageRadios = document.getElementsByName('age');
+    const ageRadios = document.getElementsByName('reAgeType');
     let ageValue = '';
     let minAgeValue = document.getElementById('age_min').value;
     let maxAgeValue = document.getElementById('age_max').value;
@@ -286,10 +184,6 @@ function updateAge() {
             }
         }
     });
-
-    // 결과 출력
-    //   document.getElementById('result').innerText =
-    //     `Min Age: ${document.getElementById('hidden_age_min').value}, Max Age: ${document.getElementById('hidden_age_max').value}`;
 }
 
 // 라디오 버튼 이벤트 리스너
