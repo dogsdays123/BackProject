@@ -12,6 +12,7 @@
 //import org.zerock.b01.domain.board.Qna_Board;
 //import org.zerock.b01.repository.boardRepository.QnaBoardRepository;
 //
+//import java.time.LocalDate;
 //import java.util.List;
 //import java.util.Optional;
 //import java.util.stream.IntStream;
@@ -26,9 +27,9 @@
 //    @Test
 //    public void testInsertQna() {
 //
-//        String all_id = "member1"; //수정
+//        String allId = "member1"; //수정
 //
-//        All_Member all_member =All_Member.builder().all_id(all_id).build(); //수정
+//        All_Member all_member =All_Member.builder().allId(allId).build(); //수정
 //
 //        IntStream.rangeClosed(1, 100).forEach(i -> {
 //            Qna_Board qna_board = Qna_Board.builder()
@@ -105,9 +106,13 @@
 //
 //        String keyword = "1";
 //
+//        LocalDate startDate = LocalDate.now();
+//
+//        LocalDate endDate = LocalDate.now().plusDays(1);
+//
 //        Pageable pageable = PageRequest.of(0, 10, Sort.by("qnaId").descending());
 //
-//        Page<Qna_Board> result = qnaBoardRepository.searchQnaAll(types, keyword, pageable);
+//        Page<Qna_Board> result = qnaBoardRepository.searchQnaAll(types, keyword, startDate, endDate,pageable);
 //
 //        //total pages
 //        log.info(result.getTotalPages());

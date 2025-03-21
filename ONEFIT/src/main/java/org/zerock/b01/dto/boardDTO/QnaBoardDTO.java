@@ -1,6 +1,7 @@
 package org.zerock.b01.dto.boardDTO;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,13 +24,13 @@ public class QnaBoardDTO {
     @NotEmpty
     private String qContent;
 
-    @NotEmpty
+    @NotNull
     private int qHits;
 
     @NotEmpty
     private All_Member allMember;
 
-    private LocalDateTime regdate;
+    private LocalDateTime regDate;
 
-    private LocalDateTime moddate;
+    private LocalDateTime modDate;
 }

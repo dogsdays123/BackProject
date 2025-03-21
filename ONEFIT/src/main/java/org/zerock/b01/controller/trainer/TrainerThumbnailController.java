@@ -1,4 +1,4 @@
-package org.zerock.b01.controller.bang;
+package org.zerock.b01.controller.trainer;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;

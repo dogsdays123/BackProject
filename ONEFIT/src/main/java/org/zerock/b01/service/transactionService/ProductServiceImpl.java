@@ -15,6 +15,7 @@ import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.transactionDTO.EquipmentDTO;
 import org.zerock.b01.dto.transactionDTO.FacilityDTO;
+import org.zerock.b01.dto.transactionDTO.ProductDTO;
 import org.zerock.b01.dto.transactionDTO.ProductListAllDTO;
 import org.zerock.b01.repository.All_MemberRepository;
 import org.zerock.b01.repository.transactionRepository.CategoryRepository;
@@ -91,6 +92,39 @@ public class ProductServiceImpl implements ProductService {
         return facilityRepository.save(facility).getFacilityId();
     }
 
+    // (거래 - 상품) [기구] 판매 게시글 읽기
+    @Override
+    public EquipmentDTO readEquipmentOne(Long productId) {
+        Optional<Equipment> optionalEquipment = equipmentRepository.findByProduct_ProductId(productId);
+        Equipment equipment = optionalEquipment.orElseThrow();
+        EquipmentDTO equipmentDTO = modelMapper.map(equipment, EquipmentDTO.class);
+
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        Product product = optionalProduct.orElseThrow();
+        ProductDTO productDTO = entityToDto(product);
+
+        productDTOIntoEqDto(productDTO, equipmentDTO);
+
+        return equipmentDTO;
+    }
+
+    // (거래 - 상품) [시설] 판매 게시글 읽기
+    @Override
+    public FacilityDTO readFacilityOne(Long productId) {
+        Optional<Facility> optionalFacility = facilityRepository.findByProduct_ProductId(productId);
+        Facility facility = optionalFacility.orElseThrow();
+        FacilityDTO facilityDTO = modelMapper.map(facility, FacilityDTO.class);
+
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        Product product = optionalProduct.orElseThrow();
+        ProductDTO productDTO = entityToDto(product);
+
+        productDTOIntoFaDto(productDTO, facilityDTO);
+
+        return facilityDTO;
+    }
+
+    // (거래 - 상품) 거래 게시판 리스트
     @Override
     public PageResponseDTO<ProductListAllDTO> listWithAllProducts(PageRequestDTO pageRequestDTO) {
         // 검색 타입 배열 가져오기 (제목, 내용, 작성자 등)

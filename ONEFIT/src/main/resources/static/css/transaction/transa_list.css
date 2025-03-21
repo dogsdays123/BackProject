@@ -1,5 +1,9 @@
+.list-container {
+    min-width: 1062px;
+}
+
 .card {
-    /* height: 300px; */
+    width: 224px;
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
@@ -10,7 +14,12 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
+/*.card-img-top {*/
+/*    object-fit: cover; */
+/*}*/
+
 .card img {
+    height: 150px;
     transition: transform 0.3s ease-in-out;
 }
 
@@ -157,3 +166,9 @@ body {
     align-items: center;
     gap: 10px;
   }
+
+.list-container {
+    /*min-width: 990px;*/
+    /*min-height: 1020px;*/
+}
+
