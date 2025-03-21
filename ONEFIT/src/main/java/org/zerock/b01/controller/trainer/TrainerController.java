@@ -136,5 +136,4 @@ public class TrainerController {
         log.info(trainerViewDTO);
         model.addAttribute("dto", trainerViewDTO);
     }
-
 }
