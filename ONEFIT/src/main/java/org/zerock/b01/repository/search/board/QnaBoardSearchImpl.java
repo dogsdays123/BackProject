@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.zerock.b01.domain.board.QQna_Board;
 import org.zerock.b01.domain.board.Qna_Board;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class QnaBoardSearchImpl extends QuerydslRepositorySupport implements QnaBoardSearch {
@@ -36,31 +37,52 @@ public class QnaBoardSearchImpl extends QuerydslRepositorySupport implements Qna
     }
 
     @Override
-    public Page<Qna_Board> searchQnaAll(String[] types, String keyword, Pageable pageable) {
+    public Page<Qna_Board> searchQnaAll(String[] types, String keyword,
+                                        LocalDate startDate, LocalDate endDate, Pageable pageable) {
 
         QQna_Board qna_board =QQna_Board.qna_Board;
         JPQLQuery<Qna_Board> query = from(qna_board);
 
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
         if ((types != null && types.length > 0) && keyword != null) {
 
-            BooleanBuilder booleanBuilder = new BooleanBuilder();
+            BooleanBuilder typeBuilder = new BooleanBuilder();
 
             for (String type : types) {
 
                 switch (type) {
                     case "t":
-                        booleanBuilder.or(qna_board.qTitle.contains(keyword));
+                        typeBuilder.or(qna_board.qTitle.contains(keyword));
                         break;
                     case "c":
-                        booleanBuilder.or(qna_board.qContent.contains(keyword));
+                        typeBuilder.or(qna_board.qContent.contains(keyword));
                         break;
                     case "m":
-                        booleanBuilder.or(qna_board.allMember.name.contains(keyword));
+                        typeBuilder.or(qna_board.allMember.name.contains(keyword));
                         break;
                 }
             }//end for
-            query.where(booleanBuilder);
+            booleanBuilder.and(typeBuilder);
         }//end if
+
+        // 🔹 날짜 범위 검색 조건 추가 (regDate는 LocalDateTime이므로 변환 필요)
+        if (startDate != null && endDate != null) {
+            booleanBuilder.and(
+                    qna_board.regDate.between(
+                            startDate.atStartOfDay(),
+                            endDate.plusDays(1).atStartOfDay()  // 하루를 더해서 00:00:00 기준 비교
+                    )
+            );
+        } else if (startDate != null) {
+            booleanBuilder.and(qna_board.regDate.goe(startDate.atStartOfDay())); // startDate 이후 검색
+        } else if (endDate != null) {
+            booleanBuilder.and(qna_board.regDate.loe(endDate.plusDays(1).atStartOfDay())); // endDate 이전 검색
+        }
+
+        // 🔹 기본 조건: noticeId > 0
+        booleanBuilder.and(qna_board.qnaId.gt(0L));
+        query.where(booleanBuilder);
 
         //bno>0
         query.where(qna_board.qnaId.gt(0L));
