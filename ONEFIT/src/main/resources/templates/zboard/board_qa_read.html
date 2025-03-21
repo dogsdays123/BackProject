@@ -1,479 +1,84 @@
 <!DOCTYPE html>
-<html lang="ko">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneFit - 체육시설업 포털</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="basic.css">
-    <style>
-      .post-title {
-        font-size: 1.8rem;
-        font-weight: bold;
-      }
-      .post-meta {
-        font-size: 1rem;
-      }
-      .post-date {
-        font-size: 0.9rem;
-      }
-      .comment-box {
-        margin-top: 20px;
-      }
-      .comment-list {
-        list-style: none;
-        padding: 0;
-      }
-      .comment-item {
-        border-bottom: 1px solid #ddd;
-        padding: 10px 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .comment-text {
-        flex-grow: 1;
-      }
-      .comment-author {
-        font-weight: bold;
-        margin-right: 10px;
-      }
-      .comment-date {
-        font-size: 0.8rem;
-        color: gray;
-        margin-left: 10px;
-      }
-      .comment-actions {
-        display: flex;
-        gap: 5px;
-      }
-      .pagination {
-        margin-top: 10px;
-      }
-    </style>
-</head>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
 
 <body>
-    <!-- 헤더 start -->
-    <header>
-        <!-- 메인 메뉴 -->
-        <div class="nav-container">
-            <!-- 로고 -->
-            <a class="navbar-brand me-auto" href="index.html">OneFit</a>
-
-            <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
-            <ul class="nav mx-auto">
-                <span class="slash slash-left">/</span>
-                <li class="nav-item"><a class="nav-link" href="recruit_list.html">채용정보</a></li>
-                <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
-                <li class="nav-item dropdown dropdown-main">
-                    <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
-                        data-bs-toggle="dropdown">거래</a>
-                    <ul class="dropdown-menu dropdown-main-menu">
-                        <li><a class="dropdown-item" href="#">시설</a></li>
-                        <li><a class="dropdown-item" href="#">기구</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown dropdown-main">
-                    <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
-                        data-bs-toggle="dropdown">커뮤니티</a>
-                    <ul class="dropdown-menu dropdown-main-menu">
-                        <li><a class="dropdown-item" href="#">Q&A</a></li>
-                        <li><a class="dropdown-item" href="#">공지사항</a></li>
-                    </ul>
-                </li>
-                <span class="slash slash-right">/</span>
-            </ul>
-
-            <!-- 사이드 메뉴(로그인, 회원가입 / 로그아웃, 마이페이지, 알림) -->
-            <div class="auth-links ms-auto">
-                <!-- 로그인 전 메뉴 -->
-                <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
-                    data-bs-target="#loginModal">
-                    로그인
-                </button>
-                <span class="separator">|</span>
-                <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
-                    data-bs-target="#signupModal">
-                    회원가입
-                </button>
-
-                <!-- 로그인 후 메뉴 -->
-                <!-- <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                    로그아웃
-                </button>
-                <span class="separator">|</span>
-                <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal">
-                    마이페이지
-                </button> -->
-
-                <!-- 알림 start -->
-                <div class="dropdown">
-                    <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-bell"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            3
-                        </span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
-                        <li>
-                            <h6 class="dropdown-header">알림</h6>
-                        </li>
-                        <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
-                        <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
-                        <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
-                    </ul>
-                </div>
-                <!-- 알림 end -->
+    <div layout:fragment="board_qa_read">
+        <div class="container mt-5">
+          <div class="card p-4 shadow-sm">
+            <!-- 제목 & 작성일 -->
+            <div class="d-flex justify-content-between align-items-center">
+              <h2 class="text-primary post-title">[[${dto.qTitle}]]</h2>
+              <span class="text-muted post-date">[[${#temporals.format(dto.regDate,'yyyy-MM-dd HH:mm:ss')}]]</span>
             </div>
-        </div>
-    </header>
-    <!-- 헤더 end -->
 
-    <!-- 메인 start -->
-    <main class="container mt-5">
-      <div class="card p-4 shadow-sm">
-        <!-- 제목 & 작성일 -->
-        <div class="d-flex justify-content-between align-items-center">
-          <h2 class="text-primary post-title" id="postTitle">게시글 제목</h2>
-          <span class="text-muted post-date" id="postDate">2025-03-11 14:30</span>
-        </div>
-  
-        <!-- 작성자 & 조회수 -->
-        <div class="d-flex justify-content-between text-muted post-meta mt-2">
-          <span>작성자: <strong id="postAuthor">홍길동</strong></span>
-          <span>조회수: <strong id="postViews">123</strong></span>
-        </div>
-  
-        <hr>
-  
-        <!-- 본문 내용 -->
-        <div class="mt-4" id="postContent">
-          <p>
-            여기에 게시글의 본문 내용이 표시됩니다. 공지사항 또는 질문에 대한 상세한 설명이 들어갑니다.
-          </p>
-        </div>
-  
-        <hr>
-  
-        <!-- 첨부파일 섹션 -->
-        <div class="attachment-box">
-          <h5>첨부파일</h5>
-          <div id="attachmentSection">
-            <a href="uploads/sample.pdf" download>sample.pdf</a>
+            <!-- 작성자 & 조회수 -->
+            <div class="d-flex justify-content-between text-muted post-meta mt-2">
+              <span>작성자: <strong>[[${dto.allMember.allId}]]</strong></span>
+              <span>조회수: <strong>[[${dto.qHits}]]</strong></span>
+            </div>
+
+            <hr>
+
+            <!-- 본문 내용 -->
+            <div class="mt-4">
+              <p>
+                [[${dto.qContent}]]
+              </p>
+            </div>
+
+            <hr>
+
+<!--            &lt;!&ndash; 첨부파일 섹션 &ndash;&gt;-->
+<!--            <div class="attachment-box">-->
+<!--              <h5>첨부파일</h5>-->
+<!--              <div id="attachmentSection">-->
+<!--                <a href="uploads/sample.pdf" download>sample.pdf</a>-->
+<!--              </div>-->
+<!--            </div>-->
+
+            <!-- 버튼 그룹 -->
+            <div class="d-flex justify-content-end mt-3" th:with="link = ${pageRequestDTO.getLink()}">
+              <a th:href="|@{/zboard/board_qa_list}?${link}|"  class="btn btn-secondary me-2">목록</a>
+              <a th:if="${user != null && user.username == dto.allMember.allId}"
+                      th:href="|@{/zboard/board_qa_modify(qnaId=${dto.qnaId})}&${link}|"
+                 class="btn btn-primary">수정</a>
+            </div>
+
+<!--            &lt;!&ndash; 댓글 섹션 &ndash;&gt;-->
+<!--            <div class="comment-box mt-5">-->
+<!--              <h4>댓글</h4>-->
+<!--              <ul class="comment-list" id="commentList">-->
+<!--                &lt;!&ndash; 댓글이 여기에 추가됨 &ndash;&gt;-->
+<!--              </ul>-->
+
+<!--              &lt;!&ndash; 댓글 작성 폼 &ndash;&gt;-->
+<!--              <div class="mt-3">-->
+<!--                <textarea id="commentInput" class="form-control" rows="3" placeholder="댓글을 입력하세요..."></textarea>-->
+<!--                <div class="text-end mt-2">-->
+<!--                  <button class="btn btn-primary" onclick="addComment()">댓글 등록</button>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              &lt;!&ndash; 댓글 페이징 버튼 &ndash;&gt;-->
+<!--              <nav>-->
+<!--                <ul class="pagination justify-content-center" id="pagination"></ul>-->
+<!--              </nav>-->
+<!--            </div>-->
           </div>
-        </div>
-  
-        <!-- 버튼 그룹 -->
-        <div class="d-flex justify-content-end mt-3">
-          <a href="board_qa_list.html" class="btn btn-secondary me-2">목록</a>
-          <a href="board_qa_modify.html" class="btn btn-primary">수정</a>
-          <button class="btn btn-danger ms-2" onclick="deletePost()">삭제</button>
-        </div>
-  
-        <!-- 댓글 섹션 -->
-        <div class="comment-box mt-5">
-          <h4>댓글</h4>
-          <ul class="comment-list" id="commentList">
-            <!-- 댓글이 여기에 추가됨 -->
-          </ul>
-  
-          <!-- 댓글 작성 폼 -->
-          <div class="mt-3">
-            <textarea id="commentInput" class="form-control" rows="3" placeholder="댓글을 입력하세요..."></textarea>
-            <div class="text-end mt-2">
-              <button class="btn btn-primary" onclick="addComment()">댓글 등록</button>
-            </div>
-          </div>
-  
-          <!-- 댓글 페이징 버튼 -->
-          <nav>
-            <ul class="pagination justify-content-center" id="pagination"></ul>
-          </nav>
-        </div>
-      </div>
-    <br>
-    <br>
-
-
-    </main>
-    <!-- 메인 end  -->
-
-    <!-- 푸터 start -->
-    <footer class="bg-dark text-white py-4">
-        <div class="container">
-            <div class="row">
-                <!-- 회사 정보 -->
-                <div class="col-md-3 mb-3">
-                    <h5>회사 정보</h5>
-                    <ul class="list-styled">
-                        <li><a href="#" class="text-white">회사 소개</a></li>
-                        <li><a href="#" class="text-white">채용 정보</a></li>
-                        <li><a href="#" class="text-white">서비스 이용약관</a></li>
-                        <li><a href="#" class="text-white">개인정보 처리방침</a></li>
-                    </ul>
-                </div>
-
-                <!-- 고객 지원 -->
-                <div class="col-md-3 mb-3">
-                    <h5>고객 지원</h5>
-                    <ul class="list-styled">
-                        <li><a href="#" class="text-white">FAQ</a></li>
-                        <li><a href="#" class="text-white">고객센터</a></li>
-                        <li><a href="#" class="text-white">1:1 문의</a></li>
-                    </ul>
-                </div>
-
-                <!-- 소셜 미디어 -->
-                <div class="col-md-3 mb-3">
-                    <h5>소셜 미디어</h5>
-                    <ul class="list-unstyled d-flex">
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a></li>
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-linkedin"></i></a></li>
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a></li>
-                    </ul>
-                </div>
-
-                <!-- 뉴스레터 구독 -->
-                <div class="col-md-3 mb-3">
-                    <h5>뉴스레터 구독</h5>
-                    <form>
-                        <div class="input-group">
-                            <input type="email" class="form-control" placeholder="이메일을 입력하세요" required>
-                            <button class="btn btn-primary" type="submit">구독</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <hr class="bg-white">
-
-            <div class="row">
-                <div class="col text-center">
-                    <p>&copy; 2025 OneFit. 모든 권리 보유.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- 푸터 end -->
-
-
-    <!--  회원가입 모달창 start -->
-    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="signupModalLabel"> <span class="rogo-span">OneFit</span> 회원가입</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body signup-modal-body">
-                    <div class="tab-content mt-3 div-sign-login" id="signupTabContent">
-                        <form>
-                            <div class="mb-3">
-                                <label for="name" class="form-label">이름</label>
-                                <input type="text" class="form-control" id="name" placeholder="홍길동" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">이메일</label>
-                                <input type="email" class="form-control" id="email" placeholder="ex) email@onefit.com"
-                                    required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="username" class="form-label">아이디</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="username"
-                                        placeholder="3자 이상, 16자 이하의 영어 또는 숫자로 구성" required>
-                                    <button class="btn btn-outline-primary" type="button" id="check-username">
-                                        중복 확인
-                                    </button>
-                                </div>
-                                <!-- 중복 확인 메시지 출력 공간 -->
-                                <div id="username-feedback" class="mt-1 input-feedback text-danger">이미 사용 중인 아이디입니다.</div>
-                                <!-- <div id="username-feedback" class="mt-1 input-feedback text-success">사용 가능한 아이디입니다.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">비밀번호</label>
-                                <input type="password" class="form-control" id="password"
-                                    placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">비밀번호 확인</label>
-                                <input type="password" class="form-control" id="password"
-                                    placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
-                                <!-- 비밀번호 확인 메시지 출력 공간 -->
-                                <!-- <div id="password-feedback" class="mt-1 input-feedback text-danger">비밀번호가 일치하지 않습니다.</div> -->
-                                <div id="password-feedback" class="mt-1 input-feedback text-success">비밀번호가 일치합니다.</div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">전화번호</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="ex) 010-1234-5678"
-                                    required>
-                            </div>
-                            <button type="submit" class="btn btn-success w-100 modal-btn"
-                                id="signupButton">가입하기</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <br>
+        <br>
         </div>
     </div>
-    <!-- 회원가입 모달창 end -->
-
-    <!-- 로그인 모달창 start -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel"> <span class="rogo-span">OneFit</span> 로그인</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- 일반 로그인 -->
-                    <div class="div-sign-login" id="generalLogin">
-                        <form>
-                            <div class="mb-3">
-                                <label for="username" class="form-label">아이디</label>
-                                <input type="text" class="form-control" id="username" placeholder="아이디를 입력하세요" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">비밀번호</label>
-                                <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요"
-                                    required>
-                            </div>
-                            <button type="submit" class="btn btn-success w-100 modal-btn" id="loginButton">
-                                로그인
-                            </button>
-                        </form>
-                        <!-- 소셜 로그인 -->
-                        <div class="login-container">
-                            <div class="text-center my-3">
-                                <hr class="line">
-                                <span class="hr-text">소셜 계정으로 간편 로그인</span>
-                                <hr class="line">
-                            </div>
-                            <div class="social-login-buttons">
-                                <button class="social-btn google-btn">
-                                    <img src="img/google_rogo.png" alt="Google Logo">
-                                </button>
-                                <button class="social-btn kakao-btn">
-                                    <i class="fas fa-comment kakao-rogo"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <!-- 로그인 모달창 end -->
 
     <!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      let comments = []; // 댓글 저장 배열
-      const commentsPerPage = 5; // 한 페이지당 댓글 수 (변경됨)
-      let currentPage = 1; // 현재 페이지
-      const pageGroupSize = 10; // 10페이지씩 이동
-    
-      function addComment() {
-        let commentInput = document.getElementById("commentInput");
-        let commentText = commentInput.value.trim();
-        if (commentText === "") {
-          alert("댓글을 입력하세요.");
-          return;
-        }
-    
-        let now = new Date();
-        let formattedDate = now.getFullYear() + "-" +
-                ("0" + (now.getMonth() + 1)).slice(-2) + "-" +
-                ("0" + now.getDate()).slice(-2) + " " +
-                ("0" + now.getHours()).slice(-2) + ":" +
-                ("0" + now.getMinutes()).slice(-2);
-    
-        comments.unshift({ id: Date.now(), author: "익명", text: commentText, date: formattedDate });
-        commentInput.value = "";
-        renderComments();
-      }
-    
-      function deleteComment(id) {
-        if (confirm("정말 삭제하시겠습니까?")) {
-          comments = comments.filter(c => c.id !== id);
-          renderComments();
-        }
-      }
-    
-      function renderComments() {
-        let commentList = document.getElementById("commentList");
-        commentList.innerHTML = "";
-    
-        let startIndex = (currentPage - 1) * commentsPerPage;
-        let endIndex = startIndex + commentsPerPage;
-        let pagedComments = comments.slice(startIndex, endIndex);
-    
-        pagedComments.forEach(comment => {
-          let commentItem = document.createElement("li");
-          commentItem.classList.add("comment-item");
-    
-          commentItem.innerHTML = `
-            <div class="comment-text">
-                <span class="comment-author">${comment.author}</span>
-                <span class="comment-date">${comment.date}</span>
-                <p>${comment.text}</p>
-            </div>
-            <div class="comment-actions">
-                <button class="btn btn-sm btn-outline-primary" onclick="editComment(${comment.id})">수정</button>
-                <button class="btn btn-sm btn-outline-danger" onclick="deleteComment(${comment.id})">삭제</button>
-            </div>
-          `;
-    
-          commentList.appendChild(commentItem);
-        });
-    
-        renderPagination();
-      }
-    
-      function renderPagination() {
-        let totalPages = Math.ceil(comments.length / commentsPerPage);
-        let pagination = document.getElementById("pagination");
-        pagination.innerHTML = "";
-    
-        let currentGroup = Math.floor((currentPage - 1) / pageGroupSize) * pageGroupSize;
-    
-        if (currentGroup > 0) {
-          pagination.innerHTML += `<li class="page-item">
-            <a class="page-link" href="#" onclick="changePage(${currentGroup})">&laquo; 이전</a></li>`;
-        }
-    
-        for (let i = currentGroup + 1; i <= Math.min(currentGroup + pageGroupSize, totalPages); i++) {
-          let li = document.createElement("li");
-          li.className = `page-item ${i === currentPage ? "active" : ""}`;
-          li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
-          pagination.appendChild(li);
-        }
-    
-        if (currentGroup + pageGroupSize < totalPages) {
-          pagination.innerHTML += `<li class="page-item">
-            <a class="page-link" href="#" onclick="changePage(${currentGroup + pageGroupSize + 1})">다음 &raquo;</a></li>`;
-        }
-      }
-    
-      function changePage(page) {
-        currentPage = page;
-        renderComments();
-      }
+
+    <script layout:fragment="script" layout:inline="javascript">
+
     </script>
 </body>
 

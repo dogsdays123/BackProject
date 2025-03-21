@@ -25,7 +25,7 @@
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
-            <li class="nav-item"><a class="nav-link" href="recruit_list.html">채용정보</a></li>
+            <li class="nav-item"><a class="nav-link" href="/recruit/list">채용정보</a></li>
             <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
             <li class="nav-item dropdown dropdown-main">
                 <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
@@ -106,11 +106,12 @@
             <!-- 검색 필터 -->
             <div>
                 <div class="row mb-3">
-                    <h4 style="font-weight: 600;">전체 채용 정보</h4>
+                    <a href="/recruit/list"><h4 style="font-weight: 600;">전체 채용 정보</h4></a>
                     <br>
                     <br>
                     <div>
-                        <form>
+                        <form class="search-form" action="/recruit/list" method="get">
+                            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
                             <div class="d-flex col-md-5 justify-content-between position-relative" id="parentContainer">
                                 <button class="btn btn-outline-secondary flex-grow-1 mx-1" type="button" data-bs-toggle="collapse" data-bs-target="#locationFilters">
                                     지역 ▾
@@ -145,9 +146,69 @@
 
                                         <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
                                             <label class="form-label" style="width: 100px;">성별</label>
-                                            <input type="radio" name="gender">&nbsp;<label>성별무관</label>&nbsp;&nbsp;&nbsp;
-                                            <input type="radio" name="gender">&nbsp;<label>남자</label>&nbsp;&nbsp;&nbsp;
-                                            <input type="radio" name="gender">&nbsp;<label>여자</label>&nbsp;
+                                            <input type="hidden" name="type" value="g">
+                                            <input type="checkbox" name="gender" value="성별무관" >&nbsp;<label>성별무관</label>&nbsp;&nbsp;&nbsp;
+                                            <input type="checkbox" name="gender" value="남자" >&nbsp;<label>남자</label>&nbsp;&nbsp;&nbsp;
+                                            <input type="checkbox" name="gender" value="여자" >&nbsp;<label>여자</label>&nbsp;
+                                        </div>
+                                        <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
+                                            <label class="form-label" style="width: 100px;">연령</label>
+                                            <input type="hidden" name="type" value="a">
+                                            <input type="checkbox" name="age" value="연령무관" >&nbsp;<label>연령무관</label>&nbsp;
+                                            <select class="form-control" name="age" style="width: 130px;">
+                                                <option value="" selected>연령선택 ▾</option>
+                                                <option value="10">10세</option>
+                                                <option value="11">11세</option>
+                                                <option value="12">12세</option>
+                                                <option value="13">13세</option>
+                                                <option value="14">14세</option>
+                                                <option value="15">15세</option>
+                                                <option value="16">16세</option>
+                                                <option value="17">17세</option>
+                                                <option value="18">18세</option>
+                                                <option value="19">19세</option>
+                                                <option value="20">20세</option>
+                                                <option value="21">21세</option>
+                                                <option value="22">22세</option>
+                                                <option value="23">23세</option>
+                                                <option value="24">24세</option>
+                                                <option value="25">25세</option>
+                                                <option value="26">26세</option>
+                                                <option value="27">27세</option>
+                                                <option value="28">28세</option>
+                                                <option value="29">29세</option>
+                                                <option value="30">30세</option>
+                                                <option value="31">31세</option>
+                                                <option value="32">32세</option>
+                                                <option value="33">33세</option>
+                                                <option value="34">34세</option>
+                                                <option value="35">35세</option>
+                                                <option value="36">36세</option>
+                                                <option value="37">37세</option>
+                                                <option value="38">38세</option>
+                                                <option value="39">39세</option>
+                                                <option value="40">40세</option>
+                                                <option value="41">41세</option>
+                                                <option value="42">42세</option>
+                                                <option value="43">43세</option>
+                                                <option value="44">44세</option>
+                                                <option value="45">45세</option>
+                                                <option value="46">46세</option>
+                                                <option value="47">47세</option>
+                                                <option value="48">48세</option>
+                                                <option value="49">49세</option>
+                                                <option value="50">50세</option>
+                                                <option value="51">51세</option>
+                                                <option value="52">52세</option>
+                                                <option value="53">53세</option>
+                                                <option value="54">54세</option>
+                                                <option value="55">55세</option>
+                                                <option value="56">56세</option>
+                                                <option value="57">57세</option>
+                                                <option value="58">58세</option>
+                                                <option value="59">59세</option>
+                                                <option value="60">60세</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -230,65 +291,44 @@
                 </tbody>
             </table>
 
+            <!-- 페이지네이션 start -->
+<!--            <div class="row">-->
+<!--                <ul class="pagination justify-content-center">-->
+<!--                    <li id="pagearrow leftarrow" class="page-item" th:if="${responseDTO.prev}">-->
+<!--                        <a href="#" class="page-link" th:data-num="${responseDTO.start -1}">&lt;</a>-->
+<!--                    </li>-->
 
-            <div class="row">
-                <ul class="pagination justify-content-center">
-                    <li id="pagearrow leftarrow" class="page-item" th:if="${responseDTO.prev}">
-                        <a href="#" class="page-link" th:data-num="${responseDTO.start -1}">&lt;</a>
-                    </li>
-
-                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                        <li id="pageitem" th:class="${responseDTO.page == i}?'page-item active':'page-item'">
-                            <a href="#" id="is-active" class="page-link is-active" th:data-num="${i}">[[${i}]]</a>
-                        </li>
-                    </th:block>
-                    <li id="pagearrow rightarrow" class="page-item" th:if="${responseDTO.next}">
-                        <a href="#" class="page-link" th:data-num="${responseDTO.end + 1}">&gt;</a>
-                    </li>
-                </ul>
-            </div>
+<!--                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">-->
+<!--                        <li id="pageitem" th:class="${responseDTO.page == i}?'page-item active':'page-item'">-->
+<!--                            <a href="#" id="is-active" class="page-link is-active" th:data-num="${i}">[[${i}]]</a>-->
+<!--                        </li>-->
+<!--                    </th:block>-->
+<!--                    <li id="pagearrow rightarrow" class="page-item" th:if="${responseDTO.next}">-->
+<!--                        <a href="#" class="page-link" th:data-num="${responseDTO.end + 1}">&gt;</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+            <!-- 페이지네이션 end -->
             <!-- 페이지네이션 start -->
             <div class="row">
-                <ul class="pagination justify-content-center">
-                    <!-- 이전 페이지 버튼 -->
-                    <li class="pagearrow leftarrow" th:class="${responseDTO.prev ? '' : 'is-deactive'}">
-                        <a href="#" th:href="@{'?page=' + (responseDTO.start - 1)}" th:class="${responseDTO.prev ? '' : 'is-deactive'}">&lt;</a>
-                    </li>
-
-                    <!-- 페이지 번호들 -->
-                    <th:block th:each="i : ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                        <li class="pageitem" th:class="${responseDTO.page == i} ? 'is-active' : ''">
-                            <a href="#" th:href="@{'?page=' + i}" th:text="${i}"></a>
-                        </li>
-                    </th:block>
-
-                    <!-- 다음 페이지 버튼 -->
-                    <li class="pagearrow rightarrow" th:class="${responseDTO.next ? '' : 'is-deactive'}">
-                        <a href="#" th:href="@{'?page=' + (responseDTO.end + 1)}" th:class="${responseDTO.next ? '' : 'is-deactive'}">&gt;</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="pagination-container">
-                <ul class="pagination">
-                    <li class="page-item" th:if="${responseDTO.prev}">
-                        <a class="page-link" th:data-num="${responseDTO.start -1}" id="preNext" aria-label="Previous">
-                            &lt;
-                        </a>
+                <ul class="pagination justify-content-center" id="listPagination">
+                    <li href="#" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'">
+                        <a class="pagearrow leftarrow" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'"
+                           th:data-num="${responseDTO.start -1}">&lt;</a>
                     </li>
                     <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                        <li th:class="${responseDTO.page == i}?'page-item active':'page-item'">
-                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                        <li href="#" th:class="${responseDTO.page == i}? 'is-active':''">
+                            <a class="pageitem" th:data-num="${i}">[[${i}]]</a>
                         </li>
                     </th:block>
-                    <li class="page-item" th:if="${responseDTO.next}">
-                        <a class="page-link" th:data-num="${responseDTO.end + 1}" id="preNext" aria-label="Next">
-                            &gt;
-                        </a>
+                    <li href="#" th:classappend="${responseDTO.next} ? '' : 'is-deactive'">
+                        <a class="pagearrow rightarrow" th:classappend="${responseDTO.next} ? '' : 'is-deactive'"
+                           th:data-num="${responseDTO.end + 1}">&gt;</a>
                     </li>
                 </ul>
             </div>
-
             <!-- 페이지네이션 end -->
+
         </div>
         <div id="registerButton" class="fixed-apply">
             <a href="#" class="btn btn-outline-primary" id="registerBtn">공고등록 +</a>
@@ -356,13 +396,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="registerResultModalLabel">
-                            <span class="rogo-span">OneFit</span> 공고 등록 확인
+                            <span class="rogo-span">OneFit</span> 확인
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body register-modal-body">
                         <div class="mb-3">
-                            <p><strong>채용 공고 등록</strong>이 완료되었습니다.</p>
+                            <p><strong>완료되었습니다.</p>
                         </div>
                         <div class="tab-content mt-3">
                             <div class="d-flex flex-row-reverse">
@@ -510,10 +550,12 @@
 <script src="/js/basic.js"></script>
 <script src="/js/recruit/recruit_list.js"></script>
 <script layout:fragment="script" th:inline="javascript">
+
     const result = [[${result}]]
 
     const modal = new bootstrap.Modal(document.getElementById("registerResultModal"))
     if(result){
+        alert(result)
         modal.show();
     }
 </script>

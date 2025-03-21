@@ -18,6 +18,8 @@ public interface All_MemberRepository extends JpaRepository<All_Member, String> 
     @EntityGraph(attributePaths = "roleSet")
     Optional<All_Member> findByEmail(String email);
 
+    Optional<All_Member> findByAllId(String allId);
+
     @Modifying
     @Transactional
     @Query("update All_Member m set m.aPsw =:aPsw, m.aPhone =:aPhone, m.memberType =:memberType where m.allId =:allId")

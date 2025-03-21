@@ -18,6 +18,7 @@ public class ProductListAllDTO {
     private Long productId; // 상품 ID
     private String allId; // 회원 ID
     private String pTitle; // 제목
+    private int pRoles; // 상품 구분 (1: 기구 / 2: 시설)
     private String pStatus; // 거래 상태 (판매중 / 예약중 / 판매완료)
     private BigDecimal pPrice; // 가격
     private String pAddr; // 거래 장소

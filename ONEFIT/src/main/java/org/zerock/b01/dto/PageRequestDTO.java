@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 
 @Builder
 @Data
@@ -26,6 +27,14 @@ public class PageRequestDTO {
     private String type; //검색의 종류
 
     private String keyword;
+
+    private String gender; // 채용 공고 필터링으로 인해 변수 추가
+
+    private String age; // 채용 공고 필터링으로 인해 변수 추가
+  
+    private LocalDate startDate; //날짜 검색: 시작일
+
+    private LocalDate endDate; // 날짜 검색: 시작일
 
     public String[] getTypes() {
         if(type == null || type.isEmpty()) {
@@ -56,7 +65,17 @@ public class PageRequestDTO {
                 } catch (UnsupportedEncodingException e){
 
                 }
-            } link = builder.toString();
+            }
+
+            //날짜 검색
+            if (startDate != null) {
+                builder.append("&startDate=").append(startDate);
+            }
+            if (endDate != null) {
+                builder.append("&endDate=").append(endDate);
+            }
+
+            link = builder.toString();
         }
         return link;
     }

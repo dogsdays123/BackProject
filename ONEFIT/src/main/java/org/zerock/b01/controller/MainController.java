@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
+import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
+import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 
 @Controller
 @Log4j2
@@ -24,9 +27,10 @@ import org.zerock.b01.service.All_MemberService;
 public class MainController {
 
     private final All_MemberService all_memberService;
+    private final Member_Set_Type_Service member_Set_Type_Service;
 
     @ModelAttribute
-    public void allMemberProfile(All_MemberDTO all_memberDTO, Model model, Authentication authentication) {
+    public void Profile(All_MemberDTO all_memberDTO, Model model, Authentication authentication) {
         // 인증 정보가 없다면 null 설정
         if (authentication == null) {
             log.info("###### 인증 정보 없음");
@@ -53,14 +57,40 @@ public class MainController {
                 all_memberDTO = all_memberService.readOne(username);
                 log.info("##### 일반 로그인 사용자 정보: " + all_memberDTO);
             }
-
-            if(all_memberDTO != null) {
-                model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
-            } else{
-                model.addAttribute("all_memberDTO", null);
-            }
-            model.addAttribute("sidebar", false);
         }
+
+        //유저정보(일반, 개인) 전역에 갖고오기
+        User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
+        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
+
+        //유저정보(일반Default)가 존재할 때
+        if (all_memberDTO != null) {
+            model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
+
+            //유저정보(개인User)가 있을 때
+            if (user_MemberDTO != null) {
+                model.addAttribute("user_memberDTO", user_MemberDTO);
+                model.addAttribute("memberTypeAgree", "user");
+                log.info("개인회원전역@@@@@@@@@" + user_MemberDTO);
+
+                //유저정보(기업Business)가 있을 때
+            } else if (business_memberDTO != null) {
+                model.addAttribute("business_memberDTO", business_memberDTO);
+                model.addAttribute("memberTypeAgree", "business");
+                log.info("기업회원전역@@@@@@@@@" + business_memberDTO);
+
+                //유저정보(개인User)가 없을 때
+            } else {
+                model.addAttribute("memberTypeAgree", "default");
+                log.info("일반회원정보없음@@@@@@@@@");
+            }
+
+            //유저정보(일반Default)가 없을 때
+        } else {
+            model.addAttribute("all_memberDTO", null);
+        }
+        model.addAttribute("sidebar", true);
+        log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
 
     @GetMapping("/main")
@@ -87,14 +117,5 @@ public class MainController {
 
         redirectAttributes.addFlashAttribute("result", "success");
         return "redirect:/login";
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/modify")
-    public String modifyPOST(All_MemberDTO all_memberDTO, RedirectAttributes redirectAttributes) {
-        log.info("modify post........");
-        log.info("allId@@@@" + all_memberDTO.getAllId());
-        all_memberService.modify(all_memberDTO);
-        return "redirect:/member/my_default_page";
     }
 }

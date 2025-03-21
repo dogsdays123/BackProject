@@ -13,6 +13,7 @@ import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
 import org.zerock.b01.repository.boardRepository.NoticeBoardRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -78,9 +79,11 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 
         String[] types = pageRequestDTO.getTypes();
         String keyword = pageRequestDTO.getKeyword();
+        LocalDate startDate = pageRequestDTO.getStartDate();
+        LocalDate endDate = pageRequestDTO.getEndDate();
         Pageable pageable = pageRequestDTO.getPageable("noticeId");
 
-        Page<Notice_Board> result = noticeBoardRepository.searchNoticeAll(types, keyword, pageable);
+        Page<Notice_Board> result = noticeBoardRepository.searchNoticeAll(types, keyword, startDate, endDate, pageable);
 
         List<NoticeBoardDTO> dtoList = result.getContent().stream()
                 .map(notice_board -> modelMapper.map(notice_board,NoticeBoardDTO.class)).

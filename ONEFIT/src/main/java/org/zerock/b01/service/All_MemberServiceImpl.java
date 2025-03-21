@@ -43,7 +43,7 @@ public class All_MemberServiceImpl implements All_MemberService {
         log.info("AllId@@@@" + all_MemberDTO.getAllId());
         Optional<All_Member> result = all_MemberRepository.findById(all_MemberDTO.getAllId());
         All_Member all_Member = result.orElseThrow();
-        all_Member.modifyMember(all_MemberDTO.getAPsw(), all_MemberDTO.getAPhone(), all_MemberDTO.getMemberType());
+        all_Member.modifyMember(passwordEncoder.encode(all_MemberDTO.getAPsw()), all_MemberDTO.getAPhone(), all_MemberDTO.getMemberType());
 
         all_MemberRepository.save(all_Member);
         log.info("modify@@@@" + all_Member);

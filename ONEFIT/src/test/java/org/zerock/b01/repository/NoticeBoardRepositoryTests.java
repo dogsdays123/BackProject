@@ -10,11 +10,11 @@
 //import org.springframework.data.domain.Sort;
 //import org.zerock.b01.domain.All_Member;
 //import org.zerock.b01.domain.board.Notice_Board;
-//import org.zerock.b01.domain.board.Qna_Board;
 //import org.zerock.b01.dto.All_MemberDTO;
 //import org.zerock.b01.repository.boardRepository.NoticeBoardRepository;
 //import org.zerock.b01.service.All_MemberService;
 //
+//import java.time.LocalDate;
 //import java.util.List;
 //import java.util.Optional;
 //import java.util.stream.IntStream;
@@ -37,14 +37,14 @@
 //
 //            All_MemberDTO member = All_MemberDTO.builder()
 //                    //수정
-//                    .all_id("member" + i)
+//                    .allId("member" + i)
 //                    .name(("1234") + i)
 //                    .email("email" + i + "@aaa.bbb")
-//                    .a_psw(("1234") + i)
-//                    .a_phone(123)
-//                    .member_type("default")
+//                    .aPsw(("1234") + i)
+//                    .aPhone(123L)
+//                    .memberType("default")
 //                    .del(false)
-//                    .a_social(false)
+//                    .aSocial(false)
 //                    .build();
 //
 //            String result = all_MemberService.register(member);
@@ -55,9 +55,9 @@
 //    @Test
 //    public void testInsertNotice() {
 //
-//        String all_id = "member1";  //수정
+//        String allId = "member1";  //수정
 //
-//        All_Member all_member =All_Member.builder().all_id(all_id).build(); //수정
+//        All_Member all_member =All_Member.builder().allId(allId).build(); //수정
 //
 //        IntStream.rangeClosed(1, 100).forEach(i -> {
 //            Notice_Board notice_board = Notice_Board.builder()
@@ -134,9 +134,13 @@
 //
 //        String keyword = "1";
 //
+//        LocalDate startDate = LocalDate.now();
+//
+//        LocalDate endDate = LocalDate.now().plusDays(1);
+//
 //        Pageable pageable = PageRequest.of(0, 10, Sort.by("noticeId").descending());
 //
-//        Page<Notice_Board> result = noticeBoardRepository.searchNoticeAll(types, keyword, pageable);
+//        Page<Notice_Board> result = noticeBoardRepository.searchNoticeAll(types, keyword, startDate, endDate,pageable);
 //
 //        //total pages
 //        log.info(result.getTotalPages());

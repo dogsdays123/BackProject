@@ -1,4 +1,4 @@
-package org.zerock.b01.controller.shin;
+package org.zerock.b01.controller.transaction;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;

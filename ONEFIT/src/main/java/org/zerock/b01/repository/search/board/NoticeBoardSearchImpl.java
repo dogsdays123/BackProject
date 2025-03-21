@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.domain.board.QNotice_Board;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class NoticeBoardSearchImpl extends QuerydslRepositorySupport implements NoticeBoardSearch {
@@ -36,41 +37,56 @@ public class NoticeBoardSearchImpl extends QuerydslRepositorySupport implements 
     }
 
     @Override
-    public Page<Notice_Board> searchNoticeAll(String[] types, String keyword, Pageable pageable) {
+    public Page<Notice_Board> searchNoticeAll(String[] types, String keyword,
+                                              LocalDate startDate, LocalDate endDate, Pageable pageable) {
 
         QNotice_Board notice_board =QNotice_Board.notice_Board;
         JPQLQuery<Notice_Board> query = from(notice_board);
 
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
         if ((types != null && types.length > 0) && keyword != null) {
 
-            BooleanBuilder booleanBuilder = new BooleanBuilder();
+            BooleanBuilder typeBuilder = new BooleanBuilder();
 
             for (String type : types) {
 
                 switch (type) {
                     case "t":
-                        booleanBuilder.or(notice_board.nTitle.contains(keyword));
+                        typeBuilder.or(notice_board.nTitle.contains(keyword));
                         break;
                     case "c":
-                        booleanBuilder.or(notice_board.nContent.contains(keyword));
+                        typeBuilder.or(notice_board.nContent.contains(keyword));
                         break;
                 }
             }//end for
-            query.where(booleanBuilder);
+            booleanBuilder.and(typeBuilder);
         }//end if
 
-        //bno>0
-        query.where(notice_board.noticeId.gt(0L));
+        // 🔹 날짜 범위 검색 조건 추가 (regDate는 LocalDateTime이므로 변환 필요)
+        if (startDate != null && endDate != null) {
+            booleanBuilder.and(
+                    notice_board.regDate.between(
+                            startDate.atStartOfDay(),
+                            endDate.plusDays(1).atStartOfDay()  // 하루를 더해서 00:00:00 기준 비교
+                    )
+            );
+        } else if (startDate != null) {
+            booleanBuilder.and(notice_board.regDate.goe(startDate.atStartOfDay())); // startDate 이후 검색
+        } else if (endDate != null) {
+            booleanBuilder.and(notice_board.regDate.loe(endDate.plusDays(1).atStartOfDay())); // endDate 이전 검색
+        }
 
-        //paging
+        // 🔹 기본 조건: noticeId > 0
+        booleanBuilder.and(notice_board.noticeId.gt(0L));
+        query.where(booleanBuilder);
+
+        // 🔹 페이징 처리
         this.getQuerydsl().applyPagination(pageable, query);
 
         List<Notice_Board> list = query.fetch();
-
         long count = query.fetchCount();
 
-//        return null;
         return new PageImpl<>(list, pageable, count);
-
     }
 }

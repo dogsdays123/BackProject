@@ -20,16 +20,16 @@
 //    @Test
 //    public void testRegisterQna() {
 //
-//        String all_id = "member1"; //수정
+//        String allId = "member1";
 //
-//        All_Member all_member =All_Member.builder().all_id(all_id).build(); //수정
+//        All_Member all_member =All_Member.builder().allId(allId).build();
 //
 //        log.info(qnaBoardService.getClass().getName());
 //
 //        QnaBoardDTO qnaBoardDTO = QnaBoardDTO.builder()
 //                .qTitle("Sample Title...")
 //                .qContent("Sample Content...")
-//                .allMember(all_member)  //수정
+//                .allMember(all_member)
 //                .qHits(0)
 //                .build();
 //

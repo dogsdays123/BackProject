@@ -98,23 +98,23 @@ public class TrainerServiceImpl implements TrainerService {
                                 "_" + trainerThumbnails.getImgname()
                         ).toString()
                 ).collect(Collectors.toList());
+//
+//        trainerViewDTO.setThumbnails(filePaths);
+//
+//        Optional<User_Member> userMember = trainerRepository.findUserMemberById(trainer.getUserMember().getUserId());
+//        User_Member user = userMember.orElseThrow();
+//
+//        Optional<All_Member> allMember = trainerRepository.findAllMemberById(user.getAll_member().getAllId());
+//        All_Member all = allMember.orElseThrow();
+//
+//        trainerViewDTO.setName(all.getName());
+//        trainerViewDTO.setGender(user.getUResident().toString().charAt(0) == '1' ? "남" : "여");
+//        trainerViewDTO.setBirthday(user.getUBirthday());
+//        trainerViewDTO.setEmail(all.getEmail());
+//        trainerViewDTO.setPhone(all.getAPhone().toString());
+//        trainerViewDTO.setAddress(user.getUAddress());
 
-        trainerViewDTO.setThumbnails(filePaths);
-
-        Optional<User_Member> userMember = trainerRepository.findUserMemberById(trainer.getUserMember().getUserId());
-        User_Member user = userMember.orElseThrow();
-
-        Optional<All_Member> allMember = trainerRepository.findAllMemberById(user.getAll_member().getAllId());
-        All_Member all = allMember.orElseThrow();
-
-        trainerViewDTO.setName(all.getName());
-        trainerViewDTO.setGender(user.getUResident().toString().charAt(0) == '1' ? "남" : "여");
-        trainerViewDTO.setBirthday(user.getUBirthday());
-        trainerViewDTO.setEmail(all.getEmail());
-        trainerViewDTO.setPhone(all.getAPhone().toString());
-        trainerViewDTO.setAddress(user.getUAddress());
-
-        return trainerViewDTO;
+        return null;
     }
 
     private String getFileExtension(String fileName) {

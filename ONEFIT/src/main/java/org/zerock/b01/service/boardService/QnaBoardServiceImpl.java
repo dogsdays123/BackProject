@@ -13,6 +13,7 @@ import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
 import org.zerock.b01.repository.boardRepository.QnaBoardRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -76,9 +77,11 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 
         String[] types = pageRequestDTO.getTypes();
         String keyword = pageRequestDTO.getKeyword();
+        LocalDate startDate = pageRequestDTO.getStartDate();
+        LocalDate endDate = pageRequestDTO.getEndDate();
         Pageable pageable = pageRequestDTO.getPageable("qnaId");
 
-        Page<Qna_Board> result = qnaBoardRepository.searchQnaAll(types, keyword, pageable);
+        Page<Qna_Board> result = qnaBoardRepository.searchQnaAll(types, keyword, startDate, endDate, pageable);
 
         List<QnaBoardDTO> dtoList = result.getContent().stream()
                 .map(qna_board -> modelMapper.map(qna_board,QnaBoardDTO.class)).
