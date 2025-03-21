@@ -6,16 +6,15 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-//import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.member.User_Member;
 import org.zerock.b01.domain.trainer.Trainer;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.repository.trainerRepository.TrainerRepository;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -75,9 +74,9 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public TrainerDTO viewOne(Long trainerId) {
+    public TrainerViewDTO viewOne(Long tid) {
         // UserMember -> UserId 수동 매핑 없을시 추가
-        if (modelMapper.getTypeMap(Trainer.class, TrainerDTO.class) == null) {
+        if (modelMapper.getTypeMap(Trainer.class, TrainerViewDTO.class) == null) {
             modelMapper.addMappings(new PropertyMap<Trainer, TrainerDTO>() {
                 @Override
                 protected void configure() {
@@ -86,10 +85,10 @@ public class TrainerServiceImpl implements TrainerService {
             });
         }
 
-        Optional<Trainer> result = trainerRepository.findTrainerById(trainerId);
+        Optional<Trainer> result = trainerRepository.findTrainerById(tid);
         Trainer trainer = result.orElseThrow();
 
-        TrainerDTO trainerDTO = modelMapper.map(trainer, TrainerDTO.class);
+        TrainerViewDTO trainerViewDTO = modelMapper.map(trainer, TrainerViewDTO.class);
 
         // 썸네일 파일 경로
         // 문제가 생기면 thumbnailPath 를 Path 에서 따오지 말고 아래 new File() 에 파일 이름과 같이 집어넣을 것
@@ -100,30 +99,22 @@ public class TrainerServiceImpl implements TrainerService {
                         ).toString()
                 ).collect(Collectors.toList());
 
-        // MultipartFile
-        List<MultipartFile> multipartFiles = new ArrayList<>();
+        trainerViewDTO.setThumbnails(filePaths);
 
-//        for (String filePath : filePaths) {
-//            try {
-//                File file = new File(filePath);    // 문제 생기면 thumbnailPath 를 여기다 직접 쓸것
-//
-//                if (file.exists() && file.isFile()) {
-//                    FileInputStream fileInputStream = new FileInputStream(file);
-//                    String mimeType = getMimeType(getFileExtension(file.getName()));
-//                    MockMultipartFile mockMultipartFile = new MockMultipartFile("file", file.getName(), mimeType, fileInputStream);
-//
-//                multipartFiles.add(mockMultipartFile);
-//                fileInputStream.close();
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                // 예외 발생시 해당 파일은 건너뜀
-//            }
-//        }
+        Optional<User_Member> userMember = trainerRepository.findUserMemberById(trainer.getUserMember().getUserId());
+        User_Member user = userMember.orElseThrow();
 
-        trainerDTO.setThumbnails(multipartFiles.toArray(new MultipartFile[0]));
+        Optional<All_Member> allMember = trainerRepository.findAllMemberById(user.getAll_member().getAllId());
+        All_Member all = allMember.orElseThrow();
 
-        return trainerDTO;
+        trainerViewDTO.setName(all.getName());
+        trainerViewDTO.setGender(user.getUResident().toString().charAt(0) == '1' ? "남" : "여");
+        trainerViewDTO.setBirthday(user.getUBirthday());
+        trainerViewDTO.setEmail(all.getEmail());
+        trainerViewDTO.setPhone(all.getAPhone().toString());
+        trainerViewDTO.setAddress(user.getUAddress());
+
+        return trainerViewDTO;
     }
 
     private String getFileExtension(String fileName) {

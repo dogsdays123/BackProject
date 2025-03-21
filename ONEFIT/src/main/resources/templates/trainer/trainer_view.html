@@ -17,30 +17,30 @@
                 <input type="text" name="userId" value="1" hidden>
                 <div class="row">
                     <div class="col-md-8 top-of-regi">
-                        <h4 class="section-title">이력서 제목</h4>
+                        <h4 class="section-title">[[${dto.title}]]</h4>
                         <div class="mb-2">
                             <label class="form-label"><strong>이름:</strong></label>
-                            <input type="text" class="form-control do-not-submit" placeholder="이름" required readonly>
+                            <input type="text" class="form-control do-not-submit" th:value="${dto.name}" required readonly>
                         </div>
                         <div class="mb-2">
                             <label class="form-label"><strong>성별:</strong></label>
-                            <input type="text" class="form-control do-not-submit" placeholder="성별" required readonly>
+                            <input type="text" class="form-control do-not-submit" th:value="${dto.gender}" required readonly>
                         </div>
                         <div class="mb-2">
                             <label class="form-label"><strong>생년월일:</strong></label>
-                            <input type="date" class="form-control do-not-submit" required readonly>
+                            <input type="date" class="form-control do-not-submit" th:value="${dto.birthday}" required readonly>
                         </div>
                         <div class="mb-2">
                             <label class="form-label"><strong>이메일:</strong></label>
-                            <input type="email" class="form-control do-not-submit" placeholder="name@sample.email" required readonly>
+                            <input type="email" class="form-control do-not-submit" th:value="${dto.email}" required readonly>
                         </div>
                         <div class="mb-2">
                             <label class="form-label"><strong>연락처:</strong></label>
-                            <input type="tel" class="form-control do-not-submit" placeholder="010-1234-5678" required readonly>
+                            <input type="tel" class="form-control do-not-submit" th:value="|0${dto.phone}|" required readonly>
                         </div>
                         <div class="mb-2">
                             <label class="form-label"><strong>주소:</strong></label>
-                            <input type="text" class="form-control do-not-submit" placeholder="OO도 OO시 OO로 OO" required readonly>
+                            <input type="text" class="form-control do-not-submit" th:value="${dto.address}" required readonly>
                         </div>
                     </div>
                     <div class="col-md-4 img-center slider-box">
@@ -56,14 +56,14 @@
                 <br>
                 <div>
                     <h4 class="section-title">자기소개</h4>
-                    <textarea class="form-control" rows="5" name="content" placeholder="자기소개를 입력하세요" readonly></textarea>
+                    <textarea class="form-control" rows="5" name="content" placeholder="자기소개를 입력하세요" readonly>[[${dto.content}]]</textarea>
                 </div>
                 <br>
                 <div>
                     <h4 class="section-title">학력</h4>
                     <div class="mb-3">
                         <label class="form-label"><strong>최종학력</strong></label>
-                        <input type="text" class="form-control do-not-submit" placeholder="최종학력" required readonly>
+                        <input type="text" class="form-control do-not-submit" th:value="${dto.academyFinal}" required readonly>
                     </div>
                     <label class="form-label"><strong>학력 상세</strong></label>
                     <input type="text" name="academy" id="academy-real" hidden>

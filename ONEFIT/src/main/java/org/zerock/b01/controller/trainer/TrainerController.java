@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.service.trainerService.TrainerService;
 
 @Controller
@@ -47,11 +48,14 @@ public class TrainerController {
     }
 
     @GetMapping("/trainer_view")
-    public void trainer_view(Long trainerId, PageRequestDTO pageRequestDTO, Model model) {
+    public void trainer_view(Long tid, PageRequestDTO pageRequestDTO, Model model) {
         log.info("trainer_view");
-        TrainerDTO trainerDTO = trainerService.viewOne(trainerId);
-        log.info(trainerDTO);
-        model.addAttribute("dto", trainerDTO);
+        log.info(tid);
+        TrainerViewDTO trainerViewDTO = trainerService.viewOne(tid);
+
+        log.info(trainerViewDTO);
+        model.addAttribute("dto", trainerViewDTO);
+
     }
 
     @GetMapping("/trainer_modify")
