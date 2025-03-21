@@ -3,7 +3,6 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layout/basic.html}">
 <body>
-    <!-- 메인 start -->
     <div layout:fragment="board_qa_list">
       <div class="container mt-5">
         <form action="/zboard/board_qa_list" method="get">
@@ -14,10 +13,14 @@
               <label class="form-label fw-bold">날짜 검색</label>
               <div class="row g-2">
                 <div class="col-md-5">
-                  <input type="date" id="startDate" class="form-control">
+                  <input type="date" name="startDate" class="form-control"
+                         th:value="${pageRequestDTO.startDate != null ?
+                               #temporals.format(pageRequestDTO.startDate, 'yyyy-MM-dd') : ''}">
                 </div>
                 <div class="col-md-5">
-                  <input type="date" id="endDate" class="form-control">
+                  <input type="date" name="endDate" class="form-control"
+                         th:value="${pageRequestDTO.endDate != null ?
+                               #temporals.format(pageRequestDTO.endDate, 'yyyy-MM-dd') : ''}">
                 </div>
               </div>
             </div>
@@ -33,7 +36,7 @@
                   <div class="form-check me-3">
                       <input class="form-check-input" type="checkbox" name="type" value="t"
                              th:checked="${pageRequestDTO.type != null
-                                   and #lists.contains(pageRequestDTO.type, 't')}" checked>제목
+                                   and #lists.contains(pageRequestDTO.type, 't')}" >제목
                   </div>
                   <div class="form-check me-3">
                       <input class="form-check-input" type="checkbox" name="type" value="c"
@@ -54,9 +57,16 @@
                 <button class="btn btn-primary searchBtn" type="submit" >검색</button>
                 <button class="btn btn-secondary clearBtn" type="button" >초기화</button>
             </div>
+
+            <!-- 게시글 작성 버튼 -->
+            <div class="d-flex justify-content-end mb-3">
+                <a th:href="@{/zboard/board_qa_register}" class="btn btn-primary">
+                    <i class="fas fa-pencil-alt"></i> 글 작성
+                </a>
+            </div>
+
         </form>
-        <br>
-        <br>
+
         <!-- Q&A 테이블 -->
         <table class="table table-hover align-middle">
           <thead>
@@ -70,14 +80,16 @@
           <tbody id="qnaTable" th:with="link = ${pageRequestDTO.getLink()}">
             <tr th:each="dto:${responseDTO.dtoList}">
               <td>
-                <a>[[${dto.qTitle}]]</a>
+                <a th:href="|@{/zboard/board_qa_read(qnaId=${dto.qnaId})}&${link}|"
+                   th:text="${dto.qTitle}" class="text-decoration-none"></a>
                 <span class="ms-2">
                             <i class="fas fa-paperclip file-icon"></i> <span></span>
                         </span>
               </td>
-              <td>[[${dto.allMember.name}]]</td>
-              <td>[[${dto.regdate}]]</td>
-              <td>[[${dto.qHits}]]</td>
+              <td th:text="${dto.allMember.name}"></td>
+              <td th:text="${#temporals.format(dto.regDate, dto.regDate.toLocalDate()
+                                 .equals(#temporals.createNow().toLocalDate()) ? 'HH:mm:ss' : 'yyyy-MM-dd')}"></td>
+              <td th:text="${dto.qHits}"></td>
             </tr>
           </tbody>
         </table>
