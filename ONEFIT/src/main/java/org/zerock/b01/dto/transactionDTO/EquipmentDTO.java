@@ -1,6 +1,7 @@
 package org.zerock.b01.dto.transactionDTO;
 
 import lombok.*;
+import org.zerock.b01.domain.transaction.Product;
 
 import java.time.LocalDate;
 
@@ -28,4 +29,5 @@ public class EquipmentDTO extends ProductDTO{ // (거래 - 상품) 기구
     private LocalDate eUseEnd; // 6. 사용 종료일
 
     private String eAs; // 7. A/S 가능여부
+
 }
