@@ -139,7 +139,7 @@
                 <div class="container mt-5">
                     <div class="post-container">
 
-                        <form id="modifyMember" name="modifyMember" action="/member/modify" method="post">
+                        <form id="modifyMember" th:action="@{/member/modify}" method="post">
                             <input type="hidden" name="allId" th:value="${all_memberDTO.allId}" readonly>
                             <input type="hidden" name="memberType" th:value="${all_memberDTO.memberType}" readonly>
                             <div class="form-section">
@@ -196,11 +196,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <button type="submit" class="product-btn btn btn-primary w-100">수정
+                                    <button type="button" class="product-btn btn btn-primary modifyBtn w-100">수정
                                     </button>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <button type="button" class="product-btn btn btn-danger w-100">회원탈퇴
+                                    <button type="button" class="product-btn btn btn-danger removeBtn w-100">회원탈퇴
                                     </button>
                                 </div>
                             </div>
@@ -212,3 +212,25 @@
         </div>
     </div>
 </div>
+<script layout:fragment="script">
+    const formObj = document.querySelector("#modifyMember")
+
+    document.querySelector(".modifyBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.action = '/member/modify'
+        formObj.method = 'post'
+        formObj.submit()
+    }, false)
+
+    document.querySelector(".removeBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.action = '/member/remove'
+        formObj.method = 'post'
+        formObj.submit()
+    }, false)
+
+</script>

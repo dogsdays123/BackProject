@@ -37,6 +37,7 @@ public class All_Member extends BaseEntity {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<MemberRole> roleSet = new HashSet<>();
 
     public void changeName(String name) {this.name = name;}
