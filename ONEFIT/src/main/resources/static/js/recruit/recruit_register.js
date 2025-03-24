@@ -49,14 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteModal.show();
     });
 
-    // 모달에서 확인 버튼 클릭 시 폼 제출
-    document.getElementById("register-submit-ok-btn").addEventListener("click", function () {
-        // 모달 닫기
-        deleteModal.hide();
 
-        // 폼 제출
-        jobForm.submit();
-    });
+
+
+
     document.getElementById("jobForm").addEventListener("submit", function(event) {
         // business_id를 임의로 설정 (예: 12345)
         const businessIdInput = document.createElement("input");
@@ -251,3 +247,81 @@ document.addEventListener("DOMContentLoaded", function () {
     phoneMid.addEventListener("input", updatePhoneOutput);
     phoneLast.addEventListener("input", updatePhoneOutput);
 })
+
+
+
+
+const uploadResult = document.querySelector(".uploadResult");
+
+document.querySelector(".uploadBtn").addEventListener("click", function (e){
+    const formObj = new FormData();
+
+    const fileInput = document.querySelector("input[name='files']")
+
+    console.log(fileInput.files);
+
+    const files = fileInput.files;
+
+    for(let i = 0 ; i<files.length;i++){
+        formObj.append("files", files[i]);
+    }
+
+    uploadToServer(formObj).then(result=>{
+        console.log(result)
+        for(const uploadResult of result){
+            showUploadFile(uploadResult);
+        }
+    }).catch(e=>{
+        alert("upload error")
+    })
+},false)
+function showUploadFile({uuid, fileName, link}) {
+    const str = `<div class="card col-4">
+        <div class="card-header d-flex justify-content-center">
+            ${fileName}
+            <button class="btn-sm btn-danger" onclick="javascript:removeFile
+                ('${uuid}', '${fileName}', this)">X</button>
+        </div>
+        <div class="card-body">
+            <img src="/view/${link}" data-src="${uuid + "_" + fileName}">
+        </div>
+    </div>`;
+
+    uploadResult.innerHTML += str;
+}
+
+function removeFile(uuid, fileName, obj){
+    event.preventDefault();
+    console.log(uuid);
+    console.log(fileName);
+    console.log(obj);
+
+    const targetDiv = obj.closest(".card")
+
+    removeFileToServer(uuid, fileName).then(data => {
+        targetDiv.remove();
+    })
+}
+
+// 모달에서 확인 버튼 클릭 시 폼 제출
+document.getElementById("register-submit-ok-btn").addEventListener("click", function (e) {
+
+    const target = document.querySelector(".uploadHidden")
+    const uploadFiles = uploadResult.querySelectorAll("img");
+
+    let str = ''
+
+    for(let i = 0 ; i<uploadFiles.length; i++){
+        const uploadFile = uploadFiles[i]
+        const imgLink = uploadFile.getAttribute("data-src")
+        str += `<input type='hidden' name='fileNames' value="${imgLink}">`
+    }
+
+    target.innerHTML = str;
+
+    // 모달 닫기
+    deleteModal.hide();
+
+    // 폼 제출
+    jobForm.submit();
+});

@@ -1,26 +1,21 @@
 package org.zerock.b01.dto.recruitDTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.zerock.b01.domain.member.Business_Member;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecruitDTO {
+@Builder
+public class RecruitListAllDTO {
 
     private Long recruitId;
 
@@ -115,6 +110,5 @@ public class RecruitDTO {
 
     private Business_Member business_member;
 
-    private List<String> fileNames;
-//    private List<RecruitImageDTO> recruitImages;
+    private List<RecruitImageDTO> recruitImages;
 }

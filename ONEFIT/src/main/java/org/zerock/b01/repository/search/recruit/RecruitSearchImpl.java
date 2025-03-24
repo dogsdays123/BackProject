@@ -1,19 +1,25 @@
 package org.zerock.b01.repository.search.recruit;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.security.core.parameters.P;
 import org.zerock.b01.domain.recruit.QRecruit_Register;
+import org.zerock.b01.domain.recruit.QRecruit_Register_Image;
 import org.zerock.b01.domain.recruit.Recruit_Register;
 import com.querydsl.core.types.dsl.NumberTemplate;
+import org.zerock.b01.dto.recruitDTO.RecruitImageDTO;
+import org.zerock.b01.dto.recruitDTO.RecruitListAllDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RecruitSearchImpl extends QuerydslRepositorySupport implements RecruitSearch {
 
@@ -40,13 +46,75 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
     }
 
     @Override
-    public Page<Recruit_Register> searchAll(String[] types, String keyword, String gender, String age, String jobTypeFull, String jobTypePart,
-                                            String jobTypeFree, String jobTypeTrainee, String jobTypeAlba, String workDays,
-                                            String dutyDays, String startTime, String endTime, String timeNegotiable, String industry, String regDateFilter, Pageable pageable) {
+    public Page<RecruitListAllDTO> searchAll(String[] types, String keyword, String gender, String age, String jobTypeFull, String jobTypePart,
+                                             String jobTypeFree, String jobTypeTrainee, String jobTypeAlba, String workDays,
+                                             String dutyDays, String startTime, String endTime, String timeNegotiable, String industry,
+                                             String regDateFilter,  Pageable pageable) {
 
         QRecruit_Register recruit_register = QRecruit_Register.recruit_Register;
+        QRecruit_Register_Image image = QRecruit_Register_Image.recruit_Register_Image;
 
-        JPQLQuery<Recruit_Register> query = from(recruit_register);
+//        JPQLQuery<Recruit_Register> query = from(recruit_register);
+        JPQLQuery<Recruit_Register> query = from(recruit_register)
+                .leftJoin(recruit_register.imageSet, image).fetchJoin();
+
+        query.groupBy(recruit_register);
+        getQuerydsl().applyPagination(pageable, query);
+
+        List<Recruit_Register> resultList = query.fetch();
+        List<RecruitListAllDTO> dtoList = resultList.stream().map(recruitRegister -> {
+
+            RecruitListAllDTO dto = RecruitListAllDTO.builder()
+                    .recruitId(recruitRegister.getRecruitId())
+                    .reTitle(recruitRegister.getReTitle())
+                    .reCompany(recruitRegister.getReCompany())
+                    .reJobTypeFull(recruitRegister.getReJobTypeFull())
+                    .reJobTypePart(recruitRegister.getReJobTypePart())
+                    .reJobTypeFree(recruitRegister.getReJobTypeFree())
+                    .reJobTypeTrainee(recruitRegister.getReJobTypeTrainee())
+                    .reJobTypeAlba(recruitRegister.getReJobTypeAlba())
+                    .reIndustry(recruitRegister.getReIndustry())
+                    .reNumHiring(recruitRegister.getReNumHiring())
+                    .reWorkDays(recruitRegister.getReWorkDays())
+                    .reDutyDays(recruitRegister.getReDutyDays())
+                    .reWorkStartTime(recruitRegister.getReWorkStartTime())
+                    .reWorkEndTime(recruitRegister.getReWorkEndTime())
+                    .reTimeNegotiable(recruitRegister.getReTimeNegotiable())
+                    .reSalaryType(recruitRegister.getReSalaryType())
+                    .reSalaryValue(recruitRegister.getReSalaryValue())
+                    .reSalaryCheckAgree(recruitRegister.getReSalaryCheckAgree())
+                    .reSalaryCheckMeal(recruitRegister.getReSalaryCheckMeal())
+                    .reSalaryCheckDuty(recruitRegister.getReSalaryCheckDuty())
+                    .reSalaryCheckProb(recruitRegister.getReSalaryCheckProb())
+                    .reSalaryDetail(recruitRegister.getReSalaryDetail())
+                    .reGender(recruitRegister.getReGender())
+                    .reAgeType(recruitRegister.getReAgeType())
+                    .reMinAge(recruitRegister.getReMinAge())
+                    .reMaxAge(recruitRegister.getReMaxAge())
+                    .reJobHistory(recruitRegister.getReJobHistory())
+                    .reEducation(recruitRegister.getReEducation())
+                    .rePreference(recruitRegister.getRePreference())
+                    .reDeadline(recruitRegister.getReDeadline())
+                    .reApplyMethodEmail(recruitRegister.getReApplyMethodEmail())
+                    .reApplyMethodOnline(recruitRegister.getReApplyMethodOnline())
+                    .reApplyMethodMsg(recruitRegister.getReApplyMethodMsg())
+                    .reApplyMethodTel(recruitRegister.getReApplyMethodTel())
+                    .reAdminName(recruitRegister.getReAdminName())
+                    .reAdminEmail(recruitRegister.getReAdminEmail())
+                    .reAdminPhone(recruitRegister.getReAdminPhone())
+                    .business_member(recruitRegister.getBusiness_member()).build();
+
+            List<RecruitImageDTO> imageDTOS = recruitRegister.getImageSet().stream().sorted()
+                    .map(recruitRegisterImage -> RecruitImageDTO.builder()
+                            .re_img_id(recruitRegisterImage.getRe_img_id())
+                            .re_img_title(recruitRegisterImage.getRe_img_title())
+                            .re_img_ord(recruitRegisterImage.getRe_img_ord())
+                            .build()).collect(Collectors.toList());
+
+            dto.setRecruitImages(imageDTOS);
+
+            return dto;
+        }).collect(Collectors.toList());
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
@@ -69,7 +137,6 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
             query.where(booleanBuilder);
 
         }
-
         if (regDateFilter != null && !regDateFilter.isEmpty()) {
             LocalDateTime today = LocalDateTime.now();
             LocalDate todayDate = today.toLocalDate(); // LocalDate만 추출
@@ -169,17 +236,23 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
         }
 
 
+
         query.where(booleanBuilder);
         query.where(recruit_register.recruitId.gt(0L));
 
         this.getQuerydsl().applyPagination(pageable, query);
 
-        List<Recruit_Register> list = query.fetch();
+//        List<Recruit_Register> list = query.fetch();
+
+        resultList.forEach(board1 ->{
+            System.out.println(board1.getRecruitId());
+            System.out.println(board1.getImageSet());
+            System.out.println("-----------------------");
+        });
 
         long count = query.fetchCount();
 
-        return new PageImpl<>(list, pageable, count);
+        return new PageImpl<>(dtoList, pageable, count);
     }
-
 
 }

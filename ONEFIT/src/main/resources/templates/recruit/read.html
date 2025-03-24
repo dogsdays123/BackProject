@@ -144,7 +144,13 @@
                                 <span class="badge bg-secondary" th:if="${dto.reSalaryCheckMeal == '식대지급'}" th:text="식대지급"></span>
                                 <span class="badge bg-primary" th:if="${dto.reSalaryCheckDuty == '당직비지급'}" th:text="당직비지급"></span>
                             </div>
-                            <img src="https://dummyimage.com/150x150/000/fff" alt="회사 로고" class="img-fluid" width="150" height="150">
+
+
+                            <div th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">
+                                <img th:each="fileName : ${dto.fileNames}"
+                                     th:src="|/view_recruit/${fileName}|"
+                                     class="img-fluid" width="150" height="150">
+                            </div>
                         </div>
                     </div>
                 </div>
