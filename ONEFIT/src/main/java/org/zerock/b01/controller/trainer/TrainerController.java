@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -16,23 +17,39 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.b01.domain.trainer.Trainer_Thumbnails;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
+import org.zerock.b01.repository.trainerRepository.TrainerRepository;
+import org.zerock.b01.repository.trainerRepository.Trainer_ThumbnailsRepository;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 import org.zerock.b01.service.trainerService.TrainerService;
+
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/trainer")
 @Log4j2
 @RequiredArgsConstructor
 public class TrainerController {
+    @Value("${org.zerock.upload.thumbnailPath}")
+    private String thumbnailPath;
+
     private final TrainerService trainerService;
+    private final TrainerRepository trainerRepository;
+    private final Trainer_ThumbnailsRepository trainerThumbnailsRepository;
 
     private final All_MemberService all_memberService;
     private final Member_Set_Type_Service member_Set_Type_Service;
@@ -154,5 +171,32 @@ public class TrainerController {
         Long trainer_id = trainerService.registerTrainer(trainerDTO);
         redirectAttributes.addAttribute("tid", trainerDTO.getTrainerId());
         return "redirect:/trainer/trainer_view";
+    }
+
+    @PostMapping("/trainer_delete")
+    public String trainer_delete_POST(TrainerDTO trainerDTO, RedirectAttributes redirectAttributes) {
+        log.info("trainer_delete_POST");
+        Long tid = trainerDTO.getTrainerId();
+        List<Trainer_Thumbnails> ttlist = trainerThumbnailsRepository.findByTid(tid).stream().map(Optional::orElseThrow).sorted().collect(Collectors.toList());
+        trainerService.removeTrainer(tid);
+
+        ttlist.forEach(ttt -> {
+            String fileName = ttt.getThumbnailUuid() + "_" + ttt.getImgname();
+
+            try {
+                Path filePath = Paths.get(thumbnailPath, fileName);
+
+                if (Files.exists(filePath)) {
+                    log.info(ttt.getThumbnailUuid());
+                    Files.delete(filePath);
+                } else {
+                    throw new NoSuchFileException(filePath.toString());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        return "redirect:/trainer/trainer_list";
     }
 }

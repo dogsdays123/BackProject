@@ -6,16 +6,20 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.member.User_Member;
 import org.zerock.b01.domain.trainer.Trainer;
+import org.zerock.b01.domain.trainer.Trainer_Thumbnails;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.repository.trainerRepository.TrainerRepository;
+import org.zerock.b01.repository.trainerRepository.Trainer_ThumbnailsRepository;
 
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -29,6 +33,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class TrainerServiceImpl implements TrainerService {
+    private final Trainer_ThumbnailsRepository trainer_ThumbnailsRepository;
     @Value("${org.zerock.upload.thumbnailPath}")
     private String thumbnailPath;
 
@@ -126,17 +131,7 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public Long modifyTrainer(TrainerDTO trainerDTO) {
-        // UserId -> UserMember 수동 매핑 없을시 추가
-        if (modelMapper.getTypeMap(TrainerDTO.class, Trainer.class) == null) {
-            modelMapper.addMappings(new PropertyMap<TrainerDTO, Trainer>() {
-                @Override
-                protected void configure() {
-                    map(source.getUserId(), destination.getUserMember().getUserId());
-                }
-            });
-        }
-
-        return 0L;
+    public void removeTrainer(Long trainerId) {
+        trainerRepository.deleteById(trainerId);
     }
 }

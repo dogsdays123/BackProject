@@ -7,5 +7,5 @@ import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 public interface TrainerService {
     Long registerTrainer(TrainerDTO trainerDTO);
     TrainerViewDTO viewOne(Long trainerId);
-    Long modifyTrainer(TrainerDTO trainerDTO);
+    void removeTrainer(Long trainerId);
 }
