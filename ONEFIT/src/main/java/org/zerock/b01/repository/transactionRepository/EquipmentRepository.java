@@ -11,5 +11,6 @@ import java.util.Optional;
 
 public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
     Optional<Equipment> findByProduct_ProductId(Long productId);
+    void deleteByProduct_ProductId(Long productId);
 }
 

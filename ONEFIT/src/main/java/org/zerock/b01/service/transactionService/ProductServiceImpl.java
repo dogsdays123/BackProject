@@ -6,11 +6,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.b01.domain.All_Member;
-import org.zerock.b01.domain.transaction.Category;
-import org.zerock.b01.domain.transaction.Equipment;
-import org.zerock.b01.domain.transaction.Facility;
-import org.zerock.b01.domain.transaction.Product;
+import org.zerock.b01.domain.transaction.*;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.transactionDTO.EquipmentDTO;
@@ -23,7 +21,10 @@ import org.zerock.b01.repository.transactionRepository.EquipmentRepository;
 import org.zerock.b01.repository.transactionRepository.FacilityRepository;
 import org.zerock.b01.repository.transactionRepository.ProductRepository;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -122,6 +123,110 @@ public class ProductServiceImpl implements ProductService {
         productDTOIntoFaDto(productDTO, facilityDTO);
 
         return facilityDTO;
+    }
+
+    @Override
+    public void modifyEquipment(EquipmentDTO equipmentDTO) {
+        Product product = productRepository.findById(equipmentDTO.getProductId()).orElseThrow();
+        Equipment equipment = equipmentRepository.findByProduct_ProductId(equipmentDTO.getProductId()).orElseThrow();
+        Category category = categoryRepository.findById(equipmentDTO.getCategoryId()).orElseThrow();
+
+        product.setCategory(category);
+
+        // 기존 게시글의 이미지 파일 정보 불러옴
+        Set<ImageFile> imageFiles = new HashSet<>(product.getImageSet()); // 복사본 생성
+
+        // 새로 추가된 이미지를 저장하기
+        if (equipmentDTO.getImageFileNames() != null) {
+            Set<String> existingUuids = imageFiles.stream()
+                    .map(ImageFile::getImageUuid)
+                    .collect(Collectors.toSet());
+
+            equipmentDTO.getImageFileNames().forEach(fileName -> {
+                String[] parts = fileName.split("_");
+                String uuid = parts[0];
+
+                // 기존에 없는 이미지인 경우에만 추가
+                if (!existingUuids.contains(uuid)) {
+                    product.addImageFile(parts[0], parts[1]);
+                }
+            });
+        }
+
+        // 삭제된 이미지를 제거하기 (복사본을 사용하여 안전하게 삭제)
+        if (equipmentDTO.getRemoveImageFileUuid() != null) {
+            Set<ImageFile> imagesToRemove = imageFiles.stream()
+                    .filter(image -> equipmentDTO.getRemoveImageFileUuid().contains(image.getImageUuid()))
+                    .collect(Collectors.toSet());
+
+            imagesToRemove.forEach(image -> product.getImageSet().remove(image));
+        }
+
+        product.change(equipmentDTO);
+
+        equipment.setProduct(product);
+        equipment.change(equipmentDTO);
+
+        productRepository.save(product);
+    }
+
+    @Override
+    public void modifyFacility(FacilityDTO facilityDTO) {
+        Product product = productRepository.findById(facilityDTO.getProductId()).orElseThrow();
+        Facility facility = facilityRepository.findByProduct_ProductId(facilityDTO.getProductId()).orElseThrow();
+        Category category = categoryRepository.findById(facilityDTO.getCategoryId()).orElseThrow();
+
+        product.setCategory(category);
+
+        Set<ImageFile> imageFiles = new HashSet<>(product.getImageSet()); // 복사본 생성
+
+        // 새로 추가된 이미지를 저장하기
+        if (facilityDTO.getImageFileNames() != null) {
+            Set<String> existingUuids = imageFiles.stream()
+                    .map(ImageFile::getImageUuid)
+                    .collect(Collectors.toSet());
+
+            facilityDTO.getImageFileNames().forEach(fileName -> {
+                String[] parts = fileName.split("_");
+                String uuid = parts[0];
+
+                // 기존에 없는 이미지인 경우에만 추가
+                if (!existingUuids.contains(uuid)) {
+                    product.addImageFile(parts[0], parts[1]);
+                }
+            });
+        }
+
+        // 삭제된 이미지를 제거하기 (복사본을 사용하여 안전하게 삭제)
+        if (facilityDTO.getRemoveImageFileUuid() != null) {
+            Set<ImageFile> imagesToRemove = imageFiles.stream()
+                    .filter(image -> facilityDTO.getRemoveImageFileUuid().contains(image.getImageUuid()))
+                    .collect(Collectors.toSet());
+
+            imagesToRemove.forEach(image -> product.getImageSet().remove(image));
+        }
+
+
+        product.change(facilityDTO);
+
+        facility.setProduct(product);
+        facility.change(facilityDTO);
+
+        productRepository.save(product);
+    }
+
+    @Override
+    @Transactional
+    public void removeProduct(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow();
+
+        if(product.getPRoles() == 1) { // 기구 판매 게시글일 경우
+            equipmentRepository.deleteByProduct_ProductId(productId);
+        } else if(product.getPRoles() == 2) { // 시설 매매 게시글일 경우
+            facilityRepository.deleteByProduct_ProductId(productId);
+        }
+
+        productRepository.deleteById(productId);
     }
 
     // (거래 - 상품) 거래 게시판 리스트
