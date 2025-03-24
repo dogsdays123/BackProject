@@ -1,6 +1,7 @@
 package org.zerock.b01.domain.transaction;
 import jakarta.persistence.*;
 import lombok.*;
+import org.zerock.b01.dto.transactionDTO.FacilityDTO;
 
 import java.math.BigDecimal;
 
@@ -37,9 +38,19 @@ public class Facility { // (거래 - 상품) 시설
     @Column(name = "f_real_area", nullable = false, precision = 7, scale = 2)
     private BigDecimal fRealArea; // 7. 실 면적
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product; // (외래키) 상품 ID
+
+    public void change(FacilityDTO facilityDTO) {
+        this.fCenterName = facilityDTO.getFCenterName();
+        this.fDeposit = facilityDTO.getFDeposit();
+        this.fMonthRent = facilityDTO.getFMonthRent();
+        this.fAdminCost = facilityDTO.getFAdminCost();
+        this.fReasonSale = facilityDTO.getFReasonSale();
+        this.fContArea = facilityDTO.getFContArea();
+        this.fRealArea = facilityDTO.getFRealArea();
+    }
 
     public void setProduct(Product product) {
         this.product = product;

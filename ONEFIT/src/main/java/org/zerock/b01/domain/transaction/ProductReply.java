@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.BaseEntity;
+import org.zerock.b01.domain.QAll_Member;
 
 @Entity
 @Table(name = "product_reply", indexes = {
-        @Index(name = "idx_product_reply_product", columnList = "product_id"),
-        @Index(name = "idx_product_reply_all_member", columnList = "all_id")
+        @Index(name = "idx_product_reply_product_product_id", columnList = "product_id"),
+        @Index(name = "idx_product_reply_all_member_all_id", columnList = "all_id")
 })
 @Getter
 @Builder
@@ -21,6 +22,7 @@ public class ProductReply extends BaseEntity { // (거래 - 상품) 게시글 �
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productReplyId;
 
+    @Column(name = "p_reply_text", nullable = false)
     private String pReplyText; // 댓글 내용
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +32,9 @@ public class ProductReply extends BaseEntity { // (거래 - 상품) 게시글 �
     @ManyToOne
     @JoinColumn(name = "all_id", nullable = false)
     private All_Member allMember; // (외래키) 회원 ID
+
+    public void setProduct(Product product) { this.product = product; }
+    public void setAllMember(All_Member allMember) { this.allMember = allMember; }
 
     public void changeText(String text) {
         this.pReplyText = text;

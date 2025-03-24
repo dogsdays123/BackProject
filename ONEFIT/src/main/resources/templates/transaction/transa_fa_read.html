@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneFit - 거래 글 보기(시설)</title>
     <link rel="stylesheet" th:href="@{/css/transaction/transa_read.css}">
-    <link rel="stylesheet" th:href="@{/css/pagination.css}">
+    <link rel="stylesheet" th:href="@{/css/transaction/paginationNew.css}">
 </head>
 
 <body>
@@ -20,21 +20,31 @@
                 <h2 class="card-title mb-0">
                     <span class="status-span"
                           th:text="${dto.pStatus}"
-                          th:class="${dto.pStatus == '판매중' ? 'text-success' : (dto.pStatus == '예약중' ? 'text-primary' : (dto.pStatus == '판매완료' ? 'text-muted' : ''))}">
+                          th:class="${dto.pStatus == '판매중' ? 'text-primary' : (dto.pStatus == '예약중' ? 'text-success' : (dto.pStatus == '판매완료' ? 'text-secondary' : ''))}">
                     </span>&nbsp;&nbsp;[[${dto.pTitle}]]
                 </h2>
                 <div class="d-flex flex-column">
-                    <!-- 수정 삭제 케밥 메뉴 -->
+                    <!-- 게시글: '수정하기', '삭제하기' 케밥 메뉴 start -->
                     <button class="btn btn-light border-0 float-end ms-auto"
                             type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">수정하기</a></li>
-                        <li><a class="dropdown-item text-danger" href="#">삭제하기</a></li>
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="|@{/transaction/transa_fa_modify(productId=${dto.productId})}&${link}|">
+                                <i class="fas fa-edit"></i> 수정하기
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-danger removeBtn" href="#">
+                                <i class="fa-solid fa-trash"></i> 삭제하기
+                            </a>
+                        </li>
                     </ul>
+                    <!-- 게시글: '수정하기', '삭제하기' 케밥 메뉴 end -->
                     <!-- 게시글 작성일 -->
-                    <span class="text-muted float-end mt-4">
+                    <span class="text-muted float-end mt-2">
                         [[${#temporals.format(dto.modDate,'yyyy-MM-dd a h시 mm분')}]]
                     </span>
                 </div>
@@ -168,10 +178,10 @@
                         <div class="content p-3 border rounded overflow-auto">[[${dto.pContent}]]
                         </div>
                         <div class="mt-4 d-flex justify-content-center align-items-center">
-                                <span class="like">
-                                    <!-- <i class="fa-solid fa-heart"></i> -->
-                                    <i class="fa-regular fa-heart"></i>
-                                </span>
+                            <span class="like d-inline-flex flex-column align-items-center">
+                                <i class="fa-regular fa-heart fs-2" id="heart-icon"></i>
+                                <span class="like-count fs-6 text-secondary" id="like-count">0</span>
+                            </span>
                             <button class="btn w-100 ms-auto m-0" id="chatButton"
                                     th:attr="data-link=${dto.pChatUrl}" onclick="openChatPopup()">
                                 <i class="fas fa-comment kakao-rogo"></i>&nbsp;&nbsp;오픈채팅 바로가기
@@ -186,59 +196,111 @@
     </div>
 
     <div class="container mt-4">
-        <h5 class="fw-bold">댓글 <span class="text-primary">1</span></h5>
+        <h5 class="fw-bold">댓글 <span class="text-primary">[[${responseDTO.total}]]</span></h5>
         <div class="card p-3 border-0">
-            <!-- 댓글 입력창 -->
+            <!-- 댓글 입력창 start -->
             <div class="d-flex align-items-center mb-3">
-                <img src="/image/transaction/profile-2.jpg" class="rounded-circle me-2 profile-img" alt="프로필">
-                <input type="text" class="form-control rounded-pill" placeholder="댓글을 입력하세요...">
-                <button class="btn btn-primary ms-2 rounded-pill px-3 reply-btn">등록</button>
+                <form method="post" action="/product_reply/fa_register" id="replyForm">
+                    <input type="hidden" name="productId" th:value="${dto.productId}">
+                    <input type="hidden" name="allId" value="member1">
+                    <img src="/image/transaction/profile-2.jpg" class="rounded-circle me-2 profile-img" alt="프로필">
+                    <input type="text" class="form-control rounded-pill" name="pReplyText" placeholder="댓글을 입력하세요..."
+                           required>
+                    <button type="submit" class="btn btn-primary ms-2 rounded-pill px-3 reply-btn">등록</button>
+                </form>
             </div>
+            <!-- 댓글 입력창 end -->
             <hr>
-
-            <!-- 개별 댓글 -->
-            <div class="d-flex align-items-start mb-3">
-                <img src="/image/transaction/profile-2.jpg" class="rounded-circle me-2 profile-img" alt="프로필">
-                <div class="w-100">
-                    <div class="d-flex justify-content-between">
-                        <strong>홍길동</strong>
-                        <small class="text-muted">2시간 전</small>
-                    </div>
-                    <p class="mb-1">좋은 정보 감사합니다! 😊</p>
-                    <div class="d-flex align-items-center">
-                        <!-- <button class="btn btn-light btn-sm me-2"><i class="fa-regular fa-thumbs-up"></i> 5</button> -->
+            <!-- 개별 댓글 start -->
+            <th:block th:each="replyDto:${responseDTO.dtoList}">
+                <!-- 댓글 1 -->
+                <div class="d-flex align-items-start mb-3 reply-div">
+                    <img src="/image/transaction/profile-2.jpg" class="rounded-circle me-2 profile-img" alt="프로필">
+                    <div class="w-100">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>[[${replyDto.allId}]]</strong>
+                                <span class="text-muted"
+                                      th:text="'· ' + ${#temporals.format(replyDto.modDate, 'yyyy-MM-dd a h시 mm분')}"></span>
+                            </div>
+                            <!-- 수정 및 삭제 버튼 start -->
+                            <div class="comment-actions">
+                                <button class="btn btn-link text-secondary px-1 reply-menu-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modifyReplyModal"
+                                        th:data-product-id="${dto.productId}"
+                                        th:data-reply-id="${replyDto.productReplyId}"
+                                        th:data-reply-content="${replyDto.pReplyText}">
+                                    <i class="fas fa-edit"></i> 수정
+                                </button>
+                                <span class="text-secondary mx-1 span-line">|</span>
+                                <button class="btn btn-link text-secondary px-1 reply-menu-btn remove-reply-btn"
+                                        th:data-product-id="${dto.productId}"
+                                        th:data-reply-id="${replyDto.productReplyId}"
+                                        th:data-product-role="fa">
+                                    <i class="fa-solid fa-trash"></i> 삭제
+                                </button>
+                            </div>
+                            <!-- 수정 및 삭제 버튼 end -->
+                        </div>
+                        <p class="mb-1 reply-content">[[${replyDto.pReplyText}]]</p>
+                        <div class="d-flex align-items-center">
+                            <!-- <button class="btn btn-light btn-sm me-2"><i class="fa-regular fa-thumbs-up"></i> 5</button> -->
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            </th:block>
+            <!-- 개별 댓글 end -->
             <!-- 페이지네이션 start -->
-            <div class="row">
-                <ul class="pagination justify-content-center">
-                    <a href="#" class="is-deactive">
-                        <li class="pagearrow leftarrow">&lt;</li>
-                    </a>
-                    <a href="#" class="is-active">
-                        <li class="pageitem">1</li>
-                    </a>
-                    <a href="#">
-                        <li class="pageitem">2</li>
-                    </a>
-                    <a href="#">
-                        <li class="pageitem">3</li>
-                    </a>
-                    <a href="#">
-                        <li class="pageitem">4</li>
-                    </a>
-                    <a href="#">
-                        <li class="pagearrow rightarrow">&gt;</li>
-                    </a>
+            <div class="row" th:if="${responseDTO.total > 0}">
+                <ul class="pagination justify-content-center" id="faReplyPagination">
+                    <li href="#" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'">
+                        <a class="pagearrow leftarrow" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'"
+                           th:data-num="${responseDTO.start -1}">&lt;</a>
+                    </li>
+                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <li href="#" th:class="${responseDTO.page == i}? 'is-active':''">
+                            <a class="pageitem" th:data-num="${i}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <li href="#" th:classappend="${responseDTO.next} ? '' : 'is-deactive'">
+                        <a class="pagearrow rightarrow" th:classappend="${responseDTO.next} ? '' : 'is-deactive'"
+                           th:data-num="${responseDTO.end + 1}">&gt;</a>
+                    </li>
                 </ul>
             </div>
             <!-- 페이지네이션 end -->
-
         </div>
     </div>
     <!-- 댓글 end  -->
+
+    <!-- 댓글 수정 모달 start -->
+    <div class="modal fade" id="modifyReplyModal" tabindex="-1" aria-labelledby="modifyReplyModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form method="post" action="/product_reply/fa_modify" id="replyModifyForm">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center reply-modify-header">
+                                <label for="pReplyText" class="form-label mb-0">댓글 내용</label>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <input type="hidden" name="productId" id="productId">
+                            <input type="hidden" name="productReplyId" id="productReplyId">
+                            <input type="text" class="form-control rounded-pill"
+                                   id="pReplyText" name="pReplyText" placeholder="수정할 댓글을 입력하세요..." required>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        <button type="submit" class="btn bg-primary text-white">저장</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 댓글 수정 모달 end -->
+
     <!-- JS 기능 추가 -->
     <script th:src="@{/js/transaction/transa_read.js}"></script>
 </div>

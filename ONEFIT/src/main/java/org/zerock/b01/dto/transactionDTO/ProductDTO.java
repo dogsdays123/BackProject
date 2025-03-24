@@ -41,6 +41,9 @@ public class ProductDTO { // (거래) 상품
     // 이미지 파일의 이름들
     private List<String> imageFileNames;
 
+    // 삭제할 이미지 uuid
+    private List<String> removeImageFileUuid;
+
     private LocalDateTime regDate; // 9. 게시글 등록일
     private LocalDateTime modDate; // 10. 게시글 수정일
 

@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function showUploadFile({uuid, fileName, link}) {
     let imgWrapper = $(`
-                    <div class="position-relative d-inline-block me-2 mt-2">
+                    <div class="position-relative d-inline-block me-2 mt-2 preview-img-div">
                         <img src="/view_transa/${link}" data-src="${uuid + "_" + fileName}" class="preview-img rounded border">
                         <button type="button" 
                         onclick="javascript:removeFile('${uuid}', '${fileName}', this)"
@@ -69,7 +69,6 @@ function showUploadFile({uuid, fileName, link}) {
     });
 }
 
-
 function removeFile(uuid, fileName, obj) {
     console.log(uuid);
     console.log(fileName);
@@ -77,6 +76,8 @@ function removeFile(uuid, fileName, obj) {
     const targetDiv = obj.closest(".card");
 
     removeFileToServer(uuid, fileName).then(data => {
+        console.log("파일 삭제 완: " + data);
+
         // 삭제 성공 시 해당 카드 요소 제거
         targetDiv.remove();
     });

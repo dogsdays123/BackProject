@@ -68,8 +68,21 @@
 }
 
 .text-muted {
+    font-size: 0.8rem;
+    color: #888 !important;
+}
+
+.span-line {
     font-size: 0.9rem;
-    color: #888;
+}
+
+.reply-content {
+    padding-left: 10px;
+}
+
+.reply-menu-btn {
+    font-size: 0.9rem;
+    text-decoration: none;
 }
 
 .card-footer {
@@ -107,6 +120,7 @@
     color: #FF0000;
     font-size: 1.5rem;
     margin-right: 19px;
+    cursor: pointer;
 }
 
 .reply-btn {
@@ -149,3 +163,74 @@
 .card-title {
     margin-left: 10px;
 }
+
+#replyForm {
+    display: contents;
+}
+
+.reply-div {
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding-bottom: 15px;
+}
+
+/* 댓글 수정 모달 CSS start */
+.modal-content {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    min-width: 500px;
+}
+.modal-header {
+    background-color: #fff;
+    color: #333;
+    border-radius: 8px 8px 0 0;
+    padding: 15px 20px;
+}
+.modal-title {
+    font-weight: bold;
+}
+.modal-body {
+    padding: 20px 25px;
+}
+.modal-footer {
+    border-top: 1px solid #ddd;
+    padding: 10px 20px;
+    justify-content: flex-start;
+}
+
+/* 버튼 스타일 */
+.btn-custom {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 15px;
+    transition: background-color 0.3s ease;
+}
+.btn-custom:hover {
+    background-color: #555;
+}
+.btn-close {
+    color: #333;
+}
+
+/* input 스타일 */
+.form-control {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.form-control:focus {
+    border-color: #333;
+}
+
+/* 모달 여백 조정 */
+.modal-dialog {
+    max-width: 400px;
+}
+
+.reply-modify-header {
+    padding-bottom: 15px;
+}
+/* 댓글 수정 모달 CSS end */
+
+

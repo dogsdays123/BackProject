@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface FacilityRepository extends JpaRepository<Facility, Long> {
     Optional<Facility> findByProduct_ProductId(Long productId);
+    void deleteByProduct_ProductId(Long productId);
 }
