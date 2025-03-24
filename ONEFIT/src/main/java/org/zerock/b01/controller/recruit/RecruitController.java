@@ -1,5 +1,6 @@
 package org.zerock.b01.controller.recruit;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -39,7 +40,7 @@ public class RecruitController {
     private final Member_Set_Type_Service member_Set_Type_Service;
 
     @ModelAttribute
-    public void Profile(All_MemberDTO all_memberDTO, Model model, Authentication authentication) {
+    public void Profile(All_MemberDTO all_memberDTO, Model model, Authentication authentication, HttpServletRequest request) {
         // 인증 정보가 없다면 null 설정
         if (authentication == null) {
             log.info("###### 인증 정보 없음");
@@ -98,7 +99,13 @@ public class RecruitController {
         } else {
             model.addAttribute("all_memberDTO", null);
         }
-        model.addAttribute("sidebar", true);
+        String currentUrl = request.getRequestURI();
+        // URL에 따라서 분기
+        if (currentUrl.contains("/member")) {
+            model.addAttribute("sidebar", true);
+        } else{
+            model.addAttribute("sidebar", false);
+        }
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
     //회원정보 가져오기

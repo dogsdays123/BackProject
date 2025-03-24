@@ -92,10 +92,10 @@ public class MainController {
         }
         String currentUrl = request.getRequestURI();
         // URL에 따라서 분기
-        if (currentUrl.equals("/main")) {
-            model.addAttribute("sidebar", false);
-        } else{
+        if (currentUrl.contains("/member")) {
             model.addAttribute("sidebar", true);
+        } else{
+            model.addAttribute("sidebar", false);
         }
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
