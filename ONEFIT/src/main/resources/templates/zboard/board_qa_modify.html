@@ -10,6 +10,10 @@
 
             <!-- 수정 폼 -->
             <form th:action="@{/zboard/board_qa_modify}" method="post" id="f1">
+                <!-- qnaId -->
+                <div class="mb-3">
+                    <input type="hidden" name="qnaId" class="form-control" th:value="${dto.qnaId}" >
+                </div>
                 <!-- 제목 -->
                 <div class="mb-3">
                     <label class="form-label">제목</label>
@@ -20,6 +24,10 @@
                 <div class="mb-3">
                     <label class="form-label">본문</label>
                     <textarea name="qContent" class="form-control" rows="6">[[${dto.qContent}]]</textarea>
+                </div>
+                <!-- 작성자 -->
+                <div class="mb-3">
+                    <input type="hidden" name="allMember" class="form-control" th:value="${dto.allMember.allId}" >
                 </div>
 
 <!--                &lt;!&ndash; 기존 첨부파일 목록 &ndash;&gt;-->
@@ -45,8 +53,8 @@
 
                 <!-- 버튼 그룹 -->
                 <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-secondary me-2 listBtn">목록</button>
                     <button type="submit" class="btn btn-primary ms-2 modBtn">저장</button>
-                    <button href="board_qa_read.html" class="btn btn-secondary me-2 cancelBtn">취소</button>
                     <button type="button" class="btn btn-danger ms-2 removeBtn">삭제</button>
                 </div>
             </form>
@@ -76,43 +84,43 @@
             alert(errorMsg)
         }
 
-        // const link = [[${pageRequestDTO.getLink()}]]
-        // const formObj = document.querySelector("#f1")
-        //
-        // document.querySelector(".modBtn").addEventListener("click", function(e){
-        //     e.preventDefault()
-        //     e.stopPropagation()
-        //
-        //     formObj.action = `/zboard/board_qa_modify?${link}`
-        //
-        //     //첨부파일을 <input type = 'hidden..>으로추가
-        //     appendFileData()
-        //     //삭제대상 파일들의 삭제
-        //     callRemoveFiles()
-        //
-        //     formObj.method ='post'
-        //     formObj.submit()
-        //
-        //
-        // }, false)
-        //
-        // document.querySelector(".removeBtn").addEventListener("click", function(e){
-        //     e.preventDefault()
-        //     e.stopPropagation()
-        //
-        //     formObj.action = `/zboard/board_qa_remove`
-        //     formObj.method ='post'
-        //     formObj.submit()
-        // }, false)
-        //
-        // document.querySelector(".cancelBtn").addEventListener("click", function(e){
-        //     e.preventDefault()
-        //     e.stopPropagation()
-        //
-        //     formObj.reset()
-        //     self.location =`/zboard/board_qa_read?${link}`
-        //
-        // }, false)
+        const link = [[${pageRequestDTO.getLink()}]]
+        const formObj = document.querySelector("#f1")
+
+        document.querySelector(".modBtn").addEventListener("click", function(e){
+            e.preventDefault()
+            e.stopPropagation()
+
+            formObj.action = `/zboard/board_qa_modify?${link}`
+
+            //첨부파일을 <input type = 'hidden..>으로추가
+            appendFileData()
+            //삭제대상 파일들의 삭제
+            callRemoveFiles()
+
+            formObj.method ='post'
+            formObj.submit()
+
+
+        }, false)
+
+        document.querySelector(".removeBtn").addEventListener("click", function(e){
+            e.preventDefault()
+            e.stopPropagation()
+
+            formObj.action = `/zboard/board_qa_remove`
+            formObj.method ='post'
+            formObj.submit()
+        }, false)
+
+        document.querySelector(".listBtn").addEventListener("click", function(e){
+            e.preventDefault()
+            e.stopPropagation()
+
+            formObj.reset()
+            self.location =`/zboard/board_qa_list?${link}`
+
+        }, false)
 
     </script>
 </body>

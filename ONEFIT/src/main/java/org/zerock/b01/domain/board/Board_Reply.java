@@ -5,11 +5,15 @@ import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.BaseEntity;
 
 @Entity
+@Table(name = "Board_Reply", indexes = {
+        @Index(name = "idx_board_reply_noticeId", columnList = "notice_id"),
+        @Index(name = "idx_board_reply_qnaId", columnList = "qna_id")
+})
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"allMember", "qnaBoard", "noticeBoard"})
 public class Board_Reply extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

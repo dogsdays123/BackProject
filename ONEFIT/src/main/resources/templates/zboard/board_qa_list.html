@@ -81,15 +81,17 @@
             <tr th:each="dto:${responseDTO.dtoList}">
               <td>
                 <a th:href="|@{/zboard/board_qa_read(qnaId=${dto.qnaId})}&${link}|"
-                   th:text="${dto.qTitle}" class="text-decoration-none"></a>
+                   th:text="${dto.title}" class="text-decoration-none"></a>
+                <span class="badge progress-bar-success"
+                      style="background-color: #0a53be">[[${dto.replyCount}]]</span>
                 <span class="ms-2">
-                            <i class="fas fa-paperclip file-icon"></i> <span></span>
-                        </span>
+                    <i class="fas fa-paperclip file-icon"></i>
+                </span>
               </td>
-              <td th:text="${dto.allMember.name}"></td>
+              <td th:text="${dto.allId}"></td>
               <td th:text="${#temporals.format(dto.regDate, dto.regDate.toLocalDate()
                                  .equals(#temporals.createNow().toLocalDate()) ? 'HH:mm:ss' : 'yyyy-MM-dd')}"></td>
-              <td th:text="${dto.qHits}"></td>
+              <td th:text="${dto.hits}"></td>
             </tr>
           </tbody>
         </table>
