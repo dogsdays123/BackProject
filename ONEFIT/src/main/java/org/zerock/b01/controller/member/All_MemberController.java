@@ -211,4 +211,9 @@ public class All_MemberController {
     }
     //타입 부여end
 
+    @GetMapping("/maptest")
+    public void maptest() {
+        log.info("maptest");
+    }
+
 }
