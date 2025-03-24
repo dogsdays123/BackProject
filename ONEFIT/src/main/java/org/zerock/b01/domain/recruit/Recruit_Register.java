@@ -2,11 +2,14 @@ package org.zerock.b01.domain.recruit;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.zerock.b01.domain.BaseEntity;
 import org.zerock.b01.domain.member.Business_Member;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -180,5 +183,29 @@ public class Recruit_Register extends BaseEntity {
         this.reAdminName = reAdminName;
         this.reAdminEmail = reAdminEmail;
         this.reAdminPhone = reAdminPhone;
+    }
+
+    @OneToMany(mappedBy = "recruit_register",
+            cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,
+            orphanRemoval = true)
+    @Builder.Default
+    @BatchSize(size = 20)
+    private Set<Recruit_Register_Image> imageSet = new HashSet<>();
+
+    public void addImage(String uuid, String fileName) {
+        Recruit_Register_Image boardImage = Recruit_Register_Image.builder()
+                .re_img_id(uuid)
+                .re_img_title(fileName)
+                .recruit_register(this)
+                .re_img_ord(imageSet.size())
+                .build();
+
+        imageSet.add(boardImage);
+    }
+
+    public void clearImage() {
+        imageSet.forEach(boardImage -> boardImage.changeRecruit(null));
+
+        this.imageSet.clear();
     }
 }

@@ -8,8 +8,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class Recruit_Register_Image {
+@ToString(exclude = "recruit_register")
+public class Recruit_Register_Image implements Comparable<Recruit_Register_Image> {
+
     @Id
     @Column(length = 255)
     private String re_img_id;
@@ -21,6 +22,15 @@ public class Recruit_Register_Image {
     private int re_img_ord;
 
     @ManyToOne
-    @JoinColumn(name = "recruit_id", nullable = false)
+    @JoinColumn(name = "recruit_id")
     private Recruit_Register recruit_register;
+
+    @Override
+    public int compareTo(Recruit_Register_Image other){
+        return this.re_img_ord - other.re_img_ord;
+    }
+
+    public void changeRecruit(Recruit_Register recruit_register){
+        this.recruit_register = recruit_register;
+    }
 }

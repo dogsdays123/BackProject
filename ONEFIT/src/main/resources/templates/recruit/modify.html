@@ -142,7 +142,7 @@
                         <input type="hidden" th:value="${dto.recruitId}" name="recruitId" readonly>
 
 <!--                        <span th:text="${dto.reJobTypeAlba}"></span>-->
-                        <h4 class="section-title">모집 내용</h4>
+                        <h4 class="section-title">모집 내용&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(1/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -181,7 +181,7 @@
                     </div>
                     <!-- 스텝 2 -->
                     <div class="step">
-                        <h4 class="section-title">근무 조건</h4>
+                        <h4 class="section-title">근무 조건&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(2/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -237,7 +237,7 @@
                     </div>
                     <!-- 스텝 3 -->
                     <div class="step">
-                        <h4 class="section-title">지원 조건</h4>
+                        <h4 class="section-title">지원 조건&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(3/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -380,7 +380,7 @@
                     </div>
                     <!-- 스텝 4 -->
                     <div class="step">
-                        <h4 class="section-title">접수 기간 / 방법</h4>
+                        <h4 class="section-title">접수 기간 / 방법&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(4/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -400,7 +400,7 @@
                     </div>
                     <!-- 스텝 5 -->
                     <div class="step">
-                        <h4 class="section-title">근무지 정보</h4>
+                        <h4 class="section-title">근무지 정보&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(5/7)</span></h4>
                         <hr>
 
                         <div class="mb-2">
@@ -415,20 +415,42 @@
                     </div>
                     <!-- 스텝 6 -->
                     <div class="step">
-                        <h4 class="section-title">근무지 정보</h4>
+                        <h4 class="section-title">근무지 정보&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(6/7)</span></h4>
                         <hr>
                         <div class="mb-2">
                             <label class="form-label" style="width: 225px;"><strong><span style="color: red;">*</span>&nbsp;근무회사사진</strong></label>
                         </div>
                         <div class="col-md-4">
-                            <img src="https://dummyimage.com/150x150/000/fff" class="profile-img mb-3" alt="프로필 사진">
+                            <div class="col ">
+                                <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
+                                    <th:block th:each="fileName:${dto.fileNames}">
+                                        <div class="card col-4" th:with="arr = ${fileName.split('_')}">
+                                            <div class="card-header d-flex justify-content-center">
+                                                [[${arr[1]}]]
+                                                <button class="btn-sm btn-danger"
+                                                        th:onclick="removeFile([[${arr[0]}]], [[${arr[1]}]], this)">X
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <img th:src="|/view_recruit/s_${fileName}|" th:data-src="${fileName}">
+                                            </div>
+                                        </div><!-- card -->
+                                    </th:block>
+                                </div>
+                            </div>
 
                         </div>
-                        <input type="file" class="form-control">
+                        <input type="file" name="files" class="form-control" multiple>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Images</span>
+                            <div class="float-end uploadHidden">
+                                <button type="button" class="btn btn-primary uploadBtn">ADD Files</button>
+                            </div>
+                        </div>
                     </div>
                     <!-- 스텝 7 -->
                     <div class="step">
-                        <h4 class="section-title">담당자 정보</h4>
+                        <h4 class="section-title">담당자 정보&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(7/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -509,7 +531,6 @@
             <!-- 돌아가기 버튼 -->
             <div th:with="link = ${pageRequestDTO.getLink()}">
                 <a th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|" class="btn btn-outline-secondary">돌아가기</a>
-                <button type="button" class="btn btn-danger" id="removeBtn">삭제하기</button>
             </div>
         </div>
 
@@ -606,6 +627,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="/js/basic.js"></script>
 <script src="/js/recruit/recruit_modify.js"></script>
+<script src="/js/recruit/recruit_upload.js"></script>
 <script layout:fragment="script" th:inline="javascript">
     // const error = [[${error}]]
     //
@@ -662,7 +684,6 @@
     });
 
 
-
     document.addEventListener('DOMContentLoaded', () => {
         const textInput = document.getElementById('recuit-name');
         const counter = document.getElementById('name-counter');
@@ -678,13 +699,94 @@
         });
     });
 
+    const removeFileList = [];
+
+    function removeFile(uuid, fileName, obj) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (!confirm("파일을 삭제하시겠습니까?")) {
+            return; // 취소 버튼 클릭 시 아무 동작도 하지 않음
+        }
+
+        // 삭제할 파일 정보 입력
+        console.log(uuid);
+        console.log(fileName);
+        console.log(obj);
+
+        // 삭제할 파일 정보를 리스트에 추가
+        removeFileList.push({uuid, fileName});
+
+        //
+        const targetDiv = obj.closest(".card");
+
+        // 해당 카드 요소 제거 (파일 삭제 UI 처리)
+        targetDiv.remove();
+    }
+
+
+
+    document.querySelector(".uploadBtn").addEventListener("click", function (e) {
+        const formObj = new FormData();
+
+        const fileInput = document.querySelector("input[name='files']");
+        console.log(fileInput.files);
+
+        const files = fileInput.files;
+
+        for (let i = 0; i < files.length; i++) {
+            formObj.append("files", files[i]);
+        }
+
+        // 서버에 파일 업로드 요청
+        uploadToServer(formObj).then(result => {
+            // 업로드 결과 출력
+            console.log(result);
+
+            // 업로드된 파일 정보를 화면에 표시
+            for (const uploadResult of result) {
+                showUploadFile(uploadResult);
+            }
+            // 업로드 모달 닫기
+
+        }).catch(e => {
+            // 업로드 실패 시 모달 창 닫기
+            alert("upload error")
+        });
+    }, false);
+
+    // 업로드된 파일을 표시할 요소 가져오기
+    const uploadResult = document.querySelector(".uploadResult");
+
+    // 업로드된 파일 정보를 화면에 표시하는 함수
+    function showUploadFile({uuid, fileName, link}) {
+        const str = `<div class="card col-4">
+            <div class="card-header d-flex justify-content-center">
+                ${fileName}
+                <button class="btn-sm btn-danger" onclick="javascript:removeFile
+                    ('${uuid}', '${fileName}', this)">X</button>
+            </div>
+            <div class="card-body">
+                <img src="/view/${link}" data-src="${uuid + "_" + fileName}">
+            </div>
+        </div>`
+
+        uploadResult.innerHTML += str;
+    }
+
+
     // th:with="link = ${pageRequestDTO.getLink()}"
+
     const link = [[${pageRequestDTO.getLink()}]]
     const formObj = document.querySelector("#f1")
 
     document.querySelector("#confirmModifyBtn").addEventListener("click", function (e){
         e.preventDefault();
         e.stopPropagation();
+
+        appendFileData()
+
+        callRemoveFiles()
 
         formObj.action = `/recruit/modify?${link}`;
         formObj.method = 'post';
@@ -700,6 +802,25 @@
     //     formObj.submit()
     // }, false)
 
+    function appendFileData() {
+        const target = document.querySelector(".uploadHidden");
+        const uploadFiles = uploadResult.querySelectorAll("img");
+        let str = '';
+
+        for (let i = 0; i < uploadFiles.length; i++) {
+            const uploadFile = uploadFiles[i];
+            const imgLink = uploadFile.getAttribute("data-src");
+            str += `<input type="hidden" name="fileNames" value="${imgLink}">`;
+        }
+
+        target.innerHTML = str;
+    }
+
+    function callRemoveFiles() {
+        removeFileList.forEach(({uuid, fileName}) => {
+            removeFileToServer({uuid, fileName})
+        });
+    }
 </script>
 </body>
 

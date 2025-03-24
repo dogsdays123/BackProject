@@ -36,11 +36,6 @@ prevBtn.addEventListener("click", () => {
 updateStep();  // 초기 단계 설정
 
 
-
-
-
-
-
 // 등록 버튼
 document.addEventListener("DOMContentLoaded", function () {
     const submitBtn = document.getElementById("modifyBtn");
@@ -62,7 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteModal.show();
     });
 });
-
 
 // 글자 수 카운트
 const textInput = document.getElementById('recuit-title');
@@ -216,3 +210,4 @@ document.addEventListener("DOMContentLoaded", function () {
     phoneMid.addEventListener("input", updatePhoneOutput);
     phoneLast.addEventListener("input", updatePhoneOutput);
 })
+
