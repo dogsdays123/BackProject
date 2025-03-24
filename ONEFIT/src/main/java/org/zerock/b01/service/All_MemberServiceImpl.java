@@ -49,10 +49,9 @@ public class All_MemberServiceImpl implements All_MemberService {
         log.info("modify@@@@" + all_Member);
     }
 
+    @Transactional
     @Override
-    public void remove(String allId) {
-        all_MemberRepository.deleteById(allId);
-    }
+    public void remove(String allId) {all_MemberRepository.removeMember(allId);}
 
     @Override
     public void join(All_MemberDTO all_memberDTO) throws MidExistException{

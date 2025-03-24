@@ -100,10 +100,21 @@ public class All_MemberController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify")
     public String modifyPOST(All_MemberDTO all_memberDTO, User_MemberDTO userMemberDTO, RedirectAttributes redirectAttributes) {
-        log.info("modify post........");
-        log.info("allId@@@@" + all_memberDTO.getAllId());
-        all_memberService.modify(all_memberDTO);
+            log.info("modify post........");
+            log.info("allId@@@@" + all_memberDTO.getAllId());
+            all_memberService.modify(all_memberDTO);
+
         return "redirect:/member/my_default_page";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/remove")
+    public String removePOST(All_MemberDTO all_memberDTO, User_MemberDTO userMemberDTO, RedirectAttributes redirectAttributes) {
+        log.info("remove post........");
+        log.info("allIdremove@@@@" + all_memberDTO.getAllId());
+        all_memberService.remove(all_memberDTO.getAllId());
+
+        return "redirect:/logout";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -199,5 +210,15 @@ public class All_MemberController {
         return "redirect:/member/finishedChange";
     }
     //타입 부여end
+
+    @GetMapping("/maptest")
+    public void maptestGET() {
+        log.info("maptestGET");
+    }
+
+    @PostMapping("/maptest")
+    public void maptestPOST() {
+        log.info("maptestPOST");
+    }
 
 }

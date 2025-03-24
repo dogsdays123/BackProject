@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "allMember")
 public class Business_Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
