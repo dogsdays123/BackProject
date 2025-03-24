@@ -18,6 +18,8 @@ public class Business_MemberDTO {
 
     private String bAddress;
 
+    private String bAddressExtra;
+
     private String bName;
 
     private Long bRegNum;

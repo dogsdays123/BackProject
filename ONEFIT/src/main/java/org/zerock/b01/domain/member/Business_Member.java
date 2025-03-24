@@ -20,6 +20,9 @@ public class Business_Member {
     @Column(length = 100, nullable = false)
     private String bAddress;
 
+    @Column(length = 100)
+    private String bAddressExtra;
+
     @Column(length = 30, nullable = false)
     private String bName;
 

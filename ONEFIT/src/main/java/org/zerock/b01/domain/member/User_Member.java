@@ -29,6 +29,9 @@ public class User_Member {
     @Column(length = 100)
     private String uAddress;
 
+    @Column(length = 100)
+    private String uAddressExtra;
+
     private Long uResident;
 
     @ManyToOne(fetch = FetchType.LAZY)
