@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
@@ -135,5 +136,23 @@ public class TrainerController {
 
         log.info(trainerViewDTO);
         model.addAttribute("dto", trainerViewDTO);
+    }
+
+    @PostMapping("/trainer_modify")
+    public String trainer_modify_POST(@Valid TrainerDTO trainerDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        log.info("trainer_modify_POST");
+
+        if (bindingResult.hasErrors()) {
+            log.info("trainer_modify_POST_ERROR");
+            log.info(bindingResult.getAllErrors());
+            redirectAttributes.addAttribute("tid", trainerDTO.getTrainerId());
+            return "redirect:/trainer/trainer_modify";
+        }
+
+        log.info(trainerDTO);
+
+        Long trainer_id = trainerService.registerTrainer(trainerDTO);
+        redirectAttributes.addAttribute("tid", trainerDTO.getTrainerId());
+        return "redirect:/trainer/trainer_view";
     }
 }

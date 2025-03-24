@@ -2,7 +2,8 @@ function trainerDeleteModal() {
     // 모달 참조
     const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
     const deleteBtn = document.getElementById("register-delete-btn");
-    
+    const deleteConfirmText = document.getElementById("delete-confirm-text");
+
     // 이벤트 등록
     deleteBtn.addEventListener("click", function(e) {
         e.preventDefault();
@@ -40,6 +41,9 @@ function selectOption(select, match) {
     }
 }
 
+// 이전에 Register 했던 데이터들은 수정 시에도 그대로 가지고 가야 한다.
+// Work Time 은 이것으로부터 예외인데, 이건 데이터베이스에 계산된 값만 들어가기 때문
+// 추후 필요하면 테이블을 수정한 뒤 정식으로 넣을 수도 있음
 function initModValues() {
     // 참조
     const academyContent = parseIfNotEmpty(modDTO.academy);
@@ -151,6 +155,133 @@ function initModValues() {
     }
 }
 
+function originalThumbnailInit() {
+    const regiThumbList = document.getElementById("regithumb-list");
+    const sliderFrame = document.getElementById("slider-frame");
+    const files = modDTO.thumbnails;
+
+    regiThumbList.innerHTML = "";
+    regiThumbList.hidden = false;
+
+    for (let i = 0; i < files.length; i++) {
+        const imagePreview = sliderFrame.children[i];
+        const imagePara = document.createElement("div");
+        const paraSpan = document.createElement("span");
+        const paraInput = document.createElement("input");
+        const paraButton = document.createElement("button");
+        const paraRepresentButton = document.createElement("button");
+
+        imagePara.appendChild(paraInput);
+        imagePara.appendChild(paraSpan);
+        imagePara.appendChild(paraButton);
+        imagePara.appendChild(paraRepresentButton);
+
+        // 업로드 버튼 아래 박스 관련 Element Style
+        imagePara.style.position = "relative";
+        imagePara.style.width = "100%";
+        imagePara.style.display = "flex";
+        imagePara.style.alignItems = "center";
+
+        paraSpan.style.whiteSpace = "nowrap";
+        paraSpan.style.overflow = "hidden";
+        paraSpan.textContent = files[i].slice(files[i].indexOf("_") + 1);
+
+        paraInput.type = "text";
+        paraInput.value = files[i];
+        paraInput.hidden = true;
+        paraInput.setAttribute("name", "originalThumbnails");
+
+        paraButton.type = "button";
+        paraButton.style.position = "absolute";
+        paraButton.style.right = "0px";
+        paraButton.textContent = "x";
+        paraButton.classList.add("btn", "btn-light");
+        paraButton.style.padding = "0 5px";
+
+        paraRepresentButton.type = "button";
+        paraRepresentButton.style.position = "absolute";
+        paraRepresentButton.style.right = "20px";
+        paraRepresentButton.innerHTML = i === 0 ? "&#9733;" : "&#9734";
+        paraRepresentButton.classList.add("btn", "btn-light");
+        paraRepresentButton.style.padding = "0 5px";
+
+        // 부모 요소에 append
+        regiThumbList.appendChild(imagePara);
+
+        paraButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            removeFileToServer(paraInput.value).then(r => {
+                console.log(r);
+                imagePara.remove();
+                imagePreview.remove();
+                const btn = regiThumbList.querySelector("button:nth-of-type(2)");
+                if (btn !== null) {
+                    btn.innerHTML = "&#9733;";
+                }
+                checkRegithumbList();
+            });
+        });
+
+        paraRepresentButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            changeRepresent(paraInput.value);
+
+            sliderFrame.prepend(imagePreview);
+            const btn = regiThumbList.querySelector("button:nth-of-type(2)");
+            if (btn !== null) {
+                btn.innerHTML = "&#9734;";
+            }
+
+            e.target.innerHTML = "&#9733;";
+            regiThumbList.prepend(imagePara);
+        });
+    }
+
+    if (files.length === 0) {
+        regiThumbList.hidden = true;
+    }
+}
+
+function checkRegithumbList() {
+    const regiThumbList = document.getElementById("regithumb-list");
+    if (regiThumbList.childElementCount === 0) {
+        sliderFrame.innerHTML = `<img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">`;
+
+        // 어차피 기존 이미지를 모두 날린 시점에서 의미가 없어졌으므로 삭제
+        regiThumbList.remove();
+    }
+}
+
+function clearRegiThumbList() {
+    const regiThumbList = document.getElementById("regithumb-list");
+    if (regiThumbList.childElementCount > 0) {
+        for (const item of regiThumbList.children) {
+            item.querySelector("button:nth-of-type(1)").dispatchEvent(new Event("click"));
+        }
+    }
+}
+
+// 이미지 선택을 새로 클릭하면 모든 이미지를 새로 등록해야 한다.
+thumbnails.addEventListener("click", function (e) {
+    clearRegiThumbList();
+});
+
+async function removeFileToServer(fileName) {
+    const response = await axios.delete(`/trainer_thumbnail/delete/${fileName}?tid=${modDTO.trainerId}`);
+    return response.data;
+}
+
+async function changeRepresent(fileName) {
+    const response = await axios.put(`/trainer_thumbnail/change/${fileName}?tid=${modDTO.trainerId}`);
+    return response.data;
+}
+
+
 tableTimeCalc();
 initModValues();
+originalThumbnailInit();
 trainerDeleteModal();

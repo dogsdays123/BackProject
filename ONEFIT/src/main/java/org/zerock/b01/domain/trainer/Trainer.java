@@ -6,6 +6,7 @@ import org.zerock.b01.domain.BaseEntity;
 import org.zerock.b01.domain.member.User_Member;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity

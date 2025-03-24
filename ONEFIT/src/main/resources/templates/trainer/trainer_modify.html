@@ -13,7 +13,8 @@
         <h2 class="text-center mb-4"></h2>
         <div class="card p-4 mb-4 shadow-sm">
             <form action="/trainer/trainer_modify" method="post" id="register-trainer" enctype="multipart/form-data">
-<!--                <input type="text" name="userId" th:value="${user_memberDTO.userId}" hidden>-->
+                <input type="text" name="userId" th:value="${user_memberDTO.userId}" hidden>
+                <input type="text" name="trainerId" th:value="${dto.trainerId}" hidden>
                 <div class="row">
                     <div class="col-md-8 top-of-regi">
                         <h4 class="section-title">이력서 수정</h4>
@@ -60,6 +61,7 @@
                         <label for="thumbnails" class="btn btn-outline-secondary">이미지 선택(PNG, JPG)</label>
                         <input type="file" accept=".jpg, .jpeg, .png" name="thumbnails" id="thumbnails" class="form-control" multiple>
                         <div class="card mt-3 listbox" id="thumbnails-list" hidden></div>
+                        <div class="card mt-3 listbox" id="regithumb-list" hidden></div>
                     </div>
                 </div>
                 <br>
@@ -309,6 +311,7 @@
         const modDTO = [[${dto}]];
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/trainer_function.js"></script>
     <script src="/js/trainer_register.js"></script>
     <script src="/js/trainer_thumbnail.js"></script>
