@@ -13,7 +13,7 @@
         <h2 class="text-center mb-4"></h2>
           <div class="card p-4 mb-4 shadow-sm">
               <form action="/trainer/trainer_register" method="post" id="register-trainer" enctype="multipart/form-data">
-                  <input type="text" name="userId" value="1" hidden>
+                  <input type="text" name="userId" th:value="${user_memberDTO.userId}" hidden>
                   <div class="row">
                       <div class="col-md-8 top-of-regi">
                           <h4 class="section-title">이력서 작성</h4>
@@ -23,30 +23,27 @@
                           </div>
                           <div class="mb-2">
                               <span><strong>*&nbsp;&nbsp;</strong></span>
-                              <input type="text" class="form-control do-not-submit" placeholder="이름" required>
+                              <input type="text" class="form-control do-not-submit" th:value="${all_memberDTO.name}" required readonly>
                           </div>
                           <div class="mb-2">
                               <label class="form-label"><strong>*&nbsp;성별:</strong></label>
-                              <select class="form-control do-not-submit">
-                                  <option value="남">남</option>
-                                  <option value="여">여</option>
-                              </select>
+                              <input type="text" class="form-control do-not-submit" th:value="${user_memberDTO.uResident.toString().substring(0, 1).equals('1') ? '남' : '여'}" required readonly>
                           </div>
                           <div class="mb-2">
                               <label class="form-label"><strong>*&nbsp;생년월일:</strong></label>
-                              <input type="date" class="form-control do-not-submit" required>
+                              <input type="date" class="form-control do-not-submit" th:value="${user_memberDTO.uBirthday}" required readonly>
                           </div>
                           <div class="mb-2">
                               <label class="form-label"><strong>*&nbsp;이메일:</strong></label>
-                              <input type="email" class="form-control do-not-submit" placeholder="name@sample.email" required>
+                              <input type="email" class="form-control do-not-submit" th:value="${all_memberDTO.email}" required readonly>
                           </div>
                           <div class="mb-2">
                               <label class="form-label"><strong>*&nbsp;연락처:</strong></label>
-                              <input type="tel" class="form-control do-not-submit" placeholder="010-1234-5678" required>
+                              <input type="tel" class="form-control do-not-submit" th:value="${all_memberDTO.aPhone}" required readonly>
                           </div>
                           <div class="mb-2">
                               <label class="form-label"><strong>*&nbsp;주소:</strong></label>
-                              <input type="text" class="form-control do-not-submit" placeholder="OO도 OO시 OO로 OO" required>
+                              <input type="text" class="form-control do-not-submit" th:value="${user_memberDTO.uAddress}" required readonly>
                           </div>
                       </div>
                       <div class="col-md-4 img-center slider-box">

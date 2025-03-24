@@ -52,21 +52,31 @@ public class TrainerServiceImpl implements TrainerService {
         Trainer trainer = modelMapper.map(trainerDTO, Trainer.class);
 
         // 썸네일 파일 처리
-        if (trainerDTO.getThumbnails() != null) {
+        if (trainerDTO.getThumbnails() != null && (trainerDTO.getOriginalThumbnails() == null || trainerDTO.getOriginalThumbnails().isEmpty())) {
+            log.info("Thumbnail Exists");
             try {
                 for (MultipartFile file : trainerDTO.getThumbnails()) {
+                    log.info("Thumbnail Count");
                     if (!file.isEmpty()) {
                         String tuuId = UUID.randomUUID().toString();
                         log.info(tuuId + "_" + file.getOriginalFilename());
                         trainer.addImage(tuuId, file.getOriginalFilename());    // imageSet 에 OneToMany
 
+                        // 업로드
                         Path path = Paths.get(thumbnailPath, tuuId + "_" + file.getOriginalFilename());
-                        Files.copy(file.getInputStream(), path);
+                        file.transferTo(path);
                         filePaths.add(path.toString());
                     }
                 }
+                log.info(trainer.getImageSet());
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        } else if (trainerDTO.getOriginalThumbnails() != null && !trainerDTO.getOriginalThumbnails().isEmpty()) {
+            for (String filePath : trainerDTO.getOriginalThumbnails()) {
+                String uuid = filePath.substring(0, filePath.indexOf("_"));
+                String fileName = filePath.substring(filePath.indexOf("_") + 1);
+                trainer.addImage(uuid, fileName);
             }
         }
 
@@ -77,7 +87,7 @@ public class TrainerServiceImpl implements TrainerService {
     public TrainerViewDTO viewOne(Long tid) {
         // UserMember -> UserId 수동 매핑 없을시 추가
         if (modelMapper.getTypeMap(Trainer.class, TrainerViewDTO.class) == null) {
-            modelMapper.addMappings(new PropertyMap<Trainer, TrainerDTO>() {
+            modelMapper.addMappings(new PropertyMap<Trainer, TrainerViewDTO>() {
                 @Override
                 protected void configure() {
                     map(source.getUserMember().getUserId(), destination.getUserId());
@@ -90,57 +100,43 @@ public class TrainerServiceImpl implements TrainerService {
 
         TrainerViewDTO trainerViewDTO = modelMapper.map(trainer, TrainerViewDTO.class);
 
-        // 썸네일 파일 경로
-        // 문제가 생기면 thumbnailPath 를 Path 에서 따오지 말고 아래 new File() 에 파일 이름과 같이 집어넣을 것
+        // 썸네일 파일 이름들
         List<String> filePaths = trainer.getImageSet().stream().sorted()
                 .map(trainerThumbnails ->
-                        Paths.get(thumbnailPath, trainerThumbnails.getThumbnailUuid() +
-                                "_" + trainerThumbnails.getImgname()
-                        ).toString()
+                        trainerThumbnails.getThumbnailUuid() + "_" + trainerThumbnails.getImgname()
                 ).collect(Collectors.toList());
-//
-//        trainerViewDTO.setThumbnails(filePaths);
-//
-//        Optional<User_Member> userMember = trainerRepository.findUserMemberById(trainer.getUserMember().getUserId());
-//        User_Member user = userMember.orElseThrow();
-//
-//        Optional<All_Member> allMember = trainerRepository.findAllMemberById(user.getAll_member().getAllId());
-//        All_Member all = allMember.orElseThrow();
-//
-//        trainerViewDTO.setName(all.getName());
-//        trainerViewDTO.setGender(user.getUResident().toString().charAt(0) == '1' ? "남" : "여");
-//        trainerViewDTO.setBirthday(user.getUBirthday());
-//        trainerViewDTO.setEmail(all.getEmail());
-//        trainerViewDTO.setPhone(all.getAPhone().toString());
-//        trainerViewDTO.setAddress(user.getUAddress());
 
-        return null;
+        // 파일 이름들을 넘겨줌
+        trainerViewDTO.setThumbnails(filePaths);
+
+        Optional<User_Member> userMember = trainerRepository.findUserMemberById(trainer.getUserMember().getUserId());
+        User_Member user = userMember.orElseThrow();
+
+        Optional<All_Member> allMember = trainerRepository.findAllMemberById(user.getAllMember().getAllId());
+        All_Member all = allMember.orElseThrow();
+
+        trainerViewDTO.setName(all.getName());
+        trainerViewDTO.setGender(user.getUResident().toString().charAt(0) == '1' ? "남" : "여");
+        trainerViewDTO.setBirthday(user.getUBirthday());
+        trainerViewDTO.setEmail(all.getEmail());
+        trainerViewDTO.setPhone(all.getAPhone().toString());
+        trainerViewDTO.setAddress(user.getUAddress());
+
+        return trainerViewDTO;
     }
 
-    private String getFileExtension(String fileName) {
-        int lastIndexOfDot = fileName.lastIndexOf('.');
-        if (lastIndexOfDot != -1) {
-            return fileName.substring(lastIndexOfDot + 1).toLowerCase();
+    @Override
+    public Long modifyTrainer(TrainerDTO trainerDTO) {
+        // UserId -> UserMember 수동 매핑 없을시 추가
+        if (modelMapper.getTypeMap(TrainerDTO.class, Trainer.class) == null) {
+            modelMapper.addMappings(new PropertyMap<TrainerDTO, Trainer>() {
+                @Override
+                protected void configure() {
+                    map(source.getUserId(), destination.getUserMember().getUserId());
+                }
+            });
         }
-        return ""; // 확장자가 없을 경우 빈 문자열 반환
-    }
 
-    private String getMimeType(String fileExtension) {
-        switch (fileExtension) {
-            case "jpg":
-            case "jpeg":
-                return "image/jpeg";
-            case "png":
-                return "image/png";
-            case "gif":
-                return "image/gif";
-            case "pdf":
-                return "application/pdf";
-            case "txt":
-                return "text/plain";
-            // 추가적인 확장자에 대한 MIME 타입을 여기에 추가할 수 있습니다.
-            default:
-                return "application/octet-stream"; // 기본 MIME 타입 (알 수 없는 파일 형식)
-        }
+        return 0L;
     }
 }

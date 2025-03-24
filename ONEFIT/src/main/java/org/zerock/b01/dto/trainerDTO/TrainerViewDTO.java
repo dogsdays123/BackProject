@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class TrainerViewDTO {
 
     private String name;
     private String gender;
-    private LocalDateTime birthday;
+    private LocalDate birthday;
     private String email;
     private String phone;
     private String address;

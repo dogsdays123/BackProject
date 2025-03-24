@@ -27,4 +27,8 @@ public class Trainer_Thumbnails implements Comparable<Trainer_Thumbnails> {
     public void changeTrainer(Trainer trainer) {
         this.trainer = trainer;
     }
+
+    public void changeOrd(int ord) {
+        this.ord = ord;
+    }
 }
