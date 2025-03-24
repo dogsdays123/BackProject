@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
+import org.zerock.b01.dto.boardDTO.BoardListReplyCountDTO;
 import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
 import org.zerock.b01.repository.boardRepository.NoticeBoardRepository;
 
@@ -94,5 +95,30 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
                 .dtoList(dtoList)
                 .total((int)result.getTotalElements())
                 .build();
+    }
+
+    @Override
+    public PageResponseDTO<BoardListReplyCountDTO> listWithNoticeReplyCount(PageRequestDTO pageRequestDTO) {
+
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        LocalDate startDate = pageRequestDTO.getStartDate();
+        LocalDate endDate = pageRequestDTO.getEndDate();
+        Pageable pageable = pageRequestDTO.getPageable("noticeId");
+
+        Page<BoardListReplyCountDTO> result = noticeBoardRepository
+                .searchWithNoticeReplyCount(types, keyword, startDate, endDate, pageable);
+
+        return PageResponseDTO.<BoardListReplyCountDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(result.getContent())
+                .total((int) result.getTotalElements())
+                .build();
+    }
+
+    public String getNoticeTitle(Long noticeId) {
+        Optional<Notice_Board> notice = noticeBoardRepository.findById(noticeId);
+        return notice.map(Notice_Board::getNTitle).orElseThrow(() ->
+                new IllegalArgumentException("공지사항 제목이 없습니다."));
     }
 }

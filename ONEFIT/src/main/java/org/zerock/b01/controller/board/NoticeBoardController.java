@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
+import org.zerock.b01.dto.boardDTO.BoardListReplyCountDTO;
 import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
@@ -106,7 +107,10 @@ public class NoticeBoardController {
     @GetMapping("/board_notice_list")
     public void listNotice(PageRequestDTO pageRequestDTO, Model model) {
 
-        PageResponseDTO<NoticeBoardDTO> responseDTO = noticeBoardService.listNotice(pageRequestDTO);
+//        PageResponseDTO<NoticeBoardDTO> responseDTO = noticeBoardService.listNotice(pageRequestDTO);
+
+        PageResponseDTO<BoardListReplyCountDTO> responseDTO =
+                noticeBoardService.listWithNoticeReplyCount(pageRequestDTO);
 
         log.info(responseDTO);
 

@@ -76,17 +76,19 @@
               <tr th:each="dto:${responseDTO.dtoList}" th:data-regDate="${dto.regDate}">
                   <td>
                       <a th:href="|@{/zboard/board_notice_read(noticeId=${dto.noticeId})}&${link}|"
-                         th:text="${dto.nTitle}" class="text-decoration-none"></a>
+                         th:text="${dto.title}" class="text-decoration-none"></a>
                       <span class="ms-2">
                           <span></span>
                       </span>
+                      <span class="badge progress-bar-success"
+                            style="background-color: #0a53be">[[${dto.replyCount}]]</span>
                       <span class="ms-2">
                           <i class="fas fa-paperclip file-icon"></i>
                       </span>
                   </td>
                   <td th:text="${#temporals.format(dto.regDate, dto.regDate.toLocalDate()
                                  .equals(#temporals.createNow().toLocalDate()) ? 'HH:mm:ss' : 'yyyy-MM-dd')}"></td>
-                  <td th:text="${dto.nHits}"></td>
+                  <td th:text="${dto.hits}"></td>
               </tr>
             </tbody>
         </table>

@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
+import org.zerock.b01.dto.boardDTO.BoardListReplyCountDTO;
 import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
@@ -106,7 +107,10 @@ public class QnaBoardController {
     @GetMapping("/board_qa_list")
     public void listQna(PageRequestDTO pageRequestDTO, Model model) {
 
-        PageResponseDTO<QnaBoardDTO> responseDTO = qnaBoardService.listQna(pageRequestDTO);
+//        PageResponseDTO<QnaBoardDTO> responseDTO = qnaBoardService.listQna(pageRequestDTO);
+
+        PageResponseDTO<BoardListReplyCountDTO> responseDTO =
+                qnaBoardService.listWithQnaReplyCount(pageRequestDTO);
 
         log.info(responseDTO);
 

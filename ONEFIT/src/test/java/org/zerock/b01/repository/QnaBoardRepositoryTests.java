@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.board.Qna_Board;
+import org.zerock.b01.dto.boardDTO.BoardListReplyCountDTO;
 import org.zerock.b01.repository.boardRepository.QnaBoardRepository;
 
 import java.time.LocalDate;
@@ -124,5 +125,33 @@ public class QnaBoardRepositoryTests {
         log.info(result.hasPrevious() + ": " + result.hasNext());
 
         result.getContent().forEach(qna_board -> log.info(qna_board));
+    }
+
+    @Test
+    public void testSearchQnaReplyCount() {
+
+        String[] types = {"t", "c", "m"};
+
+        String keyword = "1232";
+
+        LocalDate startDate = LocalDate.now().minusDays(7);
+
+        LocalDate endDate = LocalDate.now().plusDays(1);
+
+        Pageable pageable = PageRequest.of(0,10, Sort.by("qnaId").descending());
+
+        Page<BoardListReplyCountDTO> result = qnaBoardRepository.searchWithQnaReplyCount(types, keyword,
+                startDate, endDate,pageable);
+
+        //total pages
+        log.info(result.getTotalPages());
+        //pag size
+        log.info(result.getSize());
+        //pageNumber
+        log.info(result.getNumber());
+        //prev next
+        log.info(result.hasPrevious() + ": " + result.hasNext());
+
+        result.getContent().forEach(qnaBoard ->log.info(qnaBoard));
     }
 }

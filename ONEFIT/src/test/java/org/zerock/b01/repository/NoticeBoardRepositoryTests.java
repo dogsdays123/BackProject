@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.dto.boardDTO.BoardListReplyCountDTO;
 import org.zerock.b01.repository.boardRepository.NoticeBoardRepository;
 import org.zerock.b01.service.All_MemberService;
 
@@ -152,6 +153,34 @@ public class NoticeBoardRepositoryTests {
         log.info(result.hasPrevious() + ": " + result.hasNext());
 
         result.getContent().forEach(notice_board -> log.info(notice_board));
+    }
+
+    @Test
+    public void testSearchNoticeReplyCount() {
+
+        String[] types = {"t", "c"};
+
+        String keyword = "ddd";
+
+        LocalDate startDate = LocalDate.now().minusDays(7);
+
+        LocalDate endDate = LocalDate.now().plusDays(1);
+
+        Pageable pageable = PageRequest.of(0,10, Sort.by("noticeId").descending());
+
+        Page<BoardListReplyCountDTO> result = noticeBoardRepository.searchWithNoticeReplyCount(types, keyword,
+                                                                                        startDate, endDate,pageable);
+
+        //total pages
+        log.info(result.getTotalPages());
+        //pag size
+        log.info(result.getSize());
+        //pageNumber
+        log.info(result.getNumber());
+        //prev next
+        log.info(result.hasPrevious() + ": " + result.hasNext());
+
+        result.getContent().forEach(noticeBoard ->log.info(noticeBoard));
     }
 
 }

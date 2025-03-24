@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.board.Qna_Board;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
+import org.zerock.b01.dto.boardDTO.BoardListReplyCountDTO;
 import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
 import org.zerock.b01.repository.boardRepository.QnaBoardRepository;
 
@@ -91,6 +92,25 @@ public class QnaBoardServiceImpl implements QnaBoardService {
                 .pageRequestDTO(pageRequestDTO)
                 .dtoList(dtoList)
                 .total((int)result.getTotalElements())
+                .build();
+    }
+
+    @Override
+    public PageResponseDTO<BoardListReplyCountDTO> listWithQnaReplyCount(PageRequestDTO pageRequestDTO) {
+
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        LocalDate startDate = pageRequestDTO.getStartDate();
+        LocalDate endDate = pageRequestDTO.getEndDate();
+        Pageable pageable = pageRequestDTO.getPageable("qnaId");
+
+        Page<BoardListReplyCountDTO> result = qnaBoardRepository
+                .searchWithQnaReplyCount(types, keyword, startDate, endDate, pageable);
+
+        return PageResponseDTO.<BoardListReplyCountDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(result.getContent())
+                .total((int) result.getTotalElements())
                 .build();
     }
 }
