@@ -28,10 +28,34 @@ public class PageRequestDTO {
 
     private String keyword;
 
-    private String gender; // 채용 공고 필터링으로 인해 변수 추가
+    private String gender; // 채용 공고 성별 필터
 
-    private String age; // 채용 공고 필터링으로 인해 변수 추가
-  
+    private String age; // 채용 공고 나이 필터
+
+    private String jobTypeFull; // 채용 공고 정규직 필터
+
+    private String jobTypeFree; // 채용 공고 프리 필터
+
+    private String jobTypePart; // 채용 공고 파트 필터
+
+    private String jobTypeAlba; // 채용 공고 알바 필터
+
+    private String jobTypeTrainee; // 채용 공고 연습생 필터
+
+    private String workDays; // 채용 공고 근무 요일 필터
+
+    private String dutyDays; // 채용 공고 당직 유무 필터
+
+    private String startTime; // 채용 공고 근무 시작 시간 필터
+
+    private String endTime; // 채용 공고 근무 종료 시간 필터
+
+    private String timeNegotiable; // 채용 공고 시간 협의 가능 필터
+
+    private String industry; // 채용 공고 업직종 필터
+
+    private String regDateFilter; // 채용 공고 등록일 필터
+
     private LocalDate startDate; //날짜 검색: 시작일
 
     private LocalDate endDate; // 날짜 검색: 시작일

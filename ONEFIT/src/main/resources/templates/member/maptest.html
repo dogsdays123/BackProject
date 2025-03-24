@@ -1,0 +1,22 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Kakao 지도 시작하기</title>
+</head>
+<body>
+
+
+<div id="kakaoMap" style="width:500px;height:400px;"></div>
+<input type="text" class="kakaoAddress" placeholder="주소를 입력하세요"/>
+<div>
+  <button class="searchAddress">위치 찾기</button>
+  <button id="getAddress">주소 찾기</button>
+</div>
+<input type="text" id="addressInput" placeholder="주소가 여기에 표시됩니다." required>
+
+
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=3c13bfa6949d3bc10bcf20e9fa7b2bdd&autoload=false&libraries=services,clusterer,drawing&">
+</script>
+<script src="/js/member/kakaoMap.js"></script>
+</body>
+</html>

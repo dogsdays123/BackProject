@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.BaseEntity;
+import org.zerock.b01.dto.transactionDTO.EquipmentDTO;
+import org.zerock.b01.dto.transactionDTO.FacilityDTO;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -57,6 +59,24 @@ public class Product extends BaseEntity { // (거래) 상품
     @Builder.Default
     @BatchSize(size = 20)
     private Set<ImageFile> imageSet = new HashSet<>();
+
+    public void change(EquipmentDTO equipmentDTO) {
+        this.pTitle = equipmentDTO.getPTitle();
+        this.pChatUrl = equipmentDTO.getPChatUrl();
+        this.pStatus = equipmentDTO.getPStatus();
+        this.pPrice = equipmentDTO.getPPrice();
+        this.pContent = equipmentDTO.getPContent();
+        this.pAddr = equipmentDTO.getPAddr();
+    }
+
+    public void change(FacilityDTO facilityDTO) {
+        this.pTitle = facilityDTO.getPTitle();
+        this.pChatUrl = facilityDTO.getPChatUrl();
+        this.pStatus = facilityDTO.getPStatus();
+        this.pPrice = facilityDTO.getPPrice();
+        this.pContent = facilityDTO.getPContent();
+        this.pAddr = facilityDTO.getPAddr();
+    }
 
     public void addImageFile(String imageUuid, String imageFileName) {
         ImageFile imageFile = ImageFile.builder()

@@ -14,6 +14,7 @@ import org.zerock.b01.domain.member.Business_Member;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -113,4 +114,7 @@ public class RecruitDTO {
     private String reAdminPhone;
 
     private Business_Member business_member;
+
+    private List<String> fileNames;
+//    private List<RecruitImageDTO> recruitImages;
 }

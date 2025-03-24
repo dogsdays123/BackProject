@@ -116,10 +116,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info("KAKAO-------------------------------");
         Object value = paramMap.get("kakao_account");
         log.info(value);
+
         LinkedHashMap accountMap = (LinkedHashMap) value;
         String[] kakaoData = new String[2];
         kakaoData[0] = (String) accountMap.get("email");
-        kakaoData[1] = (String) accountMap.get("name");
+
+        Map<String, Object> profile = (Map<String, Object>) accountMap.get("profile");
+        kakaoData[1] = (String) profile.get("nickname");
+        log.info("Email: " + kakaoData[0] + "  Name: " + kakaoData[1]);
         return kakaoData;
     }
 

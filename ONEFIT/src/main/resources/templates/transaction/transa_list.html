@@ -7,71 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneFit - 거래 게시판</title>
     <link rel="stylesheet" th:href="@{/css/transaction/transa_list.css}">
-<!--    <link rel="stylesheet" th:href="@{/css/pagination.css}">-->
-    <style>
-        /* new Css  */
-        .pagination {
-            padding: 30px 0;
-        }
-
-        .pagination ul {
-            margin: 0;
-            padding: 0;
-            list-style-type: none;
-        }
-
-        .pagination .pageitem {
-            transition: border-bottom-color 0.5s;
-            border-bottom: 4px solid #0d89fd00;
-            font-size: large;
-            padding: 0 2px;
-        }
-
-        .pagination .pagearrow {
-            transition: all 0.5s;
-            font-size: large;
-            padding: 0 2px;
-        }
-
-        .pagination li {
-            cursor: pointer;
-            display: inline-block;
-            padding: 10px 14px;
-            color: #222;
-        }
-
-        .pagination li a {
-            text-decoration: none;
-            color: #222;
-        }
-
-        .pagination .is-active .pageitem {
-            font-weight: bold;
-            color: #0d6efd;
-            border-bottom-color: #0d89fd !important;
-        }
-
-        .pagination .is-deactive {
-            pointer-events: none;
-            color: #0000003a;
-        }
-
-        .pagination li:hover .pageitem {
-            border-bottom-color: #0d89fda1;
-        }
-
-        .pagination li:hover .pagearrow.leftarrow {
-            color: #0d89fd;
-            font-weight: bold;
-            text-shadow: -10px 0 #0d89fd;
-        }
-
-        .pagination li:hover .pagearrow.rightarrow {
-            color: #0d89fd;
-            font-weight: bold;
-            text-shadow: 10px 0 #0d89fd;
-        }
-    </style>
+    <!--        <link rel="stylesheet" th:href="@{/css/pagination.css}">-->
+    <link rel="stylesheet" th:href="@{/css/transaction/paginationNew.css}">
 </head>
 
 <body>
@@ -213,7 +150,12 @@
                         <a th:href="@{'/transaction/' + ${dto.pRoles == 1 ? 'transa_eq_read' : 'transa_fa_read'} + '?productId=' + ${dto.productId} + '&' + ${link} }"
                            class="text-reset text-decoration-none">
                             <div class="card">
-                                <div class="badge badge-status status-sale">[[${dto.pStatus}]]</div>
+                                <div class="badge badge-status text-white"
+                                     th:classappend="${dto.pStatus == '판매중'} ? 'bg-primary'
+                                       : (${dto.pStatus == '예약중'} ? 'bg-success'
+                                       : (${dto.pStatus == '판매완료'} ? 'bg-secondary' : ''))">
+                                    [[${dto.pStatus}]]
+                                </div>
                                 <th:block th:each="image, stat : ${dto.imageFileList}" th:if="${stat.index == 0}">
                                     <img class="card-img-top"
                                          th:src="|/view_transa/${image.imageUuid}_${image.imageFileName}|"
@@ -246,7 +188,7 @@
             </div>
 
             <!-- 페이지네이션 start -->
-            <div class="row">
+            <div class="row" th:if="${responseDTO.total > 0}">
                 <ul class="pagination justify-content-center" id="listPagination">
                     <li href="#" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'">
                         <a class="pagearrow leftarrow" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'"

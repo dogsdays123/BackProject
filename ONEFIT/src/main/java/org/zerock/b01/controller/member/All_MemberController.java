@@ -1,5 +1,6 @@
 package org.zerock.b01.controller.member;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -34,7 +35,7 @@ public class All_MemberController {
     private final Member_Set_Type_Service member_Set_Type_Service;
 
     @ModelAttribute
-    public void Profile(All_MemberDTO all_memberDTO, Model model, Authentication authentication) {
+    public void Profile(All_MemberDTO all_memberDTO, Model model, Authentication authentication, HttpServletRequest request) {
         // 인증 정보가 없다면 null 설정
         if (authentication == null) {
             log.info("###### 인증 정보 없음");
@@ -93,17 +94,34 @@ public class All_MemberController {
         } else {
             model.addAttribute("all_memberDTO", null);
         }
-        model.addAttribute("sidebar", true);
+        String currentUrl = request.getRequestURI();
+        // URL에 따라서 분기
+        if (currentUrl.contains("/member")) {
+            model.addAttribute("sidebar", true);
+        } else{
+            model.addAttribute("sidebar", false);
+        }
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify")
     public String modifyPOST(All_MemberDTO all_memberDTO, User_MemberDTO userMemberDTO, RedirectAttributes redirectAttributes) {
-        log.info("modify post........");
-        log.info("allId@@@@" + all_memberDTO.getAllId());
-        all_memberService.modify(all_memberDTO);
+            log.info("modify post........");
+            log.info("allId@@@@" + all_memberDTO.getAllId());
+            all_memberService.modify(all_memberDTO);
+
         return "redirect:/member/my_default_page";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/remove")
+    public String removePOST(All_MemberDTO all_memberDTO, User_MemberDTO userMemberDTO, RedirectAttributes redirectAttributes) {
+        log.info("remove post........");
+        log.info("allIdremove@@@@" + all_memberDTO.getAllId());
+        all_memberService.remove(all_memberDTO.getAllId());
+
+        return "redirect:/logout";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -199,5 +217,15 @@ public class All_MemberController {
         return "redirect:/member/finishedChange";
     }
     //타입 부여end
+
+    @GetMapping("/maptest")
+    public void maptestGET() {
+        log.info("maptestGET");
+    }
+
+    @PostMapping("/maptest")
+    public void maptestPOST() {
+        log.info("maptestPOST");
+    }
 
 }

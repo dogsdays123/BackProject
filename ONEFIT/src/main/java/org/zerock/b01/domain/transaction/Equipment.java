@@ -1,6 +1,7 @@
 package org.zerock.b01.domain.transaction;
 import jakarta.persistence.*;
 import lombok.*;
+import org.zerock.b01.dto.transactionDTO.EquipmentDTO;
 
 import java.time.LocalDate;
 
@@ -37,9 +38,19 @@ public class Equipment { // (거래 - 상품) 기구
     @Column(name = "e_as", length = 20, nullable = false)
     private String eAs; // 7. A/S 가능여부
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product; // (외래키) 상품 ID
+
+    public void change(EquipmentDTO equipmentDTO) {
+        this.eName = equipmentDTO.getEName();
+        this.eBrand = equipmentDTO.getEBrand();
+        this.eStatus = equipmentDTO.getEStatus();
+        this.ePurPrice = equipmentDTO.getEPurPrice();
+        this.eUseStart = equipmentDTO.getEUseStart();
+        this.eUseEnd = equipmentDTO.getEUseEnd();
+        this.eAs = equipmentDTO.getEAs();
+    }
 
     public void setProduct(Product product) {
         this.product = product;

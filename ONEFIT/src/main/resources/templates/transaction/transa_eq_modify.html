@@ -53,8 +53,8 @@
                                 <label for="status-reserved" class="btn btn-outline-primary">예약중</label>
 
                                 <input type="radio" class="btn-check" id="status-done" name="pStatus" value="거래완료"
-                                       th:checked="${dto.pStatus == '거래완료'}">
-                                <label for="status-done" class="btn btn-outline-primary">거래완료</label>
+                                       th:checked="${dto.pStatus == '판매완료'}">
+                                <label for="status-done" class="btn btn-outline-primary">판매완료</label>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -194,11 +194,14 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="product-btn btn btn-primary w-100 submitBtn">수정하기</button>
+                <button type="submit" class="product-btn btn btn-primary w-100 submitBtn">
+                    수정하기
+                </button>
             </form>
         </div>
     </div>
     <!-- JS 기능 추가 -->
+    <script th:src="@{/js/transaction/upload.js}"></script>
     <script th:src="@{/js/transaction/transa_modify.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </div>

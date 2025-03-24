@@ -88,11 +88,13 @@ public class Member_Set_Type_ServiceImpl implements Member_Set_Type_Service {
     public Business_MemberDTO BusinessRead(String allId){
         Optional<Business_Member> result = business_MemberRepository.findBusinessMember(allId);
         Business_Member business_member = result.orElse(null);  // null로 반환하도록 수정
+
         if (business_member == null) {
             return null;  // business_member가 null인 경우 null 반환
         }
         Business_MemberDTO business_memberDTO = modelMapper.map(business_member, Business_MemberDTO.class);
         business_memberDTO.setAllId(allId);
+        log.info("@#@#@#" + business_memberDTO);
         return business_memberDTO;
     }
 }
