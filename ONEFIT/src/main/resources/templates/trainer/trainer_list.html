@@ -16,39 +16,40 @@
             <!-- 검색 필터 -->
             <h2>상세 검색</h2>
             <hr>
-            <form>
+            <form action="/trainer/trainer_list" method="get" id="search-trainer">
                 <div class="row mb-3">
                     <div class="col-md-2">
                         <label for="experience" class="form-label">경력 선택</label>
-                        <select id="experience" class="form-select">
-                            <option value="" selected>전체</option>
-                            <option value="0">신입</option>
-                            <option value="1">1년</option>
-                            <option value="3">3년</option>
-                            <option value="5">5년 이상</option>
+                        <select id="experience" class="form-select" name="filters" th:with="cfilter = ${'c_no'}">
+                            <option value="c-no">전체</option>
+                            <option value="c-0" th:selected="${cfilter.equals('c_0')}">신입</option>
+                            <option value="c-1">1년</option>
+                            <option value="c-3">3년</option>
+                            <option value="c-5">5년 이상</option>
                         </select>
                     </div>
                     <div class="col-md-2">
                         <label for="education" class="form-label">학력 선택</label>
-                        <select id="education" class="form-select">
-                            <option value="" selected>전체</option>
-                            <option>고졸</option>
-                            <option>대졸</option>
-                            <option>석사 이상</option>
+                        <select id="education" class="form-select" name="filters">
+                            <option value="a-no" selected>전체</option>
+                            <option value="a-고졸">고졸</option>
+                            <option value="a-대졸">대졸</option>
+                            <option value="a-석사 이상">석사 이상</option>
                         </select>
                     </div>
                     <div class="col-md-2">
                         <label for="region" class="form-label">지역 선택</label>
-                        <select id="region" class="form-select">
-                            <option>서울</option>
-                            <option>경기도</option>
+                        <select id="region" class="form-select" name="filters">
+                            <option value="l-no">전체</option>
+                            <option value="l-서울">서울</option>
+                            <option value="l-경기도">경기도</option>
                         </select>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-2">
                         <label for="sort" class="form-label"></label>
-                        <select id="sort" class="form-select">
+                        <select id="sort" class="form-select" name="sorting">
                             <option value="">정렬 조건</option>
                             <option value="regDate">최신등록순</option>
                             <option value="modDate">최근수정순</option>
@@ -57,7 +58,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="job" class="form-label"></label>
-                        <select id="job" class="form-select">
+                        <select id="job" class="form-select" name="size">
                             <option value="20">20개씩</option>
                             <option value="10">10개씩</option>
                             <option value="4">4개씩</option>
@@ -69,21 +70,27 @@
     </section>
     <section>
         <div class="container mt-5">
-            <!-- TODO: 등록 수 현황 작업 필요 -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 style="margin-bottom: 50px;">전체 강사정보 <span class="text-primary">1,513건</span></h2>
+                <h2 style="margin-bottom: 50px;">전체 강사정보 <span class="text-primary">[[${responseDTO.total}]]건</span></h2>
                 <a href="/trainer/trainer_register" class="btn btn-primary btn-lg">이력서 등록 +</a>
             </div>
             <hr>
             <!-- 갇사정보 리스트 카드 -->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6" th:each="dto:${responseDTO.dtoList}">
                     <div class=" card p-4 mb-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle me-4" alt="김철수">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="profile-frame-small rounded-circle">
+                                <th:block th:if="${dto.thumbnails != null && dto.thumbnails.size() > 0}">
+                                    <img class="profile-img" th:src="|/trainer_thumbnail/view/${dto.thumbnails.get(0)}|" alt="profile">
+                                </th:block>
+                                <th:block th:unless="${dto.thumbnails != null && dto.thumbnails.size() > 0}">
+                                    <img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">
+                                </th:block>
+                            </div>
                             <div>
                                 <div class="resume-header">
-                                    <h4 class="mb-1">웹 개발자</h4>
+                                    <h4 class="mb-1">[[${dto.title}]]</h4>
                                     <button type="button" class="btn btn-outline-secondary viewbtn">이력서 열람</button>
                                 </div>
 
@@ -105,12 +112,11 @@
             <!-- TODO: 작업 필요 -->
             <div class="row">
                 <ul class="pagination justify-content-center">
-                    <a href="#" class="is-deactive"><li class="pagearrow leftarrow">&lt;</li></a>
-                    <a href="#" class="is-active"><li class="pageitem">1</li></a>
-                    <a href="#"><li class="pageitem">2</li></a>
-                    <a href="#"><li class="pageitem">3</li></a>
-                    <a href="#"><li class="pageitem">4</li></a>
-                    <a href="#"><li class="pagearrow rightarrow">&gt;</li></a>
+                    <a href="#" th:class="${responseDTO.prev ? '' : 'is-deactive'}"><li class="pagearrow leftarrow">&lt;</li></a>
+                    <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <a href="#" th:class="${i == responseDTO.page ? 'is-active' : ''}"><li class="pageitem">[[${i}]]</li></a>
+                    </th:block>
+                    <a href="#" th:class="${responseDTO.next ? '' : 'is-deactive'}"><li class="pagearrow rightarrow">&gt;</li></a>
                 </ul>
             </div>
         </div>
@@ -299,7 +305,7 @@
         </div>
     </div>
     <script th:inline="javascript">
-        const responseDTO = [[${responseDTO}]];
+        const resDTO = [[${responseDTO}]];
     </script>
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

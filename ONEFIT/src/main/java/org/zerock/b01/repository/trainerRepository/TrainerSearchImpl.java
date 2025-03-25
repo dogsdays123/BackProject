@@ -30,8 +30,12 @@ public class TrainerSearchImpl extends QuerydslRepositorySupport implements Trai
         if (filters != null && filters.length > 0) {
             BooleanBuilder booleanBuilder = new BooleanBuilder();
             for (String filter : filters) {
-                String key = filter.substring(0, filter.indexOf("_"));
-                String value = filter.substring(filter.indexOf("_") + 1);
+                String key = filter.substring(0, filter.indexOf("-"));
+                String value = filter.substring(filter.indexOf("-") + 1);
+
+                if (value.equals("no")) {
+                    continue;
+                }
 
                 switch (key) {
                     case "c":   // 경력기간

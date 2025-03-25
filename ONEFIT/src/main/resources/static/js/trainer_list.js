@@ -15,4 +15,6 @@ function trainerListModal() {
     }
 }
 
+document.querySelector(".pagination")
+
 trainerListModal();

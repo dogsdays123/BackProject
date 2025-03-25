@@ -24,6 +24,9 @@ public class TrainerPageRequestDTO {
     @Builder.Default
     private int size = 20;
 
+    @Builder.Default
+    private int maxPages = 10;
+
     private String[] filters;
     private String sorting;
 
