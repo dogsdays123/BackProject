@@ -4,6 +4,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -19,20 +22,27 @@ import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
+import org.zerock.b01.dto.recruitDTO.RecruitImageDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitListAllDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 import org.zerock.b01.service.recruitService.RecruitService;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Controller
 @RequestMapping("/recruit")
 @Log4j2
 @RequiredArgsConstructor
 public class RecruitController {
+
+    @Value("C:\\upload")
+    private String uploadPath;
 
     private final RecruitService recruitService;
 
@@ -115,7 +125,8 @@ public class RecruitController {
     public void list(PageRequestDTO pageRequestDTO, Model model) {
         log.info("recruit_list Get...............");
 
-        PageResponseDTO<RecruitListAllDTO> responseDTO = recruitService.list(pageRequestDTO);
+//        PageResponseDTO<RecruitDTO> responseDTO = recruitService.list(pageRequestDTO);
+        PageResponseDTO<RecruitDTO> responseDTO = recruitService.list1(pageRequestDTO);
 
         log.info(responseDTO);
 
@@ -155,9 +166,13 @@ public class RecruitController {
         log.info("recruit_read Get...............");
 
         RecruitDTO recruitDTO = recruitService.readOne(recruitId);
+
         log.info("File Names: {}", recruitDTO.getFileNames());
+
         PageResponseDTO<RecruitListAllDTO> responseDTO = recruitService.list(pageRequestDTO);
+
         log.info(responseDTO);
+
         model.addAttribute("responseDTO", responseDTO);
 
         LocalDateTime deadline = recruitDTO.getReDeadline();  // 마감일 (LocalDateTime)
@@ -176,14 +191,49 @@ public class RecruitController {
         model.addAttribute("dto", recruitDTO);
     }
 
+//    @PostMapping("/remove")
+//    public String remove(Long recruitId, RedirectAttributes redirectAttributes) {
+//
+//        log.info("remove post .. " + recruitId);
+//        recruitService.remove(recruitId);
+//
+//        redirectAttributes.addFlashAttribute("result", "removed");
+//        return "redirect:/recruit/list";
+//    }
     @PostMapping("/remove")
-    public String remove(Long recruitId, RedirectAttributes redirectAttributes) {
-
-        log.info("remove post .. " + recruitId);
+    public String remove(RecruitDTO recruitDTO, RedirectAttributes redirectAttributes) {
+        Long recruitId = recruitDTO.getRecruitId();
+        log.info("remove post..............." + recruitDTO);
         recruitService.remove(recruitId);
 
+        log.info(recruitDTO.getFileNames());
+        List<String> fileNames = recruitDTO.getFileNames();
+        if(fileNames != null && fileNames.size() > 0) {
+            removeFiles(fileNames);
+        }
         redirectAttributes.addFlashAttribute("result", "removed");
         return "redirect:/recruit/list";
+    }
+
+    public void removeFiles(List<String> files) {
+        for (String fileName : files) {
+            // 파일 경로를 이용해 리소스 객체 생성
+            Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
+            String resourceName = resource.getFilename();
+
+            try {
+                String contentType = Files.probeContentType(resource.getFile().toPath());
+                resource.getFile().delete();
+
+                // 만약 이미지 파일이라면 섬네일도 삭제
+                if (contentType.startsWith("image")) {
+                    File thumbnailFile = new File(uploadPath + File.separator + "s_" + fileName);
+                    thumbnailFile.delete();
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+        }
     }
 
     @PostMapping("/modify")

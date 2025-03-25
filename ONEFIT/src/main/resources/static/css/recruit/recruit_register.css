@@ -82,3 +82,90 @@ main{
     height: 20px;
     color:black;
 }
+
+.imgcard {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 카드 호버 효과 */
+.imgcard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 카드 헤더 */
+.card-header {
+    background-color: #f8f9fa;
+    font-size: 14px;
+    padding: 10px 15px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header .file-name {
+    font-weight: bold;
+    color: #333;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 카드 바디 */
+.card-body {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+/* 개별 이미지 스타일 */
+.imgcard img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* 이미지 호버 효과 */
+.imgcard img:hover {
+    transform: scale(1.05);
+}
+
+/* X 버튼 */
+.btn-sm {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+/* X 버튼 색상 */
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+}
+
+/* 개별 카드 스타일링을 위한 ID 스타일 */
+#card-${uuid} {
+    /* 각 카드에 대해서 고유 스타일을 적용할 수 있습니다 */
+    /* 예시: */
+    border: 2px solid #e9ecef;
+}
+
+/* 특정 이미지에 대한 스타일 */
+#image-${uuid} {
+    /* 예시: */
+    border: 5px solid #dee2e6;
+}

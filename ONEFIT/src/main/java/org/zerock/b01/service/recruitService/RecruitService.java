@@ -21,6 +21,8 @@ public interface RecruitService {
 
     void remove(Long recruitId);
 
+    PageResponseDTO<RecruitDTO> list1(PageRequestDTO pageRequestDTO);
+
     PageResponseDTO<RecruitListAllDTO> list(PageRequestDTO pageRequestDTO);
 
     PageResponseDTO<RecruitListAllDTO> listWithAll(PageRequestDTO pageRequestDTO);
@@ -69,7 +71,7 @@ public interface RecruitService {
 
         if(recruitDTO.getFileNames() != null){
             recruitDTO.getFileNames().forEach(fileName -> {
-                String[] arr = fileName.split("_");
+                String[] arr = fileName.split("_",2);
                 recruit_register.addImage(arr[0], arr[1]);
             });
         }
@@ -80,6 +82,7 @@ public interface RecruitService {
 
         RecruitDTO recruitDTO = RecruitDTO.builder()
                 .recruitId(recruit_register.getRecruitId())
+                .regDate(recruit_register.getRegDate())
                 .reTitle(recruit_register.getReTitle())
                 .reCompany(recruit_register.getReCompany())
                 .reJobTypeFull(recruit_register.getReJobTypeFull())

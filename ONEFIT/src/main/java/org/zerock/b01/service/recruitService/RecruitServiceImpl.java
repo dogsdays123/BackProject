@@ -80,7 +80,7 @@ public class RecruitServiceImpl implements RecruitService {
 
         if(recruitDTO.getFileNames() != null){
             for(String fileName : recruitDTO.getFileNames()){
-                String[] arr = fileName.split("_");
+                String[] arr = fileName.split("_",2);
                 recruit_register.addImage(arr[0], arr[1]);
             }
         }
@@ -90,6 +90,43 @@ public class RecruitServiceImpl implements RecruitService {
     @Override
     public void remove(Long recruitId) {
         recruitRepository.deleteById(recruitId);
+    }
+
+    @Override
+    public PageResponseDTO<RecruitDTO> list1(PageRequestDTO pageRequestDTO) {
+
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        String gender = pageRequestDTO.getGender();
+        String age = pageRequestDTO.getAge();
+        String jobTypeFull = pageRequestDTO.getJobTypeFull();
+        String jobTypePart = pageRequestDTO.getJobTypePart();
+        String jobTypeFree = pageRequestDTO.getJobTypeFree();
+        String jobTypeTrainee = pageRequestDTO.getJobTypeTrainee();
+        String jobTypeAlba = pageRequestDTO.getJobTypeAlba();
+        String workDays = pageRequestDTO.getWorkDays();
+        String dutyDays = pageRequestDTO.getDutyDays();
+        String startTime = pageRequestDTO.getStartTime();
+        String endTime = pageRequestDTO.getEndTime();
+        String timeNegotiable = pageRequestDTO.getTimeNegotiable();
+        String industry = pageRequestDTO.getIndustry();
+        String regDateFilter = pageRequestDTO.getRegDateFilter();
+
+        Pageable pageable = pageRequestDTO.getPageable("recruitId");
+
+        Page<Recruit_Register> result = recruitRepository.searchAll1(types, keyword, gender, age,
+                jobTypeFull, jobTypePart, jobTypeFree, jobTypeTrainee, jobTypeAlba, workDays, dutyDays, startTime, endTime, timeNegotiable, industry, regDateFilter, pageable);
+
+
+        List<RecruitDTO> dtoList = result.getContent().stream()
+                .map(recruitRegister -> modelMapper.map(recruitRegister, RecruitDTO.class)).
+                collect(Collectors.toList());
+
+        return PageResponseDTO.<RecruitDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int)result.getTotalElements())
+                .build();
     }
 
     @Override
@@ -120,13 +157,16 @@ public class RecruitServiceImpl implements RecruitService {
                 workDays, dutyDays, startTime, endTime, timeNegotiable, industry, regDateFilter, pageable);
 
 
-        List<RecruitDTO> dtoList = result.getContent().stream()
-                .map(recruitRegister -> modelMapper.map(recruitRegister, RecruitDTO.class)).
-                collect(Collectors.toList());
+//        List<RecruitDTO> dtoList = result.getContent().stream()
+//                .map(recruitRegister -> modelMapper.map(recruitRegister, RecruitDTO.class)).
+//                collect(Collectors.toList());
+        List<RecruitListAllDTO> dtoList = result.getContent().stream()
+                .map(recruitRegister -> modelMapper.map(recruitRegister, RecruitListAllDTO.class))
+                .collect(Collectors.toList());
 
         return PageResponseDTO.<RecruitListAllDTO>withAll()
                 .pageRequestDTO(pageRequestDTO)
-                .dtoList(result.getContent())
+                .dtoList(dtoList)
                 .total((int)result.getTotalElements())
                 .build();
     }

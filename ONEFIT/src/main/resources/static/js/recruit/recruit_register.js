@@ -252,11 +252,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 const uploadResult = document.querySelector(".uploadResult");
+const uploadBasicResult = document.querySelector(".uploadBasicResult");
 
-document.querySelector(".uploadBtn").addEventListener("click", function (e){
+document.querySelector(".uploadMainBtn").addEventListener("click", function (e){
     const formObj = new FormData();
 
-    const fileInput = document.querySelector("input[name='files']")
+    const fileInput = document.querySelector("input[name='mainFiles']")
 
     console.log(fileInput.files);
 
@@ -275,17 +276,62 @@ document.querySelector(".uploadBtn").addEventListener("click", function (e){
         alert("upload error")
     })
 },false)
+
+document.querySelector(".uploadBasicBtn").addEventListener("click", function (e){
+    const formObj = new FormData();
+
+    const fileInput1 = document.querySelector("input[name='basicFiles']")
+
+    console.log(fileInput1.files);
+
+    const files = fileInput1.files;
+
+    for(let i = 0 ; i<files.length;i++){
+        formObj.append("files", files[i]);
+    }
+
+    uploadToServer(formObj).then(result=>{
+        console.log(result)
+        for(const uploadResult of result){
+            showUploadFile(uploadResult);
+        }
+    }).catch(e=>{
+        alert("upload error")
+    })
+},false)
+
+function showUploadBasicFile({uuid, fileName, link}) {
+    const str =
+
+        ` <div class="imgcard card col-4 card-${uuid}">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="file-name" style="width:400px">${fileName}</span>
+                <button class="btn-sm btn-danger" onclick="javascript:removeFile('${uuid}', '${fileName}', this)">X</button>
+            </div>
+                        <div class="card col-4" hidden="hidden">
+            <div class="card-body" >
+                <img src="/view_recruit/${link}" data-src="${uuid + "_" + fileName}" class="img-fluid img-thumbnail">
+            </div>
+        </div>`;
+
+    uploadBasicResult.innerHTML += str;
+}
+
+
 function showUploadFile({uuid, fileName, link}) {
-    const str = `<div class="card col-4">
-        <div class="card-header d-flex justify-content-center">
-            ${fileName}
-            <button class="btn-sm btn-danger" onclick="javascript:removeFile
-                ('${uuid}', '${fileName}', this)">X</button>
+    const str =
+
+       ` <div class="imgcard card col-4 card-${uuid}">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="file-name" style="width:400px">${fileName}</span>
+                <button class="btn-sm btn-danger" onclick="javascript:removeFile('${uuid}', '${fileName}', this)">X</button>
+            </div>
+            <div class="card col-4" hidden="hidden">
+            <div class="card-body" >
+                <img src="/view_recruit/${link}" data-src="${uuid + "_" + fileName}" class="img-fluid img-thumbnail">
+            </div>
         </div>
-        <div class="card-body">
-            <img src="/view/${link}" data-src="${uuid + "_" + fileName}">
-        </div>
-    </div>`;
+       </div>`;
 
     uploadResult.innerHTML += str;
 }
@@ -308,9 +354,7 @@ document.getElementById("register-submit-ok-btn").addEventListener("click", func
 
     const target = document.querySelector(".uploadHidden")
     const uploadFiles = uploadResult.querySelectorAll("img");
-
     let str = ''
-
     for(let i = 0 ; i<uploadFiles.length; i++){
         const uploadFile = uploadFiles[i]
         const imgLink = uploadFile.getAttribute("data-src")
@@ -318,7 +362,6 @@ document.getElementById("register-submit-ok-btn").addEventListener("click", func
     }
 
     target.innerHTML = str;
-
     // 모달 닫기
     deleteModal.hide();
 
