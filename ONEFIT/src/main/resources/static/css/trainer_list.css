@@ -20,6 +20,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
+  width: 400px;
 }
 .modal-wide{
   max-width: 900px;

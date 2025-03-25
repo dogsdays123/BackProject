@@ -5,6 +5,7 @@
       lang="ko">
 <head>
     <title>OneFit - 체육시설업 포털</title>
+    <link rel="stylesheet" href="/css/trainer.css">
     <link rel="stylesheet" href="/css/trainer_list.css">
     <link rel="stylesheet" href="/css/pagination.css">
 </head>
@@ -20,17 +21,17 @@
                     <div class="col-md-2">
                         <label for="experience" class="form-label">경력 선택</label>
                         <select id="experience" class="form-select">
-                            <option selected>전체</option>
-                            <option>신입</option>
-                            <option>1년</option>
-                            <option>3년</option>
-                            <option>5년 이상</option>
+                            <option value="" selected>전체</option>
+                            <option value="0">신입</option>
+                            <option value="1">1년</option>
+                            <option value="3">3년</option>
+                            <option value="5">5년 이상</option>
                         </select>
                     </div>
                     <div class="col-md-2">
                         <label for="education" class="form-label">학력 선택</label>
                         <select id="education" class="form-select">
-                            <option selected>전체</option>
+                            <option value="" selected>전체</option>
                             <option>고졸</option>
                             <option>대졸</option>
                             <option>석사 이상</option>
@@ -39,9 +40,8 @@
                     <div class="col-md-2">
                         <label for="region" class="form-label">지역 선택</label>
                         <select id="region" class="form-select">
-                            <option selected>수원시 영통구</option>
-                            <option>서울특별시</option>
-                            <option>부산광역시</option>
+                            <option>서울</option>
+                            <option>경기도</option>
                         </select>
                     </div>
                 </div>
@@ -49,18 +49,18 @@
                     <div class="col-md-2">
                         <label for="sort" class="form-label"></label>
                         <select id="sort" class="form-select">
-                            <option selected>정렬 조건</option>
-                            <option>최신등록순</option>
-                            <option>최근수정순</option>
-                            <option>경력순</option>
+                            <option value="">정렬 조건</option>
+                            <option value="regDate">최신등록순</option>
+                            <option value="modDate">최근수정순</option>
+                            <option value="careerPeriod">경력순</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label for="job" class="form-label"></label>
                         <select id="job" class="form-select">
-                            <option selected>20개씩</option>
-                            <option>10개씩</option>
-                            <option>4개씩</option>
+                            <option value="20">20개씩</option>
+                            <option value="10">10개씩</option>
+                            <option value="4">4개씩</option>
                         </select>
                     </div>
                 </div>
@@ -69,11 +69,13 @@
     </section>
     <section>
         <div class="container mt-5">
+            <!-- TODO: 등록 수 현황 작업 필요 -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 style="margin-bottom: 50px;">전체 강사정보 <span class="text-primary">1,513건</span></h2>
                 <a href="/trainer/trainer_register" class="btn btn-primary btn-lg">이력서 등록 +</a>
             </div>
             <hr>
+            <!-- 갇사정보 리스트 카드 -->
             <div class="row">
                 <div class="col-md-6">
                     <div class=" card p-4 mb-4 shadow-sm">
@@ -92,76 +94,6 @@
                                 <br>
                                 <div class="resume-footer">
                                     <p class="mb-1">5년 | 필라테스 | 연봉3000만원</p>
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                    <p class="mb-1 text-muted"><strong>작성일:</strong> 2024-03-11</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class=" card p-4 mb-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle me-4" alt="김철수">
-                            <div>
-                                <div class="resume-header">
-                                    <h4 class="mb-1">웹 개발자</h4>
-                                    <button type="button" class="btn btn-outline-secondary viewbtn">이력서 열람</button>
-                                </div>
-                                <div>
-                                    <p class="mb-1">김철수</p>
-                                </div>
-                                <br>
-                                <br>
-                                <div class="resume-footer">
-                                    <p class="mb-1">5년 | 필라테스 | 연봉3000만원</p>
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                    <p class="mb-1 text-muted"><strong>작성일:</strong> 2024-03-11</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class=" card p-4 mb-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle me-4" alt="김철수">
-                            <div>
-                                <div class="resume-header">
-                                    <h4 class="mb-1">웹 개발자</h4>
-                                    <button type="button" class="btn btn-outline-secondary viewbtn">이력서 열람</button>
-                                </div>
-                                <div>
-                                    <p class="mb-1">김철수</p>
-                                </div>
-                                <br>
-                                <br>
-                                <div class="resume-footer">
-                                    <p class="mb-1">5년 | 필라테스 | 연봉3000만원</p>
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                    <p class="mb-1 text-muted"><strong>작성일:</strong> 2024-03-11</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class=" card p-4 mb-4 shadow-sm">
-                        <div class="d-flex align-items-center">
-                            <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle me-4" alt="김철수">
-                            <div>
-                                <div class="resume-header">
-                                    <h4 class="mb-1">웹 개발자</h4>
-                                    <button type="button" class="btn btn-outline-secondary viewbtn">이력서 열람</button>
-                                </div>
-                                <div>
-                                    <p class="mb-1">김철수</p>
-                                </div>
-                                <br>
-                                <br>
-                                <div class="resume-footer">
-                                    <p class="mb-1">5년 | 필라테스 | 연봉3000만원</p>
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                     <p class="mb-1 text-muted"><strong>작성일:</strong> 2024-03-11</p>
                                 </div>
                             </div>
@@ -169,6 +101,8 @@
                     </div>
                 </div>
             </div>
+            <!-- 페이지네이션 -->
+            <!-- TODO: 작업 필요 -->
             <div class="row">
                 <ul class="pagination justify-content-center">
                     <a href="#" class="is-deactive"><li class="pagearrow leftarrow">&lt;</li></a>
@@ -178,18 +112,11 @@
                     <a href="#"><li class="pageitem">4</li></a>
                     <a href="#"><li class="pagearrow rightarrow">&gt;</li></a>
                 </ul>
-                <!-- <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#">이전</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">다음</a></li>
-                </ul> -->
             </div>
         </div>
     </section>
     <!-- 이력서 모달창 -->
+    <!-- TODO: 나중에 자바스크립트로 데이터를 바꿔 끼워야 함 -->
     <div class="modal fade" id="trainerModal" tabindex="-1" aria-labelledby="trainerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-wide">
             <div class="modal-content">
@@ -203,61 +130,57 @@
                             <h2 class="text-center mb-4"></h2>
                             <div class="card p-4 mb-4 shadow-sm">
                                 <form class="no-outline">
+                                    <input type="text" name="userId" value="1" hidden>
                                     <div class="row">
                                         <div class="col-md-8 top-of-regi">
                                             <h4 class="section-title">이력서 제목</h4>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>이름:</strong></label>
-                                                <input type="text" class="form-control" placeholder="이름" readonly>
+                                                <input type="text" class="form-control do-not-submit" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>성별:</strong></label>
-                                                <select class="form-control">
-                                                    <option>남</option>
-                                                    <option>여</option>
-                                                </select>
+                                                <input type="text" class="form-control do-not-submit" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>생년월일:</strong></label>
-                                                <input type="date" class="form-control" readonly>
+                                                <input type="date" class="form-control do-not-submit" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>이메일:</strong></label>
-                                                <input type="email" class="form-control" placeholder="name@sample.email" readonly>
+                                                <input type="email" class="form-control do-not-submit" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>연락처:</strong></label>
-                                                <input type="tel" class="form-control" placeholder="010-1234-5678" readonly>
+                                                <input type="tel" class="form-control do-not-submit" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>주소:</strong></label>
-                                                <input type="text" class="form-control" placeholder="OO도 OO시 OO로 OO" readonly>
+                                                <input type="text" class="form-control do-not-submit" required readonly>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 img-center">
-                                            <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle profile-img mb-3" alt="프로필 사진">
-                                            <!--                            <input type="file" class="form-control">-->
+                                        <div class="col-md-4 img-center slider-box">
+                                            <button type="button" class="slider-arrow-left" id="left-slider">&lt;</button>
+                                            <div class="profile-frame mb-3 rounded-circle" id="slider-frame">
+                                                <img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">
+                                            </div>
+                                            <button type="button" class="slider-arrow-right" id="right-slider">&gt;</button>
                                         </div>
                                     </div>
-                                </form>
-                                <br>
-                                <form class="no-outline">
+                                    <br>
                                     <div>
                                         <h4 class="section-title">자기소개</h4>
-                                        <textarea class="form-control" rows="5" placeholder="자기소개를 입력하세요" readonly></textarea>
+                                        <textarea class="form-control" rows="5" name="content" placeholder="자기소개를 입력하세요" readonly></textarea>
                                     </div>
                                     <br>
                                     <div>
                                         <h4 class="section-title">학력</h4>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>최종학력</strong></label>
-                                            <select class="form-control">
-                                                <option value="고졸">고졸</option>
-                                                <option value="대졸">대졸</option>
-                                                <option value="석사 이상">석사 이상</option>
-                                            </select>
+                                            <input type="text" class="form-control do-not-submit" required readonly>
                                         </div>
                                         <label class="form-label"><strong>학력 상세</strong></label>
+                                        <input type="text" name="academy" id="academy-real" hidden>
                                         <table class="table table-bordered" id="academy-table">
                                             <thead>
                                             <tr>
@@ -268,28 +191,7 @@
                                                 <th>전공</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>
-                                                    <select class="form-control">
-                                                        <option value="고등학교">고등학교</option>
-                                                        <option value="전문대학교">전문대학교</option>
-                                                        <option value="대학교">대학교</option>
-                                                        <option value="대학원">대학원</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control">
-                                                        <option value="졸업">졸업</option>
-                                                        <option value="재학">재학</option>
-                                                        <option value="휴학">휴학</option>
-                                                        <option value="중퇴">중퇴</option>
-                                                    </select>
-                                                </td>
-                                                <td><input type="date" class="form-control" readonly></td>
-                                                <td><input type="text" class="form-control" placeholder="학교명" readonly></td>
-                                                <td><input type="text" class="form-control" value="-" readonly></td>
-                                            </tr>
+                                            <tbody id="academy-table-body">
                                             </tbody>
                                         </table>
                                     </div>
@@ -298,14 +200,10 @@
                                         <h4 class="section-title">경력</h4>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>경력기간</strong></label>
-                                            <select class="form-control">
-                                                <option>신입</option>
-                                                <option>1년 이상</option>
-                                                <option>3년 이상</option>
-                                                <option>5년 이상</option>
-                                            </select>
+                                            <input type="text" class="form-control do-not-submit" required readonly>
                                         </div>
                                         <label class="form-label"><strong>경력 상세</strong></label>
+                                        <input type="text" name="career" id="career-real" hidden>
                                         <table class="table table-bordered" id="career-table">
                                             <thead>
                                             <tr>
@@ -315,19 +213,14 @@
                                                 <th>내용</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td><input type="text" class="form-control" placeholder="조직명" readonly></td>
-                                                <td><input type="text" class="form-control" placeholder="직함" readonly></td>
-                                                <td><input type="number" class="form-control" min="0" placeholder="기간" readonly></td>
-                                                <td><input type="text" class="form-control" placeholder="경력 내용" readonly></td>
-                                            </tr>
+                                            <tbody id="career-table-body">
                                             </tbody>
                                         </table>
                                     </div>
                                     <br>
                                     <div>
                                         <h4 class="section-title">자격증</h4>
+                                        <input type="text" name="license" id="license-real" hidden>
                                         <table class="table table-bordered" id="license-table">
                                             <thead>
                                             <tr>
@@ -336,18 +229,14 @@
                                                 <th>취득일</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td><input type="text" class="form-control" placeholder="명칭" readonly></td>
-                                                <td><input type="text" class="form-control" placeholder="기관명" readonly></td>
-                                                <td><input type="date" class="form-control" readonly></td>
-                                            </tr>
+                                            <tbody id="license-table-body">
                                             </tbody>
                                         </table>
                                     </div>
                                     <br>
                                     <div>
                                         <h4 class="section-title">수상경력</h4>
+                                        <input type="text" name="prize" id="prize-real" hidden>
                                         <table class="table table-bordered" id="prize-table">
                                             <thead>
                                             <tr>
@@ -356,14 +245,48 @@
                                                 <th>취득일</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td><input type="text" class="form-control" placeholder="명칭" readonly></td>
-                                                <td><input type="text" class="form-control" placeholder="내용" readonly></td>
-                                                <td><input type="date" class="form-control" readonly></td>
-                                            </tr>
+                                            <tbody id="prize-table-body">
                                             </tbody>
                                         </table>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <h4 class="section-title">희망근무조건</h4>
+                                        <div class="mb-3">
+                                            <label class="form-label"><strong>업종</strong></label>
+                                            <input type="text" class="form-control" name="wantJob" required readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label"><strong>근무형태</strong></label>
+                                            <input type="text" class="form-control do-not-submit" required readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label"><strong>지역</strong></label>
+                                            <input type="text" class="form-control do-not-submit" required readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label"><strong>근무시간</strong></label>
+                                            <input type="text" name="wantTime" id="want-time-real" hidden>
+                                            <div class="time-to-time">
+                                                <input type="text" class="form-control do-not-submit" required readonly>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label"><strong>근무일수</strong></label>
+                                            <div class="time-to-time">
+                                                <input type="text" class="form-control short-label do-not-submit" required readonly>
+                                                <span class="form-label text-center"></span>
+                                                <input type="text" class="form-control do-not-submit" required readonly>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 short-span">
+                                            <label class="form-label"><strong>희망임금</strong></label>
+                                            <div class="time-to-time">
+                                                <input type="number" class="form-control short-label" min="0" name="wantSal" required readonly>
+                                                <span class="form-label text-center">&#8361;</span>
+                                                <input type="text" class="form-control do-not-submit" required readonly>
+                                            </div>
+                                        </div>
                                     </div>
                                     <br>
                                 </form>
@@ -378,5 +301,8 @@
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/trainer_list.js"></script>
+    <script th:inline="javascript">
+        const responseDTO = [[${responseDTO}]];
+    </script>
 </div>
 </html>

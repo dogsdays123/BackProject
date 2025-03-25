@@ -6,6 +6,8 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +15,11 @@ import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.member.User_Member;
 import org.zerock.b01.domain.trainer.Trainer;
 import org.zerock.b01.domain.trainer.Trainer_Thumbnails;
+import org.zerock.b01.dto.PageRequestDTO;
+import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerPageRequestDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerPageResponseDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.repository.trainerRepository.TrainerRepository;
 import org.zerock.b01.repository.trainerRepository.Trainer_ThumbnailsRepository;
@@ -40,6 +46,18 @@ public class TrainerServiceImpl implements TrainerService {
     List<String> filePaths = new ArrayList<>();
     private final ModelMapper modelMapper;
     private final TrainerRepository trainerRepository;
+
+    @Override
+    public TrainerPageResponseDTO<TrainerViewDTO> list(TrainerPageRequestDTO pageRequestDTO) {
+        Pageable pageable = pageRequestDTO.getPageable(pageRequestDTO.getSorting());
+        Page<TrainerViewDTO> result = trainerRepository.search(pageRequestDTO.getFilters(), pageable);
+
+        return TrainerPageResponseDTO.<TrainerViewDTO>withAll()
+                .trainerPageRequestDTO(pageRequestDTO)
+                .dtoList(result.getContent())
+                .total((int)result.getTotalElements())
+                .build();
+    }
 
     @Override
     public Long registerTrainer(TrainerDTO trainerDTO) {
