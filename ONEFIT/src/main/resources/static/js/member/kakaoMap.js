@@ -16,7 +16,9 @@ kakao.maps.load(() => {
 
     // 주소를 좌표로 변환하기 위한 버튼 클릭 이벤트
     document.querySelector(".searchAddress").addEventListener("click", function () {
+
         const address = document.querySelector('.kakaoAddress').value.trim();
+
         if (!address) {
             alert('주소를 입력해주세요!');
             return;
@@ -47,17 +49,21 @@ kakao.maps.load(() => {
                     // 좌표를 이용해 지도에 마커 표시
                     var coords = new kakao.maps.LatLng(lat, lng);
 
+                    if (marker) {
+                        marker.setMap(null);  // 기존 마커 제거
+                    }
+
                     // 마커 표시
-                    var marker = new kakao.maps.Marker({
+                    marker = new kakao.maps.Marker({
                         map: kakaoMap,
                         position: coords
                     });
 
                     // 인포윈도우 표시
-                    var infowindow = new kakao.maps.InfoWindow({
-                        content: `<div style="width:150px;text-align:center;padding:6px 0;">${result.address_name}</div>`
-                    });
-                    infowindow.open(kakaoMap, marker);
+                    // var infowindow = new kakao.maps.InfoWindow({
+                    //     content: `<div style="width:150px;text-align:center;padding:6px 0;">${result.address_name}</div>`
+                    // });
+                    // infowindow.open(kakaoMap, marker);
 
                     // 지도 중심을 결과값으로 받은 위치로 이동
                     kakaoMap.setCenter(coords);
@@ -76,6 +82,7 @@ kakao.maps.load(() => {
 
 // 지도 클릭 이벤트 추가: 지도 클릭 시 해당 위치의 좌표 저장
     kakao.maps.event.addListener(kakaoMap, 'click', function(mouseEvent) {
+
         var latLng = mouseEvent.latLng;
         clickLat = latLng.getLat();  // 클릭한 위치의 위도 저장
         clickLng = latLng.getLng();  // 클릭한 위치의 경도 저장

@@ -51,4 +51,16 @@ public class Business_Member {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private All_Member allMember;
+
+    public void modifyMember(String bName, String bExponent, String bAddress, String bAddressExtra, Long bPhone, String  bHomepage, Long bEmployees, Long bAverage, Long bAssets) {
+        this.bName = bName;
+        this.bExponent = bExponent;
+        this.bAddress = bAddress;
+        this.bAddressExtra = bAddressExtra;
+        this.bPhone = bPhone;
+        this.bHomepage = bHomepage;
+        this.bEmployees = bEmployees;
+        this.bAverage = bAverage;
+        this.bAssets = bAssets;
+    }
 }

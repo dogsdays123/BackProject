@@ -27,13 +27,13 @@
         <div class="tab-content" id="myTabContent">
             <!-- 회원 정보 탭 -->
             <div class="tab-pane fade show active" id="support" role="tabpanel" aria-labelledby="support-tab">
-                <div class="card support-posts">
-                    <div class="support-card-columns">
+                <div class="card">
+                    <div class="card-body card-columns">
                         <!-- 카드 1 -->
                         <!-- 회원 정보 카드 -->
                         <div class="card">
                             <div class="card-header">
-                                <i class="#"></i> 회원 정보
+                                <i class="fas fa-user-circle"></i> 세부 사항
                             </div>
                             <div class="card-body d-flex align-items-center">
                                 <div>
@@ -54,11 +54,11 @@
                             </div>
                         </div>
 
-                        <div class="card">
+                        <div class="card" th:if="${all_memberDTO.memberType == 'default'}">
                             <div class="card-header">
                                 <!-- 회원종류 선택 -->
                                 <!-- 실질적인 정보저장은 새 페이지에서 처리 -->
-                                <div class="mb-3" th:if="${all_memberDTO.memberType == 'default'}">
+                                <div class="mb-3">
                                     <span>회원전환</span><br>
                                     <label>
                                         <input type="radio" name="memberSelect" value="user" id="radio-user">
@@ -105,16 +105,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <i class="fas fa-user-circle"></i> 증명 사진
-                            </div>
-                            <div class="card-body d-flex align-items-center">
-                                <img src="#" alt="Profile Image" class="profile-img">
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-user-circle"></i> 회원 상세 정보
+                                <i class="fas fa-user-circle"></i> 일자
                             </div>
                             <div class="card-body d-flex align-items-center">
                                 <div>

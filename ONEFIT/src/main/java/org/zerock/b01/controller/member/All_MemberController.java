@@ -146,9 +146,19 @@ public class All_MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_business_page")
-    public void my_business_page() {
-        log.info("my_business_page");
+    public void my_business_pageGET() {
+        log.info("my_business_pageGET");
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/my_business_page")
+    public String my_business_pagePOST(Business_MemberDTO business_memberDTO, RedirectAttributes redirectAttributes) {
+        log.info("modify business post........");
+        member_Set_Type_Service.businessModify(business_memberDTO);
+
+        return "redirect:/member/my_business_page";
+    }
+
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_info_page")

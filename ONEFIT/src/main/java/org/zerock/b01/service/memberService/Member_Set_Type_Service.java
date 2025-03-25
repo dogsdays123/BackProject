@@ -9,4 +9,6 @@ public interface Member_Set_Type_Service {
     Long BusinessRegister(Business_MemberDTO business_memberDTO);
     User_MemberDTO userRead(String allId);
     Business_MemberDTO BusinessRead(String allId);
+    void userModify(User_MemberDTO user_MemberDTO);
+    void businessModify(Business_MemberDTO business_memberDTO);
 }

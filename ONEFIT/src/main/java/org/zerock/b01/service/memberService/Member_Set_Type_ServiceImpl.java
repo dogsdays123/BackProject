@@ -54,6 +54,14 @@ public class Member_Set_Type_ServiceImpl implements Member_Set_Type_Service {
     }
 
     @Override
+    public void userModify(User_MemberDTO user_memberDTO){
+        log.info("User modify@@@@" + user_memberDTO);
+        Optional<User_Member> result = user_MemberRepository.findById(user_memberDTO.getUserId());
+        User_Member user_Member = result.orElseThrow();
+
+    }
+
+    @Override
     public Long BusinessRegister(Business_MemberDTO business_MemberDTO) {
         // DTO에서 allId로 All_Member 객체를 조회
         All_Member allMember = all_MemberRepository.findByAllId(business_MemberDTO.getAllId())
@@ -70,6 +78,20 @@ public class Member_Set_Type_ServiceImpl implements Member_Set_Type_Service {
         Long businessId = business_MemberRepository.save(business_member).getBusinessId();
 
         return businessId;
+    }
+
+    @Override
+    public void businessModify(Business_MemberDTO business_memberDTO){
+        log.info("Business modify@@@@" + business_memberDTO);
+        Optional<Business_Member> result = business_MemberRepository.findById(business_memberDTO.getBusinessId());
+        Business_Member business_member = result.orElseThrow();
+        business_member.modifyMember(business_memberDTO.getBName(), business_memberDTO.getBExponent(),
+                business_memberDTO.getBAddress(), business_memberDTO.getBAddressExtra(),
+                business_memberDTO.getBPhone(), business_memberDTO.getBHomepage(),
+                business_memberDTO.getBEmployees(), business_memberDTO.getBAverage(),
+                business_memberDTO.getBAssets());
+
+        business_MemberRepository.save(business_member);
     }
 
     @Override
