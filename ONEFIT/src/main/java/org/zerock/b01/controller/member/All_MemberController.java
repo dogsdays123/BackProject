@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
+import org.zerock.b01.dto.memberDTO.Business_Member_DataDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
@@ -98,7 +100,7 @@ public class All_MemberController {
         // URL에 따라서 분기
         if (currentUrl.contains("/member")) {
             model.addAttribute("sidebar", true);
-        } else{
+        } else {
             model.addAttribute("sidebar", false);
         }
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
@@ -107,9 +109,9 @@ public class All_MemberController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify")
     public String modifyPOST(All_MemberDTO all_memberDTO, User_MemberDTO userMemberDTO, RedirectAttributes redirectAttributes) {
-            log.info("modify post........");
-            log.info("allId@@@@" + all_memberDTO.getAllId());
-            all_memberService.modify(all_memberDTO);
+        log.info("modify post........");
+        log.info("allId@@@@" + all_memberDTO.getAllId());
+        all_memberService.modify(all_memberDTO);
 
         return "redirect:/member/my_default_page";
     }
@@ -172,7 +174,7 @@ public class All_MemberController {
     @PostMapping("/set_type")
     public String PostSet_type(@Valid User_MemberDTO user_MemberDTO, String allId
             , RedirectAttributes redirectAttributes
-                               , Model model
+            , Model model
             , BindingResult bindingResult) throws BindException {
         log.info("set_type post.......");
         user_MemberDTO.setAllId(allId);
@@ -201,7 +203,7 @@ public class All_MemberController {
     @PostMapping("/set_type_b")
     public String PostSet_type_b(@Valid Business_MemberDTO business_memberDTO, String allId
             , RedirectAttributes redirectAttributes
-                                 , Model model
+            , Model model
             , BindingResult bindingResult) throws BindException {
         log.info("set_type_b post.......");
         business_memberDTO.setAllId(allId);
@@ -228,4 +230,14 @@ public class All_MemberController {
         log.info("maptestPOST");
     }
 
+    @GetMapping("/businesstest")
+    public void businesstestGET() {
+        log.info("businesstestGET");
+    }
+
+    @PostMapping("/businesstest")
+    public void businesstestPOST(Business_Member_DataDTO bData) {
+        log.info("businesstestPOST");
+        log.info(bData);
+    }
 }

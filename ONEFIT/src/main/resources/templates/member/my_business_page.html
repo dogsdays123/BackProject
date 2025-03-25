@@ -39,6 +39,7 @@
                                 <div>
                                     <p><strong>기업이름:</strong> <span th:text="${business_memberDTO.bName}"></span></p>
                                     <p><strong>대표자:</strong> <span th:text="${business_memberDTO.bExponent}"></span></p>
+                                    <p><strong>사업자번호:</strong> <span th:text="${business_memberDTO.bRegNum}"></span></p>
                                     <p><strong>설립일:</strong> <span th:text="${#temporals.format(business_memberDTO.bEstaDate, 'yyyy-MM-dd')}"></span></p>
                                     <p><strong>이메일:</strong> <span th:text="${all_memberDTO.email}"></span></p>
                                     <p><strong>주소:</strong> <span th:text="${business_memberDTO.bAddress}"></span></p>
