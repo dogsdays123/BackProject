@@ -552,7 +552,7 @@
                                                 <label class="form-label"><strong>성별: 남</strong></label>
                                             </div>
                                             <div class="mb-2">
-                                                <label class="form-label"><strong>생년월일: 991122</strong></label>
+                                                <label class="form-label"><strong>생년월일</strong> <span th:text="${#temporals.format(user_memberDTO.uBirthday, 'yyyy-MM-dd')}"></span></label>
                                             </div>
                                         </div>
 
