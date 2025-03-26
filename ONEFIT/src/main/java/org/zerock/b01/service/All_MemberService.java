@@ -7,6 +7,7 @@ import org.zerock.b01.dto.PageResponseDTO;
 public interface All_MemberService {
     String register(All_MemberDTO all_MemberDTO);
     All_MemberDTO readOne(String allId);
+    All_MemberDTO readOneForEmail(String email);
     void modify(All_MemberDTO all_MemberDTO);
     void remove(String allId);
 
