@@ -13,55 +13,54 @@
     <!-- 채용공고 컨텐츠 -->
     <section class="pt-1">
         <div class="container mt-4">
-            <!-- 검색 필터 -->
+            <!-- 검색 필터: input 순서 중요합니다. 고칠 경우 인덱스도 실제 배치 순서에 맞게 고쳐주세요. -->
             <h2>상세 검색</h2>
             <hr>
             <form action="/trainer/trainer_list" method="get" id="search-trainer">
                 <div class="row mb-3">
                     <div class="col-md-2">
                         <label for="experience" class="form-label">경력 선택</label>
-                        <select id="experience" class="form-select" name="filters" th:with="cfilter = ${'c_no'}">
+                        <select id="experience" class="form-select" name="filters" th:with="cfilter = ${responseDTO.filters.length > 0 ? responseDTO.filters[0] : 'c-no'}">
                             <option value="c-no">전체</option>
-                            <option value="c-0" th:selected="${cfilter.equals('c_0')}">신입</option>
-                            <option value="c-1">1년</option>
-                            <option value="c-3">3년</option>
-                            <option value="c-5">5년 이상</option>
+                            <option value="c-0" th:selected="${cfilter.equals('c-0')}">신입</option>
+                            <option value="c-1" th:selected="${cfilter.equals('c-1')}">1년</option>
+                            <option value="c-3" th:selected="${cfilter.equals('c-3')}">3년</option>
+                            <option value="c-5" th:selected="${cfilter.equals('c-4')}">5년 이상</option>
                         </select>
                     </div>
                     <div class="col-md-2">
                         <label for="education" class="form-label">학력 선택</label>
-                        <select id="education" class="form-select" name="filters">
-                            <option value="a-no" selected>전체</option>
-                            <option value="a-고졸">고졸</option>
-                            <option value="a-대졸">대졸</option>
-                            <option value="a-석사 이상">석사 이상</option>
+                        <select id="education" class="form-select" name="filters" th:with="afilter = ${responseDTO.filters.length > 1 ? responseDTO.filters[1] : 'a-no'}">
+                            <option value="a-no">전체</option>
+                            <option value="a-고졸" th:selected="${afilter.equals('a-고졸')}">고졸</option>
+                            <option value="a-대졸" th:selected="${afilter.equals('a-대졸')}">대졸</option>
+                            <option value="a-석사 이상" th:selected="${afilter.equals('a-석사+이상')}">석사 이상</option>
                         </select>
                     </div>
                     <div class="col-md-2">
                         <label for="region" class="form-label">지역 선택</label>
-                        <select id="region" class="form-select" name="filters">
+                        <select id="region" class="form-select" name="filters" th:with="lfilter = ${responseDTO.filters.length > 2 ? responseDTO.filters[2] : 'l-no'}">
                             <option value="l-no">전체</option>
-                            <option value="l-서울">서울</option>
-                            <option value="l-경기도">경기도</option>
+                            <option value="l-서울" th:selected="${lfilter.equals('l-서울')}">서울</option>
+                            <option value="l-경기도" th:selected="${lfilter.equals('l-경기도')}">경기도</option>
                         </select>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-2">
                         <label for="sort" class="form-label"></label>
-                        <select id="sort" class="form-select" name="sorting">
-                            <option value="">정렬 조건</option>
-                            <option value="regDate">최신등록순</option>
-                            <option value="modDate">최근수정순</option>
-                            <option value="careerPeriod">경력순</option>
+                        <select id="sort" class="form-select" name="sorting" th:with="sort = ${responseDTO.sorting}">
+                            <option value="regDate" th:selected="${sort.equals('regDate')}">최신등록순</option>
+                            <option value="modDate" th:selected="${sort.equals('modDate')}">최근수정순</option>
+                            <option value="careerPeriod" th:selected="${sort.equals('careerPeriod')}">경력순</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label for="job" class="form-label"></label>
-                        <select id="job" class="form-select" name="size">
-                            <option value="20">20개씩</option>
-                            <option value="10">10개씩</option>
-                            <option value="4">4개씩</option>
+                        <select id="job" class="form-select" name="size" th:with="psize = ${responseDTO.size}">
+                            <option value="20" th:selected="${psize == 20}">20개씩</option>
+                            <option value="10" th:selected="${psize == 10}">10개씩</option>
+                            <option value="4" th:selected="${psize == 4}">4개씩</option>
                         </select>
                     </div>
                 </div>
@@ -71,7 +70,7 @@
     <section>
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 style="margin-bottom: 50px;">전체 강사정보 <span class="text-primary">[[${responseDTO.total}]]건</span></h2>
+                <h2 style="margin-bottom: 50px;">탐색 결과 <span class="text-primary">[[${responseDTO.total}]]건</span></h2>
                 <a href="/trainer/trainer_register" class="btn btn-primary btn-lg">이력서 등록 +</a>
             </div>
             <hr>
@@ -109,14 +108,13 @@
                 </div>
             </div>
             <!-- 페이지네이션 -->
-            <!-- TODO: 작업 필요 -->
             <div class="row">
-                <ul class="pagination justify-content-center">
-                    <a href="#" th:class="${responseDTO.prev ? '' : 'is-deactive'}"><li class="pagearrow leftarrow">&lt;</li></a>
+                <ul class="pagination justify-content-center" id="trainer-pagination">
+                    <a href="#" th:class="${responseDTO.prev ? '' : 'is-deactive'}" th:name="${responseDTO.start - 1}"><li class="pagearrow leftarrow">&lt;</li></a>
                     <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                        <a href="#" th:class="${i == responseDTO.page ? 'is-active' : ''}"><li class="pageitem">[[${i}]]</li></a>
+                        <a href="#" th:class="${i == responseDTO.page ? 'is-active' : ''}" th:name="${i}"><li class="pageitem">[[${i}]]</li></a>
                     </th:block>
-                    <a href="#" th:class="${responseDTO.next ? '' : 'is-deactive'}"><li class="pagearrow rightarrow">&gt;</li></a>
+                    <a href="#" th:class="${responseDTO.next ? '' : 'is-deactive'}" th:name="${responseDTO.end + 1}"><li class="pagearrow rightarrow">&gt;</li></a>
                 </ul>
             </div>
         </div>

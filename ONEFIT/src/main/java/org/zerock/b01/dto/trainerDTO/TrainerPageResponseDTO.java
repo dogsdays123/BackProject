@@ -24,14 +24,11 @@ public class TrainerPageResponseDTO<E> {
 
     private List<E> dtoList;
     private String[] filters;
+    private String sorting;
 
     // 강사 리스트용
     @Builder(builderMethodName = "withAll")
     public TrainerPageResponseDTO(TrainerPageRequestDTO trainerPageRequestDTO, List<E> dtoList, int total) {
-        if (total <= 0) {
-            return;
-        }
-
         this.page = trainerPageRequestDTO.getPage();
         this.size = trainerPageRequestDTO.getSize();
         this.maxPages = trainerPageRequestDTO.getMaxPages();
@@ -41,6 +38,10 @@ public class TrainerPageResponseDTO<E> {
         if (this.filters == null || this.filters.length == 0) {
             this.filters = new String[0];
         }
+        this.sorting = trainerPageRequestDTO.getSorting();
+        if (this.sorting == null || this.sorting.isEmpty()) {
+            this.sorting = "regDate";
+        }
         // 현재 페이지 기준으로 라벨에 나와야 하는 마지막 페이지
         this.end = (int)(Math.ceil(this.page / (double) maxPages)) * maxPages;
         // 현재 라벨에서 처음에 나와야 하는 페이지
@@ -49,5 +50,10 @@ public class TrainerPageResponseDTO<E> {
         this.end = Math.min(end, (int)(Math.ceil(total / (double) size)));
         this.prev = this.start > 1;
         this.next = total > this.end * this.size;
+
+        // 검색 결과가 없다면 페이지는 항상 1로 고정됨
+        if (total <= 0) {
+            this.end = 1;
+        }
     }
 }
