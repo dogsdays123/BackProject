@@ -1,29 +1,3 @@
-// 썸네일 파일 업로드 함수
-// TODO: 지금 안 쓰고 있으니 용도 검토하기 바람
-async function uploadThumbnails(formObj) {
-    console.log("upload thumbnails");
-    console.log(formObj);
-
-    const response = await axios({
-        method: 'post',
-        url: '/trainer_thumbnail/upload',
-        data: formObj,
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    });
-
-    return response.data;
-}
-
-// 썸네일 파일 삭제 함수
-// 이거 하나씩 삭제하는 것 같은데??
-// TODO: 지금 안 쓰고 있으니 용도 검토하기 바람
-async function removeThumbnails(uuid, fileName) {
-    const response = await axios.delete(`/trainer_thumbnail/remove/${uuid}_${fileName}`);
-    return response.data;
-}
-
 // 미리보기 스크롤 참조
 const sliderFrame = document.getElementById("slider-frame");
 const leftSlider = document.getElementById("left-slider");

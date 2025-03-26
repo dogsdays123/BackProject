@@ -31,11 +31,11 @@ public class TrainerPageRequestDTO {
     private String sorting;
 
     @Builder.Default
-    private int ordering = 0;
+    private int ordering = -1;
 
     public String getSorting() {
         if (this.sorting == null || sorting.isEmpty()) {
-            return "trainerId";
+            return "regDate";
         }
         return this.sorting;
     }
@@ -52,7 +52,7 @@ public class TrainerPageRequestDTO {
     public String getLink() {
         if (link == null) {
             StringBuilder builder = new StringBuilder();
-            builder.append("page=").append(this.page).append("&size=").append(this.size);
+            builder.append("page=").append(this.page).append("&size=").append(this.size).append("&maxPages=").append(this.maxPages);
 
             if (filters != null) {
                 for (String filter : filters) {

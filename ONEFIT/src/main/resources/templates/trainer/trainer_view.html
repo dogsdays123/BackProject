@@ -172,14 +172,15 @@
                     <div class="mb-3 short-span">
                         <label class="form-label"><strong>희망임금</strong></label>
                         <div class="time-to-time">
-                            <input type="number" class="form-control short-label" min="0" name="wantSal" th:value="${dto.wantSal}" required readonly>
+                            <input type="number" class="form-control medium-label" min="0" name="wantSal" th:value="${dto.wantSal}" required readonly>
                             <span class="form-label text-center">&#8361;</span>
                             <input type="text" class="form-control do-not-submit" th:value="${dto.wantSalType}" required readonly>
                         </div>
                     </div>
                 </div>
                 <br>
-                <a class="btn btn-primary w-100 modal-btn" id="modify-submit-btn" th:href="|@{/trainer/trainer_modify(tid=${dto.trainerId})}&${pageRequestDTO.getLink()}|">이력서 수정</a>
+                <a class="btn btn-primary w-100 modal-btn" id="modify-submit-btn" th:href="|@{/trainer/trainer_modify(tid=${dto.trainerId})}&${request.getLink()}|">이력서 수정</a>
+                <a class="btn btn-secondary w-100 modal-btn mt-2" id="list-submit-btn" th:href="|@{/trainer/trainer_list}?${request.getLink()}|">뒤로가기</a>
             </form>
         </div>
     </div>
@@ -189,5 +190,6 @@
     <script src="/js/trainer_function.js"></script>
     <script src="/js/trainer_thumbnail.js"></script>
     <script src="/js/trainer_view.js"></script>
+    <script>viewInit(viewDTO);</script>
 </div>
 </html>

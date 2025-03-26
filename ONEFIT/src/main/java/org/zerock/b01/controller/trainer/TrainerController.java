@@ -138,8 +138,9 @@ public class TrainerController {
     }
 
     @GetMapping("/trainer_register")
-    public void trainer_register_GET() {
+    public void trainer_register_GET(TrainerPageRequestDTO pageRequestDTO, Model model) {
         log.info("trainer_register_GET");
+        model.addAttribute("request", pageRequestDTO);
     }
 
     @PostMapping("/trainer_register")
@@ -160,13 +161,14 @@ public class TrainerController {
 
     @Operation
     @GetMapping({"/trainer_view", "/trainer_modify"})
-    public void trainer_view(Long tid, PageRequestDTO pageRequestDTO, Model model) {
+    public void trainer_view(Long tid, TrainerPageRequestDTO pageRequestDTO, Model model) {
         log.info("trainer_view or trainer_modify");
         log.info(tid);
         TrainerViewDTO trainerViewDTO = trainerService.viewOne(tid);
 
         log.info(trainerViewDTO);
         model.addAttribute("dto", trainerViewDTO);
+        model.addAttribute("request", pageRequestDTO);
     }
 
     @PostMapping("/trainer_modify")

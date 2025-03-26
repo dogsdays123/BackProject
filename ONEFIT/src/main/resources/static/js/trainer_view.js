@@ -1,9 +1,9 @@
-function viewInit() {
+function viewInit(view) {
     // 참조
-    const academyContent = parseIfNotEmpty(viewDTO.academy);
-    const careerContent = parseIfNotEmpty(viewDTO.career);
-    const licenseContent = parseIfNotEmpty(viewDTO.license);
-    const prizeContent = parseIfNotEmpty(viewDTO.prize);
+    const academyContent = parseIfNotEmpty(view.academy);
+    const careerContent = parseIfNotEmpty(view.career);
+    const licenseContent = parseIfNotEmpty(view.license);
+    const prizeContent = parseIfNotEmpty(view.prize);
     const academyTable = document.getElementById('academy-table-body');
     const careerTable = document.getElementById("career-table-body");
     const licenseTable = document.getElementById("license-table-body");
@@ -103,5 +103,3 @@ function createTableData(value) {
 
     return td;
 }
-
-viewInit();

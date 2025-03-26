@@ -25,7 +25,7 @@
                             <option value="c-0" th:selected="${cfilter.equals('c-0')}">신입</option>
                             <option value="c-1" th:selected="${cfilter.equals('c-1')}">1년</option>
                             <option value="c-3" th:selected="${cfilter.equals('c-3')}">3년</option>
-                            <option value="c-5" th:selected="${cfilter.equals('c-4')}">5년 이상</option>
+                            <option value="c-5" th:selected="${cfilter.equals('c-5')}">5년 이상</option>
                         </select>
                     </div>
                     <div class="col-md-2">
@@ -43,6 +43,9 @@
                             <option value="l-no">전체</option>
                             <option value="l-서울" th:selected="${lfilter.equals('l-서울')}">서울</option>
                             <option value="l-경기도" th:selected="${lfilter.equals('l-경기도')}">경기도</option>
+                            <option value="l-대전" th:selected="${lfilter.equals('l-대전')}">대전</option>
+                            <option value="l-부산" th:selected="${lfilter.equals('l-부산')}">부산</option>
+                            <option value="l-천안" th:selected="${lfilter.equals('l-천안')}">천안</option>
                         </select>
                     </div>
                 </div>
@@ -64,14 +67,21 @@
                         </select>
                     </div>
                 </div>
+                <input type="number" name="ordering" id="ordering" value="-1" hidden>
             </form>
         </div>
     </section>
     <section>
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 style="margin-bottom: 50px;">탐색 결과 <span class="text-primary">[[${responseDTO.total}]]건</span></h2>
-                <a href="/trainer/trainer_register" class="btn btn-primary btn-lg">이력서 등록 +</a>
+                <h2 style="margin-bottom: 50px;">
+                    탐색 결과
+                    <span class="text-primary">
+                        [[${responseDTO.total}]]건
+                        <a href="/trainer/trainer_list" class="reset-filtering" th:if="${responseDTO.isSearching || !responseDTO.sorting.equals('regDate')}">*</a>
+                    </span>
+                </h2>
+                <a th:href="|@{/trainer/trainer_register}?${responseDTO.link}|" class="btn btn-primary btn-lg">이력서 등록 +</a>
             </div>
             <hr>
             <!-- 갇사정보 리스트 카드 -->
@@ -90,17 +100,30 @@
                             <div>
                                 <div class="resume-header">
                                     <h4 class="mb-1">[[${dto.title}]]</h4>
-                                    <button type="button" class="btn btn-outline-secondary viewbtn">이력서 열람</button>
+                                    <button type="button" class="btn btn-outline-secondary viewbtn" th:name="${responseDTO.dtoList.indexOf(dto)}">이력서 열람</button>
                                 </div>
 
                                 <div>
-                                    <p class="mb-1">김철수</p>
+                                    <p class="mb-1">[[${dto.name}]]</p>
                                 </div>
                                 <br>
                                 <br>
                                 <div class="resume-footer">
-                                    <p class="mb-1">5년 | 필라테스 | 연봉3000만원</p>
-                                    <p class="mb-1 text-muted"><strong>작성일:</strong> 2024-03-11</p>
+                                    <div class="list-card-info mb-1">
+                                        <p class="mb-0">[[${dto.careerPeriod == 0 ? '신입' : dto.careerPeriod.toString() + '년'}]]</p>
+                                        <p class="mb-0">&nbsp;|&nbsp;</p>
+                                        <p class="mb-0">[[${dto.wantJob}]]</p>
+                                        <p class="mb-0">&nbsp;|&nbsp;</p>
+                                        <p class="mb-0">[[${dto.wantSalType}]] [[${dto.wantSal.toString().format("%,d", dto.wantSal)}]]</p>
+                                    </div>
+                                    <p class="mb-1 text-muted trainer-regi-date" th:unless="${responseDTO.sorting.equals('modDate')}">
+                                        <strong>작성:</strong> [[${dto.regDate.toString().substring(0, 10)}]]
+                                        <span class="bottom-time"><strong>시간:</strong> [[${dto.regDate.toString().substring(11, 19)}]]</span>
+                                    </p>
+                                    <p class="mb-1 text-muted trainer-regi-date" th:if="${responseDTO.sorting.equals('modDate')}">
+                                        <strong>수정:</strong> [[${dto.modDate.toString().substring(0, 10)}]]
+                                        <span class="bottom-time"><strong>시간:</strong> [[${dto.modDate.toString().substring(11, 19)}]]</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +143,7 @@
         </div>
     </section>
     <!-- 이력서 모달창 -->
-    <!-- TODO: 나중에 자바스크립트로 데이터를 바꿔 끼워야 함 -->
+    <!-- TODO: 현재 JAVASCRIPT 작업중 -->
     <div class="modal fade" id="trainerModal" tabindex="-1" aria-labelledby="trainerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-wide">
             <div class="modal-content">
@@ -134,54 +157,51 @@
                             <h2 class="text-center mb-4"></h2>
                             <div class="card p-4 mb-4 shadow-sm">
                                 <form class="no-outline">
-                                    <input type="text" name="userId" value="1" hidden>
                                     <div class="row">
                                         <div class="col-md-8 top-of-regi">
-                                            <h4 class="section-title">이력서 제목</h4>
+                                            <h4 class="section-title" id="trainer-title">이력서 제목</h4>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>이름:</strong></label>
-                                                <input type="text" class="form-control do-not-submit" required readonly>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-name" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>성별:</strong></label>
-                                                <input type="text" class="form-control do-not-submit" required readonly>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-gender" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>생년월일:</strong></label>
-                                                <input type="date" class="form-control do-not-submit" required readonly>
+                                                <input type="date" class="form-control do-not-submit" id="trainer-birthday" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>이메일:</strong></label>
-                                                <input type="email" class="form-control do-not-submit" required readonly>
+                                                <input type="email" class="form-control do-not-submit" id="trainer-email" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>연락처:</strong></label>
-                                                <input type="tel" class="form-control do-not-submit" required readonly>
+                                                <input type="tel" class="form-control do-not-submit" id="trainer-phone" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>주소:</strong></label>
-                                                <input type="text" class="form-control do-not-submit" required readonly>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-address" required readonly>
                                             </div>
                                         </div>
                                         <div class="col-md-4 img-center slider-box">
                                             <button type="button" class="slider-arrow-left" id="left-slider">&lt;</button>
-                                            <div class="profile-frame mb-3 rounded-circle" id="slider-frame">
-                                                <img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">
-                                            </div>
+                                            <div class="profile-frame mb-3 rounded-circle" id="slider-frame"></div>
                                             <button type="button" class="slider-arrow-right" id="right-slider">&gt;</button>
                                         </div>
                                     </div>
                                     <br>
                                     <div>
                                         <h4 class="section-title">자기소개</h4>
-                                        <textarea class="form-control" rows="5" name="content" placeholder="자기소개를 입력하세요" readonly></textarea>
+                                        <textarea class="form-control" rows="5" name="content" placeholder="자기소개를 입력하세요" id="trainer-content" readonly></textarea>
                                     </div>
                                     <br>
                                     <div>
                                         <h4 class="section-title">학력</h4>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>최종학력</strong></label>
-                                            <input type="text" class="form-control do-not-submit" required readonly>
+                                            <input type="text" class="form-control do-not-submit" id="trainer-acfinal" required readonly>
                                         </div>
                                         <label class="form-label"><strong>학력 상세</strong></label>
                                         <input type="text" name="academy" id="academy-real" hidden>
@@ -204,7 +224,7 @@
                                         <h4 class="section-title">경력</h4>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>경력기간</strong></label>
-                                            <input type="text" class="form-control do-not-submit" required readonly>
+                                            <input type="text" class="form-control do-not-submit" id="trainer-cperiod" required readonly>
                                         </div>
                                         <label class="form-label"><strong>경력 상세</strong></label>
                                         <input type="text" name="career" id="career-real" hidden>
@@ -258,44 +278,44 @@
                                         <h4 class="section-title">희망근무조건</h4>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>업종</strong></label>
-                                            <input type="text" class="form-control" name="wantJob" required readonly>
+                                            <input type="text" class="form-control" name="wantJob" id="trainer-job" required readonly>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>근무형태</strong></label>
-                                            <input type="text" class="form-control do-not-submit" required readonly>
+                                            <input type="text" class="form-control do-not-submit" id="trainer-type" required readonly>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>지역</strong></label>
-                                            <input type="text" class="form-control do-not-submit" required readonly>
+                                            <input type="text" class="form-control do-not-submit" id="trainer-region" required readonly>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>근무시간</strong></label>
                                             <input type="text" name="wantTime" id="want-time-real" hidden>
                                             <div class="time-to-time">
-                                                <input type="text" class="form-control do-not-submit" required readonly>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-time" required readonly>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>근무일수</strong></label>
                                             <div class="time-to-time">
-                                                <input type="text" class="form-control short-label do-not-submit" required readonly>
+                                                <input type="text" class="form-control short-label do-not-submit" id="trainer-day" required readonly>
                                                 <span class="form-label text-center"></span>
-                                                <input type="text" class="form-control do-not-submit" required readonly>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-day-type" required readonly>
                                             </div>
                                         </div>
                                         <div class="mb-3 short-span">
                                             <label class="form-label"><strong>희망임금</strong></label>
                                             <div class="time-to-time">
-                                                <input type="number" class="form-control short-label" min="0" name="wantSal" required readonly>
+                                                <input type="number" class="form-control medium-label" min="0" name="wantSal" id="trainer-sal" required readonly>
                                                 <span class="form-label text-center">&#8361;</span>
-                                                <input type="text" class="form-control do-not-submit" required readonly>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-sal-type" required readonly>
                                             </div>
                                         </div>
                                     </div>
                                     <br>
                                 </form>
                             </div>
-                            <a href="/trainer/trainer_view" class="btn btn-primary w-100 modal-btn" id="register-submit-btn">페이지에서 보기</a>
+                            <a href="#" class="btn btn-primary w-100 modal-btn" id="view-submit-btn">페이지에서 보기</a>
                         </div>
                     </div>
                 </div>
@@ -307,6 +327,7 @@
     </script>
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/trainer_view.js"></script>
     <script src="/js/trainer_list.js"></script>
 </div>
 </html>
