@@ -371,20 +371,17 @@
                                             </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <h4 class="section-title">이력서 제목</h4>
+                                            <h3 class="section-title">이력서 제목</h3>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>이름</strong> <span th:text="${all_memberDTO.name}"></span></label>
                                             </div>
                                             <div class="mb-2">
-                                                <label class="form-label"><strong>성별: 남</strong></label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <label class="form-label"><strong>생년월일</strong> <span th:text="${#temporals.format(user_memberDTO.uBirthday, 'yyyy-MM-dd')}"></span></label>
+                                                <label class="form-label"><strong>생년월일</strong><br><span th:text="${#temporals.format(user_memberDTO.uBirthday, 'yyyy-MM-dd')}"></span></label>
                                             </div>
                                         </div>
 
                                             <!-- 경력 추가 -->
-                                            <div class="col-md-4">
+                                            <div class="col-md-5">
                                                 <h4 class="section-title">경력</h4>
                                                 <table class="table">
                                                     <tr>

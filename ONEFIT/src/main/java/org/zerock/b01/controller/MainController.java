@@ -33,6 +33,7 @@ public class MainController {
 
     @ModelAttribute
     public void Profile(All_MemberDTO all_memberDTO, Model model, Authentication authentication, HttpServletRequest request) {
+
         // 인증 정보가 없다면 null 설정
         if (authentication == null) {
             log.info("###### 인증 정보 없음");

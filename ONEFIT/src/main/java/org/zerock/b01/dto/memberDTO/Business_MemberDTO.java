@@ -26,7 +26,7 @@ public class Business_MemberDTO {
 
     private String bExponent;
 
-    private Long bPhone;
+    private String bPhone;
 
     private Long bAverage;
 

@@ -37,7 +37,7 @@
                         <a class="nav-link" style="pointer-events: none;"><i class="fas fa-user-tie"></i> 개인회원</a>
                         <ul class="nav flex-column ml-3">
                             <li class="nav-item">
-                                <a class="nav-link" href="/member/my_user_page"><i class="fas fa-id-card"></i> 내 이력서 보기</a>
+                                <a class="nav-link" th:href="|@{/member/my_user_page(allId =${all_memberDTO.allId})}|"><i class="fas fa-id-card"></i> 내 이력서 보기</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link collapsed d-flex justify-content-between" href="#"
@@ -64,7 +64,7 @@
                         <a class="nav-link" style="pointer-events: none;"><i class="fas fa-building"></i> 기업회원</a>
                         <ul class="nav flex-column ml-3">
                             <li class="nav-item">
-                                <a class="nav-link" href="/member/my_business_page"><i class="fas fa-industry"></i> 기업
+                                <a class="nav-link" th:href="|@{/member/my_business_page(allId =${all_memberDTO.allId})}|"><i class="fas fa-industry"></i> 기업
                                     정보</a>
                             </li>
                             <li class="nav-item">

@@ -19,7 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.Business_Member_DataDTO;
+import org.zerock.b01.dto.memberDTO.MemberDataDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
@@ -140,14 +143,25 @@ public class All_MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_user_page")
-    public void my_user_page() {
-        log.info("my_user_page");
+    public void my_user_pageGET(All_MemberDTO all_memberDTO, Model model) {
+        String all = all_memberDTO.getAllId();
+        log.info("USER!!!" + all);
+        User_MemberDTO user_memberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
+        log.info("%%%%" + user_memberDTO);
+
+        //이력서 찾는 코드
+        TrainerDTO trainerDTO = member_Set_Type_Service.trainerReadForUser(user_memberDTO.getUserId());
+        log.info("%%%%" + trainerDTO);
     }
+
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_business_page")
-    public void my_business_pageGET() {
-        log.info("my_business_pageGET");
+    public void my_business_pageGET(All_MemberDTO all_memberDTO, Model model) {
+        log.info("BUSINESS!!!" + all_memberDTO);
+        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
+
+        //채용정보 찾는 코드
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -229,6 +243,8 @@ public class All_MemberController {
         return "redirect:/member/finishedChange";
     }
     //타입 부여end
+
+
 
     @GetMapping("/maptest")
     public void maptestGET() {

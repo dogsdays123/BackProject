@@ -94,7 +94,7 @@
                 </a>
                 <span class="separator">|</span>
                 <button type="button" class="basic-btn btn btn-primary btns">
-                    <a href="/member/my_default_page" class="text-reset text-decoration-none">
+                    <a th:href="|@{/member/my_default_page(allId =${all_memberDTO.allId})}|" class="text-reset text-decoration-none">
                         마이페이지
                     </a>
                 </button>
@@ -228,10 +228,10 @@
                         <div class="mb-3">
                             <label for="aPhone" class="form-label">전화번호</label>
                             <input type="tel" class="form-control" name="aPhone" id="aPhone"
-                                   placeholder="ex) 010-1234-5678"
+                                   placeholder="ex) 01012345678"
                                    required
-                                   pattern="^(\d{3})-(\d{4})-(\d{4})$"
-                                   title="전화번호는 010-1234-5678 형식이어야 합니다.">
+                                   pattern="^\d{11}$"
+                                   title="전화번호는 '-'없이 01012345678 형식의 11자리이어야 합니다.">
                         </div>
                         <input type="hidden" name="memberType" value="default">
                         <button type="submit" class="btn btn-success w-100 modal-btn"

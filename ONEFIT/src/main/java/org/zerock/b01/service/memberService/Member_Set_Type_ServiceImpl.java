@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.member.Business_Member;
 import org.zerock.b01.domain.member.User_Member;
+import org.zerock.b01.domain.trainer.Trainer;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.repository.All_MemberRepository;
 import org.zerock.b01.repository.memberRepository.Business_MemberRepository;
 import org.zerock.b01.repository.memberRepository.User_MemberRepository;
@@ -118,5 +121,17 @@ public class Member_Set_Type_ServiceImpl implements Member_Set_Type_Service {
         business_memberDTO.setAllId(allId);
         log.info("@#@#@#" + business_memberDTO);
         return business_memberDTO;
+    }
+
+    @Override
+    public TrainerDTO trainerReadForUser(Long userId){
+        Optional<Trainer> result = user_MemberRepository.findTrainerForUserId(userId);
+        Trainer trainer = result.orElse(null);
+        if(trainer == null) {
+            return null;
+        }
+
+        TrainerDTO trainerDTO = modelMapper.map(trainer, TrainerDTO.class);
+        return trainerDTO;
     }
 }

@@ -41,7 +41,7 @@
                                     <div><strong>이메일:</strong> <span th:text="${all_memberDTO.email}"></span>
                                     </div>
                                     <div><strong>아이디:</strong> <span
-                                            th:text="${#strings.substringBefore(all_memberDTO.email, '@')}"></span>
+                                            th:text="${all_memberDTO.allId}"></span>
                                     </div>
                                     <div><strong>전화번호:</strong> <span th:text="${all_memberDTO.aPhone}"></span>
                                     </div>
@@ -153,20 +153,30 @@
                                 </div>
                                 <hr>
                                 <div th:if="${all_memberDTO.aSocial == false}">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label class="form-label">비밀번호</label>
-                                            <input type="text" class="form-control" placeholder="비밀번호">
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label class="form-label">비밀번호 확인</label>
-                                            <input type="text" class="form-control" name="aPsw" placeholder="비밀번호 확인">
-                                        </div>
+                                    <div class="mb-3">
+                                        <label for="aPsw" class="form-label">비밀번호 <span style="font-size: 0.6rem;">6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성</span></label>
+                                        <input type="password" class="form-control" id="aPsw"
+                                               required
+                                               minlength="6"
+                                               maxlength="16"
+                                               pattern="^[a-zA-Z0-9]{6,16}$">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">전화번호</label>
-                                        <input type="text" class="form-control" name="aPhone" placeholder="전화번호 인증"
-                                               required>
+                                        <label for="aPswCheck" class="form-label">비밀번호 확인</label>
+                                        <input type="password" class="form-control" name="aPsw" id="aPswCheck"
+                                               required
+                                               minlength="6"
+                                               maxlength="16"
+                                               pattern="^[a-zA-Z0-9]{6,16}$">
+                                        <div id="password-feedback" class="mt-1 input-feedback text-success"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="aPhone" class="form-label">전화번호</label>
+                                        <input type="tel" class="form-control" name="aPhone" id="aPhone"
+                                               placeholder="ex) 01012345678"
+                                               required
+                                               pattern="^\d{11}$"
+                                               title="전화번호는 '-'없이 01012345678 형식의 11자리이어야 합니다.">
                                     </div>
                                 </div>
                                 <div th:if="${all_memberDTO.aSocial == true}">
@@ -174,20 +184,9 @@
                                     <input type="hidden" name="aPhone" th:value="${all_memberDTO.aPhone}">
                                 </div>
                             </div>
-                            <div class="form-section">
-                                <div class="mb-3">
-                                    <label class="form-label">증명사진</label>
-                                    <div class="file-label" onclick="$('#imageUpload').click()">이미지
-                                        업로드
-                                    </div>
-                                    <input type="file" class="form-control d-none" id="imageUpload"
-                                           accept="image/*" multiple>
-                                    <div id="imagePreview" class="mt-2 d-flex flex-wrap"></div>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <button type="button" class="product-btn btn btn-primary modifyBtn w-100">수정
+                                    <button type="submit" class="product-btn btn btn-primary modifyBtn w-100">수정
                                     </button>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -205,15 +204,6 @@
 </div>
 <script layout:fragment="script">
     const formObj = document.querySelector("#modifyMember")
-
-    document.querySelector(".modifyBtn").addEventListener("click", function (e){
-        e.preventDefault()
-        e.stopPropagation()
-
-        formObj.action = '/member/modify'
-        formObj.method = 'post'
-        formObj.submit()
-    }, false)
 
     document.querySelector(".removeBtn").addEventListener("click", function (e){
         e.preventDefault()

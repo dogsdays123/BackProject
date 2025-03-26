@@ -135,6 +135,7 @@ function toggleSignupButton() {
     }
 }
 
+//비밀번호 확인
 $(document).ready(function() {
     $('#aPsw, #aPswCheck').on('input', function() {
         var password = $('#aPsw').val();  // 비밀번호 입력 값
@@ -142,12 +143,18 @@ $(document).ready(function() {
         var feedback = $('#password-feedback');  // 비밀번호 확인 메시지
 
         // 비밀번호가 일치하면
-        if (password === passwordCheck && password.length >= 6 && password.length <= 16) {
-            feedback.removeClass('text-danger').addClass('text-success');
-            feedback.text('비밀번호가 일치합니다.');
-        } else {
+        if(password.length < 6 || password.length > 16){
             feedback.removeClass('text-success').addClass('text-danger');
-            feedback.text('비밀번호가 일치하지 않습니다.');
+            feedback.text('비밀번호의 길이가 올바르지 않습니다.');
+            return;
+        } else{
+            if (password === passwordCheck) {
+                feedback.removeClass('text-danger').addClass('text-success');
+                feedback.text('비밀번호가 일치합니다.');
+            } else {
+                feedback.removeClass('text-success').addClass('text-danger');
+                feedback.text('비밀번호가 일치하지 않습니다.');
+            }
         }
     });
 });

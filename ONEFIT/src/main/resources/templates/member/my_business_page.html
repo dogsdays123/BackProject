@@ -111,29 +111,25 @@
                                 </div> <br>
                                 <div class="mb-3">
                                     <label class="form-label">전화번호</label>
-                                    <input type="text" class="form-control" name="bPhone" placeholder="전화번호 인증"
-                                           required>
+                                    <input type="text" class="form-control" name="bPhone" th:value="${business_memberDTO.bPhone}"
+                                    required>
                                 </div> <br>
                                 <div class="mb-3">
                                     <label class="form-label">홈페이지</label>
-                                    <input type="text" class="form-control" name="bHomepage" placeholder="기업 홈페이지"
-                                           required>
+                                    <input type="text" class="form-control" name="bHomepage" th:value="${business_memberDTO.bHomepage}" placeholder="기업 홈페이지">
                                 </div> <br>
                                 <hr>
                                 <div class="mb-3">
                                     <label class="form-label">근로자 수</label>
-                                    <input type="text" class="form-control" name="bEmployees" placeholder="특수문자 없이 기입"
-                                           required>
+                                    <input type="text" class="form-control" name="bEmployees" th:value="${business_memberDTO.bEmployees}" placeholder="특수문자 없이 기입">
                                 </div> <br>
                                 <div class="mb-3">
                                     <label class="form-label">평균 매출액</label>
-                                    <input type="text" class="form-control" name="bAverage" placeholder="특수문자 없이 기입"
-                                           required>
+                                    <input type="text" class="form-control" name="bAverage" th:value="${business_memberDTO.bAverage}" placeholder="특수문자 없이 기입">
                                 </div> <br>
                                 <div class="mb-3">
                                     <label class="form-label">자산 총액</label>
-                                    <input type="text" class="form-control" name="bAssets" placeholder="특수문자 없이 기입"
-                                           required>
+                                    <input type="text" class="form-control" name="bAssets" th:value="${business_memberDTO.bAssets}" placeholder="특수문자 없이 기입">
                                 </div> <br>
                             </div>
 

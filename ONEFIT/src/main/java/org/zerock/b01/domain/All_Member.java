@@ -27,7 +27,7 @@ public class All_Member extends BaseEntity {
     @Column(length = 100, nullable = false)
     private String aPsw;
 
-    private Long aPhone;
+    private String aPhone;
 
     @Column(length = 20, nullable = false)
     private String memberType;
@@ -44,10 +44,10 @@ public class All_Member extends BaseEntity {
     public void changeEmail(String email) {this.email = email;}
 
     public void changeAPsw(String aPsw) {this.aPsw = aPsw;}
-    public void changeAPhone(Long aPhone) {this.aPhone = aPhone;}
+    public void changeAPhone(String aPhone) {this.aPhone = aPhone;}
     public void changeMemberType(String memberType) {this.memberType = memberType;}
 
-    public void modifyMember(String aPsw, Long aPhone, String memberType) {
+    public void modifyMember(String aPsw, String aPhone, String memberType) {
         this.aPsw = aPsw;
         this.aPhone = aPhone;
         this.memberType = memberType;
