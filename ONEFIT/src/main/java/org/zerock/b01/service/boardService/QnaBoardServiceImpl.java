@@ -11,7 +11,9 @@ import org.zerock.b01.domain.board.Qna_Board;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.boardDTO.BoardListReplyCountDTO;
+import org.zerock.b01.dto.boardDTO.NoticeBoardListAllDTO;
 import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
+import org.zerock.b01.dto.boardDTO.QnaBoardListAllDTO;
 import org.zerock.b01.repository.boardRepository.QnaBoardRepository;
 
 import java.time.LocalDate;
@@ -33,7 +35,8 @@ public class QnaBoardServiceImpl implements QnaBoardService {
     @Override
     public Long registerQna(QnaBoardDTO qnaBoardDTO) {
 
-        Qna_Board qna_board = modelMapper.map(qnaBoardDTO, Qna_Board.class);
+//        Qna_Board qna_board = modelMapper.map(qnaBoardDTO, Qna_Board.class);
+        Qna_Board qna_board = dtoToEntity(qnaBoardDTO);
 
         Long qnaId = qnaBoardRepository.save(qna_board).getQnaId();
 
@@ -44,11 +47,11 @@ public class QnaBoardServiceImpl implements QnaBoardService {
     @Override
     public QnaBoardDTO readQnaOne(Long qnaId) {
 
-        Optional<Qna_Board> result = qnaBoardRepository.findById(qnaId);
+        Optional<Qna_Board> result = qnaBoardRepository.findByIdWithQnafiles(qnaId);
 
         Qna_Board qna_board = result.orElseThrow();
 
-        QnaBoardDTO qnaBoardDTO = modelMapper.map(qna_board, QnaBoardDTO.class);
+        QnaBoardDTO qnaBoardDTO = entityToDto(qna_board);
 
         return qnaBoardDTO;
     }
@@ -62,6 +65,19 @@ public class QnaBoardServiceImpl implements QnaBoardService {
         Qna_Board qna_board = result.orElseThrow();
 
         qna_board.changeQna(qnaBoardDTO.getQTitle(), qnaBoardDTO.getQContent());
+
+        //첨부파일처리
+        //기존 첨부 파일 제거
+        qna_board.clearQnaFiles();
+        // 새로운 첨부 파일이 존재하는 경우 추가
+        if (qnaBoardDTO.getFileNames() != null) {
+            for (String fileName : qnaBoardDTO.getFileNames()) {
+                //파일명을 _ 기준으로 분리
+                String[] arr = fileName.split("_");
+                // 게시글에 이미지 추가
+                qna_board.addQnaFiles(arr[0], arr[1]);
+            }
+        }
 
         qnaBoardRepository.save(qna_board);
     }
@@ -111,6 +127,28 @@ public class QnaBoardServiceImpl implements QnaBoardService {
                 .pageRequestDTO(pageRequestDTO)
                 .dtoList(result.getContent())
                 .total((int) result.getTotalElements())
+                .build();
+    }
+
+    @Override
+    public PageResponseDTO<QnaBoardListAllDTO> listWithQnaAll(PageRequestDTO pageRequestDTO) {
+
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        LocalDate startDate = pageRequestDTO.getStartDate();
+        LocalDate endDate = pageRequestDTO.getEndDate();
+
+        Pageable pageable = pageRequestDTO.getPageable("qnaId");
+
+        //검색 조건과 페이지 정보를 이용하여 데이터 조회
+        Page<QnaBoardListAllDTO> result = qnaBoardRepository
+                                    .searchWithQnaAll(types, keyword, startDate, endDate, pageable);
+
+        //조회 결과를 PageResponseDTO 객체로 변환하여 반환
+        return PageResponseDTO.<QnaBoardListAllDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(result.getContent())
+                .total((int)result.getTotalElements())
                 .build();
     }
 }

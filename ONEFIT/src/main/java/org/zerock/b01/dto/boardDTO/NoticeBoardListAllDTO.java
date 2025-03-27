@@ -1,12 +1,9 @@
 package org.zerock.b01.dto.boardDTO;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.zerock.b01.domain.All_Member;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,24 +12,19 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NoticeBoardDTO {
+public class NoticeBoardListAllDTO {
 
     private Long noticeId;
 
-    @NotEmpty
     private String nTitle;
 
-    @NotEmpty
-    private String nContent;
+    private String allId;
 
-    @NotNull
     private int nHits;
-
-    private All_Member allMember;
 
     private LocalDateTime regDate;
 
-    private LocalDateTime modDate;
+    private Long replyCount;
 
-    private List<String> fileNames;
+    private List<BoardFileDTO> boardFiles;
 }

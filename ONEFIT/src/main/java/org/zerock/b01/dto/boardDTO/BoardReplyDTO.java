@@ -1,7 +1,10 @@
 package org.zerock.b01.dto.boardDTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,12 +16,13 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReplyDTO {
+public class BoardReplyDTO {
 
     private Long replyId;
 
     @NotEmpty
     private String allId;
+//    private All_Member allMember;
 
     @NotEmpty
     private String replyText;
@@ -27,7 +31,11 @@ public class ReplyDTO {
 
     private Long qnaId;
 
-    private LocalDateTime regDate, modDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime regDate;
+
+    @JsonIgnore
+    private LocalDateTime modDate;
 
     // noticeId와 qnaId 중 하나만 존재해야 함
     @AssertTrue(message = "noticeId 또는 qnaId 중 하나만 존재해야 합니다.")

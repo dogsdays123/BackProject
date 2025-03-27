@@ -7,8 +7,8 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class Board_File {
+@ToString(exclude = {"qnaBoard", "noticeBoard"})
+public class Board_File implements Comparable<Board_File> {
     @Id
     @Column(length = 100, nullable = false)
     private String uuid;
@@ -26,4 +26,9 @@ public class Board_File {
     @ManyToOne
     @JoinColumn(name = "notice_id")
     private Notice_Board noticeBoard;
+
+    @Override
+    public int compareTo(Board_File other) { return this.ord - other.ord; }
+    public void changeNoticeBoard(Notice_Board notice_board) { this.noticeBoard = notice_board; }
+    public void changeQnaBoard(Qna_Board qna_board) { this.qnaBoard = qna_board; }
 }

@@ -165,7 +165,7 @@ public class QnaBoardController {
 
     }
 
-//    @PreAuthorize("principal.username == #qnaBoardDTO.allMember")
+    @PreAuthorize("principal.username == #qnaBoardDTO.allMember.allId")
     @PostMapping("/board_qa_modify")
     public String modifyQna(PageRequestDTO pageRequestDTO, @Valid QnaBoardDTO qnaBoardDTO,
                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
@@ -195,7 +195,7 @@ public class QnaBoardController {
 
     }
 
-//    @PreAuthorize("principal.username == #qnaBoardDTO.allMember")
+    @PreAuthorize("principal.username == #qnaBoardDTO.allMember.allId")
     @PostMapping("/board_qa_remove")
     public String removeQna(Long qnaId, RedirectAttributes redirectAttributes) {
 

@@ -13,7 +13,7 @@ import org.zerock.b01.domain.BaseEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"allMember", "qnaBoard", "noticeBoard"})
+@ToString
 public class Board_Reply extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,19 +22,23 @@ public class Board_Reply extends BaseEntity {
     @Column(length = 1000, nullable = false)
     private String replyText;
 
-    @ManyToOne
-    @JoinColumn(name = "all_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "all_member_all_id", nullable = false)
     private All_Member allMember;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "qna_id")
     private Qna_Board qnaBoard;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notice_id")
     private Notice_Board noticeBoard;
 
     //날짜는 baseEntity
     //날짜는 baseEntity
     //날짜는 baseEntity
+
+    public void changeText(String text) {
+        this.replyText = text;
+    }
 }
