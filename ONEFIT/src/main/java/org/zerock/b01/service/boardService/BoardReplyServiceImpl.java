@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,11 +21,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 =======
+=======
+>>>>>>> Stashed changes
 import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.board.Board_Reply;
 import org.zerock.b01.dto.boardDTO.BoardReplyDTO;
 import org.zerock.b01.repository.boardRepository.BoardReplyRepository;
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 @Service
 @RequiredArgsConstructor
@@ -44,6 +50,7 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 
         return replyId;
     }
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 
     @Override
@@ -114,6 +121,8 @@ public class BoardReplyServiceImpl implements BoardReplyService {
                 .total((int)result.getTotalElements())
                 .build();
     }
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 }

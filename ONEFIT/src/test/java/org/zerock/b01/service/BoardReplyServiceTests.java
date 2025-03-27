@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.zerock.b01.domain.All_Member;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import org.zerock.b01.domain.board.Notice_Board;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 import org.zerock.b01.dto.boardDTO.BoardReplyDTO;
@@ -20,6 +23,7 @@ public class BoardReplyServiceTests {
     private BoardReplyService boardReplyService;
 
     @Test
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     public void testRegisterBoard() {
 
@@ -37,6 +41,8 @@ public class BoardReplyServiceTests {
         log.info(boardReplyDTO);
 
 =======
+=======
+>>>>>>> Stashed changes
     public void registerBoardReply() {
 
         String allId = "member1";
@@ -49,6 +55,9 @@ public class BoardReplyServiceTests {
                 .noticeId(503L)
                 .build();
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         log.info(boardReplyService.registerBoardReply(boardReplyDTO));
     }
