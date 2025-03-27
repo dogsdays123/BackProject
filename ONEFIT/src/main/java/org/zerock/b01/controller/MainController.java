@@ -11,9 +11,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
@@ -29,7 +27,9 @@ import org.zerock.b01.service.recruitService.RecruitService;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -106,6 +106,12 @@ public class MainController {
         } else{
             model.addAttribute("sidebar", false);
         }
+        model.addAttribute("checkId", false);
+        model.addAttribute("checkEmail", false);
+
+        List<All_MemberDTO> all_memberDTOList = all_memberService.readAllMember();
+        model.addAttribute("all_memberDTOList", all_memberDTOList);
+        log.info("모든회원@@@@@@@@@" + all_memberDTOList);
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
 
@@ -135,5 +141,43 @@ public class MainController {
 
         redirectAttributes.addFlashAttribute("result", "success");
         return "redirect:/login";
+    }
+
+    @PostMapping("/checkId")
+    @ResponseBody
+    public Map<String, Object> checkId(@RequestParam("allId") String allId, Model model) {
+        Map<String, Object> response = new HashMap<>();
+
+        // 아이디 중복 여부 체크
+        if (all_memberService.readOne(allId) != null) {
+            response.put("isAvailable", false); // 아이디가 이미 존재하는 경우
+            model.addAttribute("checkId", false);
+        } else {
+            response.put("isAvailable", true);  // 아이디가 사용 가능한 경우
+            model.addAttribute("checkId", true);
+        }
+
+        log.info("Id체크" + allId);
+
+        return response; // JSON 형식으로 반환
+    }
+
+    @PostMapping("/checkEmail")
+    @ResponseBody
+    public Map<String, Object> checkEmail(@RequestParam("email") String email, Model model) {
+        Map<String, Object> response = new HashMap<>();
+
+        // 아이디 중복 여부 체크
+        if (all_memberService.readOneForEmail(email) != null) {
+            response.put("isAvailable", false); // 아이디가 이미 존재하는 경우
+            model.addAttribute("checkEmail", false);
+        } else {
+            response.put("isAvailable", true);  // 아이디가 사용 가능한 경우
+            model.addAttribute("checkEmail", true);
+        }
+
+        log.info("Id체크" + email);
+
+        return response; // JSON 형식으로 반환
     }
 }
