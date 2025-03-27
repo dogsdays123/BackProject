@@ -1,9 +1,141 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layout/basic.html}">
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>OneFit - 체육시설업 포털</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/recruit/recruit_register.css">
+    <style>
+        #profileImage {
+            width: 150px;   /* 이미지의 너비 */
+            height: 150px;  /* 이미지의 높이 */
+            object-fit: cover;  /* 비율에 맞게 자르기 */
+            /* 원형으로 표시하려면 이 속성 추가 */
+        }
+
+        /*#step5 {*/
+        /*    display: block !important;*/
+        /*    visibility: visible;  !* 이 부분 추가 *!*/
+        /*    opacity: 1;           !* 이 부분 추가 *!*/
+        /*}*/
+    </style>
+</head>
+
+<body>
+<!-- 헤더 start -->
+<header>
+    <!-- 메인 메뉴 -->
+    <div class="nav-container">
+        <!-- 로고 -->
+        <a class="navbar-brand me-auto" href="/main">OneFit</a>
+
+        <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
+        <ul class="nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="/recruit/list">채용정보</a></li>
+            <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
+            <li class="nav-item dropdown dropdown-main">
+                <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
+                   data-bs-toggle="dropdown">거래</a>
+                <ul class="dropdown-menu dropdown-main-menu">
+                    <li><a class="dropdown-item" href="transa_list">시설</a></li>
+                    <li><a class="dropdown-item" href="transa_list">기구</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown dropdown-main">
+                <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
+                   data-bs-toggle="dropdown">커뮤니티</a>
+                <ul class="dropdown-menu dropdown-main-menu">
+                    <li><a class="dropdown-item" href="#">Q&A</a></li>
+                    <li><a class="dropdown-item" href="#">공지사항</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- 사이드 메뉴(로그인, 회원가입 / 로그아웃, 마이페이지, 알림) -->
+        <div class="auth-links ms-auto">
+            <!-- 로그인 전 메뉴 -->
+            <div th:if="${all_memberDTO == null}">
+                <a type="button" class="basic-btn btn btn-primary btns" href="/login">
+                    로그인
+                </a>
+                <span class="separator">|</span>
+                <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
+                        data-bs-target="#signupModal">
+                    회원가입
+                </button>
+            </div>
+
+            <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 start -->
+            <button class="basic-btn btn btn-primary btns btn-default" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                판매하기
+            </button>
+            <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 start -->
+            <div class="dropdown">
+                <!-- 드롭다운 메뉴 -->
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
+                    <li><a class="dropdown-item" href="transa_fa_register">시설</a></li>
+                </ul>
+            </div>
+            <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 end -->
+            <span class="separator">|</span>
+            <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 end -->
+
+            <!-- 로그인 후 메뉴 -->
+            <div th:if="${all_memberDTO != null}">
+                <a type="button" class="basic-btn btn btn-primary btns" href="/logout">
+                    로그아웃
+                </a>
+                <span class="separator">|</span>
+                <button type="button" class="basic-btn btn btn-primary btns">
+                    <a href="/my" class="text-reset text-decoration-none">
+                        마이페이지
+                    </a>
+                </button>
+            </div>
+        </div>
+
+        <!-- 알림 start -->
+        <div class="dropdown">
+            <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            3
+                        </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                <li>
+                    <h6 class="dropdown-header">알림</h6>
+                </li>
+                <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
+                <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
+                <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
+            </ul>
+        </div>
+        <!-- 알림 end -->
+    </div>
+    </div>
+</header>
+<!-- 헤더 end -->
+
 <!-- 메인 start -->
 <main>
+    <div layout:fragment="myPage"></div>
     <!-- 공고 등록 폼 start -->
     <div layout:fragment="main">
         <div class="recuit-container container mt-5 ">
@@ -18,8 +150,32 @@
             <form action="/recruit/register" method="post" id="jobForm">
                 <div class="card p-4 mb-4 shadow-sm">
                     <!-- 스텝 1 -->
-                    <div class="step active">
-                        <h4 class="section-title">모집 내용&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(1/7)</span></h4>
+                    <div class="step" id="step5" style="display:none;">
+                        <h4 class="section-title">근무지 주소&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(1/7)</span></h4>
+                        <hr>
+
+                        <div class="mb-2">
+                            <label class="form-label" style="width: 175px;"><strong><span style="color: red;">*</span>&nbsp;근무지주소</strong></label>
+                        </div>
+                        <div class="mb-2">
+                            <input type="text" style="width: 350px" class="form-control kakaoAddress" placeholder="주소 검색">&nbsp;&nbsp;&nbsp;
+                            <button class="btn btn-secondary searchAddress"><i class="bi bi-search"></i></button>&nbsp;&nbsp;
+                            <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center" id="getAddress" style="width: 42px; height: 38px;">
+                                <i class="bi bi-plus" style="font-size: 30px;"></i>
+                            </button>
+                        </div>
+                        <div class="mb-2">
+                        <input type="text" id="addressInput" name="reMainAddress" class="form-control" style="width: 350px"  placeholder="대표주소(추가 버튼을 누르면 자동 입력됩니다)">&nbsp;&nbsp;&nbsp;
+                        <input type="text" id="addressDetailInput" name="reDetailAddress" class="form-control" style="width: 300px" placeholder="상세 주소 입력">
+                        </div>
+                        <br>
+                        <div id="kakaoMap" style="width:920px;height:400px;"></div>
+
+                    </div>
+
+                    <!-- 스텝 2 -->
+                    <div class="step active" style="display:block;">
+                        <h4 class="section-title">모집 내용&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(2/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -76,21 +232,21 @@
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 158px;"><strong><span style="color: red;">*</span>&nbsp;모집인원</strong></label>
-                            <input type="num" name="reNumHiring" class="form-control" style="width: 50px;" maxlength="2">&nbsp;&nbsp;<span>명</span>&nbsp;&nbsp;
+                            <input type="number" name="reNumHiring" class="form-control" style="width: 50px;" maxlength="2">&nbsp;&nbsp;<span>명</span>&nbsp;&nbsp;
                             <span style="color: rgb(253, 93, 93);">(숫자만 입력)</span>
                         </div>
                         <br>
                     </div>
-                    <!-- 스텝 2 -->
+                    <!-- 스텝 3 -->
                     <div class="step">
-                        <h4 class="section-title">근무 조건&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(2/7)</span></h4>
+                        <h4 class="section-title">근무 조건&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(3/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
                             <label class="form-label" style="width: 170px;"><strong><span style="color: red;">*</span>&nbsp;근무요일</strong></label>
-                            <input type="radio" name="reWorkDays" value="월 ~ 금">&nbsp;<label>월~금</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="월 ~ 토">&nbsp;<label>월~토</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="월 ~ 일">&nbsp;<label>월~일</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~금">&nbsp;<label>월~금</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~토">&nbsp;<label>월~토</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~일">&nbsp;<label>월~일</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="주말(토)">&nbsp;<label>주말(토)</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="주말(일)">&nbsp;<label>주말(일)</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="주말(토,일)">&nbsp;<label>주말(토,일)</label>&nbsp;
@@ -130,9 +286,9 @@
                         </div>
                         <br>
                     </div>
-                    <!-- 스텝 3 -->
+                    <!-- 스텝 4 -->
                     <div class="step">
-                        <h4 class="section-title">지원 조건&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(3/7)</span></h4>
+                        <h4 class="section-title">지원 조건&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(4/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -278,9 +434,9 @@
 
                         <br>
                     </div>
-                    <!-- 스텝 4 -->
+                    <!-- 스텝 5 -->
                     <div class="step">
-                        <h4 class="section-title">접수 기간 / 방법&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(4/7)</span></h4>
+                        <h4 class="section-title">접수 기간 / 방법&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(5/7)</span></h4>
                         <hr>
                         <br>
                         <div class="mb-2">
@@ -296,42 +452,60 @@
                         </div>
                         <br>
                     </div>
-                    <!-- 스텝 5 -->
-                    <div class="step">
-                        <h4 class="section-title">근무지 정보&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(5/7)</span></h4>
-                        <hr>
-
-                        <div class="mb-2">
-                            <label class="form-label" style="width: 225px;"><strong><span style="color: red;">*</span>&nbsp;근무지주소</strong></label>
-                            <input type="text" class="form-control" placeholder="상세 정보에 입력한 주소로 자동 입력됩니다 (변경을 원하시면 상세 정보 주소를 변경해주세요)">
-
-                        </div>
-                        <br>
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="https://map.naver.com/v5/" width="100%" height="300"></iframe>
-                        </div>
-                    </div>
                     <!-- 스텝 6 -->
                     <div class="step">
-                        <h4 class="section-title">근무지 정보&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(6/7)</span></h4>
+                        <h4 class="section-title">근무지 사진&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(6/7)</span></h4>
                         <hr>
                         <div class="mb-2">
                             <label class="form-label" style="width: 225px;"><strong><span style="color: red;">*</span>&nbsp;근무회사사진</strong></label>
                         </div>
+
+                        <div class="mb-2">
+                            <!--                        <span class="input-group-text">대표이미지</span>-->
+                            <label class="form-label" style="width: 100px;">&nbsp;대표 이미지</strong></label>
+                            <label for="fileInput" class="btn btn-outline-secondary">
+                                파일 업로드
+                            </label>
+
+                            <input type="file" name="mainFiles" class="form-control" id="fileInput" style="display: none;" accept="image/*">
+                            &nbsp;&nbsp;
+
+                            <button type="button" class="btn btn-primary uploadMainBtn">저장</button>
+
+                            <!--                     <input type="file" name="files" class="form-control" multiple>&ndash;&gt;-->
+                        </div>
+                        <span style="color: #838485; font-size: 13px; font-weight: 300; margin-left: 30px">채용공고에 출력될 대표 이미지를 설정합니다 (1장)</span>
+                        <div class="mb-2">
+                            <!--                        <span class="input-group-text">대표이미지</span>-->
+                            <label class="form-label" style="width: 100px;">&nbsp;기본 이미지</strong></label>
+                            <label for="fileInput1" class="btn btn-outline-secondary">
+                                파일 업로드
+                            </label>
+
+                            <input type="file" name="basicFiles" class="form-control" id="fileInput1" style="display: none;" accept="image/*">
+                            &nbsp;&nbsp;
+                            <div class="float-end uploadHidden">
+                                <button type="button" class="btn btn-primary uploadBasicBtn">저장</button>
+                            </div>
+                            <!--                        <input type="file" name="files" class="form-control" multiple>-->
+
+
+
+                        </div>
+                        <span style="color: #838485; font-size: 13px; font-weight: 300; margin-left: 30px">채용공고에 출력될 기본 이미지를 설정합니다 (최대3장)</span>
                         <div class="row mt-3">
                             <div class="col">
                                 <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap">
                                 </div>
                             </div>
                         </div>
-                        <input type="file" name="files" class="form-control" multiple>
+
                         <div class="input-group mb-3">
-                            <span class="input-group-text">Images</span>
-                            <div class="float-end uploadHidden">
-                                <button type="button" class="btn btn-primary uploadBtn">ADD Files</button>
-                            </div>
+
                         </div>
+
                     </div>
+
                     <!-- 스텝 7 -->
                     <div class="step">
                         <h4 class="section-title">담당자 정보&nbsp;<span style="color:  rgb(253, 93, 93); font-size: 17px">(7/7)</span></h4>
@@ -508,11 +682,178 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=3c13bfa6949d3bc10bcf20e9fa7b2bdd&autoload=false&libraries=services,clusterer,drawing&">
+</script>
+<!--<script src="/js/member/kakaoMap.js"></script>-->
 <script src="/js/basic.js"></script>
 <script src="/js/recruit/recruit_register.js"></script>
 <script src="/js/recruit/recruit_upload.js"></script>
+<script src="/js/recruit/recruit_kakaoMap.js"></script>
+
 
 <script layout:fragment="script" th:inline="javascript">
+//     const apiKey = 'fa220b2ab314e7cc946b01754f58a2f0';
+//
+//     let clickLat = null;  // 전역 변수로 위도 저장
+//     let clickLng = null;  // 전역 변수로 경도 저장
+//     let marker = null;
+//
+//     function initMap() {
+//
+//
+//         kakao.maps.load(() => {
+//             var container = document.getElementById('kakaoMap');
+//             var options = {
+//                 center: new kakao.maps.LatLng(33.450701, 126.570667),
+//                 level: 3
+//             };
+//             var kakaoMap = new kakao.maps.Map(container, options);
+//
+//
+//             // 주소를 좌표로 변환하기 위한 버튼 클릭 이벤트
+//             document.querySelector(".searchAddress").addEventListener("click", function () {
+//                 const address = document.querySelector('.kakaoAddress').value.trim();
+//                 if (!address) {
+//                     alert('주소를 입력해주세요!');
+//                     return;
+//                 }
+//
+//                 // 카카오 REST API를 사용하여 주소를 좌표로 변환
+//                 const url = `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`;
+//
+//                 // Fetch API를 사용하여 GET 요청
+//                 fetch(url, {
+//                     method: 'GET',
+//                     headers: {
+//                         'Authorization': `KakaoAK ${apiKey}`,  // Authorization 헤더에 앱 키를 포함
+//                     }
+//                 })
+//                     .then(response => response.json())  // JSON 형식으로 응답 처리
+//                     .then(data => {
+//                         if (data.documents && data.documents.length > 0) {
+//                             const result = data.documents[0];
+//                             const lat = result.y;  // 좌표 (위도)
+//                             const lng = result.x;  // 좌표 (경도)
+//                             console.log(`주소: ${result.address_name}`);
+//                             console.log(`위도: ${lat}, 경도: ${lng}`);
+//
+//                             clickLat = lat;  // 전역 변수로 위도 저장
+//                             clickLng = lng;
+//
+//                             // 좌표를 이용해 지도에 마커 표시
+//                             var coords = new kakao.maps.LatLng(lat, lng);
+//
+//                             // 마커 표시
+//                             var marker = new kakao.maps.Marker({
+//                                 map: kakaoMap,
+//                                 position: coords
+//                             });
+//
+//                             // 인포윈도우 표시
+//                             var infowindow = new kakao.maps.InfoWindow({
+//                                 content: `<div style="width:150px;text-align:center;padding:6px 0;">${result.address_name}</div>`
+//                             });
+//                             infowindow.open(kakaoMap, marker);
+//
+//                             // 지도 중심을 결과값으로 받은 위치로 이동
+//                             kakaoMap.setCenter(coords);
+//                         } else {
+//                             console.log('주소를 찾을 수 없습니다.');
+//                             alert('주소를 찾을 수 없습니다.');
+//                         }
+//                     })
+//                     .catch(error => {
+//                         console.error('요청 중 오류 발생:', error);
+//                         alert('주소 검색 중 오류가 발생했습니다.');
+//                     });
+//             });
+//
+//
+// // 지도 클릭 이벤트 추가: 지도 클릭 시 해당 위치의 좌표 저장
+//             kakao.maps.event.addListener(kakaoMap, 'click', function (mouseEvent) {
+//                 var latLng = mouseEvent.latLng;
+//                 clickLat = latLng.getLat();  // 클릭한 위치의 위도 저장
+//                 clickLng = latLng.getLng();  // 클릭한 위치의 경도 저장
+//
+//                 // 기존 마커가 있다면 제거
+//                 if (marker) {
+//                     marker.setMap(null);  // 기존 마커 제거
+//                 }
+//
+//                 // 새로운 마커 표시
+//                 marker = new kakao.maps.Marker({
+//                     map: kakaoMap,
+//                     position: latLng
+//                 });
+//
+//                 // 클릭한 위치에 대한 주소 요청을 위한 알림
+//                 // alert(`위도: ${clickLat}, 경도: ${clickLng}`);
+//             });
+//
+//
+//             // 버튼 클릭 이벤트 추가: 버튼 클릭 시 좌표를 주소로 변환
+//             document.getElementById('getAddress').addEventListener('click', function () {
+//                 if (clickLat === null || clickLng === null) {
+//                     alert('먼저 지도에서 클릭하여 좌표를 선택해주세요.');
+//                     return;
+//                 }
+//
+//                 const url = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${clickLng}&y=${clickLat}&input_coord=WGS84`;
+//
+//                 fetch(url, {
+//                     method: 'GET',
+//                     headers: {
+//                         'Authorization': `KakaoAK ${apiKey}`,  // 인증 헤더
+//                     }
+//                 })
+//                     .then(response => response.json())  // JSON 응답 처리
+//                     .then(data => {
+//                         if (data.meta.total_count > 0) {
+//                             const address = data.documents[0].road_address ? data.documents[0].road_address.address_name : data.documents[0].address.address_name;
+//                             console.log('주소:', address);
+//                             alert('주소: ' + address);
+//                             document.getElementById('addressInput').value = address;
+//                         } else {
+//                             alert('주소를 찾을 수 없습니다.');
+//                         }
+//                     })
+//                     .catch(error => {
+//                         console.error('오류 발생:', error);
+//                         alert('주소 검색 중 오류가 발생했습니다.');
+//                     });
+//             });
+//         });
+//     }
+//     let mapInitialized = false;
+//
+//     function showStep5() {
+//         // 모든 스텝 숨기기 (다른 스텝도 숨기기)
+//         document.querySelectorAll('.step').forEach(step => {
+//             step.style.display = 'none';
+//         });
+//
+//         // step5만 보이게 설정
+//         const step5Element = document.getElementById("step5");
+//         step5Element.style.display = "block";  // step5를 화면에 표시
+//
+//         if (!mapInitialized) {
+//             // 지도 로딩이 되지 않았다면, 카카오 지도 API 로드 후 초기화
+//             kakao.maps.load(() => {
+//                 initMap();  // 지도 초기화
+//                 mapInitialized = true;
+//             });
+//         } else {
+//             // 이미 지도 초기화가 되어있다면, relayout 호출
+//
+//         }
+//     }
+//     window.onload = function() {
+//         showStep5();  // 자동으로 showStep5 호출
+//     };
+
+
+
+    // document.getElementById('showStep5Btn').addEventListener('click', showStep5);
     // const error = [[${error}]]
     //
     // if (error && error === 'allId') {
@@ -538,8 +879,9 @@
         alert(result)
     }
 </script>
+</body>
 
 <!-- footer -->
-<th:block th:replace="foot/footer :: footer"></th:block>
+<!--<th:block th:replace="foot/footer :: footer"></th:block>-->
 
 </html>

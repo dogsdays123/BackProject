@@ -2,6 +2,10 @@
 body{
     background-color: white;
 }
+
+a{
+    text-decoration: none;
+}
 .card-deck {
     display: flex;
     justify-content: space-between;
@@ -12,6 +16,9 @@ body{
     flex: 0 0 23%; /* 카드 크기 설정 */
     height: 200px;
     cursor: pointer;
+    border: none;
+    background-color: white;
+    margin-right: 20px;
 }
 
 .carousel-control-prev,
@@ -72,4 +79,89 @@ body{
 
 .notice-text.show {
     opacity: 1;
+}
+
+/* 갤러리 전체 스타일 */
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 자동으로 250px 크기의 그리드를 만듬 */
+    gap: 30px; /* 카드 사이 간격 */
+    justify-items: center; /* 카드들을 가운데 정렬 */
+    padding: 20px;
+}
+
+/* 각 이미지 카드 스타일 */
+.photo-card {
+    position: relative;
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* 카드에 그림자 추가 */
+    background: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 카드 호버 시 확대 및 그림자 효과 */
+.photo-card:hover {
+    transform: translateY(-2px); /* 카드가 위로 살짝 올라오는 효과 */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과 */
+}
+
+/* 이미지 스타일 */
+.photo-card .gallery-item {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지 비율을 맞추기 위해 이미지 잘리게 설정 */
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+/* 이미지 호버 시 확대 효과 */
+.photo-card:hover .gallery-item {
+    transform: scale(1); /* 이미지를 확대하여 좀 더 강조 */
+}
+
+/* 오버레이 스타일 */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* 반투명 배경 */
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 12px;
+}
+
+/* 호버 시 오버레이 나타나게 */
+.photo-card:hover .overlay {
+    opacity: 1;
+}
+
+/* 텍스트 스타일 */
+.photo-text, .photo-title  {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+    color: white;
+}
+
+/* 카드 제목 스타일 */
+h4.fw-bold {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+/* 카드 내부 여백 */
+.card-body {
+    padding: 20px;
 }

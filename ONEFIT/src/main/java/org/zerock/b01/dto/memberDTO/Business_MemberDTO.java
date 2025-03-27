@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Business_MemberDTO {
+
     private Long businessId;
 
     private String bAddress;
@@ -40,4 +41,5 @@ public class Business_MemberDTO {
 
     @NotNull
     private String allId;
+
 }

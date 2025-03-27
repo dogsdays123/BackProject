@@ -16,4 +16,8 @@ public interface RecruitRepository extends JpaRepository<Recruit_Register, Long>
     @EntityGraph(attributePaths = {"imageSet"})
     @Query("select b from Recruit_Register b where b.recruitId =:recruitId")
     Optional<Recruit_Register> findByIdWithImages(Long recruitId);
+
+    @EntityGraph(attributePaths = {"imageSet"})
+    @Query("select b from Recruit_Register b where b.recruitId =:recruitId")
+    Optional<Recruit_Register> findByBusinessId(Long recruitId);
 }
