@@ -1,6 +1,8 @@
 package org.zerock.b01.service.memberService;
 
 import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
+import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
@@ -17,6 +19,8 @@ public interface Member_Set_Type_Service {
     void businessModify(Business_MemberDTO business_memberDTO);
     TrainerDTO trainerReadForUser(Long userId);
     List<RecruitDTO> recruitReadForBusiness(Long businessId);
+    List<NoticeBoardDTO> noticeReadForAllMember(String allId);
+    List<QnaBoardDTO> qnaReadForAllMember(String allId);
 
     String encodeUserForURL(User_MemberDTO user_memberDTO);
 }

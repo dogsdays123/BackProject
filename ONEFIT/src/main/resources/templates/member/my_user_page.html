@@ -43,6 +43,12 @@
                                         <div class="card p-4 mb-4 shadow-sm">
 
                                             <div class="row">
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <br><br><h4>저장된 이력서가 없습니다</h4><br><br>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" th:if="${!(trainerDTO == null)}">
                                                 <!-- 첫 번째 카드 -->
                                                 <div class="col-md-6">
                                                     <div class=" card p-4 mb-4 shadow-sm">
@@ -112,9 +118,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <button type="button" class="btn btn-primary w-100 modal-btn" th:onclick="|window.location.href='/trainer/trainer_modify?' + 'tid=' + ${trainerDTO.trainerId}|">이력서 수정</button>
                                             </div>
-
-                                            <button type="button" class="btn btn-primary w-100 modal-btn" th:onclick="|window.location.href='/trainer/trainer_modify?' + 'tid=' + ${trainerDTO.trainerId}|">이력서 수정</button>
                                         </div>
                                     </form>
                                 </div>

@@ -18,7 +18,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.Business_Member_DataDTO;
 import org.zerock.b01.dto.memberDTO.MemberDataDTO;
@@ -144,8 +146,11 @@ public class All_MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_board")
-    public void my_board() {
+    public void my_board(All_MemberDTO all_memberDTO, Model model) {
         log.info("my_board");
+        if(all_memberDTO !=null) {
+            List<NoticeBoardDTO> nBoard = member_Set_Type_Service.noticeReadForAllMember(all_memberDTO.getAllId());
+        }
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -177,9 +182,11 @@ public class All_MemberController {
             } catch (Exception e) {
                 log.error("JSON 변환 오류", e);
             }
-
-            model.addAttribute("trainerDTO", trainerDTO);
+        } else{
+            trainerDTO = null;
         }
+        log.info("$#$#$#" + trainerDTO);
+        model.addAttribute("trainerDTO", trainerDTO);
     }
 
     @PreAuthorize("isAuthenticated()")
