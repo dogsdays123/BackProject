@@ -42,6 +42,51 @@
                                     <form class="no-outline">
                                         <div class="card p-4 mb-4 shadow-sm">
 
+                                            <div class="row">
+                                                <div class="col-md-6" th:each="dto:${responseDTO.dtoList}">
+                                                    <div class=" card p-4 mb-4 shadow-sm">
+                                                        <div class="d-flex align-items-center justify-content-between">
+                                                            <div class="profile-frame-small rounded-circle">
+                                                                <th:block th:if="${dto.thumbnails != null && dto.thumbnails.size() > 0}">
+                                                                    <img class="profile-img" th:src="|/trainer_thumbnail/view/${dto.thumbnails.get(0)}|" alt="profile">
+                                                                </th:block>
+                                                                <th:block th:unless="${dto.thumbnails != null && dto.thumbnails.size() > 0}">
+                                                                    <img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">
+                                                                </th:block>
+                                                            </div>
+                                                            <div>
+                                                                <div class="resume-header">
+                                                                    <h4 class="mb-1">[[${dto.title}]]</h4>
+                                                                    <button type="button" class="btn btn-outline-secondary viewbtn" th:name="${responseDTO.dtoList.indexOf(dto)}">이력서 열람</button>
+                                                                </div>
+
+                                                                <div>
+                                                                    <p class="mb-1">[[${dto.name}]]</p>
+                                                                </div>
+                                                                <br>
+                                                                <br>
+                                                                <div class="resume-footer">
+                                                                    <div class="list-card-info mb-1">
+                                                                        <p class="mb-0">[[${dto.careerPeriod == 0 ? '신입' : dto.careerPeriod.toString() + '년'}]]</p>
+                                                                        <p class="mb-0">&nbsp;|&nbsp;</p>
+                                                                        <p class="mb-0">[[${dto.wantJob}]]</p>
+                                                                        <p class="mb-0">&nbsp;|&nbsp;</p>
+                                                                        <p class="mb-0">[[${dto.wantSalType}]] [[${dto.wantSal.toString().format("%,d", dto.wantSal)}]]</p>
+                                                                    </div>
+                                                                    <p class="mb-1 text-muted trainer-regi-date" th:unless="${responseDTO.sorting.equals('modDate')}">
+                                                                        <strong>작성:</strong> [[${dto.regDate.toString().substring(0, 10)}]]
+                                                                        <span class="bottom-time"><strong>시간:</strong> [[${dto.regDate.toString().substring(11, 19)}]]</span>
+                                                                    </p>
+                                                                    <p class="mb-1 text-muted trainer-regi-date" th:if="${responseDTO.sorting.equals('modDate')}">
+                                                                        <strong>수정:</strong> [[${dto.modDate.toString().substring(0, 10)}]]
+                                                                        <span class="bottom-time"><strong>시간:</strong> [[${dto.modDate.toString().substring(11, 19)}]]</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                             <button type="submit" class="btn btn-primary w-100 modal-btn">이력서 수정
                                             </button>
