@@ -20,6 +20,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
+  width: 400px;
 }
 .modal-wide{
   max-width: 900px;
@@ -57,4 +58,27 @@ display: flex;
 }
 .img-center {
   text-align: center !important;
+}
+.smoke {
+  background-color: #f9f9f9;
+}
+.trainer-regi-date {
+  flex-shrink: 0 !important;
+  margin-left: 10px;
+  position: relative;
+}
+.list-card-info {
+  display: flex;
+  flex-wrap: wrap;
+}
+.bottom-time {
+  position: absolute;
+  top: 20px;
+  left: 0;
+}
+.reset-filtering {
+  text-decoration: none;
+  position: relative;
+  top: -14px;
+  left: -8px;
 }

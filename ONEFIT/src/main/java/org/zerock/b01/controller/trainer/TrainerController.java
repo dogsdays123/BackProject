@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -17,27 +18,46 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.b01.domain.trainer.Trainer_Thumbnails;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
+import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerPageRequestDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerPageResponseDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
+import org.zerock.b01.repository.trainerRepository.TrainerRepository;
+import org.zerock.b01.repository.trainerRepository.Trainer_ThumbnailsRepository;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 import org.zerock.b01.service.trainerService.TrainerService;
+
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/trainer")
 @Log4j2
 @RequiredArgsConstructor
 public class TrainerController {
+    @Value("${org.zerock.upload.thumbnailPath}")
+    private String thumbnailPath;
+
     private final TrainerService trainerService;
+    private final Trainer_ThumbnailsRepository trainerThumbnailsRepository;
 
     private final All_MemberService all_memberService;
     private final Member_Set_Type_Service member_Set_Type_Service;
 
+    // 로그인 유저 프로필 Model Attribute
     @ModelAttribute
     public void Profile(All_MemberDTO all_memberDTO, Model model, Authentication authentication, HttpServletRequest request) {
         // 인증 정보가 없다면 null 설정
@@ -108,14 +128,19 @@ public class TrainerController {
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
 
+    @Operation
     @GetMapping("/trainer_list")
-    public void trainer_list() {
+    public void trainer_list(TrainerPageRequestDTO pageRequestDTO, Model model) {
         log.info("trainer_list");
+        TrainerPageResponseDTO<TrainerViewDTO> responseDTO = trainerService.list(pageRequestDTO);
+        log.info(responseDTO);
+        model.addAttribute("responseDTO", responseDTO);
     }
 
     @GetMapping("/trainer_register")
-    public void trainer_register_GET() {
+    public void trainer_register_GET(TrainerPageRequestDTO pageRequestDTO, Model model) {
         log.info("trainer_register_GET");
+        model.addAttribute("request", pageRequestDTO);
     }
 
     @PostMapping("/trainer_register")
@@ -136,13 +161,14 @@ public class TrainerController {
 
     @Operation
     @GetMapping({"/trainer_view", "/trainer_modify"})
-    public void trainer_view(Long tid, PageRequestDTO pageRequestDTO, Model model) {
+    public void trainer_view(Long tid, TrainerPageRequestDTO pageRequestDTO, Model model) {
         log.info("trainer_view or trainer_modify");
         log.info(tid);
         TrainerViewDTO trainerViewDTO = trainerService.viewOne(tid);
 
         log.info(trainerViewDTO);
         model.addAttribute("dto", trainerViewDTO);
+        model.addAttribute("request", pageRequestDTO);
     }
 
     @PostMapping("/trainer_modify")
@@ -161,5 +187,36 @@ public class TrainerController {
         Long trainer_id = trainerService.registerTrainer(trainerDTO);
         redirectAttributes.addAttribute("tid", trainerDTO.getTrainerId());
         return "redirect:/trainer/trainer_view";
+    }
+
+    @PostMapping("/trainer_delete")
+    public String trainer_delete_POST(TrainerDTO trainerDTO, RedirectAttributes redirectAttributes) {
+        log.info("trainer_delete_POST");
+        Long tid = trainerDTO.getTrainerId();
+
+        // 삭제되기 전에 미리 이름을 가져와야 서버에서 파일을 지울 수 있음
+        List<Trainer_Thumbnails> ttlist = trainerThumbnailsRepository.findByTid(tid).stream().map(Optional::orElseThrow).sorted().collect(Collectors.toList());
+        trainerService.removeTrainer(tid);
+
+        // 강사정보 삭제 끝났으면 서버에서 첨부파일들을 삭제
+        ttlist.forEach(ttt -> {
+            String fileName = ttt.getThumbnailUuid() + "_" + ttt.getImgname();
+
+            try {
+                Path filePath = Paths.get(thumbnailPath, fileName);
+
+                if (Files.exists(filePath)) {
+                    log.info(ttt.getThumbnailUuid());
+                    Files.delete(filePath);
+                } else {
+                    throw new NoSuchFileException(filePath.toString());
+                }
+            } catch (Exception e) {
+                log.info(ttt.getThumbnailUuid() + "_" + ttt.getImgname() + "Not Found");
+                e.printStackTrace();
+            }
+        });
+
+        return "redirect:/trainer/trainer_list";
     }
 }

@@ -3,6 +3,7 @@ package org.zerock.b01.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.zerock.b01.dto.trainerDTO.TrainerPageRequestDTO;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class PageResponseDTO<E> {
 
     @Builder(builderMethodName = "withAll")
     public PageResponseDTO(PageRequestDTO pageRequestDTO, List<E> dtoList, int total) {
-        if(total <= 0){
+        if (total <= 0) {
             return;
         }
 
@@ -41,5 +42,4 @@ public class PageResponseDTO<E> {
         this.prev = this.start > 1;
         this.next = total > this.end * this.size;
     }
-
 }

@@ -1,426 +1,149 @@
 <!DOCTYPE html>
-<html lang="ko">
-
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}"
+      lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneFit - 체육시설업 포털</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/trainer.css">
     <link rel="stylesheet" href="/css/trainer_list.css">
     <link rel="stylesheet" href="/css/pagination.css">
 </head>
-
-<body>
-    <header>
-        <!-- 상단 네비게이션 -->
-        <nav class="navbar navbar-expand-lg">
-            <div class="container d-flex justify-content-between align-items-center">
-                <a class="navbar-brand" href="#">OneFit</a>
-
-                <form class="d-flex">
-                    <div class="search-box">
-                        <input type="text" class="form-control search-bar me-2" placeholder="검색어를 입력하세요">
-                        <i class="fas fa-search"></i>
-                    </div>
-                </form>
-
-                <div class="auth-links">
-                    <!-- 로그인 전 메뉴 -->
-                    <!-- <button type="button" class="basic-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        로그인
-                    </button>
-                    <span class="separator">|</span>
-                    <button type="button" class="basic-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupModal">
-                        회원가입
-                    </button> -->
-
-                    <!-- 로그인 후 메뉴 -->
-                    <button type="button" class="basic-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                        로그아웃
-                    </button>
-                    <span class="separator">|</span>
-                    <button type="button" class="basic-btn btn btn-primary" data-bs-toggle="modal">
-                        마이페이지
-                    </button>
-
-                    <div class="dropdown">
-                        <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-bell"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                3
-                            </span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
-                            <li>
-                                <h6 class="dropdown-header">알림</h6>
-                            </li>
-                            <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
-                            <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
-                            <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </nav>
-
-        <!-- 메인 메뉴 -->
-        <div class="nav-container">
-            <ul class="nav">
-                <li class="nav-item"><a class="nav-link" href="recurit.html">채용정보</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">강사찾기</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link  dropdown-toggle" href="#" id="tradeDropdown" role="button">거래</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">시설</a></li>
-                        <li><a class="dropdown-item" href="#">기구</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link  dropdown-toggle" href="#" id="communityDropdown" role="button">커뮤니티</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Q&A</a></li>
-                        <li><a class="dropdown-item" href="#">공지사항</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </header>
+<div layout:fragment="main" class="smoke">
     <!-- 채용공고 컨텐츠 -->
-    <section>
-    <div class="container mt-4">
-      <!-- 검색 필터 -->
-      <h2>상세 검색</h2>
-      <hr>
-      <form>
-        <div class="row mb-3">
-          <div class="col-md-2">
-            <label for="experience" class="form-label">경력 선택</label>
-            <select id="experience" class="form-select">
-                <option selected>전체</option>
-                <option>신입</option>
-                <option>1년</option>
-                <option>3년</option>
-                <option>5년 이상</option>
-            </select>
-          </div>
-          <div class="col-md-2">
-              <label for="education" class="form-label">학력 선택</label>
-              <select id="education" class="form-select">
-                  <option selected>전체</option>
-                  <option>고졸</option>
-                  <option>대졸</option>
-                  <option>석사 이상</option>
-              </select>
-          </div>
-          <div class="col-md-2">
-            <label for="region" class="form-label">지역 선택</label>
-            <select id="region" class="form-select">
-                <option selected>수원시 영통구</option>
-                <option>서울특별시</option>
-                <option>부산광역시</option>
-            </select>
-          </div>
+    <section class="pt-1">
+        <div class="container mt-4">
+            <!-- 검색 필터: input 순서 중요합니다. 고칠 경우 인덱스도 실제 배치 순서에 맞게 고쳐주세요. -->
+            <h2>상세 검색</h2>
+            <hr>
+            <form action="/trainer/trainer_list" method="get" id="search-trainer">
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <label for="experience" class="form-label">경력 선택</label>
+                        <select id="experience" class="form-select" name="filters" th:with="cfilter = ${responseDTO.filters.length > 0 ? responseDTO.filters[0] : 'c-no'}">
+                            <option value="c-no">전체</option>
+                            <option value="c-0" th:selected="${cfilter.equals('c-0')}">신입</option>
+                            <option value="c-1" th:selected="${cfilter.equals('c-1')}">1년</option>
+                            <option value="c-3" th:selected="${cfilter.equals('c-3')}">3년</option>
+                            <option value="c-5" th:selected="${cfilter.equals('c-5')}">5년 이상</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="education" class="form-label">학력 선택</label>
+                        <select id="education" class="form-select" name="filters" th:with="afilter = ${responseDTO.filters.length > 1 ? responseDTO.filters[1] : 'a-no'}">
+                            <option value="a-no">전체</option>
+                            <option value="a-고졸" th:selected="${afilter.equals('a-고졸')}">고졸</option>
+                            <option value="a-대졸" th:selected="${afilter.equals('a-대졸')}">대졸</option>
+                            <option value="a-석사 이상" th:selected="${afilter.equals('a-석사 이상')}">석사 이상</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="region" class="form-label">지역 선택</label>
+                        <select id="region" class="form-select" name="filters" th:with="lfilter = ${responseDTO.filters.length > 2 ? responseDTO.filters[2] : 'l-no'}">
+                            <option value="l-no">전체</option>
+                            <option value="l-서울" th:selected="${lfilter.equals('l-서울')}">서울</option>
+                            <option value="l-경기도" th:selected="${lfilter.equals('l-경기도')}">경기도</option>
+                            <option value="l-대전" th:selected="${lfilter.equals('l-대전')}">대전</option>
+                            <option value="l-부산" th:selected="${lfilter.equals('l-부산')}">부산</option>
+                            <option value="l-천안" th:selected="${lfilter.equals('l-천안')}">천안</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <label for="sort" class="form-label"></label>
+                        <select id="sort" class="form-select" name="sorting" th:with="sort = ${responseDTO.sorting}">
+                            <option value="regDate" th:selected="${sort.equals('regDate')}">최신등록순</option>
+                            <option value="modDate" th:selected="${sort.equals('modDate')}">최근수정순</option>
+                            <option value="careerPeriod" th:selected="${sort.equals('careerPeriod')}">경력순</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="job" class="form-label"></label>
+                        <select id="job" class="form-select" name="size" th:with="psize = ${responseDTO.size}">
+                            <option value="20" th:selected="${psize == 20}">20개씩</option>
+                            <option value="10" th:selected="${psize == 10}">10개씩</option>
+                            <option value="4" th:selected="${psize == 4}">4개씩</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="number" name="ordering" id="ordering" value="-1" hidden>
+            </form>
         </div>
-        <div class="row mb-3">
-            <div class="col-md-2">
-              <label for="sort" class="form-label"></label>
-              <select id="sort" class="form-select">
-                  <option selected>정렬 조건</option>
-                  <option>최신등록순</option>
-                  <option>최근수정순</option>
-                  <option>경력순</option>
-              </select>
-            </div>
-          <div class="col-md-3">
-              <label for="job" class="form-label"></label>
-              <select id="job" class="form-select">
-                  <option selected>20개씩</option>
-                  <option>10개씩</option>
-                  <option>4개씩</option>
-              </select>
-          </div>
-        </div>
-      </form>
-    </div>
     </section>
     <section>
-      <div class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 style="margin-bottom: 50px;">전체 강사정보 <span class="text-primary">1,513건</span></h2>
-          <a href="/trainer/trainer_register" class="btn btn-primary btn-lg">이력서 등록 +</a>
-        </div>   
-        <hr>
-        <div class="row">
-            <div class="col-md-6">
-              <div class=" card p-4 mb-4 shadow-sm">
-                <div class="d-flex align-items-center">
-                    <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle me-4" alt="김철수">
-                    <div>
-                        <div class="resume-header">
-                          <h4 class="mb-1">웹 개발자</h4>
-                            <button type="button" class="btn btn-outline-secondary viewbtn">이력서 열람</button>
-                        </div>
-                        
-                        <div>
-                          <p class="mb-1">김철수</p>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="resume-footer">
-                            <p class="mb-1">5년 | 필라테스 | 연봉3000만원</p>
-                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                            <p class="mb-1 text-muted"><strong>작성일:</strong> 2024-03-11</p>
-                        </div>
-                    </div>
-                </div>
-              </div>
+        <div class="container mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 style="margin-bottom: 50px;">
+                    탐색 결과
+                    <span class="text-primary">
+                        [[${responseDTO.total}]]건
+                        <a href="/trainer/trainer_list" class="reset-filtering" th:if="${responseDTO.isSearching || !responseDTO.sorting.equals('regDate')}">*</a>
+                    </span>
+                </h2>
+                <a th:href="|@{/trainer/trainer_register}?${responseDTO.link}|" class="btn btn-primary btn-lg">이력서 등록 +</a>
             </div>
-            <div class="col-md-6">
-                <div class=" card p-4 mb-4 shadow-sm">
-                  <div class="d-flex align-items-center">
-                      <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle me-4" alt="김철수">
-                        <div>
-                            <div class="resume-header">
-                                <h4 class="mb-1">웹 개발자</h4>
-                                <button type="button" class="btn btn-outline-secondary viewbtn">이력서 열람</button>
+            <hr>
+            <!-- 갇사정보 리스트 카드 -->
+            <div class="row">
+                <div class="col-md-6" th:each="dto:${responseDTO.dtoList}">
+                    <div class=" card p-4 mb-4 shadow-sm">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="profile-frame-small rounded-circle">
+                                <th:block th:if="${dto.thumbnails != null && dto.thumbnails.size() > 0}">
+                                    <img class="profile-img" th:src="|/trainer_thumbnail/view/${dto.thumbnails.get(0)}|" alt="profile">
+                                </th:block>
+                                <th:block th:unless="${dto.thumbnails != null && dto.thumbnails.size() > 0}">
+                                    <img src="https://dummyimage.com/150x150/000/fff" class="profile-img" alt="프로필 사진">
+                                </th:block>
                             </div>
                             <div>
-                                <p class="mb-1">김철수</p>
-                            </div>
-                            <br>
-                            <br>
-                            <div class="resume-footer">
-                                <p class="mb-1">5년 | 필라테스 | 연봉3000만원</p>
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                                <p class="mb-1 text-muted"><strong>작성일:</strong> 2024-03-11</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class=" card p-4 mb-4 shadow-sm">
-                  <div class="d-flex align-items-center">
-                      <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle me-4" alt="김철수">
-                        <div>
-                            <div class="resume-header">
-                                <h4 class="mb-1">웹 개발자</h4>
-                                <button type="button" class="btn btn-outline-secondary viewbtn">이력서 열람</button>
-                            </div>
-                            <div>
-                                <p class="mb-1">김철수</p>
-                            </div>
-                            <br>
-                            <br>
-                            <div class="resume-footer">
-                                <p class="mb-1">5년 | 필라테스 | 연봉3000만원</p>
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                                <p class="mb-1 text-muted"><strong>작성일:</strong> 2024-03-11</p>
+                                <div class="resume-header">
+                                    <h4 class="mb-1">[[${dto.title}]]</h4>
+                                    <button type="button" class="btn btn-outline-secondary viewbtn" th:name="${responseDTO.dtoList.indexOf(dto)}">이력서 열람</button>
+                                </div>
+
+                                <div>
+                                    <p class="mb-1">[[${dto.name}]]</p>
+                                </div>
+                                <br>
+                                <br>
+                                <div class="resume-footer">
+                                    <div class="list-card-info mb-1">
+                                        <p class="mb-0">[[${dto.careerPeriod == 0 ? '신입' : dto.careerPeriod.toString() + '년'}]]</p>
+                                        <p class="mb-0">&nbsp;|&nbsp;</p>
+                                        <p class="mb-0">[[${dto.wantJob}]]</p>
+                                        <p class="mb-0">&nbsp;|&nbsp;</p>
+                                        <p class="mb-0">[[${dto.wantSalType}]] [[${dto.wantSal.toString().format("%,d", dto.wantSal)}]]</p>
+                                    </div>
+                                    <p class="mb-1 text-muted trainer-regi-date" th:unless="${responseDTO.sorting.equals('modDate')}">
+                                        <strong>작성:</strong> [[${dto.regDate.toString().substring(0, 10)}]]
+                                        <span class="bottom-time"><strong>시간:</strong> [[${dto.regDate.toString().substring(11, 19)}]]</span>
+                                    </p>
+                                    <p class="mb-1 text-muted trainer-regi-date" th:if="${responseDTO.sorting.equals('modDate')}">
+                                        <strong>수정:</strong> [[${dto.modDate.toString().substring(0, 10)}]]
+                                        <span class="bottom-time"><strong>시간:</strong> [[${dto.modDate.toString().substring(11, 19)}]]</span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class=" card p-4 mb-4 shadow-sm">
-                  <div class="d-flex align-items-center">
-                      <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle me-4" alt="김철수">
-                        <div>
-                            <div class="resume-header">
-                                <h4 class="mb-1">웹 개발자</h4>
-                                <button type="button" class="btn btn-outline-secondary viewbtn">이력서 열람</button>
-                            </div>
-                            <div>
-                                <p class="mb-1">김철수</p>
-                            </div>
-                            <br>
-                            <br>
-                            <div class="resume-footer">
-                                <p class="mb-1">5년 | 필라테스 | 연봉3000만원</p>
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                                <p class="mb-1 text-muted"><strong>작성일:</strong> 2024-03-11</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- 페이지네이션 -->
+            <div class="row">
+                <ul class="pagination justify-content-center" id="trainer-pagination">
+                    <a href="#" th:class="${responseDTO.prev ? '' : 'is-deactive'}" th:name="${responseDTO.start - 1}"><li class="pagearrow leftarrow">&lt;</li></a>
+                    <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <a href="#" th:class="${i == responseDTO.page ? 'is-active' : ''}" th:name="${i}"><li class="pageitem">[[${i}]]</li></a>
+                    </th:block>
+                    <a href="#" th:class="${responseDTO.next ? '' : 'is-deactive'}" th:name="${responseDTO.end + 1}"><li class="pagearrow rightarrow">&gt;</li></a>
+                </ul>
             </div>
         </div>
-          <div class="row">
-            <ul class="pagination justify-content-center">
-                <a href="#" class="is-deactive"><li class="pagearrow leftarrow">&lt;</li></a>
-                <a href="#" class="is-active"><li class="pageitem">1</li></a>
-                <a href="#"><li class="pageitem">2</li></a>
-                <a href="#"><li class="pageitem">3</li></a>
-                <a href="#"><li class="pageitem">4</li></a>
-                <a href="#"><li class="pagearrow rightarrow">&gt;</li></a>
-            </ul>
-              <!-- <ul class="pagination justify-content-center">
-                  <li class="page-item"><a class="page-link" href="#">이전</a></li>
-                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">4</a></li>
-                  <li class="page-item"><a class="page-link" href="#">다음</a></li>
-              </ul> -->
-          </div>
-        </div>
-      </div>
     </section>
-    <footer class="bg-dark text-white py-4">
-        <div class="container">
-            <div class="row">
-                <!-- 회사 정보 -->
-                <div class="col-md-3 mb-3">
-                    <h5>회사 정보</h5>
-                    <ul class="list-styled">
-                        <li><a href="#" class="text-white">회사 소개</a></li>
-                        <li><a href="#" class="text-white">채용 정보</a></li>
-                        <li><a href="#" class="text-white">서비스 이용약관</a></li>
-                        <li><a href="#" class="text-white">개인정보 처리방침</a></li>
-                    </ul>
-                </div>
-
-                <!-- 고객 지원 -->
-                <div class="col-md-3 mb-3">
-                    <h5>고객 지원</h5>
-                    <ul class="list-styled">
-                        <li><a href="#" class="text-white">FAQ</a></li>
-                        <li><a href="#" class="text-white">고객센터</a></li>
-                        <li><a href="#" class="text-white">1:1 문의</a></li>
-                    </ul>
-                </div>
-
-                <!-- 소셜 미디어 -->
-                <div class="col-md-3 mb-3">
-                    <h5>소셜 미디어</h5>
-                    <ul class="list-unstyled d-flex">
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a></li>
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-linkedin"></i></a></li>
-                        <li><a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a></li>
-                    </ul>
-                </div>
-
-                <!-- 뉴스레터 구독 -->
-                <div class="col-md-3 mb-3">
-                    <h5>뉴스레터 구독</h5>
-                    <form>
-                        <div class="input-group">
-                            <input type="email" class="form-control" placeholder="이메일을 입력하세요" required>
-                            <button class="btn btn-primary" type="submit">구독</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <hr class="bg-white">
-
-            <div class="row">
-                <div class="col text-center">
-                    <p>&copy; 2025 OneFit. 모든 권리 보유.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
-    <!--  회원가입 모달창 -->
-    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="signupModalLabel"> <span class="rogo-span">OneFit</span> 회원가입</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body signup-modal-body">
-                    <div class="tab-content mt-3" id="signupTabContent-1">
-                        <form>
-                            <div class="mb-3">
-                                <label for="name" class="form-label">이름</label>
-                                <input type="text" class="form-control" id="name" placeholder="홍길동" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">이메일</label>
-                                <input type="email" class="form-control" id="email" placeholder="ex) email@onefit.com" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="username" class="form-label">아이디</label>
-                                <input type="text" class="form-control" id="username-1"  placeholder="3자 이상, 16자 이하의 영어 또는 숫자로 구성" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">비밀번호</label>
-                                <input type="password" class="form-control" id="password-1" placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">전화번호</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="ex) 010-1234-5678" required>
-                            </div>
-                            <button type="submit" class="btn btn-success w-100 modal-btn" id="signupButton">가입하기</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 로그인 모달창 -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel"> <span class="rogo-span">OneFit</span> 로그인</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- 탭 메뉴 -->
-                    <ul class="nav nav-tabs" id="loginTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="social-tab" data-bs-toggle="tab"
-                                data-bs-target="#socialLogin" type="button" role="tab">소셜 로그인</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="general-tab" data-bs-toggle="tab" data-bs-target="#generalLogin"
-                                type="button" role="tab">일반 로그인</button>
-                        </li>
-                    </ul>
-                    <div class="tab-content mt-3" id="signupTabContent">
-                        <!-- 소셜 로그인 -->
-                        <div class="tab-pane fade show active" id="socialLogin" role="tabpanel">
-                            <div class="d-grid gap-2">
-                                <button class="btn kakao-btn modal-btn"><i class="fas fa-comment"></i> 카카오톡으로 로그인</button>
-                                <button class="btn btn-light border modal-btn google-btn"><img src="img/google_rogo.png" width="16px" height="16px"> 구글로 로그인</button>
-                            </div>
-                        </div>
-                        <!-- 일반 로그인 -->
-                        <div class="general-sign-up tab-pane fade" id="generalLogin" role="tabpanel">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">아이디</label>
-                                    <input type="text" class="form-control" id="username"  placeholder="아이디를 입력하세요" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">비밀번호</label>
-                                    <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요" required>
-                                </div>
-                                <button type="submit" class="btn btn-success w-100 modal-btn" id="loginButton">로그인</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- 이력서 모달창 -->
+    <!-- TODO: 현재 JAVASCRIPT 작업중 -->
     <div class="modal fade" id="trainerModal" tabindex="-1" aria-labelledby="trainerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-wide">
             <div class="modal-content">
@@ -436,59 +159,52 @@
                                 <form class="no-outline">
                                     <div class="row">
                                         <div class="col-md-8 top-of-regi">
-                                            <h4 class="section-title">이력서 제목</h4>
+                                            <h4 class="section-title" id="trainer-title">이력서 제목</h4>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>이름:</strong></label>
-                                                <input type="text" class="form-control" placeholder="이름" readonly>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-name" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>성별:</strong></label>
-                                                <select class="form-control">
-                                                    <option>남</option>
-                                                    <option>여</option>
-                                                </select>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-gender" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>생년월일:</strong></label>
-                                                <input type="date" class="form-control" readonly>
+                                                <input type="date" class="form-control do-not-submit" id="trainer-birthday" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>이메일:</strong></label>
-                                                <input type="email" class="form-control" placeholder="name@sample.email" readonly>
+                                                <input type="email" class="form-control do-not-submit" id="trainer-email" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>연락처:</strong></label>
-                                                <input type="tel" class="form-control" placeholder="010-1234-5678" readonly>
+                                                <input type="tel" class="form-control do-not-submit" id="trainer-phone" required readonly>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label"><strong>주소:</strong></label>
-                                                <input type="text" class="form-control" placeholder="OO도 OO시 OO로 OO" readonly>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-address" required readonly>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 img-center">
-                                            <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle profile-img mb-3" alt="프로필 사진">
-                                            <!--                            <input type="file" class="form-control">-->
+                                        <div class="col-md-4 img-center slider-box">
+                                            <button type="button" class="slider-arrow-left" id="left-slider">&lt;</button>
+                                            <div class="profile-frame mb-3 rounded-circle" id="slider-frame"></div>
+                                            <button type="button" class="slider-arrow-right" id="right-slider">&gt;</button>
                                         </div>
                                     </div>
-                                </form>
-                                <br>
-                                <form class="no-outline">
+                                    <br>
                                     <div>
                                         <h4 class="section-title">자기소개</h4>
-                                        <textarea class="form-control" rows="5" placeholder="자기소개를 입력하세요" readonly></textarea>
+                                        <textarea class="form-control" rows="5" name="content" placeholder="자기소개를 입력하세요" id="trainer-content" readonly></textarea>
                                     </div>
                                     <br>
                                     <div>
                                         <h4 class="section-title">학력</h4>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>최종학력</strong></label>
-                                            <select class="form-control">
-                                                <option value="고졸">고졸</option>
-                                                <option value="대졸">대졸</option>
-                                                <option value="석사 이상">석사 이상</option>
-                                            </select>
+                                            <input type="text" class="form-control do-not-submit" id="trainer-acfinal" required readonly>
                                         </div>
                                         <label class="form-label"><strong>학력 상세</strong></label>
+                                        <input type="text" name="academy" id="academy-real" hidden>
                                         <table class="table table-bordered" id="academy-table">
                                             <thead>
                                             <tr>
@@ -499,28 +215,7 @@
                                                 <th>전공</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>
-                                                    <select class="form-control">
-                                                        <option value="고등학교">고등학교</option>
-                                                        <option value="전문대학교">전문대학교</option>
-                                                        <option value="대학교">대학교</option>
-                                                        <option value="대학원">대학원</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control">
-                                                        <option value="졸업">졸업</option>
-                                                        <option value="재학">재학</option>
-                                                        <option value="휴학">휴학</option>
-                                                        <option value="중퇴">중퇴</option>
-                                                    </select>
-                                                </td>
-                                                <td><input type="date" class="form-control" readonly></td>
-                                                <td><input type="text" class="form-control" placeholder="학교명" readonly></td>
-                                                <td><input type="text" class="form-control" value="-" readonly></td>
-                                            </tr>
+                                            <tbody id="academy-table-body">
                                             </tbody>
                                         </table>
                                     </div>
@@ -529,14 +224,10 @@
                                         <h4 class="section-title">경력</h4>
                                         <div class="mb-3">
                                             <label class="form-label"><strong>경력기간</strong></label>
-                                            <select class="form-control">
-                                                <option>신입</option>
-                                                <option>1년 이상</option>
-                                                <option>3년 이상</option>
-                                                <option>5년 이상</option>
-                                            </select>
+                                            <input type="text" class="form-control do-not-submit" id="trainer-cperiod" required readonly>
                                         </div>
                                         <label class="form-label"><strong>경력 상세</strong></label>
+                                        <input type="text" name="career" id="career-real" hidden>
                                         <table class="table table-bordered" id="career-table">
                                             <thead>
                                             <tr>
@@ -546,19 +237,14 @@
                                                 <th>내용</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td><input type="text" class="form-control" placeholder="조직명" readonly></td>
-                                                <td><input type="text" class="form-control" placeholder="직함" readonly></td>
-                                                <td><input type="number" class="form-control" min="0" placeholder="기간" readonly></td>
-                                                <td><input type="text" class="form-control" placeholder="경력 내용" readonly></td>
-                                            </tr>
+                                            <tbody id="career-table-body">
                                             </tbody>
                                         </table>
                                     </div>
                                     <br>
                                     <div>
                                         <h4 class="section-title">자격증</h4>
+                                        <input type="text" name="license" id="license-real" hidden>
                                         <table class="table table-bordered" id="license-table">
                                             <thead>
                                             <tr>
@@ -567,18 +253,14 @@
                                                 <th>취득일</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td><input type="text" class="form-control" placeholder="명칭" readonly></td>
-                                                <td><input type="text" class="form-control" placeholder="기관명" readonly></td>
-                                                <td><input type="date" class="form-control" readonly></td>
-                                            </tr>
+                                            <tbody id="license-table-body">
                                             </tbody>
                                         </table>
                                     </div>
                                     <br>
                                     <div>
                                         <h4 class="section-title">수상경력</h4>
+                                        <input type="text" name="prize" id="prize-real" hidden>
                                         <table class="table table-bordered" id="prize-table">
                                             <thead>
                                             <tr>
@@ -587,31 +269,65 @@
                                                 <th>취득일</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td><input type="text" class="form-control" placeholder="명칭" readonly></td>
-                                                <td><input type="text" class="form-control" placeholder="내용" readonly></td>
-                                                <td><input type="date" class="form-control" readonly></td>
-                                            </tr>
+                                            <tbody id="prize-table-body">
                                             </tbody>
                                         </table>
                                     </div>
                                     <br>
+                                    <div>
+                                        <h4 class="section-title">희망근무조건</h4>
+                                        <div class="mb-3">
+                                            <label class="form-label"><strong>업종</strong></label>
+                                            <input type="text" class="form-control" name="wantJob" id="trainer-job" required readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label"><strong>근무형태</strong></label>
+                                            <input type="text" class="form-control do-not-submit" id="trainer-type" required readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label"><strong>지역</strong></label>
+                                            <input type="text" class="form-control do-not-submit" id="trainer-region" required readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label"><strong>근무시간</strong></label>
+                                            <input type="text" name="wantTime" id="want-time-real" hidden>
+                                            <div class="time-to-time">
+                                                <input type="text" class="form-control do-not-submit" id="trainer-time" required readonly>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label"><strong>근무일수</strong></label>
+                                            <div class="time-to-time">
+                                                <input type="text" class="form-control short-label do-not-submit" id="trainer-day" required readonly>
+                                                <span class="form-label text-center"></span>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-day-type" required readonly>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 short-span">
+                                            <label class="form-label"><strong>희망임금</strong></label>
+                                            <div class="time-to-time">
+                                                <input type="number" class="form-control medium-label" min="0" name="wantSal" id="trainer-sal" required readonly>
+                                                <span class="form-label text-center">&#8361;</span>
+                                                <input type="text" class="form-control do-not-submit" id="trainer-sal-type" required readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
                                 </form>
                             </div>
-                            <a href="/trainer/trainer_view" class="btn btn-primary w-100 modal-btn" id="register-submit-btn">페이지에서 보기</a>
+                            <a href="#" class="btn btn-primary w-100 modal-btn" id="view-submit-btn">페이지에서 보기</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-     <!-- bootstrap js -->
+    <script th:inline="javascript">
+        const resDTO = [[${responseDTO}]];
+    </script>
+    <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/trainer_view.js"></script>
     <script src="/js/trainer_list.js"></script>
-</body>
-
+</div>
 </html>

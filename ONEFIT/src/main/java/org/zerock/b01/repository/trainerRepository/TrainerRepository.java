@@ -10,7 +10,7 @@ import org.zerock.b01.domain.trainer.Trainer;
 
 import java.util.Optional;
 
-public interface TrainerRepository extends JpaRepository<Trainer, Long> {
+public interface TrainerRepository extends JpaRepository<Trainer, Long>, TrainerSearch {
     @EntityGraph(attributePaths = {"imageSet"})
     @Query("SELECT t FROM Trainer t WHERE t.trainerId = :tid")
     Optional<Trainer> findTrainerById(Long tid);

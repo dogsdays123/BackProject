@@ -1,15 +1,32 @@
 function trainerDeleteModal() {
     // 모달 참조
     const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
-    const deleteBtn = document.getElementById("register-delete-btn");
+    const regiDeleteBtn = document.getElementById("register-delete-btn");
     const deleteConfirmText = document.getElementById("delete-confirm-text");
+    const deleteButton = document.getElementById("deleteButton");
 
     // 이벤트 등록
-    deleteBtn.addEventListener("click", function(e) {
+    regiDeleteBtn.addEventListener("click", function(e) {
         e.preventDefault();
         e.stopPropagation();
     
         deleteModal.show();
+    });
+
+    deleteButton.addEventListener("click", function(e) {
+       e.preventDefault();
+       e.stopPropagation();
+
+       if (deleteConfirmText.value === "이력서삭제") {
+
+           const form = document.getElementById("register-trainer");
+           form.method = "post";
+           form.action = "/trainer/trainer_delete";
+           form.submit();
+       } else {
+           alert("삭제를 하려면 문구를 정확히 입력해야 합니다.");
+           deleteConfirmText.focus();
+       }
     });
 }
 
