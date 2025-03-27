@@ -36,44 +36,26 @@
                   
                   <br>
                   <div class="carousel-inner" id="announcementItems">
-                      <!-- 첫 번째 슬라이드 (1~4번 공고) -->
-<!--                      <div class="mainimgcard">-->
-<!--                          <div class="mainimg" style="border: none;">-->
-<!--                              <div th:if="${recruitDTO.fileNames != null and !#lists.isEmpty(recruitDTO.fileNames)}">-->
-<!--                                  <div class="main-img-gallery">-->
-<!--                                      <div th:each="fileName, iterStat : ${recruitDTO.fileNames}">-->
-<!--                                          <div th:if="${iterStat.index == 0}" class="photo-card">-->
-<!--                                              <img th:src="|/view_recruit/${fileName}|"-->
-<!--                                                   class="img-fluid"-->
-<!--                                                   width="200" height="250">-->
-<!--                                              <div class="overlay">-->
-<!--                                                  <p class="photo-text"></p>-->
-<!--                                              </div>-->
-<!--                                          </div>-->
-<!--                                      </div>-->
-<!--                                  </div>-->
-<!--                              </div>-->
-<!--                          </div>-->
-<!--                      </div>-->
-<!--                      <div class="carousel-item active" >-->
-<!--                          <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">-->
-<!--                              <div class="card"  th:each="dto : ${responseDTO.dtoList}">-->
-<!--                                  <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}" >-->
-<!--                                      <div th:each="fileName, iterStat : ${dto.fileNames}">-->
-<!--                                          <div th:if="${iterStat.index == 0}">-->
-<!--                                              <img th:src="|/view_recruit/${fileName}|"-->
-<!--                                                   class="img-fluid gallery-item"-->
-<!--                                              >-->
-<!--                                              <div class="overlay">-->
-<!--                                                  <a class="photo-title" th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a>-->
-<!--                                                  <p class="photo-text" >[[${dto.recruitId}]]</p>-->
-<!--                                              </div>-->
-<!--                                          </div>-->
-<!--                                      </div>-->
-<!--                                  </div>-->
-<!--                              </div>-->
-<!--                          </div>-->
-<!--                      </div>-->
+                      <div class="carousel-item active" >
+                          <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">
+                              <div class="card"  th:each="dto : ${responseDTO.dtoList}">
+                                  <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}" >
+                                      <div th:each="fileName, iterStat : ${dto.fileNames}">
+                                          <div th:if="${iterStat.index == 0}">
+                                              <img th:src="|/view_recruit/${fileName}|"
+                                                   class="img-fluid gallery-item"
+                                              >
+                                              <div class="overlay">
+                                                  <a class="photo-title" th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a>
+                                                  <p class="photo-text" >[[${dto.recruitId}]]</p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                          </div>
+                      </div>
                       <!-- 두 번째 슬라이드 (5~8번 공고) -->
                       <div class="carousel-item">
                           <div class="card-deck">
