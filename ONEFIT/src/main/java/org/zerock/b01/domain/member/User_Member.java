@@ -29,8 +29,19 @@ public class User_Member {
     @Column(length = 100)
     private String uAddress;
 
+    @Column(length = 100)
+    private String uAddressExtra;
+
     private Long uResident;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private All_Member allMember;
+
+    public void modifyMember(String uNickname, LocalDate uBirthday, String uAddress, String uAddressExtra, Long uResident) {
+        this.uNickname = uNickname;
+        this.uBirthday = uBirthday;
+        this.uAddress = uAddress;
+        this.uAddressExtra = uAddressExtra;
+        this.uResident = uResident;
+    }
 }

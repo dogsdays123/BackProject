@@ -7,12 +7,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/basic.css">
+    <style>
+        /* 모달 오버레이 */
+        #myModal {
+            display: none; /* 기본적으로 숨김 */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* 반투명 배경 */
+        }
+
+        /* 모달 콘텐츠 */
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* 모달 닫기 버튼 */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <div>
     <h1>회원전환 요구사항</h1>
-    <label class="form-label">정보이용 동의서</label>
-    <input type="checkbox" value="동의합니다.">
 
     <div th:if="${all_memberDTO != null}">
         <form id="modifyMemberType" name="modifyMemberType" action="/member/set_type_b" method="post">
@@ -39,51 +80,68 @@
                 <hr>
                 <!--                추가작성사항-->
                 <div class="mb-3">
-                    <label class="form-label">기업 이름</label>
+                    <label class="form-label">(필수)기업 이름</label>
                     <input type="text" class="form-control" name="bName" placeholder="이름">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">기업 주소</label>
-                    <input type="text" class="form-control" name="bAddress" placeholder="주소"
-                           required>
+                    <label class="form-label">(필수)기업 주소</label>
+                    <div id="kakaoMap" style="width:500px;height:400px;"></div>
+                    <input type="text" class="kakaoAddress" placeholder="주소를 입력하세요"/>
+                    <div>
+                        <button type="button" class="searchAddress">위치 찾기</button>
+                        <button type="button" id="getAddress">주소 찾기</button>
+                    </div>
+                    <input type="text" class="form-control" id="addressInput" name="bAddress"
+                           placeholder="주소가 여기에 표시됩니다." required>
+                    <input type="text" class="form-control" name="bAddressExtra" placeholder="추가주소 입력">
                 </div>
+                <br>
                 <div class="mb-3">
-                    <label class="form-label">사업자등록번호</label>
-                    <input type="text" class="form-control" name="bRegNum" placeholder="주소"
-                           required>
+                    <button type="button" id="openModalBtn">사업자번호 찾기</button>
+                    <input type="text" name="bRegNum" id="bRegNum" style="all: unset;" readonly>
                 </div>
+                <br>
                 <div class="mb-3">
-                    <label class="form-label">대표자</label>
+                    <label class="form-label">(필수)대표자</label>
                     <input type="text" class="form-control" name="bExponent" placeholder="대표자"
                            required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">기업 전화번호</label>
-                    <input type="text" class="form-control" name="bPhone" placeholder="전화번호"
-                           required>
+                    <label for="bPhone" class="form-label">(필수)전화번호</label>
+                    <input type="tel" class="form-control" name="bPhone" id="bPhone"
+                           placeholder="ex) 01012345678"
+                           required
+                           pattern="^\d{11}$"
+                           title="전화번호는 '-'없이 01012345678 형식의 11자리이어야 합니다.">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">기업 홈페이지</label>
-                    <input type="text" class="form-control" name="bHomepage" placeholder="홈페이지">
+                    <label for="pHomepage" class="form-label">(선택)홈페이지</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="pHomepage" id="pHomepage"
+                               placeholder="ex) onefit.com">
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">근로자 수</label>
-                    <input type="text" class="form-control" name="bEmployees" placeholder="근로자 수">
+                    <label class="form-label">(선택)근로자 수</label>
+                    <input type="number" class="form-control" name="bEmployees" placeholder="근로자 수">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">자산 총액</label>
-                    <input type="text" class="form-control" name="bAssets" placeholder="자산 총액">
+                    <label class="form-label">(선택)자산 총액</label>
+                    <input type="number" class="form-control" name="bAssets" placeholder="자산 총액">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">평균 매출액</label>
-                    <input type="text" class="form-control" name="bAverage" placeholder="평균 매출액">
+                    <label class="form-label">(선택)평균 매출액</label>
+                    <input type="number" class="form-control" name="bAverage" placeholder="평균 매출액">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">설립일</label>
+                    <label class="form-label">(선택)설립일</label>
                     <input type="date" class="form-control" name="bEstaDate" placeholder="설립일">
                 </div>
             </div>
-
+            <div class="mb-3">
+                <label class="form-label">정보이용 동의서</label>
+                <input type="checkbox" value="동의합니다." required>
+            </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <button type="submit" class="product-btn btn btn-primary w-100">확인
@@ -91,9 +149,51 @@
                 </div>
             </div>
         </form>
+        <!-- 모달 -->
+        <div id="myModal" style="display:none;">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form name="frm1" id="frm1" method="post">
+                    <table class="tb_board_1">
+                        <tr>
+                            <th scope="row">사업자등록번호</th>
+                            <td class="left_5">
+                                <div>
+                                    <input type="text" id="c1" size="3" alt="사업자등록번호1" style="ime-mode:disabled;"
+                                           maxlength="3">
+                                    -<input type="text" id="c2" size="2" alt="사업자등록번호2" style="ime-mode:disabled;"
+                                            maxlength="2">
+                                    -<input type="text" id="c3" size="5" alt="사업자등록번호3" style="ime-mode:disabled;"
+                                            maxlength="5">
+                                </div>
+                                <button type="button" onclick="code_check(event)">확인</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- 숨겨진 필드 추가 -->
+                    <input type="hidden" name="b_no" id="b_no">
+                    <input type="hidden" name="b_stt" id="b_stt">
+                    <input type="hidden" name="tax_type" id="tax_type">
+                    <input type="hidden" name="rbf_tax_type" id="rbf_tax_type">
+                    <input type="hidden" name="utcc_yn" id="utcc_yn">
+                </form>
+            </div>
+        </div>
     </div>
     <div th:if="${all_memberDTO == null}">
         <h5>잘못된 접근입니다!</h5>
     </div>
 </div>
+
+<!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="/js/member/businessRegistrationNumber.js"></script>
+<!-- bootstrap js -->
+<script type="text/javascript"
+        src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=3c13bfa6949d3bc10bcf20e9fa7b2bdd&autoload=false&libraries=services,clusterer,drawing&"></script>
+<script src="/js/member/kakaoMap.js"></script>
 </html>

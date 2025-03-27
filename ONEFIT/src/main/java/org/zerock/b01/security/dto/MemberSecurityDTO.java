@@ -20,7 +20,7 @@ public class MemberSecurityDTO extends User implements OAuth2User {
     private String aPsw;
     private String email;
     private String name;
-    private Long aPhone;
+    private String aPhone;
     private String memberType;
     private boolean del;
     private boolean aSocial;
@@ -28,7 +28,7 @@ public class MemberSecurityDTO extends User implements OAuth2User {
     private Map<String, Object> props;
 
     public MemberSecurityDTO(String userid, String password, String email, String name,
-                             Long aPhone, String memberType, boolean del, boolean social,
+                             String aPhone, String memberType, boolean del, boolean social,
                              Collection<? extends GrantedAuthority> authorities) {
 
         super(userid, password, authorities);

@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <!-- Bootstrap CSS 추가 -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/basic.css">
 </head>
 
 <body>
@@ -45,17 +49,30 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">주소</label>
-                    <input type="text" class="form-control" name="uAddress" placeholder="주소" required>
+                    <div id="kakaoMap" style="width:500px;height:400px;"></div>
+                    <input type="text" class="kakaoAddress" placeholder="주소를 입력하세요"/>
+                    <div>
+                        <button type="button" class="searchAddress">위치 찾기</button>
+                        <button type="button" id="getAddress">주소 찾기</button>
+                    </div>
+                    <input type="text" class="form-control" id="addressInput" name="uAddress" placeholder="주소가 여기에 표시됩니다." required>
+                    <input type="text" class="form-control" name="uAddressExtra" placeholder="추가주소 입력">
                 </div>
+                <br>
                 <div class="mb-3">
                     <label class="form-label">주민등록번호</label>
-                    <input type="text" class="form-control" name="uResident" placeholder="주민등록번호" required>
+                    <input type="text" class="form-control" name="uResident" placeholder="'-' 없이 입력" required
+                           pattern="^\d{13}$"
+                           title="주민등록번호는 6자리-7자리 형식이어야 합니다. 예: 123456-1234567">
                 </div>
+                <div>
+                    <br>
+                    <label class="form-label">정보이용 동의서</label>
+                    <input type="checkbox" value="동의합니다." required>
+                    <br>
+                </div>
+                <br>
             </div>
-            <br>
-            <label class="form-label">정보이용 동의서</label>
-            <input type="checkbox" value="동의합니다." required>
-            <br>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <button type="submit" id="openModalButton" class="product-btn btn btn-primary w-100">확인</button>
@@ -88,10 +105,15 @@
         </div>
     </div>
 </div>
-
-<!-- Bootstrap JS 및 jQuery 추가 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+<!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<!-- bootstrap js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/basic.js"></script>
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=3c13bfa6949d3bc10bcf20e9fa7b2bdd&autoload=false&libraries=services,clusterer,drawing&"></script>
+<script src="/js/member/kakaoMap.js"></script>
 </html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/myPage.html}">
+
+<div layout:fragment="my_business_page_recruit">
+    <!-- 메인 콘텐츠 -->
+    <div class="col-md-9 main-content">
+
+        <!-- 탭 메뉴 -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="support-tab" data-bs-toggle="tab" href="#support" role="tab"
+                   aria-controls="support" aria-selected="true">
+                    <i class="fas fa-briefcase"></i> 내가 올린 공고
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="proposal-tab" data-bs-toggle="tab" href="#proposal" role="tab"
+                   aria-controls="proposal" aria-selected="false">
+                    <i class="fas fa-bell"></i> 공사중
+                </a>
+            </li>
+        </ul>
+
+        <!-- 탭 콘텐츠 -->
+        <div class="tab-content" id="myTabContent">
+            <!-- 회원 정보 탭 -->
+            <div class="tab-pane fade show active" id="support" role="tabpanel" aria-labelledby="support-tab">
+                <div class="card">
+                    <div class="card-body card-columns">
+                        <!-- 카드 1 -->
+                        <th:block th:each="recruit : ${recruitDTOList}">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fas fa-user-circle"></i> <span th:text="${recruit.recruitId}"></span>
+                                </div>
+                                <div class="card-body d-flex align-items-center">
+                                    <div>
+                                        <p><strong>기업이름:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>대표자:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>사업자번호:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>설립일:</strong> <span th:text="${#temporals.format(recruit.reDeadline, 'yyyy-MM-dd')}"></span></p>
+                                        <p><strong>이메일:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>주소:</strong> <span th:text="${recruit.recruitId}"></span><br>
+                                        <p><strong>전화번호:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>홈페이지:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 공사중 -->
+            <div class="tab-pane fade" id="proposal" role="tabpanel" aria-labelledby="proposal-tab">
+                <div class="container mt-5">
+                    <div class="post-container">
+                        <form method="post" action="/member/my_business_page">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/member/kakaoMap.js"></script>
+<script src="/js/member/businessRegistrationNumber.js"></script>

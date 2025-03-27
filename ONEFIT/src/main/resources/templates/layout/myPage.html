@@ -2,6 +2,9 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layout/basic.html}">
+<head>
+    <link rel="stylesheet" href="/css/my.css">
+</head>
 
 <div layout:fragment="myPage">
     <!-- 사이드바 -->
@@ -34,7 +37,7 @@
                         <a class="nav-link" style="pointer-events: none;"><i class="fas fa-user-tie"></i> 개인회원</a>
                         <ul class="nav flex-column ml-3">
                             <li class="nav-item">
-                                <a class="nav-link" href="/member/my_user_page"><i class="fas fa-id-card"></i> 내 이력서 보기</a>
+                                <a class="nav-link" th:href="|@{/member/my_user_page(allId =${all_memberDTO.allId})}|"><i class="fas fa-id-card"></i> 내 이력서 보기</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link collapsed d-flex justify-content-between" href="#"
@@ -61,11 +64,11 @@
                         <a class="nav-link" style="pointer-events: none;"><i class="fas fa-building"></i> 기업회원</a>
                         <ul class="nav flex-column ml-3">
                             <li class="nav-item">
-                                <a class="nav-link" href="/member/my_business_page"><i class="fas fa-industry"></i> 기업
+                                <a class="nav-link" th:href="|@{/member/my_business_page(allId =${all_memberDTO.allId})}|"><i class="fas fa-industry"></i> 기업
                                     정보</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fas fa-clipboard-list"></i> 공고 등록 현황</a>
+                                <a class="nav-link" th:href="|@{/member/my_business_page_recruit(allId =${all_memberDTO.allId})}|"><i class="fas fa-clipboard-list"></i> 공고 등록 현황</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link collapsed d-flex justify-content-between" href="#"
@@ -92,13 +95,18 @@
             <!-- 메인 콘텐츠 -->
             <div class="container-fluid align-items-center">
                 <div class="my-main-header">
-                    <h2 class="my-name" th:text="${all_memberDTO.name} + ' 님'"></h2>
+                    <div th:switch="${all_memberDTO.memberType}">
+                        <h2 class="my-name" th:case="'default'" th:text="${all_memberDTO.name} + ' 님'"></h2>
+                        <h2 class="my-name" th:case="'user'" th:text="${user_memberDTO.uNickname} + ' 님'"></h2>
+                        <h2 class="my-name" th:case="'business'" th:text="${business_memberDTO.bName} + ' 님'"></h2>
+                    </div>
                     <hr>
                 </div>
                 <div class="row">
                     <div layout:fragment="my_default_page"></div>
                     <div layout:fragment="my_user_page"></div>
                     <div layout:fragment="my_business_page"></div>
+                    <div layout:fragment="my_business_page_recruit"></div>
                 </div>
             </div>
             <div layout:fragment="my_board"></div>
