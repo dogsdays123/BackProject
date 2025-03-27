@@ -70,13 +70,12 @@ public class MainController {
             }
         }
 
-        //유저정보(일반, 개인) 전역에 갖고오기
-        User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
-        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
-
         //유저정보(일반Default)가 존재할 때
         if (all_memberDTO != null) {
             model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
+            //유저정보(일반, 개인) 전역에 갖고오기
+            User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
+            Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
 
             //유저정보(개인User)가 있을 때
             if (user_MemberDTO != null) {
@@ -113,25 +112,8 @@ public class MainController {
     private final RecruitService recruitService;
 
     @GetMapping("/main")
-    public void main(Long recruitId, RecruitDTO recruitDTO, PageRequestDTO pageRequestDTO, Model model) {
-
-        PageResponseDTO<RecruitDTO> responseDTO = recruitService.list1(pageRequestDTO);
-//        log.info(responseDTO);
-//        model.addAttribute("responseDTO", responseDTO);
-        List<RecruitDTO> limitedList = responseDTO.getDtoList().stream()
-                .limit(8)  // 처음 8개 항목만 가져옵니다.
-                .collect(Collectors.toList());
-
-        // 수정된 리스트로 새로운 PageResponseDTO 생성
-        PageResponseDTO<RecruitDTO> limitedResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
-                .pageRequestDTO(pageRequestDTO)
-                .dtoList(limitedList)
-                .total(limitedList.size())  // 8개로 제한된 수
-                .build();
-
-        // 모델에 8개 게시글만 추가
-        model.addAttribute("responseDTO", limitedResponseDTO);
-
+    public void main() {
+        log.info("main");
     }
 
     @GetMapping("/login")
