@@ -94,7 +94,14 @@ function fillModalData(index) {
 function trainerListModal() {
     // 모달과 버튼 참조
     const trainerModal = new bootstrap.Modal(document.querySelector("#trainerModal"));
+    const modalElement = document.getElementById("trainerModal");
     const viewButtonsTest = document.querySelectorAll(".viewbtn");
+
+    // 모달이 닫히기 전 이벤트
+    modalElement.addEventListener("hide.bs.modal", function(e) {
+        currentSlide = 0;
+        checkSlide("instant");
+    });
 
     // 버튼 동작 설정
     for (const key in viewButtonsTest) {
@@ -105,6 +112,7 @@ function trainerListModal() {
                 e.preventDefault();
                 e.stopPropagation();
                 fillModalData(element.getAttribute("name"))
+                checkSlide();
                 trainerModal.show();
             });
         }
@@ -161,6 +169,49 @@ trainerPagination.addEventListener("click", function(e) {
     pageInput.value = target.getAttribute("name");
     searchTrainer.appendChild(pageInput);
     searchTrainer.submit();
+});
+
+const sliderFrame = document.getElementById("slider-frame");
+const leftSlider = document.getElementById("left-slider");
+const rightSlider = document.getElementById("right-slider");
+let currentSlide = 0;
+
+// 미리보기 스크롤 함수
+function checkSlide(flag) {
+    // 혹시 범위를 벗어날 경우 막기
+    if (currentSlide < 0) {
+        currentSlide = 0;
+    } else if (currentSlide > sliderFrame.childElementCount - 1) {
+        currentSlide = sliderFrame.childElementCount - 1;
+    }
+
+    console.log("slide: " + currentSlide);
+
+    leftSlider.disabled = currentSlide === 0;
+    rightSlider.disabled = sliderFrame.childElementCount - 1 <= currentSlide;
+
+    if (flag !== null) {
+        sliderFrame.scroll({top: 0, left: currentSlide * sliderFrame.offsetWidth, behavior: flag});
+    } else {
+        sliderFrame.scroll(currentSlide * sliderFrame.offsetWidth, 0);
+    }
+}
+
+// 썸네일 슬라이드 화살표 버튼 이벤트
+leftSlider.addEventListener("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    currentSlide = currentSlide - 1;
+    checkSlide();
+});
+
+rightSlider.addEventListener("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    currentSlide = currentSlide + 1;
+    checkSlide();
 });
 
 trainerListModal();
