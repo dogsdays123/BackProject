@@ -21,10 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
-import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
-import org.zerock.b01.dto.memberDTO.Business_Member_DataDTO;
-import org.zerock.b01.dto.memberDTO.MemberDataDTO;
-import org.zerock.b01.dto.memberDTO.User_MemberDTO;
+import org.zerock.b01.dto.memberDTO.*;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
@@ -149,7 +146,8 @@ public class All_MemberController {
     public void my_board(All_MemberDTO all_memberDTO, Model model) {
         log.info("my_board");
         if(all_memberDTO !=null) {
-            List<NoticeBoardDTO> nBoard = member_Set_Type_Service.noticeReadForAllMember(all_memberDTO.getAllId());
+            AllBoardSearchDTO allBoard = all_memberService.boardReadForAllMember(all_memberDTO.getAllId());
+            log.info("board####" + allBoard);
         }
     }
 
