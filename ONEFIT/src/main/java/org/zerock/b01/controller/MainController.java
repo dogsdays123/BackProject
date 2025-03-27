@@ -26,6 +26,8 @@ import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 import org.zerock.b01.service.recruitService.RecruitService;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -129,6 +131,7 @@ public class MainController {
 
         // 모델에 8개 게시글만 추가
         model.addAttribute("responseDTO", limitedResponseDTO);
+
 
     }
 
