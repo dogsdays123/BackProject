@@ -149,7 +149,6 @@ public class All_MemberController {
     public void my_board(All_MemberDTO all_memberDTO, Model model) {
         log.info("my_board");
         if(all_memberDTO !=null) {
-            List<NoticeBoardDTO> nBoard = member_Set_Type_Service.noticeReadForAllMember(all_memberDTO.getAllId());
         }
     }
 

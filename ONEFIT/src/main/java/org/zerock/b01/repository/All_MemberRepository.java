@@ -36,5 +36,5 @@ public interface All_MemberRepository extends JpaRepository<All_Member, String> 
     List<All_Member> getAllMembers();
 
     //설정해야함 service도 같이
-    List<Notice_Board> findNoticeForAllId(String allId);
+    //List<Notice_Board> findNoticeForAllId(String allId);
 }

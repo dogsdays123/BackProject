@@ -19,8 +19,6 @@ public interface Member_Set_Type_Service {
     void businessModify(Business_MemberDTO business_memberDTO);
     TrainerDTO trainerReadForUser(Long userId);
     List<RecruitDTO> recruitReadForBusiness(Long businessId);
-    List<NoticeBoardDTO> noticeReadForAllMember(String allId);
-    List<QnaBoardDTO> qnaReadForAllMember(String allId);
 
     String encodeUserForURL(User_MemberDTO user_memberDTO);
 }
