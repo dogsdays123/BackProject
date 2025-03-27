@@ -1,5 +1,6 @@
 package org.zerock.b01.dto.transactionDTO;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,10 @@ public class ProductDTO { // (거래) 상품
 
     private String pAddr; // 1. 거래 장소
 
+    private String pAddrMetroGov; // 1-1. 거래 장소 (시/도)
+
+    private String pAddrMuniGov; // 1-2. 거래 장소 (시/군/구)
+
     private int pRoles; // 2. 상품 구분 (1: 기구 / 2: 시설)
 
     private String pStatus; // 3. 거래 상태 (판매중 / 예약중 / 판매완료)
@@ -37,6 +42,8 @@ public class ProductDTO { // (거래) 상품
     private String pChatUrl; // 7. 오픈 채팅 URL
 
     private String cCategory; // 8. 카테고리
+
+    private Long interestCount; // 관심 등록 수
 
     // 이미지 파일의 이름들
     private List<String> imageFileNames;

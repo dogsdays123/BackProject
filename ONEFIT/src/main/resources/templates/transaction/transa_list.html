@@ -16,106 +16,73 @@
     <div class="container mt-4 d-flex">
         <!-- 사이드 메뉴 -->
         <div class="sidebar mb-4">
-            <!-- 개인 회원 로그인 시에 보이는 버튼 -->
-            <!-- <button type="submit" class="btn w-100 modal-btn mb-4 btn-default">
-              판매하기
-            </button> -->
-
             <!-- 카테고리 메뉴 -->
             <h5 class="fw-bold">카테고리</h5>
             <hr class="mt-2">
             <div class="list-group">
-                <a class="list-group-item active">전체 보기</a>
-                <a class="list-group-item" data-bs-toggle="collapse" data-bs-target="#equipmentMenu">운동 기구</a>
+                <a class="list-group-item active" href="/transaction/transa_list">전체 보기</a>
+                <a class="list-group-item category-list" data-bs-toggle="collapse" data-bs-target="#equipmentMenu" data-category-type="eq">운동
+                    기구</a>
                 <div class="collapse ps-3" id="equipmentMenu">
-                    <a class="list-group-item">헬스 기구</a>
-                    <a class="list-group-item">필라테스 기구</a>
-                    <a class="list-group-item">요가 용품</a>
-                    <a class="list-group-item">기타 운동 용품</a>
+                    <a class="list-group-item" data-category-name="수영">수영</a>
+                    <a class="list-group-item" data-category-name="헬스">헬스</a>
+                    <a class="list-group-item" data-category-name="요가">요가</a>
+                    <a class="list-group-item" data-category-name="축구">축구</a>
+                    <a class="list-group-item" data-category-name="배드민턴">배드민턴</a>
+                    <a class="list-group-item" data-category-name="테니스">테니스</a>
+                    <a class="list-group-item" data-category-name="스포츠 보충제">스포츠 보충제</a>
                 </div>
-                <a class="list-group-item" data-bs-toggle="collapse" data-bs-target="#facilityMenu">운동 시설</a>
+                <a class="list-group-item category-list" data-bs-toggle="collapse" data-bs-target="#facilityMenu" data-category-type="fa">운동
+                    시설</a>
                 <div class="collapse ps-3" id="facilityMenu">
-                    <a class="list-group-item">헬스장</a>
-                    <a class="list-group-item">필라테스 스튜디오</a>
-                    <a class="list-group-item">요가원</a>
-                    <a class="list-group-item">기타 시설</a>
+                    <a class="list-group-item" data-category-name="헬스장">헬스장</a>
+                    <a class="list-group-item" data-category-name="배드민턴장">배드민턴장</a>
+                    <a class="list-group-item" data-category-name="스쿼시장">스쿼시장</a>
+                    <a class="list-group-item" data-category-name="농구장">농구장</a>
+                    <a class="list-group-item" data-category-name="풋살장">풋살장</a>
+                    <a class="list-group-item" data-category-name="수영장">수영장</a>
+                    <a class="list-group-item" data-category-name="테니스장">테니스장</a>
+                    <a class="list-group-item" data-category-name="탁구장">탁구장</a>
+                    <a class="list-group-item" data-category-name="볼링장">볼링장</a>
                 </div>
             </div>
 
-
+            <!-- 지역 필터 -->
             <h5 class="fw-bold pt-3">지역</h5>
             <hr class="mt-2">
             <div class="list-group" id="regionList">
-                <a class="list-group-item active">전체 보기</a>
+                <a class="list-group-item active" href="/transaction/transa_list">전체 보기</a>
             </div>
-
-            <script>
-                // 대한민국 지역 데이터 (일부 예시, 추가 가능)
-                const regions = {
-                    "서울특별시": {
-                        "강남구": ["역삼동", "삼성동", "청담동"],
-                        "서초구": ["서초동", "양재동", "방배동"],
-                        "송파구": ["잠실동", "가락동", "문정동"]
-                    },
-                    "경기도": {
-                        "수원시": ["팔달구", "장안구", "영통구"],
-                        "성남시": ["분당구", "수정구", "중원구"],
-                        "고양시": ["덕양구", "일산동구", "일산서구"]
-                    },
-                    "부산광역시": {
-                        "해운대구": ["좌동", "중동", "우동"],
-                        "남구": ["대연동", "용호동"],
-                        "동래구": ["온천동", "사직동"]
-                    }
-                };
-
-                const regionList = document.getElementById("regionList");
-
-                // 데이터 기반으로 지역 카테고리 생성
-                Object.keys(regions).forEach(province => {
-                    let provinceId = `province-${province}`;
-                    regionList.innerHTML += `<a class="list-group-item" data-bs-toggle="collapse" data-bs-target="#${provinceId}">${province}</a>`;
-
-                    let cityList = `<div class="collapse ps-3" id="${provinceId}">`;
-                    Object.keys(regions[province]).forEach(city => {
-                        let cityId = `city-${province}-${city}`;
-                        cityList += `<a class="list-group-item" data-bs-toggle="collapse" data-bs-target="#${cityId}">${city}</a>`;
-
-                        let districtList = `<div class="collapse ps-3" id="${cityId}">`;
-                        regions[province][city].forEach(district => {
-                            districtList += `<a class="list-group-item">${district}</a>`;
-                        });
-                        districtList += `</div>`;
-                        cityList += districtList;
-                    });
-                    cityList += `</div>`;
-                    regionList.innerHTML += cityList;
-                });
-            </script>
 
             <!-- 가격 필터 -->
             <div class="filter-section">
                 <h6 class="fw-bold">가격 필터</h6>
                 <div class="price-input">
-                    <input type="number" placeholder="최소" min="0">
+                    <input class="number-input" th:value="${minPrice != null ? minPrice : ''}"
+                           type="text" placeholder="최소" id="minPrice">
                     <span>~</span>
-                    <input type="number" placeholder="최대" min="0">
+                    <input class="number-input" th:value="${maxPrice != null ? maxPrice : ''}"
+                           type="text" placeholder="최대" id="maxPrice">
                 </div>
+                <button class="btn btn-link price-apply mt-1">적용하기</button>
             </div>
 
-            <!-- 판매 중만 보기 -->
+            <!-- 판매 상태 -->
             <div class="filter-section">
                 <h6 class="fw-bold">판매 상태</h6>
                 <label class="checkbox-label">
-                    <input type="checkbox">
+                    <input type="checkbox"  th:checked="${onSale != null and onSale == true}"
+                           class="status-filter1" value="onSale">
                     판매 중 보기
                 </label>
                 <label class="checkbox-label">
-                    <input type="checkbox">
+                    <input type="checkbox"  th:checked="${reserved != null and reserved == true}"
+                           class="status-filter2" value="reserved">
                     예약 중 보기
                 </label>
                 <label class="checkbox-label">
-                    <input type="checkbox">
+                    <input type="checkbox"  th:checked="${soldOut != null and soldOut == true}"
+                           class="status-filter3" value="soldOut">
                     판매 완료 보기
                 </label>
             </div>
@@ -123,21 +90,39 @@
 
         <!-- 메인 컨텐츠 (상품 목록) -->
         <!-- 메인 start -->
-        <main>
+         <main>
             <div class="container list-container px-5 mt-4">
-                <h2 class="mb-4 text-primary">거래 게시판</h2>
-                <!-- <h2 class="mb-4">거래 게시판: '나의 관심상품(기구)'</h2> -->
-                <!-- <h2 class="mb-4">거래 게시판: '내가 작성한 게시글'</h2> -->
+                <h2 class="mb-4 text-primary" th:text="${listTitle != null ? listTitle : '거래게시판'}"></h2>
                 <div class="d-flex align-items-center gap-3">
                     <!-- 검색창 폼 -->
-                    <form class="d-flex">
+                    <form onsubmit="updateURL(event)" class="d-flex">
                         <div class="search-box">
-                            <input type="text" class="form-control search-bar me-2" placeholder="검색어를 입력하세요">
+                            <input type="hidden" name="type" value="t">
+                            <input type="text" id="searchKeyword" th:value="${keyword != null ? keyword : ''}"
+                                   class="form-control search-bar me-2" placeholder="검색어를 입력하세요">
                             <i class="fas fa-search"></i>
                         </div>
                     </form>
 
+                    <div class="dropup custom-dropup" th:if="${all_memberDTO.allId != null}">
+                        <!-- 판매하기 버튼 -->
+                        <button class="floating-btn bg-primary text-white" id="dropdownMenuButton"
+                                type="button" th:data-member-type="${all_memberDTO.memberType}"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-plus"></i>
+                            <span class="tooltip-text bg-primary text-white">판매하기</span>
+                        </button>
 
+                        <!-- 메뉴 -->
+                        <div class="dropdown" th:if="${all_memberDTO.memberType != 'default'}">
+                            <!-- 드롭다운 메뉴 -->
+                            <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
+                                <li><a class="dropdown-item" href="transa_fa_register"
+                                       th:if="${all_memberDTO.memberType == 'business'}">시설</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <hr class="py-3">
 
@@ -170,7 +155,7 @@
                                     <p class="card-text fw-bold board-price">
                                         ₩&nbsp;<span th:text="${#numbers.formatInteger(dto.pPrice, 1, 'COMMA')}"></span>
                                     </p>
-                                    <p class="card-text">
+                                    <p class="card-text text-nowrap">
                                         <i class="bi bi-geo-alt"></i>
                                         <span th:text="${dto.pAddr}" th:title="${dto.pAddr}"></span>
                                     </p>
@@ -210,8 +195,10 @@
         </main>
         <!-- 메인 end -->
     </div>
+
     <!-- JS 기능 추가 -->
     <script th:src="@{/js/transaction/transa_list.js}"></script>
+    <script th:src="@{/js/transaction/transa_input.js}"></script>
 </div>
 
 

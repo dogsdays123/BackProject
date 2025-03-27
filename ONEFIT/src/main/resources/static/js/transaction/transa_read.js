@@ -140,91 +140,125 @@ document.addEventListener("DOMContentLoaded", function () {
 // 댓글 삭제 버튼
 document.querySelectorAll(".remove-reply-btn").forEach(button => {
     button.addEventListener("click", function (e) {
-    e.preventDefault();  // 버튼 클릭 시 페이지 리로드를 방지
+        e.preventDefault();  // 버튼 클릭 시 페이지 리로드를 방지
 
-    if (!confirm("댓글을 삭제하시겠습니까?")) {
-        return;
-    }
+        if (!confirm("댓글을 삭제하시겠습니까?")) {
+            return;
+        }
 
-    const button = e.target; // 클릭된 버튼 요소 가져오기
+        const button = e.target; // 클릭된 버튼 요소 가져오기
 
-    // 폼 생성
-    const formObj = document.createElement('form');
-    formObj.action = '/product_reply/remove';  // 폼이 제출될 URL
-    formObj.method = 'POST';  // POST 방식으로 전송
+        // 폼 생성
+        const formObj = document.createElement('form');
+        formObj.action = '/product_reply/remove';  // 폼이 제출될 URL
+        formObj.method = 'POST';  // POST 방식으로 전송
 
-    // productId와 productReplyId 가져오기
-    let productId = button.getAttribute("data-product-id");
-    let productReplyId = button.getAttribute("data-reply-id");
-    let productRole = button.getAttribute("data-product-role");
+        // productId와 productReplyId 가져오기
+        let productId = button.getAttribute("data-product-id");
+        let productReplyId = button.getAttribute("data-reply-id");
+        let productRole = button.getAttribute("data-product-role");
 
-    // hidden input 요소 생성
-    const productIdInput = document.createElement('input');
-    productIdInput.type = 'hidden';
-    productIdInput.name = 'productId';
-    productIdInput.value = productId;
+        // hidden input 요소 생성
+        const productIdInput = document.createElement('input');
+        productIdInput.type = 'hidden';
+        productIdInput.name = 'productId';
+        productIdInput.value = productId;
 
-    const productReplyIdInput = document.createElement('input');
-    productReplyIdInput.type = 'hidden';
-    productReplyIdInput.name = 'productReplyId';
-    productReplyIdInput.value = productReplyId;
+        const productReplyIdInput = document.createElement('input');
+        productReplyIdInput.type = 'hidden';
+        productReplyIdInput.name = 'productReplyId';
+        productReplyIdInput.value = productReplyId;
 
-    const productRoleInput = document.createElement('input');
-    productRoleInput.type = 'hidden';
-    productRoleInput.name = 'productRole';
-    productRoleInput.value = productRole;
+        const productRoleInput = document.createElement('input');
+        productRoleInput.type = 'hidden';
+        productRoleInput.name = 'productRole';
+        productRoleInput.value = productRole;
 
 
-    // 폼에 hidden input 추가
-    formObj.appendChild(productIdInput);
-    formObj.appendChild(productReplyIdInput);
-    formObj.appendChild(productRoleInput);
+        // 폼에 hidden input 추가
+        formObj.appendChild(productIdInput);
+        formObj.appendChild(productReplyIdInput);
+        formObj.appendChild(productRoleInput);
 
-    console.log(formObj);
+        console.log(formObj);
 
-    // 폼을 문서에 추가하고 제출
-    document.body.appendChild(formObj);
-    formObj.submit();
+        // 폼을 문서에 추가하고 제출
+        document.body.appendChild(formObj);
+        formObj.submit();
     });
 });
 
-// 관심상품 버튼 js
-document.addEventListener("DOMContentLoaded", function () {
-    const likeIcon = document.querySelector(".like i");
+document.querySelector('.like-btn').addEventListener('click', function () {
+    let allId = this.getAttribute('data-all-id'); // 회원 ID
+    let likeIcon = this.querySelector('#heart-icon');
 
-    // 하트 클릭 시 아이콘 변경
-    likeIcon.addEventListener("click", function () {
-        if (likeIcon.classList.contains("fa-regular")) {
-            likeIcon.classList.remove("fa-regular");
-            likeIcon.classList.add("fa-solid");
-        } else {
-            likeIcon.classList.remove("fa-solid");
-            likeIcon.classList.add("fa-regular");
+    if (allId === 'null' || allId === null) {
+        alert('로그인 후 이용해주세요.');
+    } else {
+        let productId = getProductIdFromURL(); // 상품 ID
+
+        // 관심상품 등록 및 취소 : AJAX 요청 보내기
+        $.ajax({
+            url: '/transaction/interest',
+            type: 'GET',
+            data: {
+                allId: allId,
+                productId: productId
+            },
+            success: function (data) {
+                console.log(data);
+                alert(data.message);
+
+                if (likeIcon.classList.contains("fa-regular") && data.status === 'added') { // 빈 하트 > 찬 하트 (관심상품 등록)
+                    likeIcon.classList.remove("fa-regular");
+                    likeIcon.classList.add("fa-solid");
+                } else { // 찬 하트 > 빈 하트 (관심상품 등록 취소)
+                    likeIcon.classList.remove("fa-solid");
+                    likeIcon.classList.add("fa-regular");
+                }
+
+                $("#like-count").text(data.countInterest);
+            },
+            error: function (error) {
+                console.error('관심 상품 등록 에러:', error);
+            }
+        });
+    }
+});
+
+window.onload = function () {
+    let allId = document.getElementById("allId").value;
+    let likeIcon = document.querySelector('#heart-icon');
+    let productId = getProductIdFromURL(); // 상품 ID
+
+    // 관심상품 등록 및 취소 : AJAX 요청 보내기
+    $.ajax({
+        url: '/transaction/interest_chk_me',
+        type: 'GET',
+        data: {
+            allId: allId,
+            productId: productId
+        },
+        success: function (data) {
+            console.log(data);
+
+            if (data.status === 'yes') { // 빈 하트 > 찬 하트 (관심상품 등록)
+                likeIcon.classList.remove("fa-regular");
+                likeIcon.classList.add("fa-solid");
+            }
+        },
+        error: function (error) {
+            console.error('관심 상품 등록 여부 확인 에러:', error);
         }
     });
+}
 
-    // `productId`를 URL에서 가져와서 폼을 만들어 전송하는 기능
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('productId'); // URL에서 productId 값을 가져옴
 
-    if (productId) {
-        // 폼 생성
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = "/your-endpoint"; // 전송할 URL로 변경
 
-        // hidden 필드로 productId 추가
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "productId";
-        input.value = productId;
 
-        form.appendChild(input);
 
-        // 폼 전송
-        // form.submit();  // 이 줄을 활성화하면 폼이 자동으로 전송됩니다.
-    }
-});
+
+
 
 
 

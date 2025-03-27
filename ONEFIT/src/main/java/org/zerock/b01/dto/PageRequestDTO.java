@@ -28,6 +28,28 @@ public class PageRequestDTO {
 
     private String keyword;
 
+    private String allId; // (마이페이지) 거래 - 작성자 ID
+
+    private Boolean interested; // (마이페이지) 거래 - 관심상품
+
+    private String categoryType; // (거래) 카테고리 종류 (기구, 시설)
+
+    private String categoryName; // (거래) 카테고리 이름
+
+    private Integer minPrice; // (거래) 가격 필터 - 최소 가격
+
+    private Integer maxPrice; // (거래) 가격 필터 - 최대 가격
+
+    private Boolean onSale; // (거래) 판매 상태 - 판매 중
+
+    private Boolean reserved; // (거래) 판매 상태 - 예약 중
+
+    private Boolean soldOut; // (거래) 판매 상태 - 판매 완료
+
+    private String metroGov; // (거래) 지역 - 시/도
+
+    private String muniGov; // (거래) 지역 - 시/군/구
+
     private String gender; // 채용 공고 성별 필터
 
     private String age; // 채용 공고 나이 필터
