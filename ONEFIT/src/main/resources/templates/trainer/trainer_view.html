@@ -179,7 +179,7 @@
                     </div>
                 </div>
                 <br>
-                <a class="btn btn-primary w-100 modal-btn" id="modify-submit-btn" th:href="|@{/trainer/trainer_modify(tid=${dto.trainerId})}&${request.getLink()}|">이력서 수정</a>
+                <a class="btn btn-primary w-100 modal-btn" id="modify-submit-btn" th:if="${user_memberDTO.userId == dto.userId}" th:href="|@{/trainer/trainer_modify(tid=${dto.trainerId})}&${request.getLink()}|">이력서 수정</a>
                 <a class="btn btn-secondary w-100 modal-btn mt-2" id="list-submit-btn" th:href="|@{/trainer/trainer_list}?${request.getLink()}|">뒤로가기</a>
             </form>
         </div>
