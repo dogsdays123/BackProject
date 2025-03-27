@@ -16,9 +16,9 @@ public class InterestDTO {
 
     private Long interestId;
 
-    private LocalDateTime regdate;
+    private LocalDateTime regDate;
 
-    private int productId;
+    private Long productId;
 
-    private int allId;
+    private String allId;
 }

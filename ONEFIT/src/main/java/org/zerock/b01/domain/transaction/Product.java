@@ -27,6 +27,12 @@ public class Product extends BaseEntity { // (거래) 상품
     @Column(name = "p_addr", nullable = false)
     private String pAddr; // 1. 거래 장소
 
+    @Column(name = "p_addr_metro_gov", nullable = false)
+    private String pAddrMetroGov; // 1-1. 거래 장소 (시/도)
+
+    @Column(name = "p_addr_muni_gov", nullable = false)
+    private String pAddrMuniGov; // 1-2. 거래 장소 (시/군/구)
+
     @Column(name = "p_roles", nullable = false)
     private int pRoles; // 2. 상품 구분 - (1: 기구, 2: 시설)
 

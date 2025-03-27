@@ -19,6 +19,16 @@ document.querySelector(".submitBtn").addEventListener("click", function (e) {
         str += `<input type="hidden" name="imageFileNames" value="${imgLink}">`;
     }
 
+    // 희망 거래 장소 -> 시/도, 시/군/구 분리
+    let addr = document.getElementById("addressInput").value;
+
+    const addrArr = extractRegions(addr);
+
+    // 시/도
+    str += `<input type="hidden" name="pAddrMetroGov" value="${addrArr[0]}">`;
+    // 시/군/구
+    str += `<input type="hidden" name="pAddrMuniGov" value="${addrArr[1]}">`;
+
     target.innerHTML = str;
 
     document.querySelector("form").submit();
@@ -82,3 +92,16 @@ function removeFile(uuid, fileName, obj) {
         targetDiv.remove();
     });
 }
+
+// 희망 거래 장소에서 시/도, 시/군/구를 분리해주는 함수
+function extractRegions(address) {
+    const pattern = /^(서울|부산|대구|인천|광주|대전|울산|세종|강원|경기|경상남도|경상북도|전라남도|전라북도|충청남도|충청북도|제주)(?:특별시|광역시|도)?\s+(.*?시|.*?군|.*?구)/;
+    const match = address.match(pattern);
+
+    if (match) {
+        return [match[1], match[2]]; // [광역자치단체(시/도), 기초자치단체(시/군/구)]
+    }
+
+    return null;
+}
+

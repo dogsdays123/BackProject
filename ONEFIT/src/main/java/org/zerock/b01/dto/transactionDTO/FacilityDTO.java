@@ -21,7 +21,12 @@ public class FacilityDTO extends ProductDTO{ // (거래 - 상품) 시설
 
     private String fReasonSale; // 5. 매매사유
 
-    private BigDecimal fContArea; // 6. 계약 면적
+    private BigDecimal fContArea; // 6. 계약 면적 (㎡)
 
-    private BigDecimal fRealArea; // 7. 실 면적
+    private BigDecimal fContAreaPyeong; //  6-1. 계약 면적 (평)
+
+    private BigDecimal fRealArea; // 7. 실 면적 (㎡)
+
+    private BigDecimal fRealAreaPyeong; // 7-1. 실 면적 (평)
+
 }

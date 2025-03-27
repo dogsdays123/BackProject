@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -22,6 +23,7 @@ import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.transactionDTO.*;
+import org.zerock.b01.repository.transactionRepository.InterestRepository;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
@@ -29,8 +31,15 @@ import org.zerock.b01.service.transactionService.ProductReplyService;
 import org.zerock.b01.service.transactionService.ProductService;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @Log4j2
@@ -42,6 +51,13 @@ public class TransactionController {
     private final All_MemberService all_memberService;
     private final Member_Set_Type_Service member_Set_Type_Service;
     private final ProductReplyService productReplyService;
+
+    // *** 테이블 리셋 후 게시글 등록 시 주의사항 ***
+    // 카테고리 데이터 채우기
+    // 회원 임시 데이터 채우기
+    // 로그인 상태에서 밀었다면 쿠키 지우기!
+
+    // 필터링 & 검색 기능
 
     @ModelAttribute
     public void Profile(All_MemberDTO all_memberDTO, Model model, Authentication authentication) {
@@ -118,7 +134,41 @@ public class TransactionController {
         pageRequestDTO.setSize(12);
         PageResponseDTO<ProductListAllDTO> responseDTO = productService.listWithAllProducts(pageRequestDTO);
 
-        log.info("list: " + responseDTO);
+        if (pageRequestDTO.getTypes() != null) {
+            model.addAttribute("keyword", pageRequestDTO.getKeyword());
+        }
+
+        if (pageRequestDTO.getMinPrice() != null) {
+            model.addAttribute("minPrice", pageRequestDTO.getMinPrice());
+        }
+
+        if (pageRequestDTO.getMaxPrice() != null) {
+            model.addAttribute("maxPrice", pageRequestDTO.getMaxPrice());
+        }
+
+        if (pageRequestDTO.getOnSale() != null) {
+            model.addAttribute("onSale", pageRequestDTO.getOnSale());
+        }
+
+        if (pageRequestDTO.getReserved() != null) {
+            model.addAttribute("reserved", pageRequestDTO.getReserved());
+        }
+
+        if (pageRequestDTO.getSoldOut() != null) {
+            model.addAttribute("soldOut", pageRequestDTO.getSoldOut());
+        }
+
+        Boolean interested = pageRequestDTO.getInterested();
+
+        if (pageRequestDTO.getAllId() != null && (interested == null || !interested)) {
+            model.addAttribute("listTitle", "거래 게시판: '내가 쓴 게시글'");
+        }
+
+        if (Boolean.TRUE.equals(interested)) {
+            model.addAttribute("listTitle", "거래 게시판: '나의 관심상품'");
+        }
+
+        log.info(pageRequestDTO.toString());
 
         model.addAttribute("responseDTO", responseDTO);
     }
@@ -136,10 +186,14 @@ public class TransactionController {
         log.info("productId: {}", productId);
 
         EquipmentDTO equipmentDTO = productService.readEquipmentOne(productId);
+        equipmentDTO.setInterestCount(productService.countInterest(productId));
         log.info("equipmentDTO: {}", equipmentDTO);
 
         PageResponseDTO<ProductReplyDTO> responseDTO = productReplyService.getListOfProduct(productId, pageRequestDTO);
         log.info("responseDTO: {}", responseDTO);
+
+        All_MemberDTO all_memberDTO = all_memberService.readOne(equipmentDTO.getAllId());
+        model.addAttribute("memberType", all_memberDTO.getMemberType());
 
         model.addAttribute("dto", equipmentDTO);
         model.addAttribute("responseDTO", responseDTO);
@@ -154,7 +208,7 @@ public class TransactionController {
     // 기구 판매 게시글 (등록) - Post
     @PostMapping("/transa_eq_register")
     public String eqRegisterPost(@Valid @ModelAttribute EquipmentDTO equipmentDTO, BindingResult bindingResult,
-                                    RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes) {
         log.info("*****************************************************************");
         log.info("/transaction/transa_eq_register - POST");
         log.info("*****************************************************************");
@@ -194,10 +248,14 @@ public class TransactionController {
         log.info("productId: {}", productId);
 
         FacilityDTO facilityDTO = productService.readFacilityOne(productId);
+        facilityDTO.setInterestCount(productService.countInterest(productId));
         log.info("facilityDTO: {}", facilityDTO);
 
         PageResponseDTO<ProductReplyDTO> responseDTO = productReplyService.getListOfProduct(productId, pageRequestDTO);
         log.info("responseDTO: {}", responseDTO);
+
+        All_MemberDTO all_memberDTO = all_memberService.readOne(facilityDTO.getAllId());
+        model.addAttribute("memberType", all_memberDTO.getMemberType());
 
         model.addAttribute("dto", facilityDTO);
         model.addAttribute("responseDTO", responseDTO);
@@ -212,7 +270,7 @@ public class TransactionController {
     // 시설 판매 게시글 (등록) - Post
     @PostMapping("/transa_fa_register")
     public String faRegisterPost(@Valid @ModelAttribute FacilityDTO facilityDTO, BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes) {
 
         log.info("*****************************************************************");
         log.info("/transaction/transa_fa_register - POST");
@@ -245,7 +303,7 @@ public class TransactionController {
     // 기구 판매 게시글 (수정) - Post
     @PostMapping("/transa_eq_modify")
     public String eqModifyPost(@Valid @ModelAttribute EquipmentDTO equipmentDTO, BindingResult bindingResult,
-                             PageRequestDTO pageRequestDTO, RedirectAttributes redirectAttributes) {
+                               PageRequestDTO pageRequestDTO, RedirectAttributes redirectAttributes) {
         log.info("***************************************************************");
         log.info("/transaction/transa_eq_modify - POST");
         log.info("***************************************************************");
@@ -271,7 +329,7 @@ public class TransactionController {
     // 시설 판매 게시글 (수정) - Post
     @PostMapping("/transa_fa_modify")
     public String faModifyPost(@Valid @ModelAttribute FacilityDTO facilityDTO, BindingResult bindingResult,
-                             PageRequestDTO pageRequestDTO, RedirectAttributes redirectAttributes) {
+                               PageRequestDTO pageRequestDTO, RedirectAttributes redirectAttributes) {
         log.info("***************************************************************");
         log.info("/transaction/transa_fa_modify - POST");
         log.info("***************************************************************");
@@ -289,7 +347,7 @@ public class TransactionController {
         productService.modifyFacility(facilityDTO);
 
         redirectAttributes.addFlashAttribute("result", "fa-modified");
-        redirectAttributes.addAttribute("productId",facilityDTO.getProductId());
+        redirectAttributes.addAttribute("productId", facilityDTO.getProductId());
 
         return "redirect:/transaction/transa_fa_read";
     }
@@ -317,10 +375,6 @@ public class TransactionController {
     @Value("C:\\upload")
     private String uploadPath;
 
-    // 1. 파일도 같이 삭제 된 건지 확실히 확인
-    // 2. 판매하기 버튼 수정 - 완
-    // 3. 거래상태 뱃지랑 텍스트 컬러 반영 - 완
-    // 4. 댓글 기능 개발 (등록/수정/삭제)
     public void removeFiles(List<String> files) {
         for (String fileName : files) {
             // 파일 경로를 이용해 리소스 객체 생성
@@ -335,6 +389,54 @@ public class TransactionController {
                 log.error(e.getMessage());
             }
         }
+    }
+
+    @GetMapping("/interest")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> handleInterest(
+            @RequestParam("allId") String allId,
+            @RequestParam("productId") Long productId) {
+        log.info("***************************************************************");
+        log.info("/transaction/interest - GET");
+        log.info("***************************************************************");
+
+        log.info("allId: {}", allId);
+        log.info("productId: {}", productId);
+
+        InterestDTO interestDTO = new InterestDTO();
+        interestDTO.setProductId(productId);
+        interestDTO.setAllId(allId);
+
+        // 관심 상품 등록/취소 처리 (예제)
+        boolean isRegistered = productService.registerInterest(interestDTO);
+        Long countInterest = productService.countInterest(productId);
+
+        // 응답 메시지 생성
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", isRegistered ? "관심 상품에서 제거되었습니다." : "관심 상품에 추가되었습니다.");
+        response.put("status", isRegistered ? "removed" : "added");
+        response.put("countInterest", countInterest);
+        response.put("productId", productId);
+        response.put("allId", allId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/interest_chk_me")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> handleInterestChkMe(
+            @RequestParam("allId") String allId,
+            @RequestParam("productId") Long productId) {
+        log.info("***************************************************************");
+        log.info("/transaction/interestChkMe - GET");
+        log.info("***************************************************************");
+
+        boolean isRegistered = productService.isRegisteredInterest(productId, allId);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", isRegistered ? "yes" : "no");
+
+        return ResponseEntity.ok(response);
     }
 
 

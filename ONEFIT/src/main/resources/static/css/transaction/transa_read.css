@@ -116,13 +116,6 @@
     padding-left: 30px;
 }
 
-.like {
-    color: #FF0000;
-    font-size: 1.5rem;
-    margin-right: 19px;
-    cursor: pointer;
-}
-
 .reply-btn {
     font-weight: bold;
     background-color: #007bff;
@@ -232,5 +225,21 @@
     padding-bottom: 15px;
 }
 /* 댓글 수정 모달 CSS end */
+
+fieldset {
+    all: revert;
+    display: contents;
+}
+
+.like {
+    margin-right: 19px;
+}
+
+.like-btn {
+    all: revert;
+    display: contents;
+    color: #FF0000;
+    font-size: 1.5rem;
+}
 
 

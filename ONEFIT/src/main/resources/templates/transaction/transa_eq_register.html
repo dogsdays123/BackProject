@@ -7,6 +7,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneFit - 판매글(기구) 등록</title>
     <link rel="stylesheet" th:href="@{/css/transaction/transa_register.css}">
+    <style>
+        #kakaoMap {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /*.form-control {*/
+        /*    border-radius: 5px;*/
+        /*    padding: 10px;*/
+        /*    font-size: 16px;*/
+        /*    border: 1px solid #ccc;*/
+        /*}*/
+
+        .btn {
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: 1px solid #007bff;
+        }
+
+        .btn-outline-primary {
+            background-color: white;
+            border: 1px solid #007bff;
+            color: #007bff;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,16 +64,19 @@
                         <label class="form-label">제목</label>
                         <input type="text" name="pTitle" id="pTitle"
                                class="form-control" placeholder="제목을 입력하세요" required>
-<!--                        <div id="pTitle-feedback" class="mt-1 input-feedback text-danger">-->
-<!--                            제목을 입력해주세요.-->
-<!--                        </div>-->
+                        <!-- 회원 아이디 -->
+                        <input type="hidden" name="allId" th:value="${all_memberDTO.allId}">
+                        <!--                        <div id="pTitle-feedback" class="mt-1 input-feedback text-danger">-->
+                        <!--                            제목을 입력해주세요.-->
+                        <!--                        </div>-->
                     </div>
 
                     <div class="row g-3">
                         <div class="col-md-6">
                             <!-- 2. 판매가 -->
                             <label class="form-label">판매가</label>
-                            <input type="text" class="form-control" name="pPrice" placeholder="판매 가격 입력" required>
+                            <input type="text" class="form-control number-input" name="pPrice" placeholder="판매 가격 입력"
+                                   required>
                         </div>
 
                         <!-- 3. 카테고리 -->
@@ -58,25 +95,51 @@
                         </div>
 
                     </div>
-
-
                 </div>
 
                 <div class="form-section">
                     <h5 class="product-h5">상세 설명</h5>
                     <hr>
-                    <div class="mb-3">
+                    <div class="mb-4">
                         <!-- 4. 판매내용 -->
                         <label class="form-label">판매 내용</label>
                         <textarea class="form-control" rows="5" name="pContent"
                                   placeholder="판매 내용을 입력하세요" required></textarea>
                     </div>
+                    <!-- 5. 거래 장소 입력 start-->
                     <div class="mb-3">
-                        <!-- 5. 거래 장소 -->
                         <label class="form-label">희망 거래 장소</label>
-                        <input type="text" class="form-control" name="pAddr"
-                               placeholder="주소를 입력하세요" required>
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <!-- 지도 표시 영역 -->
+                                <div id="kakaoMap" class="col-12 col-md-6 mb-2 w-100 rounded-2"
+                                     style="height: 400px;"></div>
+                            </div>
+
+                            <div class="row justify-content-center">
+                                <!-- 주소 입력 필드 -->
+                                <div class="col-12 col-md-6 mb-3 w-100">
+                                    <div class="mb-2 text-secondary fs-6">
+                                        ※ 원하는 장소를 지도에 표시시킨 후, '주소 찾기' 버튼을 눌러 해당 주소를 입력해주세요.
+                                        <br>('희망 거래 장소(주소)' 입력 > '위치 찾기' 버튼 클릭을 통해 원하는 장소로 지도를 이동시킬 수 있습니다.)
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control kakaoAddress"
+                                               placeholder="희망 거래 장소(주소)를 입력하세요.">
+                                        <button class="btn btn-outline-primary searchAddress" type="button">위치 찾기
+                                        </button>
+                                    </div>
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-primary" id="getAddress" type="button">주소 찾기
+                                        </button>
+                                        <input type="text" class="form-control" id="addressInput" name="pAddr" readonly
+                                               placeholder="주소가 여기에 표시됩니다." required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!-- 5. 거래 장소 입력 end -->
                     <div class="mb-3">
                         <!-- 6. 오픈 채팅 URL -->
                         <label class="form-label">카카오톡 오픈채팅 URL</label>
@@ -137,7 +200,7 @@
                         <div class="col-md-6 mt-0">
                             <!-- 12. 구매가 -->
                             <label class="form-label">구매가</label>
-                            <input type="text" class="form-control" name="ePurPrice"
+                            <input type="text" class="form-control number-input" name="ePurPrice"
                                    placeholder="구매 가격을 입력하세요" required>
                         </div>
                     </div>
@@ -164,6 +227,7 @@
     <script th:src="@{/js/transaction/upload.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script th:src="@{/js/transaction/transa_register.js}"></script>
+    <script th:src="@{/js/transaction/transa_input.js}"></script>
 </div>
 
 

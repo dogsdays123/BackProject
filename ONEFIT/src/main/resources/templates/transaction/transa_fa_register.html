@@ -31,13 +31,15 @@
                         <label class="form-label">제목</label>
                         <input type="text" name="pTitle" id="pTitle"
                                class="form-control" placeholder="제목을 입력하세요" required>
+                        <!-- 회원 아이디 -->
+                        <input type="hidden" name="allId" th:value="${all_memberDTO.allId}">
                     </div>
 
                     <div class="row g-3">
                         <div class="col-md-6">
                             <!-- 2. 판매가 -->
                             <label class="form-label">판매가</label>
-                            <input type="text" class="form-control" name="pPrice"
+                            <input type="text" class="form-control number-input" name="pPrice"
                                    placeholder="판매 가격 입력" required>
                         </div>
 
@@ -75,8 +77,33 @@
                     <div class="mb-3">
                         <!-- 5. 거래 장소 -->
                         <label class="form-label">희망 거래 장소</label>
-                        <input type="text" class="form-control" name="pAddr"
-                               placeholder="주소를 입력하세요" required>
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <!-- 지도 표시 영역 -->
+                                <div id="kakaoMap" class="col-12 col-md-6 mb-2 w-100 rounded-2" style="height: 400px;"></div>
+                            </div>
+
+                            <div class="row justify-content-center">
+                                <!-- 주소 입력 필드 -->
+                                <div class="col-12 col-md-6 mb-3 w-100">
+                                    <div class="mb-2 text-secondary fs-6">
+                                        ※ 원하는 장소를 지도에 표시시킨 후, '주소 찾기' 버튼을 눌러 해당 주소를 입력해주세요.
+                                        <br>('희망 거래 장소(주소)' 입력 > '위치 찾기' 버튼 클릭을 통해 원하는 장소로 지도를 이동시킬 수 있습니다.)
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control kakaoAddress"
+                                               placeholder="희망 거래 장소(주소)를 입력하세요.">
+                                        <button class="btn btn-outline-primary searchAddress" type="button">위치 찾기</button>
+                                    </div>
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-primary" id="getAddress" type="button">주소 찾기</button>
+                                        <input type="text" class="form-control" id="addressInput" name="pAddr" readonly
+                                               placeholder="주소가 여기에 표시됩니다." required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 5. 거래 장소 -->
                     </div>
                     <div class="mb-3">
                         <!-- 6. 오픈 채팅 URL -->
@@ -108,34 +135,34 @@
                         <div class="col-md-4 mb-3">
                             <label class="form-label">보증금(원)</label>
                             <input type="text" name="fDeposit"
-                                   class="form-control" placeholder="보증금 입력">
+                                   class="form-control number-input" placeholder="보증금 입력">
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">월세(원)</label>
                             <input type="text" name="fMonthRent"
-                                   class="form-control" placeholder="월세 입력">
+                                   class="form-control number-input" placeholder="월세 입력">
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">관리비(원)</label>
                             <input type="text" name="fAdminCost"
-                                   class="form-control" placeholder="관리비 입력">
+                                   class="form-control number-input" placeholder="관리비 입력">
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">매매 사유</label>
-                        <textarea class="form-control" name="fReasonSale"
-                                  rows="2" placeholder="매매 사유 입력"></textarea>
+                        <input type="text" name="fReasonSale"
+                               class="form-control" placeholder="매매 사유 입력하세요">
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">계약 면적 (㎡)</label>
                             <input type="text" name="fContArea"
-                                   class="form-control" placeholder="계약 면적 입력">
+                                   class="form-control number-input" placeholder="계약 면적 입력">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">실면적 (㎡)</label>
                             <input type="text" name="fRealArea"
-                                   class="form-control" placeholder="실면적 입력">
+                                   class="form-control number-input" placeholder="실면적 입력">
                         </div>
                     </div>
                 </div>
@@ -148,6 +175,7 @@
     <script th:src="@{/js/transaction/upload.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script th:src="@{/js/transaction/transa_register.js}"></script>
+    <script th:src="@{/js/transaction/transa_input.js}"></script>
 </div>
 
 

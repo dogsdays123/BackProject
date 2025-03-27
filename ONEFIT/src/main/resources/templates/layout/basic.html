@@ -57,23 +57,7 @@
         </ul>
 
         <!-- 사이드 메뉴(로그인, 회원가입 / 로그아웃, 마이페이지, 알림) -->
-        <div class="auth-links ms-auto">
-            <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 start -->
-            <button class="basic-btn btn btn-primary btns btn-default" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                판매하기
-            </button>
-            <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 start -->
-            <div class="dropdown">
-                <!-- 드롭다운 메뉴 -->
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
-                    <li><a class="dropdown-item" href="transa_fa_register">시설</a></li>
-                </ul>
-            </div>
-            <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 end -->
-            <span class="separator">|</span>
-            <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 end -->
+        <div class="auth-links ms-auto" >
 
             <!-- 로그인 전 메뉴 -->
             <div th:if="${all_memberDTO.allId == null}">
