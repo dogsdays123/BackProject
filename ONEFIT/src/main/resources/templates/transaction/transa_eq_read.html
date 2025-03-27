@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneFit - 거래글 보기(기구)</title>
+    <link rel="stylesheet" th:href="@{/css/transaction/transa_read.css}">
+    <!--    <link rel="stylesheet" th:href="@{/css/pagination.css}">-->
+    <link rel="stylesheet" th:href="@{/css/transaction/paginationNew.css}">
+</head>
+
+<body>
+
+<!-- 메인 start -->
+<div layout:fragment="transa_eq_read">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header p-3 d-flex justify-content-between align-items-center">
+                <h2 class="card-title mb-0">
+                <span class="status-span"
+                      th:text="${dto.pStatus}"
+                      th:class="${dto.pStatus == '판매중' ? 'text-primary' : (dto.pStatus == '예약중' ? 'text-success' : (dto.pStatus == '판매완료' ? 'text-secondary' : ''))}">
+                </span>&nbsp;&nbsp;[[${dto.pTitle}]]
+
+                </h2>
+                <div class="d-flex flex-column">
+                    <!-- 수정 삭제 케밥 메뉴 -->
+                    <button class="btn btn-light border-0 float-end ms-auto"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item"
+                               th:href="|@{/transaction/transa_eq_modify(productId=${dto.productId})}&${link}|">
+                            수정하기
+                        </a></li>
+                        <li><a class="dropdown-item text-danger removeBtn" href="#">삭제하기</a></li>
+                    </ul>
+                    <!-- 게시글 작성일 -->
+                    <span class="text-muted float-end mt-2">
+                        [[${#temporals.format(dto.modDate,'yyyy-MM-dd a h시 mm분')}]]
+                    </span>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- 브레드크럼 -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb-container">
+                        <li class="breadcrumb-item"><a href="#">홈</a></li>
+                        <li class="breadcrumb-item"><a href="#">거래</a></li>
+                        <li class="breadcrumb-item"><a href="#">기구</a></li>
+                        <li class="breadcrumb-item"><a href="#">[[${dto.cCategory}]]</a></li>
+                        <!-- <li class="breadcrumb-item active" aria-current="page">게시글 등록</li> -->
+                    </ol>
+                </nav>
+
+
+                <!-- 매물 이미지 -->
+                <div class="row mb-3 justify-content-center ms-auto img-info-container">
+                    <div class="col-12 col-md-6">
+                        <!-- 매물 이미지 슬라이드 -->
+                        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+
+                            <div class="carousel-inner"
+                                 th:if="${dto.imageFileNames != null && dto.imageFileNames.size() > 0}">
+                                <div th:each="imageName, stat: ${dto.imageFileNames}" class="carousel-item"
+                                     th:classappend="${stat.first} ? ' active' : ''">
+                                    <div class="carousel-img-container">
+                                        <img th:src="|/view_transa/${imageName}|"
+                                             class="d-block w-100 h-100 carousel-img"
+                                             th:alt="${imageName}" onclick="openModal(this)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 이전, 다음 버튼 -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel"
+                                    data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel"
+                                    data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+
+                        <!-- 이미지 전체 보기 모달 -->
+                        <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" id="closeModalBtn"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <img id="modalImage" src="" class="img-fluid rounded">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 프로필 정보 -->
+                        <div class="d-flex align-items-center mt-3">
+                            <!-- 프로필 이미지 -->
+                            <img src="/image/transaction/profile-1.jpg" alt="프로필 이미지"
+                                 class="profile-img me-3 rounded-circle">
+
+                            <!-- 닉네임 및 추가 정보 -->
+                            <div>
+                                <h6 class="mb-1 fw-bold">[[${dto.allId}]]</h6>
+                                <p class="mb-0 text-muted">개인 회원</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-6 read-info">
+                        <!-- 가격 -->
+                        <h3 class="price-text">
+                            <span th:text="${#numbers.formatInteger(dto.pPrice, 1, 'COMMA')}"></span>
+                            원
+                        </h3>
+                        <table class="table table-borderless mt-3">
+                            <tbody>
+                            <tr>
+                                <th>제품명</th>
+                                <td>[[${dto.eName}]]</td>
+                            </tr>
+                            <tr>
+                                <th>제품 상태</th>
+                                <td>[[${dto.eStatus}]]</td>
+                            </tr>
+                            <tr>
+                                <th>제조사</th>
+                                <td>[[${dto.eBrand}]]</td>
+                            </tr>
+                            <tr>
+                                <th>구매가</th>
+                                <td>
+                                    <span th:text="${#numbers.formatInteger(dto.ePurPrice, 1, 'COMMA')}"></span>
+                                    원
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>A/S 가능여부</th>
+                                <td>[[${dto.eAs}]]</td>
+                            </tr>
+                            <tr>
+                                <th>거래 장소</th>
+                                <td>[[${dto.pAddr}]]</td>
+                            </tr>
+                            <tr>
+                                <th>사용기간</th>
+                                <td><span>[[${dto.eUseStart}]]</span> ~ <span>[[${dto.eUseEnd}]]</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <h4 class="content-title">판매내용</h4>
+                        <div class="content p-3 border rounded overflow-auto">[[${dto.pContent}]]
+                        </div>
+                        <div class="mt-4 d-flex justify-content-center align-items-center">
+                            <span class="like d-inline-flex flex-column align-items-center">
+                                <i class="fa-regular fa-heart fs-2" id="heart-icon"></i>
+                                <span class="like-count fs-6 text-secondary" id="like-count">0</span>
+                            </span>
+                            <button class="btn w-100 ms-auto m-0" id="chatButton"
+                                    th:attr="data-link=${dto.pChatUrl}" onclick="openChatPopup()">
+                                <i class="fas fa-comment kakao-rogo"></i>&nbsp;&nbsp;오픈채팅 바로가기
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h5 class="fw-bold">댓글 <span class="text-primary">[[${responseDTO.total}]]</span></h5>
+        <div class="card p-3 border-0">
+            <!-- 댓글 입력창 start -->
+            <div class="d-flex align-items-center mb-3">
+                <form method="post" action="/product_reply/eq_register" id="replyForm">
+                    <input type="hidden" name="productId" th:value="${dto.productId}">
+                    <input type="hidden" name="allId" value="member1">
+                    <img src="/image/transaction/profile-2.jpg" class="rounded-circle me-2 profile-img" alt="프로필">
+                    <input type="text" class="form-control rounded-pill" name="pReplyText" placeholder="댓글을 입력하세요..."
+                           required>
+                    <button type="submit" class="btn btn-primary ms-2 rounded-pill px-3 reply-btn">등록</button>
+                </form>
+            </div>
+            <!-- 댓글 입력창 end -->
+            <hr>
+            <!-- 개별 댓글 start -->
+            <th:block th:each="replyDto:${responseDTO.dtoList}">
+                <!-- 댓글 1 -->
+                <div class="d-flex align-items-start mb-3 reply-div">
+                    <img src="/image/transaction/profile-2.jpg" class="rounded-circle me-2 profile-img" alt="프로필">
+                    <div class="w-100">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>[[${replyDto.allId}]]</strong>
+                                <span class="text-muted"
+                                      th:text="'· ' + ${#temporals.format(replyDto.modDate, 'yyyy-MM-dd a h시 mm분')}"></span>
+                            </div>
+                            <!-- 게시글: '수정하기', '삭제하기' 케밥 메뉴 start -->
+                            <!-- 수정 및 삭제 버튼 -->
+                            <div class="comment-actions">
+                                <button class="btn btn-link text-secondary px-1 reply-menu-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modifyReplyModal"
+                                        th:data-product-id="${dto.productId}"
+                                        th:data-reply-id="${replyDto.productReplyId}"
+                                        th:data-reply-content="${replyDto.pReplyText}">
+                                    <i class="fas fa-edit"></i> 수정
+                                </button>
+                                <span class="text-secondary mx-1 span-line">|</span>
+                                <!--                                <button class="btn btn-link text-secondary px-1 reply-menu-btn" id="deleteReplyBtn">-->
+                                <!--                                    <i class="fa-solid fa-trash"></i> 삭제-->
+                                <!--                                </button>-->
+                                <button class="btn btn-link text-secondary px-1 reply-menu-btn remove-reply-btn"
+                                        th:data-product-id="${dto.productId}"
+                                        th:data-reply-id="${replyDto.productReplyId}"
+                                        th:data-product-role="'eq'">
+                                    <i class="fa-solid fa-trash"></i> 삭제
+                                </button>
+                            </div>
+                        </div>
+                        <!-- 게시글: '수정하기', '삭제하기' 케밥 메뉴 end -->
+                        <p class="mb-1 reply-content">[[${replyDto.pReplyText}]]</p>
+                        <div class="d-flex align-items-center">
+                            <!-- <button class="btn btn-light btn-sm me-2"><i class="fa-regular fa-thumbs-up"></i> 5</button> -->
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+            <!-- 개별 댓글 end -->
+            <!-- 페이지네이션 start -->
+            <div class="row" th:if="${responseDTO.total > 0}">
+                <ul class="pagination justify-content-center" id="eqReplyPagination">
+                    <li href="#" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'">
+                        <a class="pagearrow leftarrow" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'"
+                           th:data-num="${responseDTO.start -1}">&lt;</a>
+                    </li>
+                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <li href="#" th:class="${responseDTO.page == i}? 'is-active':''">
+                            <a class="pageitem" th:data-num="${i}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <li href="#" th:classappend="${responseDTO.next} ? '' : 'is-deactive'">
+                        <a class="pagearrow rightarrow" th:classappend="${responseDTO.next} ? '' : 'is-deactive'"
+                           th:data-num="${responseDTO.end + 1}">&gt;</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 페이지네이션 end -->
+        </div>
+    </div>
+    <!-- 댓글 end  -->
+
+    <!-- 댓글 수정 모달 start -->
+    <div class="modal fade" id="modifyReplyModal" tabindex="-1" aria-labelledby="modifyReplyModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form method="post" action="/product_reply/eq_modify" id="replyModifyForm">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center reply-modify-header">
+                                <label for="pReplyText" class="form-label mb-0">댓글 내용</label>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <input type="hidden" name="productId" id="productId">
+                            <input type="hidden" name="productReplyId" id="productReplyId">
+                            <input type="text" class="form-control rounded-pill"
+                                   id="pReplyText" name="pReplyText" placeholder="수정할 댓글을 입력하세요..." required>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        <button type="submit" class="btn bg-primary text-white">저장</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 댓글 수정 모달 end -->
+
+    <!-- JS 기능 추가 -->
+    <script th:src="@{/js/transaction/transa_read.js}"></script>
+</div>
+
+</body>
+
+</html>

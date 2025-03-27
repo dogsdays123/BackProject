@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneFit - 거래 게시판</title>
+    <link rel="stylesheet" th:href="@{/css/transaction/transa_list.css}">
+    <!--        <link rel="stylesheet" th:href="@{/css/pagination.css}">-->
+    <link rel="stylesheet" th:href="@{/css/transaction/paginationNew.css}">
+</head>
+
+<body>
+<div layout:fragment="transa_list">
+    <div class="container mt-4 d-flex">
+        <!-- 사이드 메뉴 -->
+        <div class="sidebar mb-4">
+            <!-- 개인 회원 로그인 시에 보이는 버튼 -->
+            <!-- <button type="submit" class="btn w-100 modal-btn mb-4 btn-default">
+              판매하기
+            </button> -->
+
+            <!-- 카테고리 메뉴 -->
+            <h5 class="fw-bold">카테고리</h5>
+            <hr class="mt-2">
+            <div class="list-group">
+                <a class="list-group-item active">전체 보기</a>
+                <a class="list-group-item" data-bs-toggle="collapse" data-bs-target="#equipmentMenu">운동 기구</a>
+                <div class="collapse ps-3" id="equipmentMenu">
+                    <a class="list-group-item">헬스 기구</a>
+                    <a class="list-group-item">필라테스 기구</a>
+                    <a class="list-group-item">요가 용품</a>
+                    <a class="list-group-item">기타 운동 용품</a>
+                </div>
+                <a class="list-group-item" data-bs-toggle="collapse" data-bs-target="#facilityMenu">운동 시설</a>
+                <div class="collapse ps-3" id="facilityMenu">
+                    <a class="list-group-item">헬스장</a>
+                    <a class="list-group-item">필라테스 스튜디오</a>
+                    <a class="list-group-item">요가원</a>
+                    <a class="list-group-item">기타 시설</a>
+                </div>
+            </div>
+
+
+            <h5 class="fw-bold pt-3">지역</h5>
+            <hr class="mt-2">
+            <div class="list-group" id="regionList">
+                <a class="list-group-item active">전체 보기</a>
+            </div>
+
+            <script>
+                // 대한민국 지역 데이터 (일부 예시, 추가 가능)
+                const regions = {
+                    "서울특별시": {
+                        "강남구": ["역삼동", "삼성동", "청담동"],
+                        "서초구": ["서초동", "양재동", "방배동"],
+                        "송파구": ["잠실동", "가락동", "문정동"]
+                    },
+                    "경기도": {
+                        "수원시": ["팔달구", "장안구", "영통구"],
+                        "성남시": ["분당구", "수정구", "중원구"],
+                        "고양시": ["덕양구", "일산동구", "일산서구"]
+                    },
+                    "부산광역시": {
+                        "해운대구": ["좌동", "중동", "우동"],
+                        "남구": ["대연동", "용호동"],
+                        "동래구": ["온천동", "사직동"]
+                    }
+                };
+
+                const regionList = document.getElementById("regionList");
+
+                // 데이터 기반으로 지역 카테고리 생성
+                Object.keys(regions).forEach(province => {
+                    let provinceId = `province-${province}`;
+                    regionList.innerHTML += `<a class="list-group-item" data-bs-toggle="collapse" data-bs-target="#${provinceId}">${province}</a>`;
+
+                    let cityList = `<div class="collapse ps-3" id="${provinceId}">`;
+                    Object.keys(regions[province]).forEach(city => {
+                        let cityId = `city-${province}-${city}`;
+                        cityList += `<a class="list-group-item" data-bs-toggle="collapse" data-bs-target="#${cityId}">${city}</a>`;
+
+                        let districtList = `<div class="collapse ps-3" id="${cityId}">`;
+                        regions[province][city].forEach(district => {
+                            districtList += `<a class="list-group-item">${district}</a>`;
+                        });
+                        districtList += `</div>`;
+                        cityList += districtList;
+                    });
+                    cityList += `</div>`;
+                    regionList.innerHTML += cityList;
+                });
+            </script>
+
+            <!-- 가격 필터 -->
+            <div class="filter-section">
+                <h6 class="fw-bold">가격 필터</h6>
+                <div class="price-input">
+                    <input type="number" placeholder="최소" min="0">
+                    <span>~</span>
+                    <input type="number" placeholder="최대" min="0">
+                </div>
+            </div>
+
+            <!-- 판매 중만 보기 -->
+            <div class="filter-section">
+                <h6 class="fw-bold">판매 상태</h6>
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    판매 중 보기
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    예약 중 보기
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    판매 완료 보기
+                </label>
+            </div>
+        </div>
+
+        <!-- 메인 컨텐츠 (상품 목록) -->
+        <!-- 메인 start -->
+        <main>
+            <div class="container list-container px-5 mt-4">
+                <h2 class="mb-4 text-primary">거래 게시판</h2>
+                <!-- <h2 class="mb-4">거래 게시판: '나의 관심상품(기구)'</h2> -->
+                <!-- <h2 class="mb-4">거래 게시판: '내가 작성한 게시글'</h2> -->
+                <div class="d-flex align-items-center gap-3">
+                    <!-- 검색창 폼 -->
+                    <form class="d-flex">
+                        <div class="search-box">
+                            <input type="text" class="form-control search-bar me-2" placeholder="검색어를 입력하세요">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </form>
+
+
+                </div>
+                <hr class="py-3">
+
+                <div class="row justify-content-start">
+
+                    <!-- 게시글 카드 start -->
+                    <div class="col-md-3 mb-3" th:each="dto:${responseDTO.dtoList}">
+                        <!--                        http://localhost:8080/board/read?pno=61&page=1&size=9&code=1-->
+                        <!--                        http://localhost:8080/transaction/transa_eq_read?productId=1&null-->
+                        <a th:href="@{'/transaction/' + ${dto.pRoles == 1 ? 'transa_eq_read' : 'transa_fa_read'} + '?productId=' + ${dto.productId} + '&' + ${link} }"
+                           class="text-reset text-decoration-none">
+                            <div class="card">
+                                <div class="badge badge-status text-white"
+                                     th:classappend="${dto.pStatus == '판매중'} ? 'bg-primary'
+                                       : (${dto.pStatus == '예약중'} ? 'bg-success'
+                                       : (${dto.pStatus == '판매완료'} ? 'bg-secondary' : ''))">
+                                    [[${dto.pStatus}]]
+                                </div>
+                                <th:block th:each="image, stat : ${dto.imageFileList}" th:if="${stat.index == 0}">
+                                    <img class="card-img-top"
+                                         th:src="|/view_transa/${image.imageUuid}_${image.imageFileName}|"
+                                         alt="게시글 대표 이미지">
+                                </th:block>
+
+                                <div class="card-body">
+                                    <h5 class="card-title" th:title="${dto.pTitle}">
+                                        [[${dto.pTitle}]]
+                                    </h5>
+
+                                    <p class="card-text fw-bold board-price">
+                                        ₩&nbsp;<span th:text="${#numbers.formatInteger(dto.pPrice, 1, 'COMMA')}"></span>
+                                    </p>
+                                    <p class="card-text">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span th:text="${dto.pAddr}" th:title="${dto.pAddr}"></span>
+                                    </p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-center gap-3">
+                                    <span>[[${dto.allId}]]</span>
+                                    <span>|</span>
+                                    <span>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- 게시글 카드 end -->
+                </div>
+            </div>
+
+            <!-- 페이지네이션 start -->
+            <div class="row" th:if="${responseDTO.total > 0}">
+                <ul class="pagination justify-content-center" id="listPagination">
+                    <li href="#" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'">
+                        <a class="pagearrow leftarrow" th:classappend="${responseDTO.prev} ? '' : 'is-deactive'"
+                           th:data-num="${responseDTO.start -1}">&lt;</a>
+                    </li>
+                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <li href="#" th:class="${responseDTO.page == i}? 'is-active':''">
+                            <a class="pageitem" th:data-num="${i}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <li href="#" th:classappend="${responseDTO.next} ? '' : 'is-deactive'">
+                        <a class="pagearrow rightarrow" th:classappend="${responseDTO.next} ? '' : 'is-deactive'"
+                           th:data-num="${responseDTO.end + 1}">&gt;</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 페이지네이션 end -->
+
+        </main>
+        <!-- 메인 end -->
+    </div>
+    <!-- JS 기능 추가 -->
+    <script th:src="@{/js/transaction/transa_list.js}"></script>
+</div>
+
+
+</body>
+
+</html>

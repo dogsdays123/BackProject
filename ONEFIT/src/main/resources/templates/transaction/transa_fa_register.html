@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneFit - 판매글(시설) 등록</title>
+    <link rel="stylesheet" th:href="@{/css/transaction/transa_register.css}">
+</head>
+
+<body>
+<div layout:fragment="transa_fa_register">
+    <div class="container mt-5">
+        <div class="post-container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-container">
+                    <li class="breadcrumb-item"><a href="#">홈</a></li>
+                    <li class="breadcrumb-item"><a href="#">거래</a></li>
+                    <li class="breadcrumb-item"><a href="#">시설</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">게시글 등록</li>
+                </ol>
+            </nav>
+            <form id="fa_Form" name="fa_Form" action="/transaction/transa_fa_register" method="post">
+                <div class="form-section">
+                    <h5 class="product-h5">상품 정보</h5>
+                    <hr>
+                    <div class="mb-3">
+                        <!-- 1. 제목 -->
+                        <label class="form-label">제목</label>
+                        <input type="text" name="pTitle" id="pTitle"
+                               class="form-control" placeholder="제목을 입력하세요" required>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <!-- 2. 판매가 -->
+                            <label class="form-label">판매가</label>
+                            <input type="text" class="form-control" name="pPrice"
+                                   placeholder="판매 가격 입력" required>
+                        </div>
+
+                        <!-- 3. 카테고리 -->
+                        <div class="col-md-6">
+                            <label class="form-label">운동시설 카테고리</label>
+                            <select name="categoryId" class="form-select" required>
+                                <option value="" disabled selected>카테고리 선택</option>
+                                <option value="8">헬스장</option>
+                                <option value="9">배드민턴장</option>
+                                <option value="10">스쿼시장</option>
+                                <option value="11">농구장</option>
+                                <option value="12">풋살장</option>
+                                <option value="13">수영장</option>
+                                <option value="14">테니스장</option>
+                                <option value="15">탁구장</option>
+                                <option value="16">볼링장</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="form-section">
+                    <h5 class="product-h5">상세 설명</h5>
+                    <hr>
+                    <div class="mb-3">
+                        <!-- 4. 판매내용 -->
+                        <label class="form-label">판매 내용</label>
+                        <textarea class="form-control" rows="5" name="pContent"
+                                  placeholder="판매 내용을 입력하세요" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <!-- 5. 거래 장소 -->
+                        <label class="form-label">희망 거래 장소</label>
+                        <input type="text" class="form-control" name="pAddr"
+                               placeholder="주소를 입력하세요" required>
+                    </div>
+                    <div class="mb-3">
+                        <!-- 6. 오픈 채팅 URL -->
+                        <label class="form-label">카카오톡 오픈채팅 URL</label>
+                        <input type="url" class="form-control" name="pChatUrl"
+                               placeholder="오픈채팅 URL를 입력하세요">
+                    </div>
+                    <div class="mb-3 uploadHidden">
+                        <!-- 7. 상품 이미지 -->
+                        <label class="form-label">상품 이미지</label>
+                        <div class="file-label" onclick="$('#imageUpload').click()">이미지 업로드</div>
+                        <input type="file" name="files" class="form-control d-none" id="imageUpload" accept="image/*" multiple>
+                        <div id="imagePreview" class="mt-2 d-flex flex-wrap"></div>
+                        <div class="mt-1 text-secondary">
+                            ※ 미리보기 첫 번째 이미지가 썸네일로 표시됩니다.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h5 class="product-h5 detail-h5">시설 매매 정보</h5>
+                    <hr>
+                    <div class="mb-3">
+                        <label class="form-label">센터명</label>
+                        <input type="text" name="fCenterName"
+                               class="form-control" placeholder="센터명을 입력하세요">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">보증금(원)</label>
+                            <input type="text" name="fDeposit"
+                                   class="form-control" placeholder="보증금 입력">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">월세(원)</label>
+                            <input type="text" name="fMonthRent"
+                                   class="form-control" placeholder="월세 입력">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">관리비(원)</label>
+                            <input type="text" name="fAdminCost"
+                                   class="form-control" placeholder="관리비 입력">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">매매 사유</label>
+                        <textarea class="form-control" name="fReasonSale"
+                                  rows="2" placeholder="매매 사유 입력"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">계약 면적 (㎡)</label>
+                            <input type="text" name="fContArea"
+                                   class="form-control" placeholder="계약 면적 입력">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">실면적 (㎡)</label>
+                            <input type="text" name="fRealArea"
+                                   class="form-control" placeholder="실면적 입력">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="product-btn btn btn-primary w-100 submitBtn">등록하기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JS 기능 추가 -->
+    <script th:src="@{/js/transaction/upload.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script th:src="@{/js/transaction/transa_register.js}"></script>
+</div>
+
+
+</body>
+
+</html>
