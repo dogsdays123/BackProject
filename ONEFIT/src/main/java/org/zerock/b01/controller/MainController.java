@@ -21,6 +21,7 @@ import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -101,6 +102,10 @@ public class MainController {
         }
         model.addAttribute("checkId", false);
         model.addAttribute("checkEmail", false);
+
+        List<All_MemberDTO> all_memberDTOList = all_memberService.readAllMember();
+        model.addAttribute("all_memberDTOList", all_memberDTOList);
+        log.info("모든회원@@@@@@@@@" + all_memberDTOList);
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
 

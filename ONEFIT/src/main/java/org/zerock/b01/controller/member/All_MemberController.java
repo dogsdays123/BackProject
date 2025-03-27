@@ -112,6 +112,13 @@ public class All_MemberController {
         } else {
             model.addAttribute("sidebar", false);
         }
+
+        model.addAttribute("checkId", false);
+        model.addAttribute("checkEmail", false);
+
+        List<All_MemberDTO> all_memberDTOList = all_memberService.readAllMember();
+        model.addAttribute("all_memberDTOList", all_memberDTOList);
+        log.info("모든회원@@@@@@@@@" + all_memberDTOList);
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
 

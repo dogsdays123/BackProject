@@ -10,7 +10,11 @@ import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.member.MemberRole;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.repository.All_MemberRepository;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -93,5 +97,17 @@ public class All_MemberServiceImpl implements All_MemberService {
         log.info(all_member.getRoleSet());
 
         all_MemberRepository.save(all_member);
+    }
+
+    @Override
+    public List<All_MemberDTO> readAllMember(){
+        List<All_Member> result = all_MemberRepository.findAll();
+        if(result.isEmpty()){
+            return Collections.emptyList(); // 결과가 없으면 빈 리스트 반환
+        }
+
+        List<All_MemberDTO> all_MemberDTOList = result.stream()
+                .map(allMember -> modelMapper.map(allMember, All_MemberDTO.class)).collect(Collectors.toList());
+        return all_MemberDTOList;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerock.b01.domain.All_Member;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface All_MemberRepository extends JpaRepository<All_Member, String> {
@@ -29,4 +30,7 @@ public interface All_MemberRepository extends JpaRepository<All_Member, String> 
     @Transactional
     @Query("delete from All_Member m where m.allId =:allId")
     void removeMember(@Param("allId") String allId);
+    
+    @Query("select am from All_Member am")
+    List<All_Member> getAllMembers();
 }
