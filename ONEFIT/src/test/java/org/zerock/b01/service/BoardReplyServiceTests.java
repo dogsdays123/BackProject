@@ -7,7 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.zerock.b01.domain.All_Member;
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import org.zerock.b01.domain.board.Notice_Board;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -23,6 +26,7 @@ public class BoardReplyServiceTests {
     private BoardReplyService boardReplyService;
 
     @Test
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
     public void testRegisterBoard() {
@@ -43,6 +47,8 @@ public class BoardReplyServiceTests {
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     public void registerBoardReply() {
 
         String allId = "member1";
@@ -56,6 +62,9 @@ public class BoardReplyServiceTests {
                 .build();
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
