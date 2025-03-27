@@ -1,5 +1,6 @@
 package org.zerock.b01.controller.member;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
@@ -155,6 +157,19 @@ public class All_MemberController {
         TrainerDTO trainerDTO = member_Set_Type_Service.trainerReadForUser(user_memberDTO.getUserId());
         if(trainerDTO != null) {
             log.info("%%%%" + trainerDTO);
+
+            // academy가 JSON 형식이라면 ObjectMapper를 사용하여 Map으로 변환
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                // academy를 Map으로 변환
+                Map academyMap = objectMapper.readValue((String) trainerDTO.getAcademy(), Map.class);
+                model.addAttribute("academyMap", academyMap);
+                log.info("%%%%%%%%" + academyMap);
+            } catch (Exception e) {
+                log.error("JSON 변환 오류", e);
+            }
+
+            model.addAttribute("trainerDTO", trainerDTO);
         }
     }
 
