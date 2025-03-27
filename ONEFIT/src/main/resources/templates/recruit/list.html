@@ -140,8 +140,8 @@
                                         <div class="card card-body" style="max-width: 1000px; width: 90vw; min-height: 300px;">
                                             <div class="d-flex mb-2" style="align-items: center; height: 40px; font-size: 15px;">
                                                 <label class="form-label" style="width: 100px;">지역</label>
-                                                <input type="hidden" name="type" value="i">
-                                                <select class="form-control" style="width: 170px;">
+                                                <input type="hidden" name="type" value="ad">
+                                                <select class="form-control" name="addressDoFilter" style="width: 170px;">
                                                     <option value="" selected disabled hidden style="color: #dadada;">도 선택 ▾</option>
                                                     <option value="서울">서울특별시</option>
                                                     <option value="부산">부산광역시</option>
@@ -161,7 +161,7 @@
                                                     <option value="경남">경상남도</option>
                                                     <option value="제주">제주도</option>
                                                 </select>
-                                                <select class="form-control" style="width: 170px;">
+                                                <select class="form-control"  name="addressCityFilter" style="width: 170px;">
                                                     <option value="" selected disabled hidden style="color: #dadada;">시 선택 ▾</option>
                                                     <!-- 서울특별시 -->
                                                     <option value="서울">서울특별시</option>
@@ -550,7 +550,7 @@
                     <td valign="middle" style="height: 100px;">[[${dto.reCompany}]]</td>
                     <td valign="middle"><a th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a></td>
                     <td valign="middle">[[${dto.reIndustry}]]</td>
-                    <td valign="middle">경기도 수원시 영통구</td>
+                    <td valign="middle">[[${dto.reMainAddress}]]</td>
                     <td valign="middle">[[${dto.reJobHistory}]]</td>
                     <td valign="middle">[[${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}]]</td>
                     <td valign="middle"><button class="btn btn-outline-danger" id="applyBtn">입사지원</button></td>
@@ -822,7 +822,7 @@
 
     const modal = new bootstrap.Modal(document.getElementById("registerResultModal"))
     if(result){
-        alert(result)
+        // alert(result)
         modal.show();
     }
 

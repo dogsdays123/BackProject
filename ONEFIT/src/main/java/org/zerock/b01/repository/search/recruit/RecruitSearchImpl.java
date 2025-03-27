@@ -48,7 +48,8 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
     @Override
     public Page<Recruit_Register> searchAll1(String[] types, String keyword, String gender, String age, String jobTypeFull, String jobTypePart,
                                             String jobTypeFree, String jobTypeTrainee, String jobTypeAlba, String workDays,
-                                            String dutyDays, String startTime, String endTime, String timeNegotiable, String industry, String regDateFilter, Pageable pageable) {
+                                            String dutyDays, String startTime, String endTime, String timeNegotiable, String industry, String regDateFilter,
+                                             String addressDoFilter, String addressCityFilter, Pageable pageable) {
 
         QRecruit_Register recruit_register = QRecruit_Register.recruit_Register;
 
@@ -95,6 +96,13 @@ public class RecruitSearchImpl extends QuerydslRepositorySupport implements Recr
                     booleanBuilder.and(regDatePath.goe(sevenDaysAgo));
                     break;
             }
+        }
+
+        if(addressDoFilter != null && !addressDoFilter.isEmpty()) {
+            booleanBuilder.and(recruit_register.reMainAddress.startsWith(addressDoFilter));
+        }
+        if(addressCityFilter != null && !addressCityFilter.isEmpty()) {
+            booleanBuilder.and(recruit_register.reMainAddress.contains(addressCityFilter));
         }
 
         if (gender != null && !gender.isEmpty()) {

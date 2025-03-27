@@ -3,6 +3,7 @@ package org.zerock.b01.service.recruitService;
 import org.zerock.b01.domain.recruit.Recruit_Register;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
+import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitListAllDTO;
 
@@ -16,6 +17,8 @@ public interface RecruitService {
     RecruitDTO readOne(Long recruitId);
 
     RecruitListAllDTO readOneWithImage(Long recruitId);
+
+    Business_MemberDTO readBusinessMember(Long recruitId);
 
     void modify(RecruitDTO recruitDTO);
 
@@ -31,6 +34,8 @@ public interface RecruitService {
 
         Recruit_Register recruit_register = Recruit_Register.builder()
                 .recruitId(recruitDTO.getRecruitId())
+                .reMainAddress(recruitDTO.getReMainAddress())
+                .reDetailAddress(recruitDTO.getReDetailAddress())
                 .reTitle(recruitDTO.getReTitle())
                 .reCompany(recruitDTO.getReCompany())
                 .reJobTypeFull(recruitDTO.getReJobTypeFull())
@@ -83,6 +88,8 @@ public interface RecruitService {
         RecruitDTO recruitDTO = RecruitDTO.builder()
                 .recruitId(recruit_register.getRecruitId())
                 .regDate(recruit_register.getRegDate())
+                .reMainAddress(recruit_register.getReMainAddress())
+                .reDetailAddress(recruit_register.getReDetailAddress())
                 .reTitle(recruit_register.getReTitle())
                 .reCompany(recruit_register.getReCompany())
                 .reJobTypeFull(recruit_register.getReJobTypeFull())

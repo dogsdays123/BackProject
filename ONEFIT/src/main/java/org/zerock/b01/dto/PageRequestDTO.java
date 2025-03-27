@@ -56,6 +56,10 @@ public class PageRequestDTO {
 
     private String regDateFilter; // 채용 공고 등록일 필터
 
+    private String addressDoFilter; // 채용 공고 지역 '도' 필터
+
+    private String addressCityFilter; // 채용 공고 지역 '시' 필터
+
     private LocalDate startDate; //날짜 검색: 시작일
 
     private LocalDate endDate; // 날짜 검색: 시작일

@@ -150,11 +150,12 @@
                             <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center" id="getAddress" style="width: 42px; height: 38px;">
                                 <i class="bi bi-plus" style="font-size: 30px;"></i>
                             </button>
-
+                            &nbsp;&nbsp;<span style="font-size:14px; color: red;">* 주소변경 후 추가 버튼 클릭</span>
                         </div>
                         <div class="mb-2">
-                            <input type="text" id="addressInput" class="form-control" style="width: 350px"  placeholder="대표주소(추가 버튼을 누르면 자동 입력됩니다)">&nbsp;&nbsp;&nbsp;
-                            <input type="text" id="addressDetailInput" class="form-control" style="width: 300px" placeholder="상세 주소 입력">
+                            <input type="hidden" id="mainAddress" th:value="${dto.reMainAddress}" />
+                            <input type="text" id="addressInput" name="reMainAddress" th:value="${dto.reMainAddress}" class="form-control" style="width: 350px">&nbsp;&nbsp;&nbsp;
+                            <input type="text" id="addressDetailInput"  name="reDetailAddress" th:value="${dto.reDetailAddress}" class="form-control" style="width: 300px">
                         </div>
                         <br>
                         <div id="kakaoMap" style="width:920px;height:400px;"></div>
@@ -210,9 +211,9 @@
                         <br>
                         <div class="mb-2">
                             <label class="form-label" style="width: 170px;"><strong><span style="color: red;">*</span>&nbsp;근무요일</strong></label>
-                            <input type="radio" name="reWorkDays" value="월~금" th:checked="${dto.reWorkDays == '월 ~ 금'}">&nbsp;<label>월~금</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="월~토" th:checked="${dto.reWorkDays == '월 ~ 토'}">&nbsp;<label>월~토</label>&nbsp;
-                            <input type="radio" name="reWorkDays" value="월~일" th:checked="${dto.reWorkDays == '월 ~ 일'}">&nbsp;<label>월~일</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~금" th:checked="${dto.reWorkDays == '월~금'}">&nbsp;<label>월~금</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~토" th:checked="${dto.reWorkDays == '월~토'}">&nbsp;<label>월~토</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~일" th:checked="${dto.reWorkDays == '월~일'}">&nbsp;<label>월~일</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="주말(토)" th:checked="${dto.reWorkDays == '주말(토)'}">&nbsp;<label>주말(토)</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="주말(일)" th:checked="${dto.reWorkDays == '주말(일)'}">&nbsp;<label>주말(일)</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="주말(토,일)" th:checked="${dto.reWorkDays == '주말(토,일)'}">&nbsp;<label>주말(토,일)</label>&nbsp;
@@ -675,6 +676,7 @@
 <script src="/js/basic.js"></script>
 <script src="/js/recruit/recruit_modify.js"></script>
 <script src="/js/recruit/recruit_upload.js"></script>
+<!--<script src="/js/recruit/recruit_read_kakaoMap.js"></script>-->
 <script layout:fragment="script" th:inline="javascript">
     // const error = [[${error}]]
     //
@@ -701,26 +703,91 @@
         alert(result)
     }
 
-    const apiKey = 'fa220b2ab314e7cc946b01754f58a2f0';
+    document.addEventListener("DOMContentLoaded", function() {
+        const apiKey = 'fa220b2ab314e7cc946b01754f58a2f0';
 
-    let clickLat = null;  // 전역 변수로 위도 저장
-    let clickLng = null;  // 전역 변수로 경도 저장
-    let marker = null;
-
-    function initMap() {
-
+        let clickLat = null;  // 전역 변수로 위도 저장
+        let clickLng = null;  // 전역 변수로 경도 저장
+        let marker = null;    // 전역 변수로 마커 저장
 
         kakao.maps.load(() => {
             var container = document.getElementById('kakaoMap');
             var options = {
-                center: new kakao.maps.LatLng(33.450701, 126.570667),
+                center: new kakao.maps.LatLng(33.450701, 126.570667),  // 초기 중심 위치
                 level: 3
             };
-            var kakaoMap = new kakao.maps.Map(container, options);
+            var kakaoMap = new kakao.maps.Map(container, options);  // 카카오 지도 객체 생성
 
+            // 페이지 로딩 시 자동으로 주소를 좌표로 변환하여 지도에 마커 표시
+            const mainAddressElement = document.querySelector('#mainAddress');
+            if (!mainAddressElement) {
+                console.error('주소를 찾을 수 없습니다. #mainAddress 요소가 없습니다.');
+                alert('주소를 찾을 수 없습니다.');
+                return;
+            }
 
-            // 주소를 좌표로 변환하기 위한 버튼 클릭 이벤트
-            document.querySelector(".searchAddress").addEventListener("click", function () {
+            const address = mainAddressElement.value.trim();  // p 태그에서 텍스트 가져오기
+            if (!address) {
+                console.error('주소가 없습니다.');
+                alert('주소를 입력해주세요!');
+                return;
+            }
+
+            // 카카오 REST API를 사용하여 주소를 좌표로 변환
+            const url = `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`;
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `KakaoAK ${apiKey}`,  // Authorization 헤더에 앱 키를 포함
+                }
+            })
+                .then(response => response.json())  // JSON 형식으로 응답 처리
+                .then(data => {
+                    if (data.documents && data.documents.length > 0) {
+                        const result = data.documents[0];
+                        const lat = result.y;  // 위도
+                        const lng = result.x;  // 경도
+                        console.log(`주소: ${result.address_name}`);
+                        console.log(`위도: ${lat}, 경도: ${lng}`);
+
+                        clickLat = lat;  // 전역 변수로 위도 저장
+                        clickLng = lng;
+
+                        // 좌표를 이용해 지도에 마커 표시
+                        var coords = new kakao.maps.LatLng(lat, lng);
+
+                        // 마커 표시
+                        if (marker) {
+                            marker.setPosition(coords);  // 기존 마커 위치 변경
+                        } else {
+                            marker = new kakao.maps.Marker({
+                                map: kakaoMap,
+                                position: coords
+                            });
+                        }
+
+                        // 인포윈도우 표시
+                        var infowindow = new kakao.maps.InfoWindow({
+                            content: `<div style="width:150px;text-align:center;padding:6px 0;">${result.address_name}</div>`
+                        });
+                        infowindow.open(kakaoMap, marker);
+
+                        // 지도 중심을 결과값으로 받은 위치로 이동
+                        kakaoMap.setCenter(coords);
+                    } else {
+                        console.log('주소를 찾을 수 없습니다.');
+                        alert('주소를 찾을 수 없습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('요청 중 오류 발생:', error);
+                    alert('주소 검색 중 오류가 발생했습니다.');
+                });
+            document.querySelector(".searchAddress").addEventListener("click", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+
                 const address = document.querySelector('.kakaoAddress').value.trim();
                 if (!address) {
                     alert('주소를 입력해주세요!');
@@ -778,8 +845,11 @@
             });
 
 
+
 // 지도 클릭 이벤트 추가: 지도 클릭 시 해당 위치의 좌표 저장
-            kakao.maps.event.addListener(kakaoMap, 'click', function (mouseEvent) {
+            kakao.maps.event.addListener(kakaoMap, 'click', function(mouseEvent) {
+                mouseEvent.stopPropagation();
+                mouseEvent.preventDefault();
                 var latLng = mouseEvent.latLng;
                 clickLat = latLng.getLat();  // 클릭한 위치의 위도 저장
                 clickLng = latLng.getLng();  // 클릭한 위치의 경도 저장
@@ -800,8 +870,11 @@
             });
 
 
+
             // 버튼 클릭 이벤트 추가: 버튼 클릭 시 좌표를 주소로 변환
-            document.getElementById('getAddress').addEventListener('click', function () {
+            document.getElementById('getAddress').addEventListener('click', function (e) {
+                e.stopPropagation()
+                e.preventDefault()
                 if (clickLat === null || clickLng === null) {
                     alert('먼저 지도에서 클릭하여 좌표를 선택해주세요.');
                     return;
@@ -832,33 +905,34 @@
                     });
             });
         });
-    }
+    });
+
     let mapInitialized = false;
 
-    function showStep5() {
-        // 모든 스텝 숨기기 (다른 스텝도 숨기기)
-        document.querySelectorAll('.step').forEach(step => {
-            step.style.display = 'none';
-        });
-
-        // step5만 보이게 설정
-        const step5Element = document.getElementById("step5");
-        step5Element.style.display = "block";  // step5를 화면에 표시
-
-        if (!mapInitialized) {
-            // 지도 로딩이 되지 않았다면, 카카오 지도 API 로드 후 초기화
-            kakao.maps.load(() => {
-                initMap();  // 지도 초기화
-                mapInitialized = true;
-            });
-        } else {
-            // 이미 지도 초기화가 되어있다면, relayout 호출
-
-        }
-    }
-    window.onload = function() {
-        showStep5();  // 자동으로 showStep5 호출
-    };
+    // function showStep5() {
+    //     // 모든 스텝 숨기기 (다른 스텝도 숨기기)
+    //     document.querySelectorAll('.step').forEach(step => {
+    //         step.style.display = 'none';
+    //     });
+    //
+    //     // step5만 보이게 설정
+    //     const step5Element = document.getElementById("step5");
+    //     step5Element.style.display = "block";  // step5를 화면에 표시
+    //
+    //     if (!mapInitialized) {
+    //         // 지도 로딩이 되지 않았다면, 카카오 지도 API 로드 후 초기화
+    //         kakao.maps.load(() => {
+    //             initMap();  // 지도 초기화
+    //             mapInitialized = true;
+    //         });
+    //     } else {
+    //         // 이미 지도 초기화가 되어있다면, relayout 호출
+    //
+    //     }
+    // }
+    // window.onload = function() {
+    //     showStep5();  // 자동으로 showStep5 호출
+    // };
 
 
 

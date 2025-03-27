@@ -126,6 +126,7 @@
         <div class="recruit-container container mt-5">
             <form th:action="@{/recruit/modify}" method="post" id="deleteForm">
                 <input type="hidden" th:value="${dto.recruitId}" name="recruitId" readonly>
+                <input type="text" th:value="${businessMemberDTO.businessId}" name="businessId" readonly>
                 <!--                <input type="text" th:value="${businessMemberDTO.businessId}" name="businessId" readonly>-->
                 <div style="float: right;">
                     작성일 : <span th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></span>
@@ -260,14 +261,14 @@
                 <br>
                 <div>
                     <h4 class="fw-bold">근무지역</h4>
-                    <p>대전 동구 동서대로 1701 (용전동) 1,2층</p>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <iframe class="embed-responsive-item" src="https://map.naver.com/v5/" width="100%" height="300"></iframe>
-                            </div>
-                        </div>
+                    <div class="d-flex">
+                        <input type="hidden" id="mainAddress" th:value="${dto.reMainAddress}" />
+                        <strong><p th:text="${dto.reMainAddress}"></p></strong>&nbsp;&nbsp;<span th:text="${dto.reDetailAddress}"></span>
+<!--                        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center" id="getAddress" style="width: 42px; height: 38px;">-->
+<!--                            <i class="bi bi-plus" style="font-size: 30px;"></i>-->
+<!--                        </button>-->
                     </div>
+                    <div id="kakaoMap" style="width:874px;height:400px;"></div>
                 </div>
                 <br>
                 <!-- 공고 근무지 사진 -->
@@ -338,20 +339,41 @@
                     <!-- 기업정보 -->
                     <div>
                         <h4 class="fw-bold">기업정보</h4>
+
                         <div class="card">
                             <div class="card-body" >
-                                <div style="display: flex; align-items: center; justify-content: space-around; width: 500px; ">
-                                    <img src="https://dummyimage.com/150x150/000/fff" class="rounded-circle profile-img mb-3" alt="프로필 사진">
-                                    <h5>MIT짐 수원망포역점</h5>
+                                <div style="display: flex; align-items: center; justify-content: space-around; width: 400px; ">
+
+                                    <div class="mainimgcard">
+                                        <div class="mainimg" style="border: none;">
+                                            <div th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">
+                                                <div class="main-img-gallery">
+                                                    <div th:each="fileName, iterStat : ${dto.fileNames}">
+                                                        <div th:if="${iterStat.index == 0}" class="photo-card">
+                                                            <img th:src="|/view_recruit/${fileName}|"
+                                                                 class="img-fluid"
+                                                                 width="200" height="250">
+                                                            <div class="overlay">
+                                                                <p class="photo-text"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                    <h4 class="card-title fw-bold" th:text="${businessMemberDTO.bName}"></h4>
+                                    </div>
                                 </div>
                                 <hr>
                                 <br>
                                 <div>
                                     <ul class="label-list-group">
-                                        <li class="label-list"><span class="label">대표</span> 홍길동</li>
-                                        <li class="label-list"><span class="label">설립일</span> 2025-03-12</li>
-                                        <li class="label-list"><span class="label">사업내용</span> 헬스장</li>
-                                        <li class="label-list"><span class="label">회사주소</span> 대전 동구 동서대로 1701</li>
+                                        <p style="font-size: 14px"><span class="label">대표</span><span th:text="${businessMemberDTO.bExponent}"></span></p>
+                                        <p style="font-size: 14px"><span class="label">설립일</span><span th:text="${businessMemberDTO.bEstaDate}"></span></p>
+                                        <p style="font-size: 14px"><span class="label">회사주소</span><span th:text="${businessMemberDTO.bAddress}"></span></p>
+                                        <p style="font-size: 14px"><span class="label">홈페이지</span><span th:text="${businessMemberDTO.bHomepage}"></span></p>
                                     </ul>
                                 </div>
                             </div>
@@ -522,7 +544,11 @@
 <!-- bootstrap js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=3c13bfa6949d3bc10bcf20e9fa7b2bdd&autoload=false&libraries=services,clusterer,drawing&">
+</script>
 <script src="/js/basic.js"></script>
+<script src="/js/recruit/recruit_read_kakaoMap.js"></script>
 <!--<script src="/js/recruit/recruit_modify.js"></script>-->
 <script layout:fragment="script" th:inline="javascript">
     const error = [[${error}]]

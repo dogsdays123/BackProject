@@ -9,6 +9,7 @@ import org.zerock.b01.domain.member.Business_Member;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,6 +23,12 @@ public class Recruit_Register extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recruitId; // 채용공고 ID
+
+    @Column(length = 255, nullable = false)
+    private String reMainAddress;
+
+    @Column(length = 255, nullable = false)
+    private String reDetailAddress;
 
     @Column(length = 170, nullable = false)
     private String reTitle; // 공고제목
@@ -138,12 +145,16 @@ public class Recruit_Register extends BaseEntity {
     @JoinColumn(name = "business_id")
     private Business_Member business_member;
 
-    public void change(String title, String company, String reJobTypeFull, String reJobTypePart, String reJobTypeFree, String reJobTypeTrainee
+    public void change(String mainAddress, String detailAddress, String title, String company, String reJobTypeFull, String reJobTypePart, String reJobTypeFree, String reJobTypeTrainee
     , String reJobTypeAlba, String reIndustry, int reNumHiring, String reWorkDays, String reDutyDays, String reWorkStartTime, String reWorkEndTime,
                        String reTimeNegotiable, String reSalaryType, String reSalaryValue, String reSalaryCheckAgree, String reSalaryCheckMeal
     ,String reSalaryCheckDuty, String reSalaryCheckProb, String reSalaryDetail, String reGender, String reAgeType, String reMinAge, String reMaxAge
     ,String reJobHistory, String reEducation, String rePreference, LocalDateTime reDeadline, String reApplyMethodOnline, String reApplyMethodEmail
     ,String reApplyMethodMsg, String reApplyMethodTel, String reAdminName, String reAdminEmail, String reAdminPhone) {
+
+        this.reMainAddress = mainAddress;
+        this.reDetailAddress = detailAddress;
+
         this.reTitle = title;
         this.reCompany = company;
         this.reJobTypeFull = reJobTypeFull;
@@ -208,4 +219,7 @@ public class Recruit_Register extends BaseEntity {
 
         this.imageSet.clear();
     }
+
+
+
 }

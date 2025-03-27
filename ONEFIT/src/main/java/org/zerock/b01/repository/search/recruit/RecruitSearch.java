@@ -12,12 +12,12 @@ public interface RecruitSearch {
     Page<Recruit_Register> searchAll1(String[] types, String keyword, String gender, String age, String jobTypeFull,
                                      String jobTypeFree, String jobTypePart, String jobTypeAlba, String jobTypeTrainee,
                                      String workDays, String dutyDays, String startTime, String endTime, String timeNegotiable, String industry,
-                                     String regDateFilter, Pageable pageable);
+                                     String regDateFilter, String addressDoFilter, String addressCityFilter, Pageable pageable);
 
     Page<RecruitListAllDTO> searchAll(String[] types, String keyword,    String gender, String age, String jobTypeFull,
                                       String jobTypeFree, String jobTypePart, String jobTypeAlba, String jobTypeTrainee,
                                       String workDays, String dutyDays, String startTime, String endTime, String timeNegotiable, String industry,
-                                      String regDateFilter, Pageable pageable);
+                                      String regDateFilter,  Pageable pageable);
 //    String gender, String age, String jobTypeFull,
 //    String jobTypeFree, String jobTypePart, String jobTypeAlba, String jobTypeTrainee,
 //    String workDays, String dutyDays, String startTime, String endTime, String timeNegotiable, String industry,

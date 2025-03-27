@@ -14,6 +14,7 @@ import org.zerock.b01.domain.member.Business_Member;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -23,6 +24,10 @@ import java.util.List;
 public class RecruitDTO {
 
     private Long recruitId;
+
+    private String reMainAddress;
+
+    private String reDetailAddress;
 
     @NotEmpty
     private String reTitle;
@@ -115,6 +120,13 @@ public class RecruitDTO {
 
     private Business_Member business_member;
 
+    public void setBusiness_member(Business_Member business_member) {
+        this.business_member = business_member;
+    }
+
     private List<String> fileNames;
-//    private List<RecruitImageDTO> recruitImages;
+
+    private List<RecruitImageDTO> recruitImages;
+
+
 }
