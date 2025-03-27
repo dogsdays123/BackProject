@@ -13,4 +13,6 @@ public interface Member_Set_Type_Service {
     void userModify(User_MemberDTO user_MemberDTO);
     void businessModify(Business_MemberDTO business_memberDTO);
     TrainerDTO trainerReadForUser(Long userId);
+
+    String encodeUserForURL(User_MemberDTO user_memberDTO);
 }

@@ -27,6 +27,8 @@ import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,11 +153,22 @@ public class All_MemberController {
 
         //이력서 찾는 코드
         TrainerDTO trainerDTO = member_Set_Type_Service.trainerReadForUser(user_memberDTO.getUserId());
-        log.info("%%%%" + trainerDTO);
+        if(trainerDTO != null) {
+            log.info("%%%%" + trainerDTO);
+        }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/my_user_page")
+    public String my_user_pagePOST(User_MemberDTO user_memberDTO, RedirectAttributes redirectAttributes) {
+        log.info("modify user post.........." + user_memberDTO);
+        member_Set_Type_Service.userModify(user_memberDTO);
+
+        return "redirect:/member/my_user_page?" + "allId=" + user_memberDTO.getAllId();
     }
 
 
-    @PreAuthorize("isAuthenticated()")
+        @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_business_page")
     public void my_business_pageGET(All_MemberDTO all_memberDTO, Model model) {
         log.info("BUSINESS!!!" + all_memberDTO);

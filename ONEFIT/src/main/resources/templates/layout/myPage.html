@@ -95,7 +95,11 @@
             <!-- 메인 콘텐츠 -->
             <div class="container-fluid align-items-center">
                 <div class="my-main-header">
-                    <h2 class="my-name" th:text="${all_memberDTO.name} + ' 님'"></h2>
+                    <div th:switch="${all_memberDTO.memberType}">
+                        <h2 class="my-name" th:case="'default'" th:text="${all_memberDTO.name} + ' 님'"></h2>
+                        <h2 class="my-name" th:case="'user'" th:text="${user_memberDTO.uNickname} + ' 님'"></h2>
+                        <h2 class="my-name" th:case="'business'" th:text="${business_memberDTO.bName} + ' 님'"></h2>
+                    </div>
                     <hr>
                 </div>
                 <div class="row">
