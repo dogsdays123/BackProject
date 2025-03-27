@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.board.Notice_Board;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,4 +34,7 @@ public interface All_MemberRepository extends JpaRepository<All_Member, String> 
     
     @Query("select am from All_Member am")
     List<All_Member> getAllMembers();
+
+    //설정해야함 service도 같이
+    List<Notice_Board> findNoticeForAllId(String allId);
 }

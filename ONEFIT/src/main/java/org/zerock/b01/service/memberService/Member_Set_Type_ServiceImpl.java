@@ -6,11 +6,14 @@ import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.domain.member.Business_Member;
 import org.zerock.b01.domain.member.User_Member;
 import org.zerock.b01.domain.recruit.Recruit_Register;
 import org.zerock.b01.domain.trainer.Trainer;
 import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
+import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
@@ -161,6 +164,29 @@ public class Member_Set_Type_ServiceImpl implements Member_Set_Type_Service {
 
         return recruitDTOList;
     }
+
+    @Override
+    public List<NoticeBoardDTO> noticeReadForAllMember(String allId){
+        List<Notice_Board> result = all_MemberRepository.findNoticeForAllId(allId);
+        if (result.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+//        List<Notice_Board> noticeDTOList = result.stream()
+//                .map(noticeBoard -> modelMapper.map(noticeBoard, NoticeBoardDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return noticeDTOList;
+        return null;
+    }
+
+    @Override
+    public List<QnaBoardDTO> qnaReadForAllMember(String allId){
+        return null;
+    }
+
+
+
 
     //사실상 필요없음 = 어차피 id만 가지고 read 할건데 멍청한 짓 함 ㅋ
     @Override
