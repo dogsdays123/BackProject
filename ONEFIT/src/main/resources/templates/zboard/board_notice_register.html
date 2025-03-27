@@ -8,7 +8,7 @@
           <div class="card p-4 shadow-sm">
             <h2 class="text-primary">게시글 작성</h2>
 
-            <form action="/zboard/board_notice_register" method="post">
+            <form action="/zboard/board_notice_register" method="post" id="f2">
               <!-- 제목 -->
               <div class="mb-3">
                 <label class="form-label">제목</label>
@@ -37,7 +37,7 @@
               <!-- 버튼 그룹 -->
               <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary submitBtn">작성</button>
-                <button type="reset" class="btn btn-secondary">취소</button>
+                <button type="button" class="btn btn-secondary cancelBtn">취소</button>
               </div>
 
               <!--첨부파일 보여줄 부분-->
@@ -58,8 +58,6 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Upload File</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-
-                                label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="input-group mb-3">
@@ -83,7 +81,7 @@
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-        <script src="/js/%20board/boardUpload.js"></script>
+        <script src="/js/board/boardUpload.js"></script>
 
     </div>
 
@@ -102,6 +100,17 @@
             }
             alert(errorMsg)
         }
+
+        const formObj = document.querySelector("#f2")
+
+        document.querySelector(".cancelBtn").addEventListener("click", function(e){
+            e.preventDefault()
+            e.stopPropagation()
+
+            formObj.reset()
+            self.location =`/zboard/board_notice_list`
+
+        }, false)
 
         //업로드 모달
         const uploadModal = new bootstrap.Modal(document.querySelector(".uploadModal"))
@@ -151,6 +160,10 @@
 
             uploadResult.innerHTML += str
         }
+
+        document.querySelector(".closeUploadBtn").addEventListener("click", function () {
+            uploadModal.hide();
+        });
 
         function removeFile(uuid,fileName,obj) {
 

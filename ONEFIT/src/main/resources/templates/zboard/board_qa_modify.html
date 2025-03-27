@@ -73,7 +73,6 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Upload File</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="input-group mb-3">
@@ -96,7 +95,7 @@
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-        <script src="/js/%20board/boardReply.js"></script>
+        <script src="/js/board/boardUpload.js"></script>
 
     </div>
 
@@ -114,6 +113,10 @@
             history.replaceState({}, null, null)
             alert(errorMsg)
         }
+
+        document.querySelector(".closeUploadBtn").addEventListener("click", function () {
+            uploadModal.hide();
+        });
 
         const link = [[${pageRequestDTO.getLink()}]]
         const formObj = document.querySelector("#f1")
