@@ -68,7 +68,7 @@
                                     정보</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fas fa-clipboard-list"></i> 공고 등록 현황</a>
+                                <a class="nav-link" th:href="|@{/member/my_business_page_recruit(allId =${all_memberDTO.allId})}|"><i class="fas fa-clipboard-list"></i> 공고 등록 현황</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link collapsed d-flex justify-content-between" href="#"
@@ -106,6 +106,7 @@
                     <div layout:fragment="my_default_page"></div>
                     <div layout:fragment="my_user_page"></div>
                     <div layout:fragment="my_business_page"></div>
+                    <div layout:fragment="my_business_page_recruit"></div>
                 </div>
             </div>
             <div layout:fragment="my_board"></div>

@@ -23,6 +23,7 @@ import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.Business_Member_DataDTO;
 import org.zerock.b01.dto.memberDTO.MemberDataDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
+import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
@@ -32,6 +33,7 @@ import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -182,8 +184,8 @@ public class All_MemberController {
         return "redirect:/member/my_user_page?" + "allId=" + user_memberDTO.getAllId();
     }
 
-
-        @PreAuthorize("isAuthenticated()")
+    //기업정보
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_business_page")
     public void my_business_pageGET(All_MemberDTO all_memberDTO, Model model) {
         log.info("BUSINESS!!!" + all_memberDTO);
@@ -199,6 +201,18 @@ public class All_MemberController {
         member_Set_Type_Service.businessModify(business_memberDTO);
 
         return "redirect:/member/my_business_page";
+    }
+
+    //공고등록현황
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/my_business_page_recruit")
+    public void my_business_page_recruitGET(All_MemberDTO all_memberDTO, Model model) {
+        log.info("BUSINESS_recruit!!!" + all_memberDTO);
+        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
+
+        //채용정보 찾는 코드
+        List<RecruitDTO> recruitDTOList = member_Set_Type_Service.recruitReadForBusiness(business_memberDTO.getBusinessId());
+        log.info("^^^^^" + recruitDTOList);
     }
 
 
