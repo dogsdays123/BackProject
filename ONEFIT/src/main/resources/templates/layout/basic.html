@@ -61,7 +61,7 @@
         <div class="auth-links ms-auto" >
 
             <!-- 로그인 전 메뉴 -->
-            <div th:if="${all_memberDTO == null}">
+            <div th:if="${all_memberDTO.allId == null}">
                 <a type="button" class="basic-btn btn btn-primary btns" href="/login">
                     로그인
                 </a>
@@ -72,7 +72,7 @@
                 </button>
             </div>
 
-            <div th:if="${all_memberDTO != null}">
+            <div th:if="${all_memberDTO.allId != null}">
                 <a type="button" class="basic-btn btn btn-primary btns" href="/logout">
                     로그아웃
                 </a>

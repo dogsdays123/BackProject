@@ -83,13 +83,13 @@ public class RecruitController {
             }
         }
 
-        //유저정보(일반, 개인) 전역에 갖고오기
-        User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
-        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
-
         //유저정보(일반Default)가 존재할 때
         if (all_memberDTO != null) {
             model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
+            //유저정보(일반, 개인) 전역에 갖고오기
+            User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
+            Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
+
 
             //유저정보(개인User)가 있을 때
             if (user_MemberDTO != null) {
@@ -120,6 +120,13 @@ public class RecruitController {
         } else{
             model.addAttribute("sidebar", false);
         }
+
+        model.addAttribute("checkId", false);
+        model.addAttribute("checkEmail", false);
+
+        List<All_MemberDTO> all_memberDTOList = all_memberService.readAllMember();
+        model.addAttribute("all_memberDTOList", all_memberDTOList);
+        log.info("모든회원@@@@@@@@@" + all_memberDTOList);
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
     //회원정보 가져오기

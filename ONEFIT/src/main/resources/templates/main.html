@@ -13,199 +13,208 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/basic.css">
 </head>
-    <div layout:fragment="main">
-      <div class="container mt-5">
-          <div>
-              <hr>
-              <div class="notice-container">
-                  <div class="notice-text show">공지사항 > 시스템 점검 예정입니다.</div>
-                  <div class="notice-text">공지사항 > 이벤트가 곧 시작됩니다!</div>
-                  <div class="notice-text">공지사항 > 새로운 기능이 추가되었습니다!</div>
-              </div>
-              <hr>
-          </div>
-          <div class="container mt-5">
-              <!-- 공고 카드 슬라이드 -->
-              <div id="announcementCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-                  <div style="display: flex; align-items: center; justify-content: space-around;">
-                      <h2>채용 소식</h2>
-                      <div style="width: 1000px;">
-                      </div>
-                      <span><a href="/recruit/list" style="text-decoration: none; color: black;">전체보기 ></a></span>
-                  </div>
-                  
-                  <br>
-                  <div class="carousel-inner" id="announcementItems">
-                      <div class="carousel-item active" >
-                          <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">
-                              <div class="card"  th:each="dto : ${responseDTO.dtoList}">
-                                  <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}" >
-                                      <div th:each="fileName, iterStat : ${dto.fileNames}">
-                                          <div th:if="${iterStat.index == 0}">
-                                              <img th:src="|/view_recruit/${fileName}|"
-                                                   class="img-fluid gallery-item"
-                                              >
-                                              <div class="overlay">
-                                                  <a class="photo-title" th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a>
-                                                  <p class="photo-text" >[[${dto.recruitId}]]</p>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
+<div layout:fragment="main">
+    <div class="container mt-5">
+        <div>
+            <hr>
+            <div class="notice-container">
+                <div class="notice-text show">공지사항 > 시스템 점검 예정입니다.</div>
+                <div class="notice-text">공지사항 > 이벤트가 곧 시작됩니다!</div>
+                <div class="notice-text">공지사항 > 새로운 기능이 추가되었습니다!</div>
+            </div>
+            <hr>
+        </div>
+        <div class="container mt-5">
+            <!-- 공고 카드 슬라이드 -->
+            <div id="announcementCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div style="display: flex; align-items: center; justify-content: space-around;">
+                    <h2>채용 소식</h2>
+                    <div style="width: 1000px;">
+                    </div>
+                    <span><a href="recurit.html" style="text-decoration: none; color: black;">전체보기 ></a></span>
+                </div>
 
-                          </div>
-                      </div>
-                      <!-- 두 번째 슬라이드 (5~8번 공고) -->
-                      <div class="carousel-item">
-                          <div class="card-deck">
+                <br>
+                <div class="carousel-inner" id="announcementItems">
+                    <!-- 첫 번째 슬라이드 (1~4번 공고) -->
+                    <div class="carousel-item active">
+                        <div class="card-deck">
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="공고1">
+                                <div class="card-body">
+                                    <h5 class="card-title">공고 1</h5>
+                                    <p class="card-text">상세 설명 1</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="공고2">
+                                <div class="card-body">
+                                    <h5 class="card-title">공고 2</h5>
+                                    <p class="card-text">상세 설명 2</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="공고3">
+                                <div class="card-body">
+                                    <h5 class="card-title">공고 3</h5>
+                                    <p class="card-text">상세 설명 3</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="공고4">
+                                <div class="card-body">
+                                    <h5 class="card-title">공고 4</h5>
+                                    <p class="card-text">상세 설명 4</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                          </div>
-                      </div>
-                  </div>
-      
-                  <!-- 이전 버튼 -->
-                  <a class="carousel-control-prev" href="#announcementCarousel" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                  </a>
-      
-                  <!-- 다음 버튼 -->
-                  <a class="carousel-control-next" href="#announcementCarousel" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                  </a>
-              </div>
-              <br>
-              <hr>
-              <!-- 강사 카드 슬라이드 -->
-              <div id="instructorCarousel" class="carousel slide mt-5" data-ride="carousel" data-interval="false">
-                  <div style="display: flex; align-items: center; justify-content: space-around;">
-                      <h2>강사 소식</h2>
-                      <div style="width: 1000px;">
-                      </div>
-                      <span><a href="trainer.html" style="text-decoration: none; color: black;">전체보기 ></a></span>
-                  </div>
-                  <br>
-                  <div class="carousel-inner" id="instructorItems">
-                      <!-- 첫 번째 슬라이드 (1~4명 강사) -->
-                      <div class="carousel-item active">
-                          <div class="card-deck">
-                              <div class="card">
-                                  <div class="photo-card">
-                                      <img src="https://dummyimage.com/250/000000/fff"
-                                           class="img-fluid gallery-item"
-                                           alt="근무지 사진"
-                                           width="250" height="250">
-                                      <div class="overlay">
-                                          <p class="photo-text">근무지 사진</p>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="card">
-                                  <div class="photo-card">
-                                      <img src="https://dummyimage.com/250/000000/fff"
-                                           class="img-fluid gallery-item"
-                                           alt="근무지 사진"
-                                           width="250" height="250">
-                                      <div class="overlay">
-                                          <p class="photo-text">근무지 사진</p>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="card">
-                                  <div class="photo-card">
-                                      <img src="https://dummyimage.com/250/000000/fff"
-                                           class="img-fluid gallery-item"
-                                           alt="근무지 사진"
-                                           width="250" height="250">
-                                      <div class="overlay">
-                                          <p class="photo-text">근무지 사진</p>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="card">
-                                  <div class="photo-card">
-                                      <img src="https://dummyimage.com/250/000000/fff"
-                                           class="img-fluid gallery-item"
-                                           alt="근무지 사진"
-                                           width="250" height="250">
-                                      <div class="overlay">
-                                          <p class="photo-text">근무지 사진</p>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-      
-                      <!-- 두 번째 슬라이드 (5~8명 강사) -->
-                      <div class="carousel-item">
-                          <div class="card-deck">
-                              <div class="card">
-                                  <div class="photo-card">
-                                      <img src="https://dummyimage.com/250/000000/fff"
-                                           class="img-fluid gallery-item"
-                                           alt="근무지 사진"
-                                           width="250" height="250">
-                                      <div class="overlay">
-                                          <p class="photo-text">근무지 사진</p>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="card">
-                                  <div class="photo-card">
-                                      <img src="https://dummyimage.com/250/000000/fff"
-                                           class="img-fluid gallery-item"
-                                           alt="근무지 사진"
-                                           width="250" height="250">
-                                      <div class="overlay">
-                                          <p class="photo-text">근무지 사진</p>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="card">
-                                  <div class="photo-card">
-                                      <img src="https://dummyimage.com/250/000000/fff"
-                                           class="img-fluid gallery-item"
-                                           alt="근무지 사진"
-                                           width="250" height="250">
-                                      <div class="overlay">
-                                          <p class="photo-text">근무지 사진</p>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="card">
-                                  <div class="photo-card">
-                                      <img src="https://dummyimage.com/250/000000/fff"
-                                           class="img-fluid gallery-item"
-                                           alt="근무지 사진"
-                                           width="250" height="250">
-                                      <div class="overlay">
-                                          <p class="photo-text">근무지 사진</p>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-      
-                  <!-- 이전 버튼 -->
-                  <a class="carousel-control-prev" href="#instructorCarousel" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                  </a>
-      
-                  <!-- 다음 버튼 -->
-                  <a class="carousel-control-next" href="#instructorCarousel" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                  </a>
-              </div>
-          </div>
-      </div>
-      <br>
-      <br>
+                    <!-- 두 번째 슬라이드 (5~8번 공고) -->
+                    <div class="carousel-item">
+                        <div class="card-deck">
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="공고5">
+                                <div class="card-body">
+                                    <h5 class="card-title">공고 5</h5>
+                                    <p class="card-text">상세 설명 5</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="공고6">
+                                <div class="card-body">
+                                    <h5 class="card-title">공고 6</h5>
+                                    <p class="card-text">상세 설명 6</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="공고7">
+                                <div class="card-body">
+                                    <h5 class="card-title">공고 7</h5>
+                                    <p class="card-text">상세 설명 7</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="공고8">
+                                <div class="card-body">
+                                    <h5 class="card-title">공고 8</h5>
+                                    <p class="card-text">상세 설명 8</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 이전 버튼 -->
+                <a class="carousel-control-prev" href="#announcementCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+
+                <!-- 다음 버튼 -->
+                <a class="carousel-control-next" href="#announcementCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <br>
+            <hr>
+            <!-- 강사 카드 슬라이드 -->
+            <div id="instructorCarousel" class="carousel slide mt-5" data-ride="carousel" data-interval="false">
+                <div style="display: flex; align-items: center; justify-content: space-around;">
+                    <h2>강사 소식</h2>
+                    <div style="width: 1000px;">
+                    </div>
+                    <span><a href="trainer.html" style="text-decoration: none; color: black;">전체보기 ></a></span>
+                </div>
+                <br>
+                <div class="carousel-inner" id="instructorItems">
+                    <!-- 첫 번째 슬라이드 (1~4명 강사) -->
+                    <div class="carousel-item active">
+                        <div class="card-deck">
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="강사1">
+                                <div class="card-body">
+                                    <h5 class="card-title">강사 1</h5>
+                                    <p class="card-text">강사 1의 설명</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="강사2">
+                                <div class="card-body">
+                                    <h5 class="card-title">강사 2</h5>
+                                    <p class="card-text">강사 2의 설명</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="강사3">
+                                <div class="card-body">
+                                    <h5 class="card-title">강사 3</h5>
+                                    <p class="card-text">강사 3의 설명</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="강사4">
+                                <div class="card-body">
+                                    <h5 class="card-title">강사 4</h5>
+                                    <p class="card-text">강사 4의 설명</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 두 번째 슬라이드 (5~8명 강사) -->
+                    <div class="carousel-item">
+                        <div class="card-deck">
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="강사5">
+                                <div class="card-body">
+                                    <h5 class="card-title">강사 5</h5>
+                                    <p class="card-text">강사 5의 설명</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="강사6">
+                                <div class="card-body">
+                                    <h5 class="card-title">강사 6</h5>
+                                    <p class="card-text">강사 6의 설명</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="강사7">
+                                <div class="card-body">
+                                    <h5 class="card-title">강사 7</h5>
+                                    <p class="card-text">강사 7의 설명</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img src="#" class="card-img-top" alt="강사8">
+                                <div class="card-body">
+                                    <h5 class="card-title">강사 8</h5>
+                                    <p class="card-text">강사 8의 설명</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 이전 버튼 -->
+                <a class="carousel-control-prev" href="#instructorCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+
+                <!-- 다음 버튼 -->
+                <a class="carousel-control-next" href="#instructorCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
     </div>
-    <!-- 메인 end  -->
+    <br>
+    <br>
+</div>
+<!-- 메인 end  -->
 
 </html>
