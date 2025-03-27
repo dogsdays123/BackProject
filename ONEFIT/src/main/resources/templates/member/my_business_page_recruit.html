@@ -30,36 +30,21 @@
                 <div class="card">
                     <div class="card-body card-columns">
                         <!-- 카드 1 -->
-                        <th:block>
+                        <th:block th:each="recruit : ${recruitDTOList}">
                             <div class="card">
                                 <div class="card-header">
-                                    <i class="fas fa-user-circle"></i> 회원 정보
+                                    <i class="fas fa-user-circle"></i> <span th:text="${recruit.recruitId}"></span>
                                 </div>
                                 <div class="card-body d-flex align-items-center">
                                     <div>
-                                        <p><strong>기업이름:</strong> <span th:text="${business_memberDTO.bName}"></span></p>
-                                        <p><strong>대표자:</strong> <span th:text="${business_memberDTO.bExponent}"></span></p>
-                                        <p><strong>사업자번호:</strong> <span th:text="${business_memberDTO.bRegNum}"></span></p>
-                                        <p><strong>설립일:</strong> <span th:text="${#temporals.format(business_memberDTO.bEstaDate, 'yyyy-MM-dd')}"></span></p>
-                                        <p><strong>이메일:</strong> <span th:text="${all_memberDTO.email}"></span></p>
-                                        <p><strong>주소:</strong> <span th:text="${business_memberDTO.bAddress}"></span><br>
-                                            <span th:text="${business_memberDTO.bAddressExtra}"></span></p>
-                                        <p><strong>전화번호:</strong> <span th:text="${business_memberDTO.bPhone}"></span></p>
-                                        <p><strong>홈페이지:</strong> <span th:text="${business_memberDTO.bHomepage}"></span></p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-user-circle"></i> 회원 추가 정보
-                                </div>
-                                <div class="card-body d-flex align-items-center">
-                                    <div>
-                                        <p><strong>근로자 수</strong> <span th:text="${business_memberDTO.bEmployees}"></span></p>
-                                        <p><strong>평균 매출액</strong> <span th:text="${business_memberDTO.bAverage}"></span></p>
-                                        <p><strong>자산 총액</strong> <span th:text="${business_memberDTO.bAssets}"></span></p>
-                                        <p><strong>기업 크기</strong> <span th:text="${business_memberDTO.bSize}"></span></p>
+                                        <p><strong>기업이름:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>대표자:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>사업자번호:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>설립일:</strong> <span th:text="${#temporals.format(recruit.reDeadline, 'yyyy-MM-dd')}"></span></p>
+                                        <p><strong>이메일:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>주소:</strong> <span th:text="${recruit.recruitId}"></span><br>
+                                        <p><strong>전화번호:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>홈페이지:</strong> <span th:text="${recruit.recruitId}"></span></p>
                                     </div>
                                 </div>
                             </div>

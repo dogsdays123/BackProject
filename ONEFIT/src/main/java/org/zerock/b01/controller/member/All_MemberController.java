@@ -213,6 +213,7 @@ public class All_MemberController {
         //채용정보 찾는 코드
         List<RecruitDTO> recruitDTOList = member_Set_Type_Service.recruitReadForBusiness(business_memberDTO.getBusinessId());
         log.info("^^^^^" + recruitDTOList);
+        model.addAttribute("recruitDTOList", recruitDTOList);
     }
 
 
