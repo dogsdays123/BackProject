@@ -9,8 +9,12 @@ import org.zerock.b01.domain.board.Board_Reply;
 public interface BoardReplyRepository extends JpaRepository<Board_Reply, Long> {
 
     @Query("select r from Board_Reply r where r.noticeBoard.noticeId = :noticeId")
-    Page<Board_Reply> listOfNoticeBoard(Long noticeId, Pageable pageable);
+    Page<Board_Reply> listOfNoticeBoardReply(Long noticeId, Pageable pageable);
 
     @Query("select r from Board_Reply r where r.qnaBoard.qnaId = :qnaId")
-    Page<Board_Reply> listOfQnaBoard(Long qnaId, Pageable pageable);
+    Page<Board_Reply> listOfQnaBoardReply(Long qnaId, Pageable pageable);
+
+    void deleteByNoticeBoard_noticeId(Long noticeId);
+
+    void deleteByQnaBoard_qnaId(Long qnaId);
 }

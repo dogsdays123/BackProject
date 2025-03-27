@@ -1,41 +1,40 @@
 package org.zerock.b01.controller.board;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
-import org.zerock.b01.dto.boardDTO.BoardListReplyCountDTO;
-import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
+import org.zerock.b01.dto.boardDTO.BoardReplyDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
-import org.zerock.b01.service.boardService.NoticeBoardService;
+import org.zerock.b01.service.boardService.BoardReplyService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 
-@Controller
-@Log4j2
-@RequestMapping("/zboard")
-@RequiredArgsConstructor
-public class NoticeBoardController {
+import java.util.HashMap;
+import java.util.Map;
 
-    private final NoticeBoardService noticeBoardService;
+@RestController
+@RequestMapping("/replies_board")
+@Log4j2
+@RequiredArgsConstructor
+public class BoardReplyController {
+
+    private final BoardReplyService boardReplyService;
 
     private final All_MemberService all_memberService;
     private final Member_Set_Type_Service member_Set_Type_Service;
@@ -104,107 +103,85 @@ public class NoticeBoardController {
         // URL에 따라서 분기
         if (currentUrl.contains("/member")) {
             model.addAttribute("sidebar", true);
-        } else{
+        } else {
             model.addAttribute("sidebar", false);
         }
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
 
+    @Operation(description = "Replies POST")
+    @PostMapping(value = "/",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String,Long> registerBoardReply(@Valid @RequestBody BoardReplyDTO boardReplyDTO,
+                                     BindingResult bindingResult) throws BindException {
 
-    @GetMapping("/board_notice_list")
-    public void listNotice(PageRequestDTO pageRequestDTO, Model model) {
+        log.info("댓글 등록 ReplyDTO" +boardReplyDTO);
 
-//        PageResponseDTO<NoticeBoardDTO> responseDTO = noticeBoardService.listNotice(pageRequestDTO);
 
-        PageResponseDTO<BoardListReplyCountDTO> responseDTO =
-                noticeBoardService.listWithNoticeReplyCount(pageRequestDTO);
-
-        log.info(responseDTO);
-
-        model.addAttribute("responseDTO", responseDTO);
-
-    }
-
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/board_notice_register")
-    public void registerNoticeGET() {
-
-    }
-
-    @PostMapping("/board_notice_register")
-    public String registerNoticePost(@Valid NoticeBoardDTO noticeBoardDTO, BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
-
-        log.info("board_notice_register Post");
-
-        if (bindingResult.hasErrors()) {
-            log.info("has errors....");
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-
-            return "redirect:/zboard/board_notice_register";
+        if(bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
         }
 
-        log.info(noticeBoardDTO);
+        Map<String,Long> resulMap = new HashMap<>();
 
-        Long noticeId = noticeBoardService.registerNotice(noticeBoardDTO);
+        Long replyId = boardReplyService.registerBoardReply(boardReplyDTO);
 
-        redirectAttributes.addFlashAttribute("result", noticeId);
+        resulMap.put("replyId", replyId);
 
-        return "redirect:/zboard/board_notice_list";
+        return resulMap;
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping({"/board_notice_read","/board_notice_modify"})
-    public void readNotice(Long noticeId, PageRequestDTO pageRequestDTO, Model model) {
+    @Operation(description = "GET 방식으로 특정 게시물의 댓글 목록")
+    @GetMapping(value = "/board_notice_list/{noticeId}")
+    public PageResponseDTO<BoardReplyDTO> getNoticeReplyList(@PathVariable("noticeId") Long noticeId, PageRequestDTO pageRequestDTO) {
 
-        NoticeBoardDTO noticeBoardDTO = noticeBoardService.readNoticeOne(noticeId);
-
-        log.info(noticeBoardDTO);
-
-        model.addAttribute("dto", noticeBoardDTO);
-
+        PageResponseDTO<BoardReplyDTO> responseDTO = boardReplyService.getListOfNoticeBoardReply(noticeId, pageRequestDTO);
+        log.info("ResponseDTO: " + responseDTO);
+        return responseDTO;
     }
 
-    @PreAuthorize("principal.username == #noticeBoardDTO.allMember.allId")
-    @PostMapping("/board_notice_modify")
-    public String modifyNotice(@Valid NoticeBoardDTO noticeBoardDTO, BindingResult bindingResult,
-                               PageRequestDTO pageRequestDTO,RedirectAttributes redirectAttributes) {
+    @Operation(description = "GET 방식으로 특정 게시물의 댓글 목록")
+    @GetMapping(value = "/board_qa_list/{qnaId}")
+    public PageResponseDTO<BoardReplyDTO> getQnaReplyList(@PathVariable("qnaId") Long qnaId, PageRequestDTO pageRequestDTO) {
 
-        log.info("board_notice_modify Post" + noticeBoardDTO);
+        PageResponseDTO<BoardReplyDTO> responseDTO = boardReplyService.getListOfQnaBoardReply(qnaId, pageRequestDTO);
 
-        if (bindingResult.hasErrors()) {
-
-            log.info("has errors....");
-
-            String link = pageRequestDTO.getLink();
-
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-
-            redirectAttributes.addAttribute("noticeId", noticeBoardDTO.getNoticeId());
-
-            return "redirect:/zboard/board_notice_modify?"+link;
-        }
-
-        noticeBoardService.modifyNotice(noticeBoardDTO);
-
-        redirectAttributes.addFlashAttribute("result", "modified");
-
-        redirectAttributes.addAttribute("noticeId", noticeBoardDTO.getNoticeId());
-
-        return "redirect:/zboard/board_notice_read";
-
+        return responseDTO;
     }
 
-    @PreAuthorize("principal.username == #noticeBoardDTO.allMember.allId")
-    @PostMapping("/board_notice_remove")
-    public String removeNotice(Long noticeId, RedirectAttributes redirectAttributes) {
+    @Operation(description = "GET 방식으로 특정 댓글 조회")
+    @GetMapping("/{replyId}")
+    public BoardReplyDTO getBoardReplyDTO(@PathVariable("replyId") Long replyId) {
+        BoardReplyDTO boardReplyDTO = boardReplyService.readBoardReply(replyId);
+        return boardReplyDTO;
+    }
 
-        log.info("board_notice_remove Post" + noticeId);
 
-        noticeBoardService.removeNotice(noticeId);
+    @Operation(description = "DELETE 방식으로 댓글 처리")
+    @DeleteMapping("/{replyId}")
+    public Map<String,Long> removeBoardReply(@PathVariable("replyId") Long replyId) {
 
-        redirectAttributes.addFlashAttribute("result", "removed");
+        boardReplyService.removeBoardReply(replyId);
 
-        return "redirect:/zboard/board_notice_list";
+        Map<String,Long> resulMap = new HashMap<>();
+
+        resulMap.put("replyId", replyId);
+
+        return resulMap;
+    }
+
+    @Operation(description = "PUT 방식으로 댓글 처리")
+    @PutMapping(value = "/{replyId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Long> modifyBoardReply(@PathVariable("replyId") Long replyId,
+                                         @RequestBody BoardReplyDTO boardReplyDTO) {
+
+        boardReplyDTO.setReplyId(replyId);
+
+        boardReplyService.modifyBoardReply(boardReplyDTO);
+
+        Map<String,Long> resulMap = new HashMap<>();
+
+        resulMap.put("replyId", replyId);
+
+        return resulMap;
     }
 }

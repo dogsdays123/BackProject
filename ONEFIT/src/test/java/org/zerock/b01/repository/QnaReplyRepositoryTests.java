@@ -24,7 +24,7 @@ public class QnaReplyRepositoryTests {
     @Test
     public void testInsert() {
 
-        Long qnaId = 501L;
+        Long qnaId = 100L;
 
         Qna_Board qna_board = Qna_Board.builder().qnaId(qnaId).build();
 
@@ -46,11 +46,11 @@ public class QnaReplyRepositoryTests {
     @Test
     public void testQnaReplies() {
 
-        Long qnaId = 501L;
+        Long qnaId = 100L;
 
         Pageable pageable = PageRequest.of(0, 10, Sort.by("replyId").descending());
 
-        Page<Board_Reply> result = boardReplyRepository.listOfQnaBoard(qnaId,pageable);
+        Page<Board_Reply> result = boardReplyRepository.listOfQnaBoardReply(qnaId,pageable);
 
         result.getContent().forEach(board_reply -> {
             log.info(board_reply);

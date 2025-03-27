@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.dto.boardDTO.BoardListReplyCountDTO;
+import org.zerock.b01.dto.boardDTO.NoticeBoardListAllDTO;
 
 import java.time.LocalDate;
 
@@ -17,4 +18,8 @@ public interface NoticeBoardSearch {
     Page<BoardListReplyCountDTO> searchWithNoticeReplyCount(String[] types, String keyword,
                                                             LocalDate startDate, LocalDate endDate,
                                                             Pageable pageable);
+
+    Page<NoticeBoardListAllDTO> searchWithNoticeAll(String[] types, String keyword,
+                                                    LocalDate startDate, LocalDate endDate,
+                                                    Pageable pageable);
 }

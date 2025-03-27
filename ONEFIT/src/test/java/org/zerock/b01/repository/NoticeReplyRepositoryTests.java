@@ -23,7 +23,7 @@ public class NoticeReplyRepositoryTests {
     @Test
     public void testInsert() {
 
-        Long noticeId = 501L;
+        Long noticeId = 100L;
 
         Notice_Board notice_board = Notice_Board.builder().noticeId(noticeId).build();
 
@@ -49,7 +49,7 @@ public class NoticeReplyRepositoryTests {
 
         Pageable pageable = PageRequest.of(0, 10, Sort.by("replyId").descending());
 
-        Page<Board_Reply> result = boardReplyRepository.listOfNoticeBoard(noticeId,pageable);
+        Page<Board_Reply> result = boardReplyRepository.listOfNoticeBoardReply(noticeId,pageable);
 
         result.getContent().forEach(board_reply -> {
             log.info(board_reply);
