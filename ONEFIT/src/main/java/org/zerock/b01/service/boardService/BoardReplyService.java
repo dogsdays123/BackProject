@@ -1,5 +1,6 @@
 package org.zerock.b01.service.boardService;
 
+<<<<<<< Updated upstream
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.boardDTO.BoardReplyDTO;
@@ -18,4 +19,11 @@ public interface BoardReplyService {
     PageResponseDTO<BoardReplyDTO> getListOfNoticeBoardReply(Long noticeId, PageRequestDTO pageRequestDTO);
 
     PageResponseDTO<BoardReplyDTO> getListOfQnaBoardReply(Long qnaId, PageRequestDTO pageRequestDTO);
+=======
+import org.zerock.b01.dto.boardDTO.BoardReplyDTO;
+
+public interface BoardReplyService {
+
+    Long registerBoardReply(BoardReplyDTO boardReplyDTO);
+>>>>>>> Stashed changes
 }

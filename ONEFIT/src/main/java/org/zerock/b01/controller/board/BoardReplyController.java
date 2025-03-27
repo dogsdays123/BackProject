@@ -1,11 +1,15 @@
 package org.zerock.b01.controller.board;
 
 import io.swagger.v3.oas.annotations.Operation;
+<<<<<<< Updated upstream
 import jakarta.servlet.http.HttpServletRequest;
+=======
+>>>>>>> Stashed changes
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
+<<<<<<< Updated upstream
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -24,16 +28,30 @@ import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.boardService.BoardReplyService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
+=======
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.zerock.b01.dto.boardDTO.BoardReplyDTO;
+>>>>>>> Stashed changes
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+<<<<<<< Updated upstream
 @RequestMapping("/replies_board")
+=======
+@RequestMapping("/replies")
+>>>>>>> Stashed changes
 @Log4j2
 @RequiredArgsConstructor
 public class BoardReplyController {
 
+<<<<<<< Updated upstream
     private final BoardReplyService boardReplyService;
 
     private final All_MemberService all_memberService;
@@ -116,6 +134,14 @@ public class BoardReplyController {
 
         log.info("댓글 등록 ReplyDTO" +boardReplyDTO);
 
+=======
+    @Operation(description = "Replies POST")
+    @PostMapping(value = "/",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String,Long> register(@Valid @RequestBody BoardReplyDTO boardReplyDTO,
+                                     BindingResult bindingResult) throws BindException {
+
+        log.info(boardReplyDTO);
+>>>>>>> Stashed changes
 
         if(bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -123,6 +149,7 @@ public class BoardReplyController {
 
         Map<String,Long> resulMap = new HashMap<>();
 
+<<<<<<< Updated upstream
         Long replyId = boardReplyService.registerBoardReply(boardReplyDTO);
 
         resulMap.put("replyId", replyId);
@@ -181,6 +208,13 @@ public class BoardReplyController {
         Map<String,Long> resulMap = new HashMap<>();
 
         resulMap.put("replyId", replyId);
+=======
+//        Long replyId = replyService.register(replyDTO);
+
+        resulMap.put("replyId",111L);
+
+//        resulMap.put("replyId", rno);
+>>>>>>> Stashed changes
 
         return resulMap;
     }
