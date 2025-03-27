@@ -22,10 +22,31 @@ a{
 }
 
 
+.trainer-carousel-control-prev,
+.trainer-carousel-control-next {
+    position: absolute;
+    top: 88%;
+    transform: translateY(-50%);
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.5); /* 버튼 배경색 추가 */
+    border-radius: 50%;
+    width: 40px; /* 버튼 크기 */
+    height: 40px; /* 버튼 크기 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trainer-carousel-control-prev{
+    left: -45px;
+}
+.trainer-carousel-control-next{
+    right: -40px;
+}
 .carousel-control-prev,
 .carousel-control-next {
     position: absolute;
-    top: 63%;
+    top: 48%;
     transform: translateY(-50%);
     z-index: 5;
     background-color: rgba(0, 0, 0, 0.5); /* 버튼 배경색 추가 */
@@ -38,11 +59,11 @@ a{
 }
 
 .carousel-control-prev {
-    left: -25px;
+    left: -45px;
 }
 
 .carousel-control-next {
-    right: -25px;
+    right: -40px;
 }
 
 .carousel-control-prev-icon,

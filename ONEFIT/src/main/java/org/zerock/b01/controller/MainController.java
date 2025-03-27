@@ -122,6 +122,28 @@ public class MainController {
                 .limit(8)  // 처음 8개 항목만 가져옵니다.
                 .collect(Collectors.toList());
 
+        List<RecruitDTO> firstSlide = limitedList.stream()
+                .limit(4)
+                .collect(Collectors.toList());
+
+        // 5~8번째
+        List<RecruitDTO> secondSlide = limitedList.stream()
+                .skip(4)
+                .limit(4)
+                .collect(Collectors.toList());
+
+
+        PageResponseDTO<RecruitDTO> firstSlideResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(firstSlide)
+                .total(firstSlide.size())  // 8개로 제한된 수
+                .build();
+        PageResponseDTO<RecruitDTO> secondSlideResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(secondSlide)
+                .total(secondSlide.size())  // 8개로 제한된 수
+                .build();
+
         // 수정된 리스트로 새로운 PageResponseDTO 생성
         PageResponseDTO<RecruitDTO> limitedResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
                 .pageRequestDTO(pageRequestDTO)
@@ -129,7 +151,8 @@ public class MainController {
                 .total(limitedList.size())  // 8개로 제한된 수
                 .build();
 
-        // 모델에 8개 게시글만 추가
+        model.addAttribute("firstSlide", firstSlideResponseDTO);
+        model.addAttribute("secondSlide", secondSlideResponseDTO);
         model.addAttribute("responseDTO", limitedResponseDTO);
 
 
