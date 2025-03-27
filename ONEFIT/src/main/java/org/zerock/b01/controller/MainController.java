@@ -63,13 +63,13 @@ public class MainController {
             }
         }
 
-        //유저정보(일반, 개인) 전역에 갖고오기
-        User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
-        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
-
         //유저정보(일반Default)가 존재할 때
         if (all_memberDTO != null) {
             model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
+
+            //유저정보(일반, 개인) 전역에 갖고오기
+            User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
+            Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
 
             //유저정보(개인User)가 있을 때
             if (user_MemberDTO != null) {

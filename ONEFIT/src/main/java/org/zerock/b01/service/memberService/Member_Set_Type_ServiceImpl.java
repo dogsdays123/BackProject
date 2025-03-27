@@ -117,6 +117,7 @@ public class Member_Set_Type_ServiceImpl implements Member_Set_Type_Service {
         }
         User_MemberDTO user_memberDTO = modelMapper.map(user_member, User_MemberDTO.class);
         user_memberDTO.setAllId(allId);
+        log.info("&&&& User" + user_memberDTO);
         return user_memberDTO;
     }
 
