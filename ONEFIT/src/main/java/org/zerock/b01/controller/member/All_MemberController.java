@@ -177,9 +177,11 @@ public class All_MemberController {
             } catch (Exception e) {
                 log.error("JSON 변환 오류", e);
             }
-
-            model.addAttribute("trainerDTO", trainerDTO);
+        } else{
+            trainerDTO = null;
         }
+        log.info("$#$#$#" + trainerDTO);
+        model.addAttribute("trainerDTO", trainerDTO);
     }
 
     @PreAuthorize("isAuthenticated()")
