@@ -1,8 +1,12 @@
 package org.zerock.b01.domain.board;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.BaseEntity;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,9 +33,33 @@ public class Qna_Board extends BaseEntity {
     @JoinColumn(name = "all_id", nullable = false)
     private All_Member allMember;
 
+    @OneToMany (mappedBy = "qnaBoard" , cascade = CascadeType.ALL, fetch = FetchType.LAZY,orphanRemoval = true)
+    @Builder.Default
+    @BatchSize(size = 20)
+    private Set<Board_File> boardFileSet = new HashSet<>();
+
     public void changeQna(String qTitle, String qContent) {
         this.qTitle = qTitle;
         this.qContent = qContent;
+    }
+
+    public void addQnaFiles(String uuid, String fileName) {
+
+        Board_File board_file = Board_File.builder()
+                .uuid(uuid)
+                .fileName(fileName)
+                .qnaBoard(this)
+                .ord(boardFileSet.size())
+                .build();
+
+        boardFileSet.add(board_file);
+    }
+
+    public void  clearQnaFiles() {
+
+        boardFileSet.forEach(board_file -> board_file.changeQnaBoard(null));
+
+        this.boardFileSet.clear();
     }
 
     public void increaseQnaHits() {

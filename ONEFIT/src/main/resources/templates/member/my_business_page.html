@@ -39,21 +39,14 @@
                                 <div>
                                     <p><strong>기업이름:</strong> <span th:text="${business_memberDTO.bName}"></span></p>
                                     <p><strong>대표자:</strong> <span th:text="${business_memberDTO.bExponent}"></span></p>
+                                    <p><strong>사업자번호:</strong> <span th:text="${business_memberDTO.bRegNum}"></span></p>
                                     <p><strong>설립일:</strong> <span th:text="${#temporals.format(business_memberDTO.bEstaDate, 'yyyy-MM-dd')}"></span></p>
                                     <p><strong>이메일:</strong> <span th:text="${all_memberDTO.email}"></span></p>
-                                    <p><strong>주소:</strong> <span th:text="${business_memberDTO.bAddress}"></span></p>
+                                    <p><strong>주소:</strong> <span th:text="${business_memberDTO.bAddress}"></span><br>
+                                        <span th:text="${business_memberDTO.bAddressExtra}"></span></p>
                                     <p><strong>전화번호:</strong> <span th:text="${business_memberDTO.bPhone}"></span></p>
                                     <p><strong>홈페이지:</strong> <span th:text="${business_memberDTO.bHomepage}"></span></p>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-user-circle"></i> 증명 사진
-                            </div>
-                            <div class="card-body d-flex align-items-center">
-                                <img src="#" alt="Profile Image" class="profile-img">
                             </div>
                         </div>
 
@@ -80,73 +73,67 @@
                 <!--                                회원 정보 수정-->
                 <div class="container mt-5">
                     <div class="post-container">
-                        <form>
+                        <form method="post" action="/member/my_business_page">
                             <div class="form-section">
                                 <h5 class="product-h5">기업 정보</h5>
                                 <hr>
+                                <div>
+<!--                                    숨김정보-->
+                                    <input type="hidden" name="businessId" th:value="${business_memberDTO.businessId}">
+                                    <input type="hidden" name="bRegNum" th:value="${business_memberDTO.bRegNum}">
+                                    <input type="hidden" name="allId" th:value="${business_memberDTO.allId}">
+                                </div>
                                 <div class="mb-3">
                                     <label class="form-label">기업이름</label>
-                                    <input type="text" class="form-control" placeholder="기본 이름 연동"
-                                           readonly>
-                                </div>
+                                    <input type="text" class="form-control" name="bName" th:value="${business_memberDTO.bName}"
+                                           required>
+                                </div> <br>
                                 <div class="mb-3">
                                     <label class="form-label">대표자</label>
-                                    <input type="text" class="form-control" placeholder="기본 생년월일 연동"
-                                           readonly>
-                                </div>
+                                    <input type="text" class="form-control" name="bExponent" th:value="${business_memberDTO.bExponent}"
+                                           required>
+                                </div> <br>
                                 <div class="mb-3">
                                     <label class="form-label">설립일</label>
-                                    <input type="text" class="form-control" placeholder="기본 이메일 연동"
+                                    <input type="date" class="form-control" name="bEstaDate" th:value="${#temporals.format(business_memberDTO.bEstaDate, 'yyyy-MM-dd')}"
                                            readonly>
-                                </div>
+                                </div> <br>
                                 <div class="mb-3">
-                                    <label class="form-label">이메일</label>
-                                    <input type="text" class="form-control" placeholder="기본 아이디 연동"
-                                           readonly>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">주소</label>
-                                    <input type="text" class="form-control" placeholder="기본 아이디 연동"
-                                           readonly>
-                                </div>
+                                    <label class="form-label">기업 주소</label>
+                                    <div id="kakaoMap" style="width:500px;height:400px;"></div>
+                                    <input type="text" class="kakaoAddress" placeholder="주소를 입력하세요"/>
+                                    <div>
+                                        <button type="button" class="searchAddress">위치 찾기</button>
+                                        <button type="button" id="getAddress">주소 적용</button>
+                                    </div>
+                                    <input type="text" class="form-control" id="addressInput" name="bAddress" th:value="${business_memberDTO.bAddress}" required>
+                                    <input type="text" class="form-control" name="bAddressExtra" th:value="${business_memberDTO.bAddressExtra}">
+
+                                </div> <br>
                                 <div class="mb-3">
                                     <label class="form-label">전화번호</label>
-                                    <input type="text" class="form-control" placeholder="전화번호 인증"
-                                           required>
-                                </div>
+                                    <input type="text" class="form-control" name="bPhone" th:value="${business_memberDTO.bPhone}"
+                                    required>
+                                </div> <br>
                                 <div class="mb-3">
                                     <label class="form-label">홈페이지</label>
-                                    <input type="text" class="form-control" placeholder="기업 홈페이지"
-                                           required>
-                                </div>
+                                    <input type="text" class="form-control" name="bHomepage" th:value="${business_memberDTO.bHomepage}" placeholder="기업 홈페이지">
+                                </div> <br>
                                 <hr>
                                 <div class="mb-3">
                                     <label class="form-label">근로자 수</label>
-                                    <input type="text" class="form-control" placeholder="특수문자 없이 기입"
-                                           required>
-                                </div>
+                                    <input type="text" class="form-control" name="bEmployees" th:value="${business_memberDTO.bEmployees}" placeholder="특수문자 없이 기입">
+                                </div> <br>
                                 <div class="mb-3">
                                     <label class="form-label">평균 매출액</label>
-                                    <input type="text" class="form-control" placeholder="특수문자 없이 기입"
-                                           required>
-                                </div>
+                                    <input type="text" class="form-control" name="bAverage" th:value="${business_memberDTO.bAverage}" placeholder="특수문자 없이 기입">
+                                </div> <br>
                                 <div class="mb-3">
                                     <label class="form-label">자산 총액</label>
-                                    <input type="text" class="form-control" placeholder="특수문자 없이 기입"
-                                           required>
-                                </div>
+                                    <input type="text" class="form-control" name="bAssets" th:value="${business_memberDTO.bAssets}" placeholder="특수문자 없이 기입">
+                                </div> <br>
                             </div>
-                            <div class="form-section">
-                                <div class="mb-3">
-                                    <label class="form-label">기업로고</label>
-                                    <div class="file-label" onclick="$('#imageUpload').click()">이미지
-                                        업로드
-                                    </div>
-                                    <input type="file" class="form-control d-none" id="imageUpload"
-                                           accept="image/*" multiple>
-                                    <div id="imagePreview" class="mt-2 d-flex flex-wrap"></div>
-                                </div>
-                            </div>
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <button type="submit" class="product-btn btn btn-primary w-100">수정
@@ -160,3 +147,5 @@
         </div>
     </div>
 </div>
+<script src="/js/member/kakaoMap.js"></script>
+<script src="/js/member/businessRegistrationNumber.js"></script>

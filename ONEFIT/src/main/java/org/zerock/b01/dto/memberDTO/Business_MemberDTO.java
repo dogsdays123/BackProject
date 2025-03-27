@@ -19,13 +19,15 @@ public class Business_MemberDTO {
 
     private String bAddress;
 
+    private String bAddressExtra;
+
     private String bName;
 
     private Long bRegNum;
 
     private String bExponent;
 
-    private Long bPhone;
+    private String bPhone;
 
     private Long bAverage;
 

@@ -20,6 +20,9 @@ public class Business_Member {
     @Column(length = 100, nullable = false)
     private String bAddress;
 
+    @Column(length = 100)
+    private String bAddressExtra;
+
     @Column(length = 30, nullable = false)
     private String bName;
 
@@ -30,7 +33,7 @@ public class Business_Member {
     private String bExponent;
 
     @Column(nullable = false)
-    private Long bPhone;
+    private String bPhone;
 
     private Long bAverage;
 
@@ -48,4 +51,16 @@ public class Business_Member {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private All_Member allMember;
+
+    public void modifyMember(String bName, String bExponent, String bAddress, String bAddressExtra, String bPhone, String  bHomepage, Long bEmployees, Long bAverage, Long bAssets) {
+        this.bName = bName;
+        this.bExponent = bExponent;
+        this.bAddress = bAddress;
+        this.bAddressExtra = bAddressExtra;
+        this.bPhone = bPhone;
+        this.bHomepage = bHomepage;
+        this.bEmployees = bEmployees;
+        this.bAverage = bAverage;
+        this.bAssets = bAssets;
+    }
 }

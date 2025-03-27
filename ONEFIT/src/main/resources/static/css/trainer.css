@@ -92,6 +92,14 @@ display: flex;
   scroll-behavior: smooth;
   flex-shrink: 0;
 }
+.profile-frame-small {
+  display: flex;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  scroll-behavior: smooth;
+  flex-shrink: 0;
+}
 .slider-box {
   position: relative;
 }

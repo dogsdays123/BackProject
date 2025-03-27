@@ -22,6 +22,8 @@ public class User_MemberDTO {
 
     private String uAddress;
 
+    private String uAddressExtra;
+
     private Long uResident;
 
     @NotNull

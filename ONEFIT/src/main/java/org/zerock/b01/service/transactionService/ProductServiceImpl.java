@@ -11,19 +11,18 @@ import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.transaction.*;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
-import org.zerock.b01.dto.transactionDTO.EquipmentDTO;
-import org.zerock.b01.dto.transactionDTO.FacilityDTO;
-import org.zerock.b01.dto.transactionDTO.ProductDTO;
-import org.zerock.b01.dto.transactionDTO.ProductListAllDTO;
+import org.zerock.b01.dto.transactionDTO.*;
 import org.zerock.b01.repository.All_MemberRepository;
-import org.zerock.b01.repository.transactionRepository.CategoryRepository;
-import org.zerock.b01.repository.transactionRepository.EquipmentRepository;
-import org.zerock.b01.repository.transactionRepository.FacilityRepository;
-import org.zerock.b01.repository.transactionRepository.ProductRepository;
+import org.zerock.b01.repository.transactionRepository.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
     private final EquipmentRepository equipmentRepository;
     private final FacilityRepository facilityRepository;
     private final ProductRepository productRepository;
+    private final InterestRepository interestRepository;
 
     // (거래 - 상품) [기구] 판매 게시글 등록
     @Override
@@ -44,8 +44,8 @@ public class ProductServiceImpl implements ProductService {
         Equipment equipment = modelMapper.map(equipmentDTO, Equipment.class);
         Optional<Category> category = categoryRepository.findById(equipmentDTO.getCategoryId());
 
-        // 회원 아이디 임시 세팅
-        Optional<All_Member> member = all_MemberRepository.findById("member1");
+        // 회원 아이디
+        Optional<All_Member> member = all_MemberRepository.findById(equipmentDTO.getAllId());
         product.setAllMember(member.orElseThrow()); // (회원) 외래키 세팅
         product.setCategory(category.orElseThrow()); // (카테고리) 외래키 세팅
 
@@ -72,8 +72,8 @@ public class ProductServiceImpl implements ProductService {
         Facility facility = modelMapper.map(facilityDTO, Facility.class);
         Optional<Category> category = categoryRepository.findById(facilityDTO.getCategoryId());
 
-        // 회원 아이디 임시 세팅
-        Optional<All_Member> member = all_MemberRepository.findById("member1");
+        // 회원 아이디
+        Optional<All_Member> member = all_MemberRepository.findById(facilityDTO.getAllId());
         product.setAllMember(member.orElseThrow()); // (회원) 외래키 세팅
         product.setCategory(category.orElseThrow()); // (카테고리) 외래키 세팅
 
@@ -91,6 +91,43 @@ public class ProductServiceImpl implements ProductService {
         facility.setProduct(product);
 
         return facilityRepository.save(facility).getFacilityId();
+    }
+
+    @Override
+    @Transactional
+    public boolean registerInterest(InterestDTO interestDTO) {
+        Product product = productRepository.findById(interestDTO.getProductId()).orElseThrow();
+        All_Member member = all_MemberRepository.findById(interestDTO.getAllId()).orElseThrow();
+        Interest interest = new Interest();
+        interest.setProduct(product);
+        interest.setAllMember(member);
+        interest.setRegDate(LocalDateTime.now());
+
+        boolean isRegistered = interestRepository.existsByProductAndAllMember(product, member);
+
+        if (isRegistered) { //  관심상품 삭제
+            interestRepository.deleteByProductAndAllMember(product, member);
+        } else { // 관심상품 추가
+            interestRepository.save(interest);
+        }
+
+        return isRegistered;
+    }
+
+    @Override
+    public boolean isRegisteredInterest(Long productId, String allId) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        All_Member member = all_MemberRepository.findById(allId).orElseThrow();
+
+        return interestRepository.existsByProductAndAllMember(product, member);
+    }
+
+    // 관심상품 등록 수
+    @Override
+    public Long countInterest(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow();
+
+        return interestRepository.countByProduct(product);
     }
 
     // (거래 - 상품) [기구] 판매 게시글 읽기
@@ -115,6 +152,8 @@ public class ProductServiceImpl implements ProductService {
         Optional<Facility> optionalFacility = facilityRepository.findByProduct_ProductId(productId);
         Facility facility = optionalFacility.orElseThrow();
         FacilityDTO facilityDTO = modelMapper.map(facility, FacilityDTO.class);
+        facilityDTO.setFContAreaPyeong(convertToPyeong(facilityDTO.getFContArea())); // 계약면적 평수
+        facilityDTO.setFRealAreaPyeong(convertToPyeong(facilityDTO.getFRealArea())); // 실 면적 평수
 
         Optional<Product> optionalProduct = productRepository.findById(productId);
         Product product = optionalProduct.orElseThrow();
@@ -123,6 +162,12 @@ public class ProductServiceImpl implements ProductService {
         productDTOIntoFaDto(productDTO, facilityDTO);
 
         return facilityDTO;
+    }
+
+    // 제곱미터를 평수로 변환하는 함수
+    public static BigDecimal convertToPyeong(BigDecimal squareMeter) {
+        BigDecimal conversionFactor = new BigDecimal("0.3025");
+        return squareMeter.multiply(conversionFactor).setScale(2, RoundingMode.HALF_UP); // 소수점 2자리 반올림
     }
 
     @Override
@@ -236,11 +281,36 @@ public class ProductServiceImpl implements ProductService {
         String[] types = pageRequestDTO.getTypes();
         // 검색 키워드 가져오기
         String keyword = pageRequestDTO.getKeyword();
+
+        // 카테고리 타입 가져오기
+        String categoryType = pageRequestDTO.getCategoryType();
+        // 카테고리 이름 가져오기
+        String categoryName = pageRequestDTO.getCategoryName();
+
+        // 가격 필터 가져오기
+        Integer minPrice = pageRequestDTO.getMinPrice();
+        Integer maxPrice = pageRequestDTO.getMaxPrice();
+
+        // 판매 상태 가져오기
+        Boolean onSale = pageRequestDTO.getOnSale();
+        Boolean reserved = pageRequestDTO.getReserved();
+        Boolean soldOut = pageRequestDTO.getSoldOut();
+        // 관심상품 여부 가져오기
+        Boolean interested = pageRequestDTO.getInterested();
+
+        // 작성자 ID 가져오기
+        String allId = pageRequestDTO.getAllId();
+
+        // 지역 가져오기
+        String metroGov = pageRequestDTO.getMetroGov(); // 시/도
+        String muniGov = pageRequestDTO.getMuniGov(); // 시/군/구
+
         // 페이지 정보를 생성 (정렬 기준: 게시글 번호)
         Pageable pageable = pageRequestDTO.getPageable("productId");
 
         // 검색 조건과 페이지 정보를 이용하여 데이터 조회
-        Page<ProductListAllDTO> result = productRepository.searchWithAllProducts(types, keyword, pageable);
+        Page<ProductListAllDTO> result = productRepository.searchWithAllProducts(types, keyword, minPrice, maxPrice,
+                categoryType, categoryName, onSale, reserved, soldOut, allId, interested, metroGov, muniGov, pageable);
 
         // 조회 결과를 PageRequeestDTO 객체로 변환하여 반환
         return PageResponseDTO.<ProductListAllDTO>withAll()

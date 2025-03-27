@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+</head>
+
+<form name="frm1" id="frm1" method="post">
+    <table class="tb_board_1">
+        <tr>
+            <th scope="row">사업자등록번호</th>
+            <td class="left_5">
+                <div>
+                    <input type="text" id="c1" size="3" alt="사업자등록번호1" style="ime-mode:disabled;"
+                           maxlength="3">
+                    -<input type="text" id="c2" size="2" alt="사업자등록번호2" style="ime-mode:disabled;"
+                            maxlength="2">
+                    -<input type="text" id="c3" size="5" alt="사업자등록번호3" style="ime-mode:disabled;"
+                            maxlength="5">
+                </div>
+                <button type="button" onclick="code_check(event)">확인</button>
+            </td>
+        </tr>
+    </table>
+    <!-- 숨겨진 필드 추가 -->
+    <input type="hidden" name="b_no" id="b_no">
+    <input type="hidden" name="b_stt" id="b_stt">
+    <input type="hidden" name="tax_type" id="tax_type">
+    <input type="hidden" name="rbf_tax_type" id="rbf_tax_type">
+    <input type="hidden" name="utcc_yn" id="utcc_yn">
+</form>
+
+<!-- 아래 코드에 모든 소스 코드가 담겨 있지 않으므로 일부 수정 및 추가가 필요합니다. -->
+<!-- jQuery, Ajax를 활용함으로 jQuery 사용이 필요합니다. -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/member/businessRegistrationNumber.js"></script>
+</html>

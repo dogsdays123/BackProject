@@ -3,10 +3,7 @@ package org.zerock.b01.service.transactionService;
 import org.zerock.b01.domain.transaction.Product;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
-import org.zerock.b01.dto.transactionDTO.EquipmentDTO;
-import org.zerock.b01.dto.transactionDTO.FacilityDTO;
-import org.zerock.b01.dto.transactionDTO.ProductDTO;
-import org.zerock.b01.dto.transactionDTO.ProductListAllDTO;
+import org.zerock.b01.dto.transactionDTO.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,6 +13,11 @@ public interface ProductService {
     Long registerEquipment(EquipmentDTO equipmentDTO);
 
     Long registerFacility(FacilityDTO facilityDTO);
+
+    boolean registerInterest(InterestDTO interestDTO);
+    boolean isRegisteredInterest(Long productId, String allId);
+
+    Long countInterest(Long productId);
 
     EquipmentDTO readEquipmentOne(Long productId);
 

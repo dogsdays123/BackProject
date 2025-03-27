@@ -230,6 +230,9 @@
                         <select class="form-control" name="wantLegion">
                             <option value="서울" th:selected="${dto.wantLegion.equals('서울')}">서울</option>
                             <option value="경기도" th:selected="${dto.wantLegion.equals('경기도')}">경기도</option>
+                            <option value="대전" th:selected="${dto.wantLegion.equals('대전')}">대전</option>
+                            <option value="부산" th:selected="${dto.wantLegion.equals('부산')}">부산</option>
+                            <option value="천안" th:selected="${dto.wantLegion.equals('천안')}">천안</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -279,7 +282,8 @@
                 </div>
                 <br>
                 <button type="submit" class="btn btn-success w-100 modal-btn" id="register-submit-btn">수정 완료</button>
-                <button type="button" class="btn btn-secondary w-100 modal-btn" id="register-delete-btn">삭제</button>
+                <button type="button" class="btn btn-danger w-100 modal-btn" id="register-delete-btn">삭제</button>
+                <a class="btn btn-secondary w-100 modal-btn mt-2" id="list-submit-btn" th:href="|@{/trainer/trainer_list}?${request.getLink()}|">뒤로가기</a>
             </form>
         </div>
     </div>

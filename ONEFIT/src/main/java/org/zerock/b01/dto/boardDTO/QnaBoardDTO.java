@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.zerock.b01.domain.All_Member;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -32,4 +33,6 @@ public class QnaBoardDTO {
     private LocalDateTime regDate;
 
     private LocalDateTime modDate;
+
+    private List<String> fileNames;
 }

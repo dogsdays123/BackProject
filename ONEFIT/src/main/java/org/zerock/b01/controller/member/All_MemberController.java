@@ -1,9 +1,11 @@
 package org.zerock.b01.controller.member;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,15 +16,24 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
+import org.zerock.b01.dto.memberDTO.Business_Member_DataDTO;
+import org.zerock.b01.dto.memberDTO.MemberDataDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
+import org.zerock.b01.dto.recruitDTO.RecruitDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -64,13 +75,13 @@ public class All_MemberController {
             }
         }
 
-        //유저정보(일반, 개인) 전역에 갖고오기
-        User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
-        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
 
         //유저정보(일반Default)가 존재할 때
         if (all_memberDTO != null) {
             model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
+            //유저정보(일반, 개인) 전역에 갖고오기
+            User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
+            Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
 
             //유저정보(개인User)가 있을 때
             if (user_MemberDTO != null) {
@@ -98,18 +109,25 @@ public class All_MemberController {
         // URL에 따라서 분기
         if (currentUrl.contains("/member")) {
             model.addAttribute("sidebar", true);
-        } else{
+        } else {
             model.addAttribute("sidebar", false);
         }
+
+        model.addAttribute("checkId", false);
+        model.addAttribute("checkEmail", false);
+
+        //List<All_MemberDTO> all_memberDTOList = all_memberService.readAllMember();
+        //model.addAttribute("all_memberDTOList", all_memberDTOList);
+        //log.info("모든회원@@@@@@@@@" + all_memberDTOList);
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify")
     public String modifyPOST(All_MemberDTO all_memberDTO, User_MemberDTO userMemberDTO, RedirectAttributes redirectAttributes) {
-            log.info("modify post........");
-            log.info("allId@@@@" + all_memberDTO.getAllId());
-            all_memberService.modify(all_memberDTO);
+        log.info("modify post........");
+        log.info("allId@@@@" + all_memberDTO.getAllId());
+        all_memberService.modify(all_memberDTO);
 
         return "redirect:/member/my_default_page";
     }
@@ -138,15 +156,73 @@ public class All_MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_user_page")
-    public void my_user_page() {
-        log.info("my_user_page");
+    public void my_user_pageGET(All_MemberDTO all_memberDTO, Model model) {
+        String all = all_memberDTO.getAllId();
+        log.info("USER!!!" + all);
+        User_MemberDTO user_memberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
+        log.info("%%%%" + user_memberDTO);
+
+        //이력서 찾는 코드
+        TrainerDTO trainerDTO = member_Set_Type_Service.trainerReadForUser(user_memberDTO.getUserId());
+        if(trainerDTO != null) {
+            log.info("%%%%" + trainerDTO);
+
+            // academy가 JSON 형식이라면 ObjectMapper를 사용하여 Map으로 변환
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                // academy를 Map으로 변환
+                Map academyMap = objectMapper.readValue((String) trainerDTO.getAcademy(), Map.class);
+                model.addAttribute("academyMap", academyMap);
+                log.info("%%%%%%%%" + academyMap);
+            } catch (Exception e) {
+                log.error("JSON 변환 오류", e);
+            }
+
+            model.addAttribute("trainerDTO", trainerDTO);
+        }
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/my_business_page")
-    public void my_business_page() {
-        log.info("my_business_page");
+    @PostMapping("/my_user_page")
+    public String my_user_pagePOST(User_MemberDTO user_memberDTO, RedirectAttributes redirectAttributes) {
+        log.info("modify user post.........." + user_memberDTO);
+        member_Set_Type_Service.userModify(user_memberDTO);
+
+        return "redirect:/member/my_user_page?" + "allId=" + user_memberDTO.getAllId();
     }
+
+    //기업정보
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/my_business_page")
+    public void my_business_pageGET(All_MemberDTO all_memberDTO, Model model) {
+        log.info("BUSINESS!!!" + all_memberDTO);
+        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
+
+        //채용정보 찾는 코드
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/my_business_page")
+    public String my_business_pagePOST(Business_MemberDTO business_memberDTO, RedirectAttributes redirectAttributes) {
+        log.info("modify business post........");
+        member_Set_Type_Service.businessModify(business_memberDTO);
+
+        return "redirect:/member/my_business_page";
+    }
+
+    //공고등록현황
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/my_business_page_recruit")
+    public void my_business_page_recruitGET(All_MemberDTO all_memberDTO, Model model) {
+        log.info("BUSINESS_recruit!!!" + all_memberDTO);
+        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
+
+        //채용정보 찾는 코드
+        List<RecruitDTO> recruitDTOList = member_Set_Type_Service.recruitReadForBusiness(business_memberDTO.getBusinessId());
+        log.info("^^^^^" + recruitDTOList);
+        model.addAttribute("recruitDTOList", recruitDTOList);
+    }
+
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_info_page")
@@ -172,7 +248,7 @@ public class All_MemberController {
     @PostMapping("/set_type")
     public String PostSet_type(@Valid User_MemberDTO user_MemberDTO, String allId
             , RedirectAttributes redirectAttributes
-                               , Model model
+            , Model model
             , BindingResult bindingResult) throws BindException {
         log.info("set_type post.......");
         user_MemberDTO.setAllId(allId);
@@ -201,7 +277,7 @@ public class All_MemberController {
     @PostMapping("/set_type_b")
     public String PostSet_type_b(@Valid Business_MemberDTO business_memberDTO, String allId
             , RedirectAttributes redirectAttributes
-                                 , Model model
+            , Model model
             , BindingResult bindingResult) throws BindException {
         log.info("set_type_b post.......");
         business_memberDTO.setAllId(allId);
@@ -218,6 +294,8 @@ public class All_MemberController {
     }
     //타입 부여end
 
+
+
     @GetMapping("/maptest")
     public void maptestGET() {
         log.info("maptestGET");
@@ -228,4 +306,14 @@ public class All_MemberController {
         log.info("maptestPOST");
     }
 
+    @GetMapping("/businesstest")
+    public void businesstestGET() {
+        log.info("businesstestGET");
+    }
+
+    @PostMapping("/businesstest")
+    public void businesstestPOST(Business_Member_DataDTO bData) {
+        log.info("businesstestPOST");
+        log.info(bData);
+    }
 }
