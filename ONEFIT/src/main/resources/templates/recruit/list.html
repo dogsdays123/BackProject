@@ -21,78 +21,92 @@
     <!-- 메인 메뉴 -->
     <div class="nav-container">
         <!-- 로고 -->
-        <a class="navbar-brand me-auto" href="/main">OneFit</a>
+        <div class="d-flex align-items-center justify-content-between">
+            <a class="navbar-brand me-auto" href="/main">OneFit</a>
+            <!-- 햄버거 버튼 -->
+            <div th:if="${sidebar == true}">
+                <button class="navbar-toggler round-btn toggle-sidebar btns btns-hanbuger" type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                    <span class="navbar-toggler-icon"><i class="fa-solid fa-bars-staggered"></i></span>
+                </button>
+            </div>
+        </div>
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
             <li class="nav-item"><a class="nav-link" href="/recruit/list">채용정보</a></li>
-            <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
+            <li class="nav-item"><a class="nav-link" href="/trainer/trainer_list">강사찾기</a></li>
             <li class="nav-item dropdown dropdown-main">
                 <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
                    data-bs-toggle="dropdown">거래</a>
                 <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" href="transa_list.html">시설</a></li>
-                    <li><a class="dropdown-item" href="transa_list.html">기구</a></li>
+                    <li><a class="dropdown-item" href="/transaction/transa_list">시설</a></li>
+                    <li><a class="dropdown-item" href="/transaction/transa_list">기구</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown dropdown-main">
                 <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
                    data-bs-toggle="dropdown">커뮤니티</a>
                 <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" href="#">Q&A</a></li>
-                    <li><a class="dropdown-item" href="#">공지사항</a></li>
+                    <li><a class="dropdown-item" th:href="@{/zboard/board_notice_list}">공지사항</a></li>
+                    <li><a class="dropdown-item" th:href="@{/zboard/board_qa_list}">Q&A</a></li>
                 </ul>
             </li>
         </ul>
 
         <!-- 사이드 메뉴(로그인, 회원가입 / 로그아웃, 마이페이지, 알림) -->
-        <div class="auth-links ms-auto">
+        <div class="auth-links ms-auto" >
+
             <!-- 로그인 전 메뉴 -->
-            <!-- <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
-                data-bs-target="#loginModal">
-                로그인
-            </button>
-            <span class="separator">|</span>
-            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
-                data-bs-target="#signupModal">
-                회원가입
-            </button> -->
-
-            <!-- 로그인 후 메뉴 -->
-            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                로그아웃
-            </button>
-            <span class="separator">|</span>
-            <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal">
-                <a href="my.html" class="text-reset text-decoration-none">
-                    마이페이지
+            <div th:if="${all_memberDTO.allId == null}">
+                <a type="button" class="basic-btn btn btn-primary btns" href="/login">
+                    로그인
                 </a>
-            </button>
+                <span class="separator">|</span>
+                <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
+                        data-bs-target="#signupModal">
+                    회원가입
+                </button>
+            </div>
 
-            <!-- 알림 start -->
-            <div class="dropdown">
-                <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-bell"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <div th:if="${all_memberDTO.allId != null}">
+                <a type="button" class="basic-btn btn btn-primary btns" href="/logout">
+                    로그아웃
+                </a>
+                <span class="separator">|</span>
+                <button type="button" class="basic-btn btn btn-primary btns">
+                    <a th:href="|@{/member/my_default_page(allId =${all_memberDTO.allId})}|" class="text-reset text-decoration-none">
+                        마이페이지
+                    </a>
+                </button>
+            </div>
+        </div>
+
+        <!-- 알림 start -->
+        <div class="dropdown">
+            <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             3
                         </span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
-                    <li>
-                        <h6 class="dropdown-header">알림</h6>
-                    </li>
-                    <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
-                    <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
-                    <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
-                </ul>
-            </div>
-            <!-- 알림 end -->
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                <li>
+                    <h6 class="dropdown-header">알림</h6>
+                </li>
+                <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
+                <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
+                <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
+            </ul>
         </div>
+        <!-- 알림 end -->
+    </div>
     </div>
 </header>
 <!-- 헤더 end -->
