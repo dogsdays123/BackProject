@@ -81,7 +81,8 @@
                         <a href="/trainer/trainer_list" class="reset-filtering" th:if="${responseDTO.isSearching || !responseDTO.sorting.equals('regDate')}">*</a>
                     </span>
                 </h2>
-                <a th:href="|@{/trainer/trainer_register}?${responseDTO.link}|" class="btn btn-primary btn-lg">이력서 등록 +</a>
+                <a th:if="${user_memberDTO != null}" th:href="|@{/trainer/trainer_register}?${responseDTO.link}|" class="btn btn-primary btn-lg">이력서 등록 +</a>
+                <a th:if="${user_memberDTO == null}" th:href="|@{/member/my_default_page}?allId=${all_memberDTO.allId}|" class="btn btn-primary btn-lg" onclick="alert('개인회원 전환 후 등록 가능합니다.')">이력서 등록 +</a>
             </div>
             <hr>
             <!-- 갇사정보 리스트 카드 -->
