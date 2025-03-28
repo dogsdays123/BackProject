@@ -148,19 +148,23 @@ public class All_MemberController {
       
         if(all_memberDTO !=null) {
             AllBoardSearchDTO allBoard = all_memberService.boardReadForAllMember(all_memberDTO.getAllId());
-            model.addAttribute("allBoardDTO", allBoard);
-            if(allBoard.getNoticeBoardDTO().isEmpty() && allBoard.getQnaBoardDTO().isEmpty()) {
-                model.addAttribute("noticeBoardDTO", allBoard.getNoticeBoardDTO());
-                model.addAttribute("qnaBoardDTO", allBoard.getQnaBoardDTO());
-            } else if (allBoard.getNoticeBoardDTO().isEmpty()) {
-                model.addAttribute("noticeBoardDTO", null);
-                model.addAttribute("qnaBoardDTO", allBoard.getQnaBoardDTO());
-            } else if (allBoard.getQnaBoardDTO().isEmpty()){
-                model.addAttribute("noticeBoardDTO", allBoard.getNoticeBoardDTO());
-                model.addAttribute("qnaBoardDTO", null);
+            if(allBoard == null) {
+                model.addAttribute("allBoardDTO", null);
             } else {
-                model.addAttribute("noticeBoardDTO", null);
-                model.addAttribute("qnaBoardDTO", null);
+                model.addAttribute("allBoardDTO", allBoard);
+                if(allBoard.getNoticeBoardDTO().isEmpty() && allBoard.getQnaBoardDTO().isEmpty()) {
+                    model.addAttribute("noticeBoardDTO", allBoard.getNoticeBoardDTO());
+                    model.addAttribute("qnaBoardDTO", allBoard.getQnaBoardDTO());
+                } else if (allBoard.getNoticeBoardDTO().isEmpty()) {
+                    model.addAttribute("noticeBoardDTO", null);
+                    model.addAttribute("qnaBoardDTO", allBoard.getQnaBoardDTO());
+                } else if (allBoard.getQnaBoardDTO().isEmpty()){
+                    model.addAttribute("noticeBoardDTO", allBoard.getNoticeBoardDTO());
+                    model.addAttribute("qnaBoardDTO", null);
+                } else {
+                    model.addAttribute("noticeBoardDTO", null);
+                    model.addAttribute("qnaBoardDTO", null);
+                }
             }
 
             log.info("board####" + allBoard);

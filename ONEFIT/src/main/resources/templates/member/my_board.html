@@ -8,7 +8,10 @@
         <h2 class="text-primary mb-4">내가 쓴 게시글</h2>
     
         <!-- 공지사항 테이블 -->
-        <table class="table table-hover align-middle">
+          <div th:if="${allBoardDTO == null}">
+              <br><br><h2>올린 게시글이 없습니다.</h2><br><br>
+          </div>
+        <table class="table table-hover align-middle" th:if="${allBoardDTO != null}">
             <thead>
             <tr>
                 <th style="width: 30%;">제목</th>
@@ -16,7 +19,7 @@
                 <th style="width: 10%;">조회수</th>
             </tr>
             </thead>
-            <tbody id="noticeTable" th:if="${allBoardDTO != null}">
+            <tbody id="noticeTable">
               <tr th:each="allBoardDTO : ${allBoardDTO}">
                   <tr th:each="noticeDTO : ${allBoardDTO.noticeBoardDTO}">
                   <td>
