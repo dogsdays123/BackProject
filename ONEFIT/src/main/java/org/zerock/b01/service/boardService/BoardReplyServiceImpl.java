@@ -38,7 +38,6 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 
     @Override
     public Long registerBoard(BoardReplyDTO boardReplyDTO) {
-        log.info("123");
 
 //        Board_Reply board_reply = modelMapper.map(boardReplyDTO, Board_Reply.class);
         All_Member all_Member = all_MemberRepository.findByAllId(boardReplyDTO.getAllId()).orElseThrow();
@@ -78,7 +77,17 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 
         Board_Reply board_reply = replyOptional.orElseThrow();
 
-        return modelMapper.map(board_reply, BoardReplyDTO.class);
+        Long noticeId = (board_reply.getNoticeBoard() != null) ? board_reply.getNoticeBoard().getNoticeId() : null;
+        Long qnaId = (board_reply.getQnaBoard() != null) ? board_reply.getQnaBoard().getQnaId() : null;
+
+        BoardReplyDTO dto = BoardReplyDTO.builder()
+                .replyId(board_reply.getReplyId())
+                .replyText(board_reply.getReplyText())
+                .allId(board_reply.getAllMember().getAllId())
+                .noticeId(noticeId)
+                .qnaId(qnaId)
+                .build();
+        return dto;
     }
 
     @Override
@@ -109,8 +118,18 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 
         Page<Board_Reply> result = boardReplyRepository.listOfNoticeBoard(noticeId, pageable);
 
-        List<BoardReplyDTO> dtoList = result.getContent().stream().map(board_reply ->
-                        modelMapper.map(board_reply, BoardReplyDTO.class))
+        List<BoardReplyDTO> dtoList = result.getContent().stream()
+                .map(board_reply ->{
+                    BoardReplyDTO dto = BoardReplyDTO.builder()
+                            .replyId(board_reply.getReplyId())
+                            .replyText(board_reply.getReplyText())
+                            .allId(board_reply.getAllMember().getAllId())
+                            .noticeId(board_reply.getNoticeBoard().getNoticeId())
+                            .regDate(board_reply.getNoticeBoard().getRegDate())
+                            .build();
+                    return dto;
+                })
+
                         .collect(Collectors.toList());
 
         return PageResponseDTO.<BoardReplyDTO>withAll()
@@ -128,10 +147,18 @@ public class BoardReplyServiceImpl implements BoardReplyService {
                 Sort.by("replyId").ascending());
 
         Page<Board_Reply> result = boardReplyRepository.listOfQnaBoard(qnaId, pageable);
-
-        List<BoardReplyDTO> dtoList = result.getContent().stream().map(board_reply ->
-                        modelMapper.map(board_reply, BoardReplyDTO.class))
-                        .collect(Collectors.toList());
+        log.info(Board_Reply.class);
+        List<BoardReplyDTO> dtoList = result.getContent().stream()
+                .map(board_reply -> {
+                    BoardReplyDTO dto = BoardReplyDTO.builder()
+                                .replyId(board_reply.getReplyId())
+                                .replyText(board_reply.getReplyText())
+                                .allId(board_reply.getAllMember().getAllId())
+                                .qnaId(board_reply.getQnaBoard().getQnaId())
+                                .regDate(board_reply.getQnaBoard().getRegDate())
+                                .build();
+                    return dto;
+                }) .collect(Collectors.toList());
 
         return PageResponseDTO.<BoardReplyDTO>withAll()
                 .pageRequestDTO(pageRequestDTO)

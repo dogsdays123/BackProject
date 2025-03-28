@@ -40,9 +40,9 @@
             <!-- 버튼 그룹 -->
             <div class="my-4" th:with="user=${#authentication.principal}">
                 <div class="d-flex justify-content-end mt-3" th:with="link = ${pageRequestDTO.getLink()}">
+                  <a th:href="|@{/zboard/board_qa_list}?${link}|"  class="btn btn-secondary me-2">목록</a>
                   <a th:if="${user != null && user.username == dto.allMember.allId}"
-                          th:href="|@{/zboard/board_qa_list}?${link}|"  class="btn btn-secondary me-2">목록</a>
-                  <a th:href="|@{/zboard/board_qa_modify(qnaId=${dto.qnaId})}&${link}|"
+                          th:href="|@{/zboard/board_qa_modify(qnaId=${dto.qnaId})}&${link}|"
                      class="btn btn-primary">수정</a>
                 </div>
             </div>
@@ -125,7 +125,7 @@
         <script src="/js/board/boardReply.js"></script>
 
     </div>
-    <script layout:fragment="script" layout:inline="javascript">
+    <script layout:fragment="script" th:inline="javascript">
 
         const qnaId = [[${dto.qnaId}]]
 
@@ -175,7 +175,7 @@
         }
 
         function printReplies(page, size, goLast) {
-            getqnaList({qnaId, page, size, goLast})
+            getQnaList({qnaId, page, size, goLast})
                 .then(data => {
                     printList(data.dtoList)
                     printPages(data)
