@@ -261,7 +261,6 @@ public class All_MemberController {
         //확인 및 적용
         Long a = member_Set_Type_Service.UserRegister(user_MemberDTO);
         log.info("user_Member Id @@@@" + a);
-
         //피니시 창 반영
         return "redirect:/member/finishedChange";
     }

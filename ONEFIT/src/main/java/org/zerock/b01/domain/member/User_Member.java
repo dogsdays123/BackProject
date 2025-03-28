@@ -17,6 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString(exclude = "allMember")
 public class User_Member {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
