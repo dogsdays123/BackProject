@@ -22,34 +22,45 @@
     <!-- 메인 메뉴 -->
     <div class="nav-container">
         <!-- 로고 -->
-        <a class="navbar-brand me-auto" href="/main">OneFit</a>
+        <div class="d-flex align-items-center justify-content-between">
+            <a class="navbar-brand me-auto" href="/main">OneFit</a>
+            <!-- 햄버거 버튼 -->
+            <div th:if="${sidebar == true}">
+                <button class="navbar-toggler round-btn toggle-sidebar btns btns-hanbuger" type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                    <span class="navbar-toggler-icon"><i class="fa-solid fa-bars-staggered"></i></span>
+                </button>
+            </div>
+        </div>
 
         <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
         <ul class="nav mx-auto">
             <li class="nav-item"><a class="nav-link" href="/recruit/list">채용정보</a></li>
-            <li class="nav-item"><a class="nav-link" href="trainer_list.html">강사찾기</a></li>
+            <li class="nav-item"><a class="nav-link" href="/trainer/trainer_list">강사찾기</a></li>
             <li class="nav-item dropdown dropdown-main">
                 <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
                    data-bs-toggle="dropdown">거래</a>
                 <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" href="transa_list">시설</a></li>
-                    <li><a class="dropdown-item" href="transa_list">기구</a></li>
+                    <li><a class="dropdown-item" href="/transaction/transa_list">시설</a></li>
+                    <li><a class="dropdown-item" href="/transaction/transa_list">기구</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown dropdown-main">
                 <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
                    data-bs-toggle="dropdown">커뮤니티</a>
                 <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" href="#">Q&A</a></li>
-                    <li><a class="dropdown-item" href="#">공지사항</a></li>
+                    <li><a class="dropdown-item" th:href="@{/zboard/board_notice_list}">공지사항</a></li>
+                    <li><a class="dropdown-item" th:href="@{/zboard/board_qa_list}">Q&A</a></li>
                 </ul>
             </li>
         </ul>
 
         <!-- 사이드 메뉴(로그인, 회원가입 / 로그아웃, 마이페이지, 알림) -->
-        <div class="auth-links ms-auto">
+        <div class="auth-links ms-auto" >
+
             <!-- 로그인 전 메뉴 -->
-            <div th:if="${all_memberDTO == null}">
+            <div th:if="${all_memberDTO.allId == null}">
                 <a type="button" class="basic-btn btn btn-primary btns" href="/login">
                     로그인
                 </a>
@@ -60,31 +71,13 @@
                 </button>
             </div>
 
-            <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 start -->
-            <button class="basic-btn btn btn-primary btns btn-default" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                판매하기
-            </button>
-            <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 start -->
-            <div class="dropdown">
-                <!-- 드롭다운 메뉴 -->
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
-                    <li><a class="dropdown-item" href="transa_fa_register">시설</a></li>
-                </ul>
-            </div>
-            <!-- 기업 회원 로그인 시 나타나는 드롭다운 버튼 end -->
-            <span class="separator">|</span>
-            <!-- 로그인 시에 보이는 (거래 - 판매하기/판매글 등록 게시판 이동) 버튼 end -->
-
-            <!-- 로그인 후 메뉴 -->
-            <div th:if="${all_memberDTO != null}">
+            <div th:if="${all_memberDTO.allId != null}">
                 <a type="button" class="basic-btn btn btn-primary btns" href="/logout">
                     로그아웃
                 </a>
                 <span class="separator">|</span>
                 <button type="button" class="basic-btn btn btn-primary btns">
-                    <a href="/my" class="text-reset text-decoration-none">
+                    <a th:href="|@{/member/my_default_page(allId =${all_memberDTO.allId})}|" class="text-reset text-decoration-none">
                         마이페이지
                     </a>
                 </button>
@@ -126,7 +119,7 @@
         <div class="recruit-container container mt-5">
             <form th:action="@{/recruit/modify}" method="post" id="deleteForm">
                 <input type="hidden" th:value="${dto.recruitId}" name="recruitId" readonly>
-                <input type="text" th:value="${businessMemberDTO.businessId}" name="businessId" readonly>
+                <input type="hidden" th:value="${businessMemberDTO.businessId}" name="businessId" readonly>
                 <!--                <input type="text" th:value="${businessMemberDTO.businessId}" name="businessId" readonly>-->
                 <div style="float: right;">
                     작성일 : <span th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></span>
@@ -259,7 +252,7 @@
                     </div>
                 </div>
                 <br>
-                <div>
+                <div style="position: relative; z-index: -1;">
                     <h4 class="fw-bold">근무지역</h4>
                     <div class="d-flex">
                         <input type="hidden" id="mainAddress" th:value="${dto.reMainAddress}" />
@@ -268,7 +261,7 @@
 <!--                            <i class="bi bi-plus" style="font-size: 30px;"></i>-->
 <!--                        </button>-->
                     </div>
-                    <div id="kakaoMap" style="width:874px;height:400px;"></div>
+                    <div id="kakaoMap" style="width:874px;height:400px;position: relative;z-index: -1;"></div>
                 </div>
                 <br>
                 <!-- 공고 근무지 사진 -->

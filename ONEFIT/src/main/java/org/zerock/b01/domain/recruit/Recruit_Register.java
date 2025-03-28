@@ -145,6 +145,8 @@ public class Recruit_Register extends BaseEntity {
     @JoinColumn(name = "business_id")
     private Business_Member business_member;
 
+
+
     public void change(String mainAddress, String detailAddress, String title, String company, String reJobTypeFull, String reJobTypePart, String reJobTypeFree, String reJobTypeTrainee
     , String reJobTypeAlba, String reIndustry, int reNumHiring, String reWorkDays, String reDutyDays, String reWorkStartTime, String reWorkEndTime,
                        String reTimeNegotiable, String reSalaryType, String reSalaryValue, String reSalaryCheckAgree, String reSalaryCheckMeal

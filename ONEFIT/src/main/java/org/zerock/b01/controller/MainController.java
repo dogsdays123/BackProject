@@ -70,12 +70,13 @@ public class MainController {
             }
         }
 
+        //유저정보(일반, 개인) 전역에 갖고오기
+        User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
+        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
+
         //유저정보(일반Default)가 존재할 때
         if (all_memberDTO != null) {
             model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
-            //유저정보(일반, 개인) 전역에 갖고오기
-            User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
-            Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
 
             //유저정보(개인User)가 있을 때
             if (user_MemberDTO != null) {
@@ -106,20 +107,53 @@ public class MainController {
         } else{
             model.addAttribute("sidebar", false);
         }
-        model.addAttribute("checkId", false);
-        model.addAttribute("checkEmail", false);
-
-        List<All_MemberDTO> all_memberDTOList = all_memberService.readAllMember();
-        model.addAttribute("all_memberDTOList", all_memberDTOList);
-        log.info("모든회원@@@@@@@@@" + all_memberDTOList);
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
 
     private final RecruitService recruitService;
 
     @GetMapping("/main")
-    public void main() {
-        log.info("main");
+    public void main(Long recruitId, RecruitDTO recruitDTO, PageRequestDTO pageRequestDTO, Model model) {
+
+        PageResponseDTO<RecruitDTO> responseDTO = recruitService.list1(pageRequestDTO);
+        List<RecruitDTO> limitedList = responseDTO.getDtoList().stream()
+                .limit(8)  // 처음 8개 항목만 가져옵니다.
+                .collect(Collectors.toList());
+
+        List<RecruitDTO> firstSlide = limitedList.stream()
+                .limit(4)
+                .collect(Collectors.toList());
+
+        // 5~8번째
+        List<RecruitDTO> secondSlide = limitedList.stream()
+                .skip(4)
+                .limit(4)
+                .collect(Collectors.toList());
+
+
+        PageResponseDTO<RecruitDTO> firstSlideResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(firstSlide)
+                .total(firstSlide.size())  // 8개로 제한된 수
+                .build();
+        PageResponseDTO<RecruitDTO> secondSlideResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(secondSlide)
+                .total(secondSlide.size())  // 8개로 제한된 수
+                .build();
+
+        // 수정된 리스트로 새로운 PageResponseDTO 생성
+        PageResponseDTO<RecruitDTO> limitedResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(limitedList)
+                .total(limitedList.size())  // 8개로 제한된 수
+                .build();
+
+        model.addAttribute("firstSlide", firstSlideResponseDTO);
+        model.addAttribute("secondSlide", secondSlideResponseDTO);
+        model.addAttribute("responseDTO", limitedResponseDTO);
+
+
     }
 
     @GetMapping("/login")
