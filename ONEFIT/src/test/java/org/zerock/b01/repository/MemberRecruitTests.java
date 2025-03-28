@@ -20,6 +20,8 @@ import java.time.LocalDateTime;
 public class MemberRecruitTests {
 
     @Autowired
+    private All_MemberService all_MemberService;
+    @Autowired
     private Member_Set_Type_Service member_Set_Type_Service;
     @Autowired
     private ModelMapper modelMapper;
@@ -30,7 +32,6 @@ public class MemberRecruitTests {
     public void testInsert(){
         Business_MemberDTO business = member_Set_Type_Service.BusinessRead("test123");
         Business_Member business_Member = modelMapper.map(business, Business_Member.class);
-
 
         Recruit_Register rr = Recruit_Register.builder()
                 .reAdminEmail("789")
@@ -58,5 +59,10 @@ public class MemberRecruitTests {
                 .build();
 
         recruitRepository.save(rr);
+    }
+
+    @Test
+    public void testAdmin(){
+
     }
 }
