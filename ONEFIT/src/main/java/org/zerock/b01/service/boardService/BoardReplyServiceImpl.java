@@ -38,6 +38,7 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 
     @Override
     public Long registerBoard(BoardReplyDTO boardReplyDTO) {
+        log.info("123");
 
 //        Board_Reply board_reply = modelMapper.map(boardReplyDTO, Board_Reply.class);
         All_Member all_Member = all_MemberRepository.findByAllId(boardReplyDTO.getAllId()).orElseThrow();
