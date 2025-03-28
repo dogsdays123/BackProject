@@ -43,15 +43,26 @@
                                           <div th:each="fileName, iterStat : ${dto.fileNames}">
                                               <div th:if="${iterStat.index == 0}">
                                                   <img th:src="|/view_recruit/${fileName}|" class="img-fluid gallery-item">
-                                                  <div class="overlay d-flex flex-column justify-content-center align-items-center">
-                                                      <a class="photo-title" th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a>
-                                                      <p class="photo-text" hidden>[[${dto.recruitId}]]</p>
+                                                  <div class="overlay d-flex flex-column justify-content-center align-items-center text-center gap-1"
+                                                       style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.5rem;">
 
-                                                      <p class="photo-text">[[${dto.reCompany}]]</p>
-                                                      <p class="photo-text">[[${dto.reIndustry}]]</p>
+                                                      <a class="photo-title"
+                                                         th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|"
+                                                         style="font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; transition: color 0.3s ease;">
+                                                          [[${dto.reTitle}]]
+                                                      </a>
+                                                      <div>
+                                                          <span class="photo-text"
+                                                                style="font-size: 1rem; color: #f0f0f0; margin-bottom: 2px;">[[${dto.reCompany}]]</span>
+                                                          <br>
+                                                          <span class="photo-text"
+                                                             style="font-size: 0.9rem; color: #dcdcdc; font-weight: 300; margin-top: 0;">[[${dto.reIndustry}]]</span>
+                                                      </div>
+
                                                   </div>
                                               </div>
                                           </div>
+
                                       </div>
                                   </div>
                               </div>
@@ -65,11 +76,22 @@
                                           <div th:each="fileName, iterStat : ${dto.fileNames}">
                                               <div th:if="${iterStat.index == 0}">
                                                   <img th:src="|/view_recruit/${fileName}|" class="img-fluid gallery-item">
-                                                  <div class="overlay d-flex flex-column justify-content-center align-items-center">
-                                                      <a class="photo-title" th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a>
-                                                      <p class="photo-text" hidden>[[${dto.recruitId}]]</p>
-                                                      <p class="photo-text">[[${dto.reCompany}]]</p>
-                                                      <p class="photo-text">[[${dto.reIndustry}]]</p>
+                                                  <div class="overlay d-flex flex-column justify-content-center align-items-center text-center gap-1"
+                                                       style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.5rem;">
+
+                                                      <a class="photo-title"
+                                                         th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|"
+                                                         style="font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; transition: color 0.3s ease;">
+                                                          [[${dto.reTitle}]]
+                                                      </a>
+                                                      <div>
+                                                          <span class="photo-text"
+                                                                style="font-size: 1rem; color: #f0f0f0; margin-bottom: 2px;">[[${dto.reCompany}]]</span>
+                                                          <br>
+                                                          <span class="photo-text"
+                                                                style="font-size: 0.9rem; color: #dcdcdc; font-weight: 300; margin-top: 0;">[[${dto.reIndustry}]]</span>
+                                                      </div>
+
                                                   </div>
                                               </div>
                                           </div>

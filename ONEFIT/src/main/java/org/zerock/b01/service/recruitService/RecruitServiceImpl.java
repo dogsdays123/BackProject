@@ -14,6 +14,7 @@ import org.zerock.b01.domain.recruit.Recruit_Register_Image;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
+import org.zerock.b01.dto.recruitDTO.RecruitApplyDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitImageDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitListAllDTO;
@@ -44,6 +45,11 @@ public class RecruitServiceImpl implements RecruitService {
         Long recruitId = recruitRepository.save(recruit_register).getRecruitId();
 
         return recruitId;
+    }
+
+    @Override
+    public Long apply(RecruitApplyDTO recruitApplyDTO) {
+        return null;
     }
     @Override
     public Business_MemberDTO readBusinessMember(Long recruitId) {

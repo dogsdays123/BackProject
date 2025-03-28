@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.zerock.b01.domain.trainer.Trainer;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,7 +18,7 @@ public class Recruit_Apply {
     private Long re_apply_id;
 
     @Column(nullable = false)
-    private LocalDate regdate;
+    private LocalDateTime regdate;
 
     @ManyToOne
     @JoinColumn(name = "recruit_id", nullable = false)

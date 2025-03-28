@@ -225,7 +225,6 @@ public class RecruitController {
         return "redirect:/recruit/list";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/remove")
     public String remove(RecruitDTO recruitDTO, Long recruitId, HttpServletResponse response,
                          PageRequestDTO pageRequestDTO, RedirectAttributes redirectAttributes, Model model) throws IOException {
