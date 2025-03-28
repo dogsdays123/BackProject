@@ -36,7 +36,8 @@
                       <div class="carousel-inner" id="announcementItems">
                           <!-- 첫 슬라이드 -->
                           <div class="carousel-item active">
-                              <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">
+                              <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}"
+                                   th:if="${firstSlide.dtoList != null and !#lists.isEmpty(firstSlide.dtoList)}">
                                   <div class="card" th:each="dto : ${firstSlide.dtoList}">
                                       <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">
                                           <div th:each="fileName, iterStat : ${dto.fileNames}">
@@ -69,7 +70,8 @@
 
                           <!-- 두 번째 슬라이드 -->
                           <div class="carousel-item">
-                              <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">
+                              <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}"
+                                   th:if="${secondSlide.dtoList != null and !#lists.isEmpty(secondSlide.dtoList)}">
                                   <div class="card" th:each="dto : ${secondSlide.dtoList}">
                                       <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">
                                           <div th:each="fileName, iterStat : ${dto.fileNames}">
@@ -130,8 +132,9 @@
                 <div class="carousel-inner" id="trainerItems">
                     <!-- 첫 슬라이드 -->
                     <div class="carousel-item active">
-                        <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">
-                            <div class="card" th:each="dto : ${responseDTO.dtoList}">
+                        <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}"
+                             th:if="${firstSlide.dtoList != null and !#lists.isEmpty(firstSlide.dtoList)}">
+                            <div class="card" th:each="dto : ${firstSlide.dtoList}">
                                 <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">
                                     <div th:each="fileName, iterStat : ${dto.fileNames}">
                                         <div th:if="${iterStat.index == 0}">
@@ -150,8 +153,9 @@
 
                     <!-- 두 번째 슬라이드 -->
                     <div class="carousel-item">
-                        <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">
-                            <div class="card" th:each="dto : ${responseDTO.dtoList}">
+                        <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}"
+                             th:if="${secondSlide.dtoList != null and !#lists.isEmpty(secondSlide.dtoList)}">
+                            <div class="card" th:each="dto : ${secondSlide.dtoList}">
                                 <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">
                                     <div th:each="fileName, iterStat : ${dto.fileNames}">
                                         <div th:if="${iterStat.index == 0}">

@@ -158,8 +158,8 @@
                             </button>
                         </div>
                         <div class="mb-2">
-                        <input type="text" id="addressInput" name="reMainAddress" class="form-control" style="width: 350px"  placeholder="대표주소(추가 버튼을 누르면 자동 입력됩니다)">&nbsp;&nbsp;&nbsp;
-                        <input type="text" id="addressDetailInput" name="reDetailAddress" class="form-control" style="width: 300px" placeholder="상세 주소 입력">
+                        <input type="text" id="addressInput" name="reMainAddress" class="form-control" style="width: 350px"  readonly placeholder="대표주소(추가 버튼을 누르면 자동 입력됩니다)">&nbsp;&nbsp;&nbsp;
+                        <input type="text" id="addressDetailInput" name="reDetailAddress" class="form-control" style="width: 300px"  placeholder="상세 주소 입력">
                         </div>
                         <br>
                         <div id="kakaoMap" style="width:920px;height:400px;"></div>
@@ -173,12 +173,12 @@
                         <br>
                         <div class="mb-2">
                             <label class="form-label" style="width: 205px;"><strong><span style="color: red;">*</span>&nbsp;공고제목</strong></label>
-                            <input type="text" name="reTitle" id="recuit-title" class="form-control" maxlength="39" placeholder="공고 제목을 입력해 주세요 (최대 40자 / 예: MIT 휘트니스 오후 정규직 트레이너 모집)">
+                            <input type="text" name="reTitle" id="recuit-title" class="form-control" maxlength="39"  placeholder="공고 제목을 입력해 주세요 (최대 40자 / 예: MIT 휘트니스 오후 정규직 트레이너 모집)">
                             <span id="title-counter" class="counter" style="color:  rgb(253, 93, 93); font-size: 15px;">0/40</span>
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 205px;"><strong><span style="color: red;">*</span>&nbsp;근무회사명</strong></label>
-                            <input type="text" name="reCompany" id="recuit-name" class="form-control" maxlength="19" placeholder="근무 회사명을 입력해 주세요 (최대 20자 / 예: MIT 휘트니스 망포점)">
+                            <input type="text" name="reCompany" id="recuit-name" class="form-control" maxlength="19"  placeholder="근무 회사명을 입력해 주세요 (최대 20자 / 예: MIT 휘트니스 망포점)">
                             <span id="name-counter" class="counter" style="color:  rgb(253, 93, 93); font-size: 15px;">0/20</span>
                         </div>
                         <div class="mb-2">
@@ -191,8 +191,8 @@
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 158px;"><strong><span style="color: red;">*</span>&nbsp;업직종</strong></label>
-                            <select name="reIndustry" class="form-control" style="width: 300px;">
-                                <option value="" selected disabled hidden style="color: #dadada;">업직종을 선택하세요</option>
+                            <select name="reIndustry" class="form-control" style="width: 300px;" >
+                                <option value="" selected disabled hidden style="color: #dadada;" >업직종을 선택하세요</option>
                                 <option value="헬스/PT">헬스/PT</option>
                                 <option value="수영">수영</option>
                                 <option value="댄스">댄스</option>
@@ -225,7 +225,7 @@
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 158px;"><strong><span style="color: red;">*</span>&nbsp;모집인원</strong></label>
-                            <input type="number" name="reNumHiring" class="form-control" style="width: 50px;" maxlength="2">&nbsp;&nbsp;<span>명</span>&nbsp;&nbsp;
+                            <input type="number" name="reNumHiring" class="form-control"  style="width: 50px;" maxlength="2">&nbsp;&nbsp;<span>명</span>&nbsp;&nbsp;
                             <span style="color: rgb(253, 93, 93);">(숫자만 입력)</span>
                         </div>
                         <br>
@@ -237,7 +237,7 @@
                         <br>
                         <div class="mb-2">
                             <label class="form-label" style="width: 170px;"><strong><span style="color: red;">*</span>&nbsp;근무요일</strong></label>
-                            <input type="radio" name="reWorkDays" value="월~금">&nbsp;<label>월~금</label>&nbsp;
+                            <input type="radio" name="reWorkDays" value="월~금" >&nbsp;<label>월~금</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="월~토">&nbsp;<label>월~토</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="월~일">&nbsp;<label>월~일</label>&nbsp;
                             <input type="radio" name="reWorkDays" value="주말(토)">&nbsp;<label>주말(토)</label>&nbsp;
@@ -260,13 +260,13 @@
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;급여</strong></label>
-                            <select class="form-control" name="reSalaryType" style="width: 65px;">
+                            <select class="form-control" name="reSalaryType"  style="width: 65px;">
                                 <option value="일급">일급</option>
                                 <option value="주급">주급</option>
                                 <option selected value="월급">월급</option>
                                 <option value="연봉">연봉</option>
                             </select>
-                            <input type="text" class="form-control" name="reSalaryValue" maxlength="4" style="width: 80px;" placeholder="숫자입력">&nbsp;<span>만원</span>&nbsp;&nbsp;
+                            <input type="text" class="form-control" name="reSalaryValue" maxlength="4" style="width: 80px;"  placeholder="숫자입력">&nbsp;<span>만원</span>&nbsp;&nbsp;
                             <input type="checkbox" class="salary_checkbox" id="check_agreement" name="reSalaryCheckAgree" value="급여협의가능"><label for="check_agreement">&nbsp;협의가능</label>&nbsp;
                             <input type="checkbox" class="salary_checkbox" id="check_meal" name="reSalaryCheckMeal" value="식대지급"><label for="check_meal">&nbsp;식대지급</label>&nbsp;
                             <input type="checkbox" class="salary_checkbox" id="check_on_duty" name="reSalaryCheckDuty" value="당직비지급"><label for="check_on_duty">&nbsp;당직비지급</label>&nbsp;
@@ -295,7 +295,7 @@
                             <input type="radio" name="reAgeType" value="연령무관" id="age_no_limit">&nbsp;<label for="age_no_limit">연령무관</label>&nbsp;&nbsp;&nbsp;
                             <input type="radio" name="reAgeType" value="연령제한" id="age_limit">&nbsp;<label for="age_limit">연령제한 있음</label>&nbsp;
 
-                            <select class="form-control" id="age_min" style="width: 55px;" disabled>
+                            <select class="form-control" id="age_min" style="width: 55px;" disabled >
                                 <option value="" selected disabled hidden style="color: #dadada;"></option>
                                 <option value="16">16</option>
                                 <option value="17">17</option>
@@ -411,7 +411,7 @@
 
                         <div class="mb-2">
                             <label class="form-label" style="width: 155px;"><strong><span style="color: red;">*</span>&nbsp;학력조건</strong></label>
-                            <select class="form-control" name="reEducation" style="width: 200px;">
+                            <select class="form-control" name="reEducation" style="width: 200px;" >
                                 <option value="" selected disabled hidden style="color: #f5f5f5;">학력을 선택해주세요</option>
                                 <option value="고등학교졸업">고등학교졸업</option>
                                 <option value="전문대졸업">전문대졸업</option>
@@ -433,8 +433,8 @@
                         <hr>
                         <br>
                         <div class="mb-2">
-                            <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;모집종료일</strong></label>
-                            <input type="datetime-local" class="form-control" name="reDeadline" style="width: 230px;">
+                            <label class="form-label" style="width: 160px;"><strong><span style="color: red;" >*</span>&nbsp;모집종료일</strong></label>
+                            <input type="datetime-local" class="form-control" name="reDeadline" style="width: 230px;" >
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 160px;"><strong><span style="color: red;">*</span>&nbsp;접수방법</strong></label>
@@ -460,7 +460,7 @@
                                 파일 업로드
                             </label>
 
-                            <input type="file" name="mainFiles" class="form-control" id="fileInput" style="display: none;" accept="image/*">
+                            <input type="file" name="mainFiles" class="form-control" id="fileInput" style="display: none;" accept="image/*" >
                             &nbsp;&nbsp;
 
                             <button type="button" class="btn btn-primary uploadMainBtn">저장</button>
@@ -506,21 +506,21 @@
                         <br>
                         <div class="mb-2">
                             <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;담당자명</strong></label>
-                            <input type="text" class="form-control" name="reAdminName" style="width: 100px;">
+                            <input type="text" class="form-control" name="reAdminName" style="width: 100px;" >
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;이메일</strong></label>
                             <input type="text" class="form-control" id="email_local" style="width: 150px;">&nbsp;@&nbsp;
                             <input type="text" class="form-control" id="email_custom" style="width: 150px;">
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="hidden" class="form-control" id="email_output" name="reAdminEmail" style="width: 400px;" readonly>
+                            <input type="hidden" class="form-control" id="email_output" name="reAdminEmail" style="width: 400px;" readonly >
                         </div>
                         <div class="mb-2">
                             <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;연락처</strong></label>
                             <input type="text" maxlength="3" class="form-control" id="phone_first" style="width: 60px;">&nbsp;-&nbsp;
                             <input type="text" maxlength="4" class="form-control" id="phone_mid" style="width: 70px">&nbsp;-&nbsp;
                             <input type="text" maxlength="4" class="form-control" id="phone_last" style="width: 70px">&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="hidden" class="form-control" id="phone_output" name="reAdminPhone" style="width: 200px" readonly>
+                            <input type="hidden" class="form-control" id="phone_output" name="reAdminPhone" style="width: 200px" readonly >
                         </div>
                         <!--                        <div class="mb-2">-->
                         <!--                            <label class="form-label" style="width: 133px;"><strong><span style="color: red;">*</span>&nbsp;bid</strong></label>-->
@@ -620,18 +620,18 @@
                     <form id="registerForm" name="registerForm" action="/join" method="post">
                         <div class="mb-3">
                             <label for="name" class="form-label">이름</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="홍길동" required>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="홍길동" >
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">이메일</label>
                             <input type="email" class="form-control" name="email" id="email" placeholder="ex) email@onefit.com"
-                                   required>
+                                   >
                         </div>
                         <div class="mb-3">
                             <label for="allId" class="form-label">아이디</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" name="allId" id="allId"
-                                       placeholder="3자 이상, 16자 이하의 영어 또는 숫자로 구성" required>
+                                       placeholder="3자 이상, 16자 이하의 영어 또는 숫자로 구성" >
                                 <button class="btn btn-outline-primary" type="button" id="check-username">
                                     중복 확인
                                 </button>
@@ -643,12 +643,12 @@
                         <div class="mb-3">
                             <label for="aPsw" class="form-label">비밀번호</label>
                             <input type="password" class="form-control" id="aPsw"
-                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
+                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" >
                         </div>
                         <div class="mb-3">
                             <label for="aPswCheck" class="form-label">비밀번호 확인</label>
                             <input type="password" class="form-control" name="aPsw" id="aPswCheck"
-                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
+                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" >
                             <!-- 비밀번호 확인 메시지 출력 공간 -->
                             <!-- <div id="password-feedback" class="mt-1 input-feedback text-danger">비밀번호가 일치하지 않습니다.</div> -->
                             <div id="password-feedback" class="mt-1 input-feedback text-success">비밀번호가 일치합니다.</div>
@@ -656,7 +656,7 @@
                         <div class="mb-3">
                             <label for="aPhone" class="form-label">전화번호</label>
                             <input type="tel" class="form-control" name="aPhone" id="aPhone" placeholder="ex) 010-1234-5678"
-                                   required>
+                                   >
                         </div>
                         <input type="hidden" name="memberType" value="default">
                         <button type="submit" class="btn btn-success w-100 modal-btn"
@@ -863,13 +863,13 @@
         for (let i = 0; i < errors.length; i++) {
             errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
         }
-        alert(errorMsg)
+        alert("필수입력 항목을 입력해주세요.")
     }
 
     const result = [[${result}]]
 
     if (result) {
-        alert(result)
+        alert("필수입력 항목을 입력해주세요.")
     }
 </script>
 </body>
