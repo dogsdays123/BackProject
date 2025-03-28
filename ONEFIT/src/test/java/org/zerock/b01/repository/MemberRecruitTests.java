@@ -5,13 +5,18 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.member.Business_Member;
+import org.zerock.b01.domain.member.MemberRole;
 import org.zerock.b01.domain.recruit.Recruit_Register;
+import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.repository.boardRepository.NoticeBoardRepository;
 import org.zerock.b01.repository.recruitRepository.RecruitRepository;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
+import org.zerock.b01.service.recruitService.RecruitService;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +26,11 @@ public class MemberRecruitTests {
 
     @Autowired
     private All_MemberService all_MemberService;
+    @Autowired
+    private All_MemberRepository all_MemberRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
     private Member_Set_Type_Service member_Set_Type_Service;
     @Autowired
@@ -63,6 +73,20 @@ public class MemberRecruitTests {
 
     @Test
     public void testAdmin(){
+        All_Member am = All_Member.builder()
+                .allId("test")
+                .name("test")
+                .email("test@test.com")
+                .aPsw("1234")
+                .aPhone("123456789")
+                .memberType("default")
+                .del(false)
+                .aSocial(false)
+                .build();
 
+        am.changeAPsw(passwordEncoder.encode(am.getAPsw()));
+        am.addRole(MemberRole.ADMIN);
+
+        all_MemberRepository.save(am);
     }
 }
