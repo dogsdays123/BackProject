@@ -31,155 +31,154 @@
                       <h2>채용 소식</h2>
                       <a href="/recruit/list" style="text-decoration: none; color: black;">전체보기 ></a>
                   </div>
+                  
+                  <div id="announcementCarousel" class="carousel slide" data-ride="carousel">
+                      <div class="carousel-inner" id="announcementItems">
+                          <!-- 첫 슬라이드 -->
+                          <div class="carousel-item active">
+                              <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">
+                                  <div class="card" th:each="dto : ${firstSlide.dtoList}">
+                                      <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">
+                                          <div th:each="fileName, iterStat : ${dto.fileNames}">
+                                              <div th:if="${iterStat.index == 0}">
+                                                  <img th:src="|/view_recruit/${fileName}|" class="img-fluid gallery-item">
+                                                  <div class="overlay d-flex flex-column justify-content-center align-items-center text-center gap-1"
+                                                       style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.5rem;">
 
-                  <!-- 캐러셀 -->
-<!--                  <div id="announcementCarousel" class="carousel slide" data-ride="carousel">-->
-<!--                      <div class="carousel-inner" id="announcementItems">-->
-<!--                          &lt;!&ndash; 첫 슬라이드 &ndash;&gt;-->
-<!--                          <div class="carousel-item active">-->
-<!--                              <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">-->
-<!--                                  <div class="card" th:each="dto : ${firstSlide.dtoList}">-->
-<!--                                      <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">-->
-<!--                                          <div th:each="fileName, iterStat : ${dto.fileNames}">-->
-<!--                                              <div th:if="${iterStat.index == 0}">-->
-<!--                                                  <img th:src="|/view_recruit/${fileName}|" class="img-fluid gallery-item">-->
-<!--                                                  <div class="overlay d-flex flex-column justify-content-center align-items-center text-center gap-1"-->
-<!--                                                       style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.5rem;">-->
+                                                      <a class="photo-title"
+                                                         th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|"
+                                                         style="font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; transition: color 0.3s ease;">
+                                                          [[${dto.reTitle}]]
+                                                      </a>
+                                                      <div>
+                                                          <span class="photo-text"
+                                                                style="font-size: 1rem; color: #f0f0f0; margin-bottom: 2px;">[[${dto.reCompany}]]</span>
+                                                          <br>
+                                                          <span class="photo-text"
+                                                             style="font-size: 0.9rem; color: #dcdcdc; font-weight: 300; margin-top: 0;">[[${dto.reIndustry}]]</span>
+                                                      </div>
 
-<!--                                                      <a class="photo-title"-->
-<!--                                                         th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|"-->
-<!--                                                         style="font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; transition: color 0.3s ease;">-->
-<!--                                                          [[${dto.reTitle}]]-->
-<!--                                                      </a>-->
-<!--                                                      <div>-->
-<!--                                                          <span class="photo-text"-->
-<!--                                                                style="font-size: 1rem; color: #f0f0f0; margin-bottom: 2px;">[[${dto.reCompany}]]</span>-->
-<!--                                                          <br>-->
-<!--                                                          <span class="photo-text"-->
-<!--                                                             style="font-size: 0.9rem; color: #dcdcdc; font-weight: 300; margin-top: 0;">[[${dto.reIndustry}]]</span>-->
-<!--                                                      </div>-->
+                                                  </div>
+                                              </div>
+                                          </div>
 
-<!--                                                  </div>-->
-<!--                                              </div>-->
-<!--                                          </div>-->
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
 
-<!--                                      </div>-->
-<!--                                  </div>-->
-<!--                              </div>-->
-<!--                          </div>-->
+                          <!-- 두 번째 슬라이드 -->
+                          <div class="carousel-item">
+                              <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">
+                                  <div class="card" th:each="dto : ${secondSlide.dtoList}">
+                                      <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">
+                                          <div th:each="fileName, iterStat : ${dto.fileNames}">
+                                              <div th:if="${iterStat.index == 0}">
+                                                  <img th:src="|/view_recruit/${fileName}|" class="img-fluid gallery-item">
+                                                  <div class="overlay d-flex flex-column justify-content-center align-items-center text-center gap-1"
+                                                       style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.5rem;">
 
-<!--                          &lt;!&ndash; 두 번째 슬라이드 &ndash;&gt;-->
-<!--                          <div class="carousel-item">-->
-<!--                              <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">-->
-<!--                                  <div class="card" th:each="dto : ${secondSlide.dtoList}">-->
-<!--                                      <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">-->
-<!--                                          <div th:each="fileName, iterStat : ${dto.fileNames}">-->
-<!--                                              <div th:if="${iterStat.index == 0}">-->
-<!--                                                  <img th:src="|/view_recruit/${fileName}|" class="img-fluid gallery-item">-->
-<!--                                                  <div class="overlay d-flex flex-column justify-content-center align-items-center text-center gap-1"-->
-<!--                                                       style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.5rem;">-->
+                                                      <a class="photo-title"
+                                                         th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|"
+                                                         style="font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; transition: color 0.3s ease;">
+                                                          [[${dto.reTitle}]]
+                                                      </a>
+                                                      <div>
+                                                          <span class="photo-text"
+                                                                style="font-size: 1rem; color: #f0f0f0; margin-bottom: 2px;">[[${dto.reCompany}]]</span>
+                                                          <br>
+                                                          <span class="photo-text"
+                                                                style="font-size: 0.9rem; color: #dcdcdc; font-weight: 300; margin-top: 0;">[[${dto.reIndustry}]]</span>
+                                                      </div>
 
-<!--                                                      <a class="photo-title"-->
-<!--                                                         th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|"-->
-<!--                                                         style="font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; transition: color 0.3s ease;">-->
-<!--                                                          [[${dto.reTitle}]]-->
-<!--                                                      </a>-->
-<!--                                                      <div>-->
-<!--                                                          <span class="photo-text"-->
-<!--                                                                style="font-size: 1rem; color: #f0f0f0; margin-bottom: 2px;">[[${dto.reCompany}]]</span>-->
-<!--                                                          <br>-->
-<!--                                                          <span class="photo-text"-->
-<!--                                                                style="font-size: 0.9rem; color: #dcdcdc; font-weight: 300; margin-top: 0;">[[${dto.reIndustry}]]</span>-->
-<!--                                                      </div>-->
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
 
-<!--                                                  </div>-->
-<!--                                              </div>-->
-<!--                                          </div>-->
-<!--                                      </div>-->
-<!--                                  </div>-->
-<!--                              </div>-->
-<!--                          </div>-->
-<!--                      </div>-->
-
-<!--                      &lt;!&ndash; 캐러셀 버튼 &ndash;&gt;-->
-<!--                      <a class="carousel-control-prev" href="#announcementCarousel" role="button" data-slide="prev">-->
-<!--                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                          <span class="sr-only">이전</span>-->
-<!--                      </a>-->
-<!--                      <a class="carousel-control-next" href="#announcementCarousel" role="button" data-slide="next">-->
-<!--                          <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                          <span class="sr-only">다음</span>-->
-<!--                      </a>-->
-<!--                  </div>-->
-<!--              </div>-->
+                      <!-- 캐러셀 버튼 -->
+                      <a class="carousel-control-prev" href="#announcementCarousel" role="button" data-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="sr-only">이전</span>
+                      </a>
+                      <a class="carousel-control-next" href="#announcementCarousel" role="button" data-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="sr-only">다음</span>
+                      </a>
+                  </div>
+              </div>
 
 
-<!--              <br>-->
-<!--              <br>-->
-<!--              <br>-->
-<!--        </div>-->
-<!--        <hr>-->
-<!--        <div class="container mt-5">-->
-<!--            &lt;!&ndash; 헤더 &ndash;&gt;-->
-<!--            <div class="d-flex align-items-center justify-content-between mb-3">-->
-<!--                <h2>강사 소식</h2>-->
-<!--                <a href="/trainer/trainer_list" style="text-decoration: none; color: black;">전체보기 ></a>-->
-<!--            </div>-->
+              <br>
+              <br>
+              <br>
+        </div>
+        <hr>
+        <div class="container mt-5">
+            <!-- 헤더 -->
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2>강사 소식</h2>
+                <a href="/trainer/trainer_list" style="text-decoration: none; color: black;">전체보기 ></a>
+            </div>
 
-<!--            &lt;!&ndash; 캐러셀 &ndash;&gt;-->
-<!--            <div id="trainerCarousel" class="carousel slide" data-ride="carousel">-->
-<!--                <div class="carousel-inner" id="trainerItems">-->
-<!--                    &lt;!&ndash; 첫 슬라이드 &ndash;&gt;-->
-<!--                    <div class="carousel-item active">-->
-<!--                        <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">-->
-<!--                            <div class="card" th:each="dto : ${responseDTO.dtoList}">-->
-<!--                                <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">-->
-<!--                                    <div th:each="fileName, iterStat : ${dto.fileNames}">-->
-<!--                                        <div th:if="${iterStat.index == 0}">-->
-<!--                                            <img th:src="|/view_recruit/${fileName}|" class="img-fluid gallery-item">-->
-<!--                                            <div class="overlay d-flex flex-column justify-content-center align-items-center">-->
-<!--                                                <a class="photo-title" th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a>-->
-<!--                                                <p class="photo-text" hidden>[[${dto.recruitId}]]</p>-->
-<!--                                                <p class="photo-text">[[${dto.reCompany}]]</p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+            <!-- 캐러셀 -->
+            <div id="trainerCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" id="trainerItems">
+                    <!-- 첫 슬라이드 -->
+                    <div class="carousel-item active">
+                        <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">
+                            <div class="card" th:each="dto : ${responseDTO.dtoList}">
+                                <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">
+                                    <div th:each="fileName, iterStat : ${dto.fileNames}">
+                                        <div th:if="${iterStat.index == 0}">
+                                            <img th:src="|/view_recruit/${fileName}|" class="img-fluid gallery-item">
+                                            <div class="overlay d-flex flex-column justify-content-center align-items-center">
+                                                <a class="photo-title" th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a>
+                                                <p class="photo-text" hidden>[[${dto.recruitId}]]</p>
+                                                <p class="photo-text">[[${dto.reCompany}]]</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<!--                    &lt;!&ndash; 두 번째 슬라이드 &ndash;&gt;-->
-<!--                    <div class="carousel-item">-->
-<!--                        <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">-->
-<!--                            <div class="card" th:each="dto : ${responseDTO.dtoList}">-->
-<!--                                <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">-->
-<!--                                    <div th:each="fileName, iterStat : ${dto.fileNames}">-->
-<!--                                        <div th:if="${iterStat.index == 0}">-->
-<!--                                            <img th:src="|/view_recruit/${fileName}|" class="img-fluid gallery-item">-->
-<!--                                            <div class="overlay d-flex flex-column justify-content-center align-items-center">-->
-<!--                                                <a class="photo-title" th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a>-->
-<!--                                                <p class="photo-text" hidden>[[${dto.recruitId}]]</p>-->
-<!--                                                <p class="photo-text">[[${dto.reCompany}]]</p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                    <!-- 두 번째 슬라이드 -->
+                    <div class="carousel-item">
+                        <div class="card-deck" th:with="link = ${pageRequestDTO.getLink()}">
+                            <div class="card" th:each="dto : ${responseDTO.dtoList}">
+                                <div class="photo-card" th:if="${dto.fileNames != null and !#lists.isEmpty(dto.fileNames)}">
+                                    <div th:each="fileName, iterStat : ${dto.fileNames}">
+                                        <div th:if="${iterStat.index == 0}">
+                                            <img th:src="|/view_recruit/${fileName}|" class="img-fluid gallery-item">
+                                            <div class="overlay d-flex flex-column justify-content-center align-items-center">
+                                                <a class="photo-title" th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a>
+                                                <p class="photo-text" hidden>[[${dto.recruitId}]]</p>
+                                                <p class="photo-text">[[${dto.reCompany}]]</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<!--                &lt;!&ndash; 캐러셀 컨트롤 &ndash;&gt;-->
-<!--                <a class="carousel-control-prev" href="#trainerCarousel" role="button" data-slide="prev">-->
-<!--                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                    <span class="sr-only">이전</span>-->
-<!--                </a>-->
-<!--                <a class="carousel-control-next" href="#trainerCarousel" role="button" data-slide="next">-->
-<!--                    <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                    <span class="sr-only">다음</span>-->
-<!--                </a>-->
-<!--            </div>-->
+                <!-- 캐러셀 컨트롤 -->
+                <a class="carousel-control-prev" href="#trainerCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">이전</span>
+                </a>
+                <a class="carousel-control-next" href="#trainerCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">다음</span>
+                </a>
+            </div>
         </div>
         <br>
         <br>

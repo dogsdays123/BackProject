@@ -115,43 +115,43 @@ public class MainController {
     @GetMapping("/main")
     public void main(Long recruitId, RecruitDTO recruitDTO, PageRequestDTO pageRequestDTO, Model model) {
 
-//        PageResponseDTO<RecruitDTO> responseDTO = recruitService.list1(pageRequestDTO);
-//        List<RecruitDTO> limitedList = responseDTO.getDtoList().stream()
-//                .limit(8)  // 처음 8개 항목만 가져옵니다.
-//                .collect(Collectors.toList());
-//
-//        List<RecruitDTO> firstSlide = limitedList.stream()
-//                .limit(4)
-//                .collect(Collectors.toList());
-//
-//        // 5~8번째
-//        List<RecruitDTO> secondSlide = limitedList.stream()
-//                .skip(4)
-//                .limit(4)
-//                .collect(Collectors.toList());
-//
-//
-//        PageResponseDTO<RecruitDTO> firstSlideResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
-//                .pageRequestDTO(pageRequestDTO)
-//                .dtoList(firstSlide)
-//                .total(firstSlide.size())  // 8개로 제한된 수
-//                .build();
-//        PageResponseDTO<RecruitDTO> secondSlideResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
-//                .pageRequestDTO(pageRequestDTO)
-//                .dtoList(secondSlide)
-//                .total(secondSlide.size())  // 8개로 제한된 수
-//                .build();
-//
-//        // 수정된 리스트로 새로운 PageResponseDTO 생성
-//        PageResponseDTO<RecruitDTO> limitedResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
-//                .pageRequestDTO(pageRequestDTO)
-//                .dtoList(limitedList)
-//                .total(limitedList.size())  // 8개로 제한된 수
-//                .build();
-//
-//        model.addAttribute("firstSlide", firstSlideResponseDTO);
-//        model.addAttribute("secondSlide", secondSlideResponseDTO);
-//        model.addAttribute("responseDTO", limitedResponseDTO);
+        PageResponseDTO<RecruitDTO> responseDTO = recruitService.list1(pageRequestDTO);
+        List<RecruitDTO> limitedList = responseDTO.getDtoList().stream()
+                .limit(8)  // 처음 8개 항목만 가져옵니다.
+                .collect(Collectors.toList());
+
+        List<RecruitDTO> firstSlide = limitedList.stream()
+                .limit(4)
+                .collect(Collectors.toList());
+
+        // 5~8번째
+        List<RecruitDTO> secondSlide = limitedList.stream()
+                .skip(4)
+                .limit(4)
+                .collect(Collectors.toList());
+
+
+        PageResponseDTO<RecruitDTO> firstSlideResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(firstSlide)
+                .total(firstSlide.size())  // 8개로 제한된 수
+                .build();
+        PageResponseDTO<RecruitDTO> secondSlideResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(secondSlide)
+                .total(secondSlide.size())  // 8개로 제한된 수
+                .build();
+
+        // 수정된 리스트로 새로운 PageResponseDTO 생성
+        PageResponseDTO<RecruitDTO> limitedResponseDTO = PageResponseDTO.<RecruitDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(limitedList)
+                .total(limitedList.size())  // 8개로 제한된 수
+                .build();
+
+        model.addAttribute("firstSlide", firstSlideResponseDTO);
+        model.addAttribute("secondSlide", secondSlideResponseDTO);
+        model.addAttribute("responseDTO", limitedResponseDTO);
 
 
     }
