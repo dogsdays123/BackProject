@@ -16,7 +16,7 @@
                 <th style="width: 10%;">조회수</th>
             </tr>
             </thead>
-            <tbody id="noticeTable" th:if="${a llBoardDTO != null}">
+            <tbody id="noticeTable" th:if="${allBoardDTO != null}">
               <tr th:each="allBoardDTO : ${allBoardDTO}">
                   <tr th:each="noticeDTO : ${allBoardDTO.noticeBoardDTO}">
                   <td>
