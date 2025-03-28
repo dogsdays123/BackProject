@@ -36,10 +36,11 @@ public interface All_MemberRepository extends JpaRepository<All_Member, String> 
     @Query("select am from All_Member am")
     List<All_Member> getAllMembers();
 
-    //설정해야함 service도 같이
     @Query("select n from Notice_Board n where n.allMember.allId =:allId")
     List<Notice_Board> findNoticeForAllId(String allId);
 
     @Query("select q from Qna_Board q where q.allMember.allId =:allId")
     List<Qna_Board> findQnaForAllId(String allId);
+
+    //List<Notice_Board> findNoticeForAllId(String allId);
 }

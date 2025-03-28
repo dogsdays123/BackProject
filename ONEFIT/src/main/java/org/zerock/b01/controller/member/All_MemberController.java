@@ -145,6 +145,7 @@ public class All_MemberController {
     @GetMapping("/my_board")
     public void my_board(All_MemberDTO all_memberDTO, Model model) {
         log.info("my_board");
+      
         if(all_memberDTO !=null) {
             AllBoardSearchDTO allBoard = all_memberService.boardReadForAllMember(all_memberDTO.getAllId());
             model.addAttribute("allBoardDTO", allBoard);
