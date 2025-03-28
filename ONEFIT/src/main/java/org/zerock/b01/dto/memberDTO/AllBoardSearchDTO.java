@@ -1,8 +1,8 @@
 package org.zerock.b01.dto.memberDTO;
 
 import lombok.*;
-import org.zerock.b01.domain.board.Notice_Board;
-import org.zerock.b01.domain.board.Qna_Board;
+import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
+import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
 
 import java.util.List;
 
@@ -13,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AllBoardSearchDTO {
-    private List<Notice_Board> noticeBoard;
-    private List<Qna_Board> qnaBoard;
+    private List<NoticeBoardDTO> noticeBoardDTO;
+    private List<QnaBoardDTO> qnaBoardDTO;
 }

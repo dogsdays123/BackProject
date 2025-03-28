@@ -126,26 +126,26 @@ public class All_MemberServiceImpl implements All_MemberService {
         if (resultN.isEmpty() && resultQ.isEmpty()) {
             return null;
         } else if (!resultN.isEmpty() && resultQ.isEmpty()) {
-            allBoardSearchDTO.setNoticeBoard(findNoticeBoard(resultN));
+            allBoardSearchDTO.setNoticeBoardDTO(findNoticeBoard(resultN));
         } else if (!resultQ.isEmpty() && resultN.isEmpty()) {
-            allBoardSearchDTO.setQnaBoard(findQnaBoard(resultQ));
+            allBoardSearchDTO.setQnaBoardDTO(findQnaBoard(resultQ));
         } else {
-            allBoardSearchDTO.setNoticeBoard(findNoticeBoard(resultN));
-            allBoardSearchDTO.setQnaBoard(findQnaBoard(resultQ));
+            allBoardSearchDTO.setNoticeBoardDTO(findNoticeBoard(resultN));
+            allBoardSearchDTO.setQnaBoardDTO(findQnaBoard(resultQ));
         }
 
         return allBoardSearchDTO;
     }
 
-    public List<Notice_Board> findNoticeBoard(List<Notice_Board> result) {
+    public List<NoticeBoardDTO> findNoticeBoard(List<Notice_Board> result) {
         return result.stream()
-                .map(noticeBoard -> modelMapper.map(noticeBoard, Notice_Board.class))
+                .map(noticeBoard -> modelMapper.map(noticeBoard, NoticeBoardDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public List<Qna_Board> findQnaBoard(List<Qna_Board> result) {
+    public List<QnaBoardDTO> findQnaBoard(List<Qna_Board> result) {
         return result.stream()
-                .map(qnaBoard -> modelMapper.map(qnaBoard, Qna_Board.class))
+                .map(qnaBoard -> modelMapper.map(qnaBoard, QnaBoardDTO.class))
                 .collect(Collectors.toList());
     }
 }
