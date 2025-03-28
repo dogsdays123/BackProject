@@ -21,10 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
-import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
-import org.zerock.b01.dto.memberDTO.Business_Member_DataDTO;
-import org.zerock.b01.dto.memberDTO.MemberDataDTO;
-import org.zerock.b01.dto.memberDTO.User_MemberDTO;
+import org.zerock.b01.dto.memberDTO.*;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
@@ -148,7 +145,25 @@ public class All_MemberController {
     @GetMapping("/my_board")
     public void my_board(All_MemberDTO all_memberDTO, Model model) {
         log.info("my_board");
+      
         if(all_memberDTO !=null) {
+            AllBoardSearchDTO allBoard = all_memberService.boardReadForAllMember(all_memberDTO.getAllId());
+            model.addAttribute("allBoardDTO", allBoard);
+            if(allBoard.getNoticeBoardDTO().isEmpty() && allBoard.getQnaBoardDTO().isEmpty()) {
+                model.addAttribute("noticeBoardDTO", allBoard.getNoticeBoardDTO());
+                model.addAttribute("qnaBoardDTO", allBoard.getQnaBoardDTO());
+            } else if (allBoard.getNoticeBoardDTO().isEmpty()) {
+                model.addAttribute("noticeBoardDTO", null);
+                model.addAttribute("qnaBoardDTO", allBoard.getQnaBoardDTO());
+            } else if (allBoard.getQnaBoardDTO().isEmpty()){
+                model.addAttribute("noticeBoardDTO", allBoard.getNoticeBoardDTO());
+                model.addAttribute("qnaBoardDTO", null);
+            } else {
+                model.addAttribute("noticeBoardDTO", null);
+                model.addAttribute("qnaBoardDTO", null);
+            }
+
+            log.info("board####" + allBoard);
         }
     }
 

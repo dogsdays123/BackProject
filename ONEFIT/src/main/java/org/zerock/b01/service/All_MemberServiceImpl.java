@@ -7,8 +7,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.board.Notice_Board;
+import org.zerock.b01.domain.board.Qna_Board;
 import org.zerock.b01.domain.member.MemberRole;
 import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
+import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
+import org.zerock.b01.dto.memberDTO.AllBoardSearchDTO;
 import org.zerock.b01.repository.All_MemberRepository;
 
 import java.util.Collections;
@@ -109,5 +114,38 @@ public class All_MemberServiceImpl implements All_MemberService {
         List<All_MemberDTO> all_MemberDTOList = result.stream()
                 .map(allMember -> modelMapper.map(allMember, All_MemberDTO.class)).collect(Collectors.toList());
         return all_MemberDTOList;
+    }
+
+    @Override
+    public AllBoardSearchDTO boardReadForAllMember(String allId) {
+        List<Notice_Board> resultN = all_MemberRepository.findNoticeForAllId(allId);
+        List<Qna_Board> resultQ = all_MemberRepository.findQnaForAllId(allId);
+
+        AllBoardSearchDTO allBoardSearchDTO = new AllBoardSearchDTO();
+
+        if (resultN.isEmpty() && resultQ.isEmpty()) {
+            return null;
+        } else if (!resultN.isEmpty() && resultQ.isEmpty()) {
+            allBoardSearchDTO.setNoticeBoardDTO(findNoticeBoard(resultN));
+        } else if (!resultQ.isEmpty() && resultN.isEmpty()) {
+            allBoardSearchDTO.setQnaBoardDTO(findQnaBoard(resultQ));
+        } else {
+            allBoardSearchDTO.setNoticeBoardDTO(findNoticeBoard(resultN));
+            allBoardSearchDTO.setQnaBoardDTO(findQnaBoard(resultQ));
+        }
+
+        return allBoardSearchDTO;
+    }
+
+    public List<NoticeBoardDTO> findNoticeBoard(List<Notice_Board> result) {
+        return result.stream()
+                .map(noticeBoard -> modelMapper.map(noticeBoard, NoticeBoardDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<QnaBoardDTO> findQnaBoard(List<Qna_Board> result) {
+        return result.stream()
+                .map(qnaBoard -> modelMapper.map(qnaBoard, QnaBoardDTO.class))
+                .collect(Collectors.toList());
     }
 }
