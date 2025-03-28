@@ -1,6 +1,8 @@
 package org.zerock.b01.service.memberService;
 
 import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
+import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
