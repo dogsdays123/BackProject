@@ -147,7 +147,7 @@
                     str += `<li class="list-group-item d-flex replyItem">
                   <input type="hidden" class="col-2" th:text="${dto.replyId}">
                   <span class="col-6" data-replyId="${dto.replyId}">${dto.replyText}</span>
-                  <span class="col-2">${dto.allMember}</span>
+                  <span class="col-2">${dto.allId}</span>
                   <span class="col-2">${dto.regDate}</span>
                 </li>`
                 }
@@ -212,6 +212,7 @@
                 replyText: replyText.value,
                 allId : allId.value
             }
+            console.log(replyObj)
             addBoardReply(replyObj).then(result => {
                 alert(result.replyId);
 

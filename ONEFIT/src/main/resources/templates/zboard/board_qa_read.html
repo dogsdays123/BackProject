@@ -127,7 +127,7 @@
     </div>
     <script layout:fragment="script" layout:inline="javascript">
 
-        const noticeId = [[${dto.noticeId}]]
+        const qnaId = [[${dto.qnaId}]]
 
         const replyList = document.querySelector('.replyList') //댓글 목록 DOM
         const replyPaging = document.querySelector('.replyPaging') //페이지 목록DOM
@@ -175,7 +175,7 @@
         }
 
         function printReplies(page, size, goLast) {
-            getNoticeList({noticeId, page, size, goLast})
+            getqnaList({qnaId, page, size, goLast})
                 .then(data => {
                     printList(data.dtoList)
                     printPages(data)
@@ -206,7 +206,7 @@
 
         registerBtn.addEventListener("click",function (e){
             const replyObj = {
-                noticeId:noticeId,
+                qnaId:qnaId,
                 replyText: replyText.value,
                 allId : allId.value
             }
@@ -293,7 +293,7 @@
             }
 
             const replyObj = {
-                noticeId: noticeId,
+                qnaId: qnaId,
                 replyId: replyHeader.innerHTML,
                 replyText: modifyText.value
             }

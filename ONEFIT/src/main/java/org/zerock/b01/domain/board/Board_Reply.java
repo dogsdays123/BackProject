@@ -23,7 +23,7 @@ public class Board_Reply extends BaseEntity {
     private String replyText;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "all_member_all_id", nullable = false)
+    @JoinColumn(name = "all_id", nullable = false)
     private All_Member allMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
