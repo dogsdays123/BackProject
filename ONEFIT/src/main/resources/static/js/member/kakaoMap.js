@@ -185,7 +185,10 @@ kakao.maps.load(() => {
                     const address = data.documents[0].road_address ? data.documents[0].road_address.address_name : data.documents[0].address.address_name;
                     console.log('주소:', address);
                     alert('주소: ' + address);
-                    document.getElementById('addressInput').value = address;
+                    // document.getElementById('addressInput').value = address;
+                    let addressInput = $("#addressInput"); //
+                    addressInput.val(address); //
+                    addressInput.trigger("input"); //
                 } else {
                     alert('주소를 찾을 수 없습니다.');
                 }

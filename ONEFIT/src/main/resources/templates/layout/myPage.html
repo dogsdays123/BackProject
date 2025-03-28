@@ -27,9 +27,28 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/member/my_board"><i class="fas fa-file-alt"></i> 내가 작성한
-                                    게시글</a>
+                                <a class="nav-link collapsed d-flex justify-content-between" href="#"
+                                   data-bs-toggle="collapse"
+                                   data-bs-target="#myPostsMenu">
+                                    <span><i class="fas fa-file-alt"></i> 내가 작성한 게시글</span>
+                                    <i class="fas fa-chevron-down ps-2"></i>
+                                </a>
+                                <!-- 변경 메뉴 start -->
+                                <div id="myPostsMenu" class="collapse">
+                                    <ul class="nav flex-column ms-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/member/my_board"><i class="fas fa-question-circle"></i> Q&A</a>
+                                        </li>
+                                        <li class="nav-item" th:if="${all_memberDTO.memberType != 'default'}">
+                                            <a class="nav-link" th:href="@{/transaction/transa_list(allId=${all_memberDTO.allId})}"><i class="fas fa-exchange-alt"></i> 거래</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/transaction/transa_list(allId=${all_memberDTO.allId}, interested=true)}"><i class="fa-regular fa-heart"></i> 관심상품</a>
+                            </li>
+                            <!-- 변경 메뉴 end -->
                         </ul>
                     </li>
 
@@ -39,24 +58,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" th:href="|@{/member/my_user_page(allId =${all_memberDTO.allId})}|"><i class="fas fa-id-card"></i> 내 이력서 보기</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link collapsed d-flex justify-content-between" href="#"
-                                   data-bs-toggle="collapse"
-                                   data-bs-target="#tradeMenu2">
-                                    <span><i class="fas fa-exchange-alt"></i> 거래</span>
-                                    <i class="fas fa-chevron-down"></i>
-                                </a>
-                                <div id="tradeMenu2" class="collapse">
-                                    <ul class="nav flex-column ms-3">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><i class="fas fa-cogs"></i> 기구</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><i class="fas fa-building"></i> 시설</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+
                         </ul>
                     </li>
 
