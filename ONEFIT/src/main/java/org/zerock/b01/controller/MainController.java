@@ -19,10 +19,14 @@ import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerPageRequestDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerPageResponseDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 import org.zerock.b01.service.recruitService.RecruitService;
+import org.zerock.b01.service.trainerService.TrainerService;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -39,6 +43,7 @@ public class MainController {
 
     private final All_MemberService all_memberService;
     private final Member_Set_Type_Service member_Set_Type_Service;
+    private final TrainerService trainerService;
 
     @ModelAttribute
     public void Profile(All_MemberDTO all_memberDTO, Model model, Authentication authentication, HttpServletRequest request) {
@@ -120,6 +125,14 @@ public class MainController {
     @GetMapping("/main")
     public void main() {
         log.info("main");
+    }
+
+    // 병합 시 충돌을 막기 위해 먼저 따로 만들었습니다.
+    @GetMapping("/main2")
+    public void main2(TrainerPageRequestDTO trainerPageRequestDTO, Model model) {
+        log.info("main2");
+        TrainerPageResponseDTO<TrainerViewDTO> trainerPageResponseDTO = trainerService.list(trainerPageRequestDTO);
+        model.addAttribute("trainerPage", trainerPageResponseDTO);
     }
 
     @GetMapping("/login")
