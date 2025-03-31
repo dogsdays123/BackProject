@@ -18,7 +18,7 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="proposal-tab" data-bs-toggle="tab" href="#proposal" role="tab"
                    aria-controls="proposal" aria-selected="false">
-                    <i class="fas fa-bell"></i> 공사중
+                    <i class="fas fa-bell"></i> 이력서 지원 현황
                 </a>
             </li>
         </ul>
@@ -44,14 +44,9 @@
                                 </div>
                                 <div class="card-body d-flex align-items-center">
                                     <div>
-                                        <p><strong>기업이름:</strong> <span th:text="${recruits.recruitId}"></span></p>
-                                        <p><strong>대표자:</strong> <span th:text="${recruits.recruitId}"></span></p>
-                                        <p><strong>사업자번호:</strong> <span th:text="${recruits.recruitId}"></span></p>
-                                        <p><strong>설립일:</strong> <span th:text="${#temporals.format(recruits.reDeadline, 'yyyy-MM-dd')}"></span></p>
-                                        <p><strong>이메일:</strong> <span th:text="${recruits.recruitId}"></span></p>
-                                        <p><strong>주소:</strong> <span th:text="${recruits.recruitId}"></span><br>
-                                        <p><strong>전화번호:</strong> <span th:text="${recruits.recruitId}"></span></p>
-                                        <p><strong>홈페이지:</strong> <span th:text="${recruits.recruitId}"></span></p>
+                                        <p><strong>공고제목 : </strong> <span th:text="${recruits.reTitle}"></span></p>
+                                        <p><strong>작성일 : </strong> <span th:text="${#temporals.format(recruits.regDate, 'yyyy-MM-dd HH:mm')}"></span></p>
+                                        <p><strong>마감일 : </strong> <span th:text="${#temporals.format(recruits.reDeadline, 'yyyy-MM-dd HH:mm')}"></span></p>
                                     </div>
                                 </div>
                             </div>
@@ -59,14 +54,30 @@
                     </div>
                 </div>
             </div>
-
             <!-- 공사중 -->
             <div class="tab-pane fade" id="proposal" role="tabpanel" aria-labelledby="proposal-tab">
                 <div class="container mt-5">
                     <div class="post-container">
-                        <form method="post" action="/member/my_business_page">
-
-                        </form>
+                        <h2 class="mb-4">지원 현황</h2>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">순번</th>
+                                <th scope="col">이력서 제목</th>
+                                <th scope="col">지원 날짜</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- 타임리프를 사용하여 데이터 출력 -->
+                            <tr th:each="apply, stat : ${recruitApplyDTOS}">
+                                <td th:text="${stat.index + 1}"></td> <!-- 순번 -->
+                                <td>
+                                    <a th:href="|@{/trainer/trainer_view(tid=${trainerDTO.trainerId})}|">[[${trainerDTO.title}]]</a>
+                                </td>
+                                <td th:text="${#temporals.format(apply.regDate, 'yyyy-MM-dd HH:mm')}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -24,4 +24,6 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long>, Trainer
     @Modifying
     @Query("DELETE FROM Trainer_Thumbnails th WHERE th.trainer.trainerId = :tid AND th.thumbnailUuid = :uuid")
     int deleteThumbnailById(Long tid, String uuid);
+
+    Optional<Trainer> findByUserMember_UserId(Long userId);
 }

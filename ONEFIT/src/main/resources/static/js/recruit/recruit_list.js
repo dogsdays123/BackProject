@@ -1,3 +1,5 @@
+
+
 document.querySelector(".pagination").addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -39,23 +41,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const applyBtn = document.getElementById("applyBtn");
-    const modalTitle = document.getElementById("applyModalLabel");
-    const modalBody = document.querySelector(".apply-modal-body p");
-    const applyModal = new bootstrap.Modal(document.getElementById("applyModal"));
-
-    applyBtn.addEventListener("click", function (event) {
-        event.preventDefault(); // 기본 폼 제출 방지primary
-
-        // 모달 제목 및 내용 설정
-        modalTitle.innerHTML = '<span class="rogo-span">OneFit</span> 지원 확인';
-        modalBody.innerHTML = "해당 공고에 이력서를 지원하시겠습니까?";
-
-        // 모달 열기
-        applyModal.show();
-    });
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//     const applyBtn = document.getElementById("applyBtn");
+//     const modalTitle = document.getElementById("applyModalLabel");
+//     const modalBody = document.querySelector(".apply-modal-body p");
+//     const applyModal = new bootstrap.Modal(document.getElementById("applyModal"));
+//
+//     applyBtn.addEventListener("click", function (event) {
+//         event.preventDefault(); // 기본 폼 제출 방지primary
+//
+//         // 모달 제목 및 내용 설정
+//         modalTitle.innerHTML = '<span class="rogo-span">OneFit</span> 지원 확인';
+//         modalBody.innerHTML = "해당 공고에 이력서를 지원하시겠습니까?";
+//
+//         // 모달 열기
+//         applyModal.show();
+//     });
+// });
 
 document.addEventListener("DOMContentLoaded", function () {
     const registerBtn = document.getElementById("registerBtn");

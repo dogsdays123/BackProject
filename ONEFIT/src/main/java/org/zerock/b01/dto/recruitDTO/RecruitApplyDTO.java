@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.zerock.b01.domain.member.User_Member;
 import org.zerock.b01.domain.recruit.Recruit_Register;
 import org.zerock.b01.domain.trainer.Trainer;
 
@@ -17,12 +18,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class RecruitApplyDTO {
 
-    private Long re_apply_id;
+    private Long reApplyId;
 
-    private LocalDateTime regdate;
+    private LocalDateTime regDate;
 
-    private Recruit_Register recruit_register;
+    private LocalDateTime modDate;
 
-    private Trainer trainer;
+    private Long userId;
+
+    private Long recruitId;
+
+    private Long businessId;
 
 }

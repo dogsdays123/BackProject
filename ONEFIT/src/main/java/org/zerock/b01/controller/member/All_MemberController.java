@@ -19,21 +19,26 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.domain.board.Notice_Board;
+import org.zerock.b01.domain.recruit.Recruit_Apply;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.Business_Member_DataDTO;
 import org.zerock.b01.dto.memberDTO.MemberDataDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
+import org.zerock.b01.dto.recruitDTO.RecruitApplyDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
+import org.zerock.b01.service.recruitService.RecruitService;
+import org.zerock.b01.service.trainerService.TrainerService;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -216,6 +221,8 @@ public class All_MemberController {
         return "redirect:/member/my_business_page";
     }
 
+    private final RecruitService recruitService;
+    private final TrainerService trainerService;
     //공고등록현황
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_business_page_recruit")
@@ -227,6 +234,26 @@ public class All_MemberController {
         List<RecruitDTO> recruitDTOList = member_Set_Type_Service.recruitReadForBusiness(business_memberDTO.getBusinessId());
         log.info("^^^^^" + recruitDTOList);
         model.addAttribute("recruitDTOList", recruitDTOList);
+        log.info("%%%%%%" + business_memberDTO);
+        Long businessId = business_memberDTO.getBusinessId();
+
+
+        List<RecruitApplyDTO> recruitApplyDTOS = recruitService.readRecruitApplyByBusinessId(businessId);
+        log.info("#### Recruit Apply DTOS: " + recruitApplyDTOS);
+
+
+
+        // 지원 내역을 모델에 추가
+        model.addAttribute("recruitApplyDTOS", recruitApplyDTOS);
+
+
+
+        log.info("$@$@$@$ Business ID : " + businessId);
+        Long userId = recruitApplyDTOS.get(0).getUserId();
+        TrainerDTO trainerDTO = trainerService.getTrainerByUserId(userId);
+        model.addAttribute("trainerDTO", trainerDTO);
+        log.info("Trainer : " + trainerDTO);
+
     }
 
 

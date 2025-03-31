@@ -15,7 +15,13 @@ public interface RecruitService {
 
     Long register(RecruitDTO recruitDTO);
 
+    Long applyRecruit(RecruitApplyDTO recruitApplyDTO);
+
     Long apply(RecruitApplyDTO recruitApplyDTO);
+
+    List<RecruitApplyDTO> readRecruitApplyByBusinessId(Long businessId);
+
+    RecruitApplyDTO readRecruitApply(Long recruitId);
 
     RecruitDTO readOne(Long recruitId);
 

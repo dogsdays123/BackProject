@@ -12,6 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
@@ -25,13 +26,16 @@ import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
+import org.zerock.b01.dto.recruitDTO.RecruitApplyDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitImageDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitListAllDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 import org.zerock.b01.service.recruitService.RecruitService;
+import org.zerock.b01.service.trainerService.TrainerService;
 
 import java.io.File;
 import java.io.IOException;
@@ -132,15 +136,19 @@ public class RecruitController {
     //회원정보 가져오기
 
 
+
     @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model) {
         log.info("recruit_list Get...............");
 
 //        PageResponseDTO<RecruitDTO> responseDTO = recruitService.list(pageRequestDTO);
         PageResponseDTO<RecruitDTO> responseDTO = recruitService.list1(pageRequestDTO);
+        All_MemberDTO all_memberDTO = (All_MemberDTO) model.getAttribute("all_memberDTO");
+        User_MemberDTO user_MemberDTO = (User_MemberDTO) model.getAttribute("user_memberDTO");
 
         log.info(responseDTO);
-
+        log.info("List 페이지 All_memberDTO: " + all_memberDTO);
+        log.info("List 페이지 User_MemberDTO: " + user_MemberDTO);
         model.addAttribute("responseDTO", responseDTO);
 
 
@@ -188,6 +196,52 @@ public class RecruitController {
         return businessMember;
     }
 
+    private final TrainerService trainerService;
+
+    @PostMapping("/apply")
+    public String recruitApply(@ModelAttribute RecruitApplyDTO recruitApplyDTO, Long userId, Long recruitId, PageRequestDTO pageRequestDTO, HttpServletResponse response, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) throws IOException {
+
+        User_MemberDTO user_MemberDTO = (User_MemberDTO) model.getAttribute("user_memberDTO");
+        String link = pageRequestDTO.getLink();
+        if(user_MemberDTO == null) {
+            log.info("user_memberDTO is null, redirecting to login page or error page");
+
+            String script = "<script>" +
+                    "alert('해당 게시글 작성자만 접근할 수 있습니다.');" +
+                    "location.href='/recruit/read?recruitId=" + recruitId + "&" + link + "';" +
+                    "</script>";
+            response.setContentType("text/html; charset=UTF-8");
+            response.getWriter().write(script);
+            response.getWriter().flush();
+            return null;
+        }
+        log.info("$$$$USER ID : " + userId);
+        TrainerDTO trainerDTO = trainerService.getTrainerByUserId(userId);
+        if(trainerDTO == null) {
+            String script = "<script>" +
+                    "alert('등록된 이력서가 없습니다. 이력서를 먼저 등록해주세요.');" +
+                    "location.href='/recruit/read?recruitId=" + recruitId + "&" + link + "';" +
+                    "</script>";
+            response.setContentType("text/html; charset=UTF-8");
+            response.getWriter().write(script);
+            response.getWriter().flush();
+            return null;
+        }
+        log.info("$$$$TRAINERDTO : " + trainerDTO);
+
+        log.info("recruitApply Post...............");
+        if(bindingResult.hasErrors()) {
+            log.info("has errors");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+
+            return "redirect:/recruit/list";
+        }
+
+        log.info(recruitApplyDTO);
+        Long applyId = recruitService.applyRecruit(recruitApplyDTO);
+
+        return "redirect:/recruit/list";
+    }
 
     @PostMapping("/register")
     public String registerPost (@Valid RecruitDTO recruitDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
@@ -369,6 +423,7 @@ public class RecruitController {
 
         Business_MemberDTO business_MemberDTO = (Business_MemberDTO) model.getAttribute("business_memberDTO");
         All_MemberDTO all_memberDTO = (All_MemberDTO) model.getAttribute("all_memberDTO");
+        User_MemberDTO user_MemberDTO = (User_MemberDTO) model.getAttribute("user_memberDTO");
 
         log.info("**read Get.............**");
         log.info("All Member DTO: " + all_memberDTO);

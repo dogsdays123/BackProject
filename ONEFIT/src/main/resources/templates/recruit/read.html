@@ -117,6 +117,16 @@
     <div layout:fragment="myPage"></div>
     <div layout:fragment="main">
         <div class="recruit-container container mt-5">
+
+            <input type="hidden" th:value="${all_memberDTO.memberType}"/>
+
+            <form th:action="@{/recruit/apply}" method="post" id="applyForm">
+                <div th:if="${user_memberDTO != null}">
+                    <input type="hidden" name="userId" th:value="${user_memberDTO.userId}"/>
+                </div>
+                <input type="hidden" th:value="${businessMemberDTO.businessId}" name="businessId">
+                <input type="hidden" name="recruitId" th:value="${dto.recruitId}">
+            </form>
             <form th:action="@{/recruit/modify}" method="post" id="deleteForm">
                 <input type="hidden" th:value="${dto.recruitId}" name="recruitId" readonly>
                 <input type="hidden" th:value="${businessMemberDTO.businessId}" name="businessId" readonly>
@@ -385,12 +395,30 @@
                         <a href="#" class="btn btn-outline-danger" id="removeBtn"><i class="bi bi-trash"></i>️</a>
                         <a th:href="|@{/recruit/list}?${link}|" class="btn btn-outline-secondary"><i class="bi bi-list"></i></a>
                         <a th:href="|@{/member/my_business_page_recruit}?allId=${all_memberDTO.allId}|" class="btn btn-outline-secondary"><i class="bi bi-person-circle"></i></a>
-                        <button class="btn btn-primary" id="applyBtn">지원하기</button>
+                        <button type="button" class="btn btn-primary" id="applyBtn">지원하기</button>
 
                     </div>
                 </div>
             </form>
 
+            <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="applyModalLabel">
+                                <span class="rogo-span">OneFit</span> 입사지원 확인</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>해당 공고</strong>에 <strong>이력서</strong>를 지원하시겠습니까?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="confirmApplyBtn">네</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -421,6 +449,7 @@
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -543,6 +572,7 @@
 </script>
 <script src="/js/basic.js"></script>
 <script src="/js/recruit/recruit_read_kakaoMap.js"></script>
+<script src="/js/recruit/recruit_read.js"></script>
 <!--<script src="/js/recruit/recruit_modify.js"></script>-->
 <script layout:fragment="script" th:inline="javascript">
     const error = [[${error}]]

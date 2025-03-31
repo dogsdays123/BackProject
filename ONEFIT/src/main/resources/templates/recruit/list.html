@@ -580,18 +580,19 @@
                                         <option value="7days" th:selected="${pageRequestDTO.regDateFilter == '7days'}">7일이내 등록</option>
                                     </select>
                                 </div>
-                                <div class="dropdown" style="margin-left: 10px;">
-                                    <select class="form-control" name="sizeFilter" style="width: 130px;">
-                                        <option value="10">10개씩</option>
-                                        <option value="20">20개씩</option>
-                                        <option value="30">30개씩</option>
-                                    </select>
-                                </div>
+<!--                                <div class="dropdown" style="margin-left: 10px;">-->
+<!--                                    <select class="form-control" name="sizeFilter" style="width: 130px;">-->
+<!--                                        <option value="10"></option>-->
+<!--                                        <option value="20">20개씩</option>-->
+<!--                                        <option value="30">30개씩</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+<!--            <input type="hidden" name="userId" th:value="${user_memberDTO.userId}"/>-->
             <table class="table table-hover" th:with="link= ${pageRequestDTO.getLink()}">
                 <thead style="border-top: 1px solid black;">
                 <tr style="height: 60px; text-align: center;">
@@ -613,38 +614,23 @@
                     <br>
                     <br>
                 </div>
-                <tbody th:with="link = ${pageRequestDTO.getLink()}">
-                <tr th:each="dto:${responseDTO.dtoList}" class="recurit-post">
+
+                <tbody th:with="link=${pageRequestDTO.getLink()}">
+                <tr th:each="dto:${responseDTO.dtoList}" class="recruit-post">
+                    <!-- 각 공고에 대해 동적으로 폼을 생성 -->
                     <th scope="row" hidden="hidden">[[${dto.recruitId}]]</th>
+<!--                        <input type="text" name="recruitId" th:value="${dto.recruitId}"/>-->
                     <td valign="middle" style="height: 100px;">[[${dto.reCompany}]]</td>
-                    <td valign="middle"><a th:href="|@{/recruit/read(recruitId = ${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a></td>
+                    <td valign="middle">
+                        <a th:href="|@{/recruit/read(recruitId=${dto.recruitId})}&${link}|">[[${dto.reTitle}]]</a>
+                    </td>
                     <td valign="middle">[[${dto.reIndustry}]]</td>
                     <td valign="middle">[[${dto.reMainAddress}]]</td>
                     <td valign="middle">[[${dto.reJobHistory}]]</td>
                     <td valign="middle">[[${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}]]</td>
-                    <td valign="middle"><button class="btn btn-outline-danger" id="applyBtn">입사지원</button></td>
                 </tr>
                 </tbody>
             </table>
-
-            <!-- 페이지네이션 start -->
-            <!--            <div class="row">-->
-            <!--                <ul class="pagination justify-content-center">-->
-            <!--                    <li id="pagearrow leftarrow" class="page-item" th:if="${responseDTO.prev}">-->
-            <!--                        <a href="#" class="page-link" th:data-num="${responseDTO.start -1}">&lt;</a>-->
-            <!--                    </li>-->
-
-            <!--                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">-->
-            <!--                        <li id="pageitem" th:class="${responseDTO.page == i}?'page-item active':'page-item'">-->
-            <!--                            <a href="#" id="is-active" class="page-link is-active" th:data-num="${i}">[[${i}]]</a>-->
-            <!--                        </li>-->
-            <!--                    </th:block>-->
-            <!--                    <li id="pagearrow rightarrow" class="page-item" th:if="${responseDTO.next}">-->
-            <!--                        <a href="#" class="page-link" th:data-num="${responseDTO.end + 1}">&gt;</a>-->
-            <!--                    </li>-->
-            <!--                </ul>-->
-            <!--            </div>-->
-            <!-- 페이지네이션 end -->
             <!-- 페이지네이션 start -->
             <div class="row">
                 <ul class="pagination justify-content-center" id="listPagination">
@@ -675,19 +661,16 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="applyModalLabel">
-                            <span class="rogo-span">OneFit</span> 지원 확인
+                            <span class="rogo-span">OneFit</span> 공고 등록 확인
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body apply-modal-body">
-                        <div class="mb-3">
-                            <p>해당 공고에 이력서를 지원하시겠습니까?</p>
-                        </div>
-                        <div class="tab-content mt-3">
-                            <form>
-                                <button type="submit" class="btn btn-primary w-100 modal-btn" id="confirmApplyBtn">지원하기</button>
-                            </form>
-                        </div>
+                    <div class="modal-body">
+                        <p><strong>해당 공고에</strong> 지원하시겠습니까?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                        <button type="button" class="btn btn-primary" id="confirmApplyBtn">네</button>
                     </div>
                 </div>
             </div>
@@ -929,6 +912,8 @@
         var formObj = document.querySelector('.search-form'); // select 옵션 변경 시 form 자동 제출
         formObj.submit();
     }
+
+
 </script>
 </body>
 
