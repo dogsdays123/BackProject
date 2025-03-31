@@ -4,6 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,10 +17,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
@@ -29,6 +31,8 @@ import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.boardService.NoticeBoardService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.List;
 
 @Controller
@@ -36,6 +40,9 @@ import java.util.List;
 @RequestMapping("/zboard")
 @RequiredArgsConstructor
 public class NoticeBoardController {
+
+    @Value("C:\\upload\\board") //import 시에 springframework으로 시작하는 value
+    private String boardUploadPath;
 
     private final NoticeBoardService noticeBoardService;
 
@@ -165,6 +172,10 @@ public class NoticeBoardController {
     @GetMapping({"/board_notice_read","/board_notice_modify"})
     public void readNotice(Long noticeId, PageRequestDTO pageRequestDTO, Model model) {
 
+        // 조회수 증가
+        noticeBoardService.increaseNoticeHits(noticeId);  // 조회수 증가 메서드 호출
+
+
         NoticeBoardDTO noticeBoardDTO = noticeBoardService.readNoticeOne(noticeId);
 
         log.info(noticeBoardDTO);
@@ -205,14 +216,52 @@ public class NoticeBoardController {
 
     @PreAuthorize("principal.username == #noticeBoardDTO.allMember.allId")
     @PostMapping("/board_notice_remove")
-    public String removeNotice(Long noticeId, RedirectAttributes redirectAttributes) {
+    public String removeNotice(NoticeBoardDTO noticeBoardDTO, RedirectAttributes redirectAttributes) {
+
+        Long noticeId = noticeBoardDTO.getNoticeId();
 
         log.info("board_notice_remove Post" + noticeId);
 
         noticeBoardService.removeNotice(noticeId);
 
+        log.info(noticeBoardDTO.getFileNames());
+        //삭제 파일리스트 가져오기
+        List<String> fileNames = noticeBoardDTO.getFileNames();
+        //파일명이 존재하면 삭제처리
+        if (fileNames != null && fileNames.size() > 0) {
+            removeNoticeFiles(fileNames);
+        }
+
         redirectAttributes.addFlashAttribute("result", "removed");
 
         return "redirect:/zboard/board_notice_list";
+    }
+
+    public void removeNoticeFiles(List<String> files) {
+
+        for (String fileName : files) {
+
+            Resource resource = new FileSystemResource(boardUploadPath + File.separator + fileName);
+            String resourceName = resource.getFilename();
+
+            try {
+                String contentType = Files.probeContentType(resource.getFile().toPath());
+
+                resource.getFile().delete();
+
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+        }
+    }
+
+    @PostMapping("/{noticeId}/increaseNoticeHits")
+    public ResponseEntity<String> increaseNoticeHits(@PathVariable Long noticeId) {
+        try {
+            noticeBoardService.increaseNoticeHits(noticeId);
+            return ResponseEntity.ok("조회수가 증가되었습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("공지사항을 찾을 수 없습니다.");
+        }
     }
 }

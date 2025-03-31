@@ -26,6 +26,8 @@ public interface NoticeBoardService {
 
     PageResponseDTO<NoticeBoardListAllDTO> listWithNoticeAll(PageRequestDTO pageRequestDTO);
 
+    void increaseNoticeHits(Long noticeId);
+
     default Notice_Board dtoToEntity(NoticeBoardDTO noticeBoardDTO) {
 
         Notice_Board notice_board = Notice_Board.builder()

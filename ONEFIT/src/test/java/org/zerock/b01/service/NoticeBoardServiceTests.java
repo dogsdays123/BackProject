@@ -10,6 +10,9 @@
 //import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
 //import org.zerock.b01.service.boardService.NoticeBoardService;
 //
+//import java.util.Arrays;
+//import java.util.UUID;
+//
 //@SpringBootTest
 //@Log4j2
 //public class NoticeBoardServiceTests {
@@ -64,5 +67,32 @@
 //
 //        log.info(responseDTO);
 //
+//    }
+//
+//    @Test
+//    public void testRegisterWithImages() {
+//
+//        String allId = "member1";
+//
+//        All_Member all_member =All_Member.builder().allId(allId).build();
+//
+//        log.info(noticeBoardService.getClass().getName());
+//
+//        NoticeBoardDTO noticeBoardDTO = NoticeBoardDTO.builder()
+//                .nTitle("File..Sample Title..")
+//                .nContent("Sample Content..")
+//                .allMember(all_member)
+//                .build();
+//
+//        noticeBoardDTO.setFileNames(
+//                Arrays.asList(
+//                        UUID.randomUUID()+"_aaa.jpg",
+//                        UUID.randomUUID()+"_bbb.jpg",
+//                        UUID.randomUUID()+"_bbb.jpg"
+//                ));
+//
+//        Long noticeId = noticeBoardService.registerNotice(noticeBoardDTO);
+//
+//        log.info("noticeId: " + noticeId);
 //    }
 //}
