@@ -4,13 +4,14 @@
       layout:decorate="~{layout/myPage.html}">
 
 <div layout:fragment="my_board">
-      <div class="container mt-5">
+    <div class="container mt-5">
         <h2 class="text-primary mb-4">내가 쓴 게시글</h2>
-    
+
         <!-- 공지사항 테이블 -->
-          <div th:if="${allBoardDTO == null}">
-              <br><br><h2>올린 게시글이 없습니다.</h2><br><br>
-          </div>
+        <div th:if="${allBoardDTO == null}">
+            <br><br>
+            <h2>올린 게시글이 없습니다.</h2><br><br>
+        </div>
         <table class="table table-hover align-middle" th:if="${allBoardDTO != null}">
             <thead>
             <tr>
@@ -20,37 +21,44 @@
             </tr>
             </thead>
             <tbody id="noticeTable">
-              <tr th:each="allBoardDTO : ${allBoardDTO}">
-                  <tr th:each="noticeDTO : ${allBoardDTO.noticeBoardDTO}">
-                  <td>
+            <tr th:each="allBoardDTO : ${allBoardDTO}">
+
+<!--                notice board-->
+                    <tr th:if="${allBoardDTO.noticeBoardDTO != null}"
+                    th:each="noticeDTO : ${allBoardDTO.noticeBoardDTO}">
+                        <td>
                       <span class="ms-2">
                           <span>공지사항</span>
                       </span>
-                      <div>
-                          <a th:href="|@{/zboard/board_notice_read(noticeId=${noticeDTO.noticeId})}|"
-                             th:text="${noticeDTO.nTitle}"></a>
-                      </div>
-                  </td>
-                  <td>작성일 [[${#temporals.format(noticeDTO.regDate, 'yyyy-MM-dd')}]]</td>
-                  <td>수정일 [[${#temporals.format(noticeDTO.modDate, 'yyyy-MM-dd')}]]</td>
-                </tr>
-              <tr th:each="qnaDTO : ${allBoardDTO.qnaBoardDTO}">
-                  <td>
+                            <div>
+                                <a th:href="|@{/zboard/board_notice_read(noticeId=${noticeDTO.noticeId})}|"
+                                   th:text="${noticeDTO.nTitle}"></a>
+                            </div>
+                        </td>
+                        <td>작성일 [[${#temporals.format(noticeDTO.regDate, 'yyyy-MM-dd')}]]</td>
+                        <td>수정일 [[${#temporals.format(noticeDTO.modDate, 'yyyy-MM-dd')}]]</td>
+                    </tr>
+
+<!--                qna board-->
+                    <tr th:if="${allBoardDTO.qnaBoardDTO != null}"
+                        th:each="qnaDTO : ${allBoardDTO.qnaBoardDTO}">
+                        <td>
                       <span class="ms-2">
                           <span>QNA</span>
                       </span>
-                      <div>
-                          <a th:href="|@{/zboard/board_qa_read(qnaId=${qnaDTO.qnaId})}|"
-                             th:text="${qnaDTO.qTitle}"></a>
-                      </div>
-                  </td>
-                  <td>작성일 [[${#temporals.format(qnaDTO.regDate, 'yyyy-MM-dd')}]]</td>
-                  <td>수정일 [[${#temporals.format(qnaDTO.modDate, 'yyyy-MM-dd')}]]</td>
-              </tr>
+                            <div>
+                                <a th:href="|@{/zboard/board_qa_read(qnaId=${qnaDTO.qnaId})}|"
+                                   th:text="${qnaDTO.qTitle}"></a>
+                            </div>
+                        </td>
+                        <td>작성일 [[${#temporals.format(qnaDTO.regDate, 'yyyy-MM-dd')}]]</td>
+                        <td>수정일 [[${#temporals.format(qnaDTO.modDate, 'yyyy-MM-dd')}]]</td>
+                    </tr>
+
             </tr>
             </tbody>
         </table>
-      </div>
+    </div>
 
     <!-- 임시 -->
     <script>
