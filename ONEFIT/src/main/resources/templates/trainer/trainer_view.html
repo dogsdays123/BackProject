@@ -35,7 +35,7 @@
                         </div>
                         <div class="mb-2">
                             <label class="form-label"><strong>연락처:</strong></label>
-                            <input type="tel" class="form-control do-not-submit" th:value="|0${dto.phone}|" required readonly>
+                            <input type="tel" class="form-control do-not-submit" th:value="|${dto.phone}|" required readonly>
                         </div>
                         <div class="mb-2">
                             <label class="form-label"><strong>주소:</strong></label>
