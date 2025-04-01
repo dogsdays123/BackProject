@@ -53,10 +53,12 @@
                 <!-- 브레드크럼 -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-container">
-                        <li class="breadcrumb-item"><a href="#">홈</a></li>
-                        <li class="breadcrumb-item"><a href="#">거래</a></li>
-                        <li class="breadcrumb-item"><a href="#">시설</a></li>
-                        <li class="breadcrumb-item"><a href="#">[[${dto.cCategory}]]</a></li>
+                        <li class="breadcrumb-item"><a href="/main">홈</a></li>
+                        <li class="breadcrumb-item"><a href="/transaction/transa_list">거래</a></li>
+                        <li class="breadcrumb-item"><a href="/transaction/transa_list?categoryType=fa">시설</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{/transaction/transa_list(categoryType='fa', categoryName=${dto.cCategory})}">
+                            [[${dto.cCategory}]]
+                        </a></li>
                         <!-- <li class="breadcrumb-item active" aria-current="page">dd</li> -->
                     </ol>
                 </nav>
@@ -72,7 +74,7 @@
                                     <div class="carousel-img-container">
                                         <img th:src="|/view_transa/${imageName}|"
                                              class="d-block w-100 h-100 carousel-img"
-                                             th:alt="${imageName}" onclick="openModal(this)">
+                                             th:alt="${imageName}" data-bs-toggle="modal" data-bs-target="#imageModal">
                                     </div>
                                 </div>
                             </div>
@@ -92,10 +94,12 @@
 
                         <!-- 이미지 전체 보기 모달 -->
                         <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
+                            <div class="modal-dialog modal-dialog-centered img-modal-dialog">
+                                <div class="modal-content img-modal-content">
                                     <div class="modal-header">
-                                        <button type="button" class="btn-close" id="closeModalBtn"></button>
+                                        <button type="button" class="btn-close" id="closeModalBtn"
+                                                aria-label="Close"
+                                                data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body text-center">
                                         <img id="modalImage" src="" class="img-fluid rounded">
@@ -186,17 +190,19 @@
                         <div class="content p-3 border rounded overflow-auto">[[${dto.pContent}]]
                         </div>
                         <div class="mt-4 d-flex justify-content-center align-items-center">
-                            <span class="d-inline-flex flex-column align-items-center like">
-                                <button type="button" class="like-btn" th:data-all-id="${all_memberDTO.allId}">
-                                    <i class="fa-regular fa-heart fs-2" id="heart-icon"></i>
+                            <fieldset th:disabled="${all_memberDTO.allId == null}">
+                                <span class="d-inline-flex flex-column align-items-center like">
+                                    <button type="button" class="like-btn" th:data-all-id="${all_memberDTO.allId}">
+                                        <i class="fa-regular fa-heart fs-2" id="heart-icon"></i>
+                                    </button>
+                                    <input type="hidden" th:value="${all_memberDTO.allId}" id="allId">
+                                    <span class="like-count fs-6 text-secondary" id="like-count">[[${dto.interestCount}]]</span>
+                                </span>
+                                <button class="btn w-100 ms-auto m-0" id="chatButton"
+                                        th:attr="data-link=${dto.pChatUrl}" onclick="openChatPopup()">
+                                    <i class="fas fa-comment kakao-rogo"></i>&nbsp;&nbsp;오픈채팅 바로가기
                                 </button>
-                                <input type="hidden" th:value="${all_memberDTO.allId}" id="allId">
-                                <span class="like-count fs-6 text-secondary" id="like-count">[[${dto.interestCount}]]</span>
-                            </span>
-                            <button class="btn w-100 ms-auto m-0" id="chatButton"
-                                    th:attr="data-link=${dto.pChatUrl}" onclick="openChatPopup()">
-                                <i class="fas fa-comment kakao-rogo"></i>&nbsp;&nbsp;오픈채팅 바로가기
-                            </button>
+                            </fieldset>
                         </div>
 
                     </div>
@@ -292,7 +298,7 @@
     <div class="modal fade" id="modifyReplyModal" tabindex="-1" aria-labelledby="modifyReplyModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content reply-modal-content">
                 <div class="modal-body">
                     <form method="post" action="/product_reply/fa_modify" id="replyModifyForm">
                         <div class="mb-3">

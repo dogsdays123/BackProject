@@ -20,7 +20,7 @@
             <h5 class="fw-bold">카테고리</h5>
             <hr class="mt-2">
             <div class="list-group">
-                <a class="list-group-item active" href="/transaction/transa_list">전체 보기</a>
+                <a class="list-group-item active" id="categoryA" href="#">전체 보기</a>
                 <a class="list-group-item category-list" data-bs-toggle="collapse" data-bs-target="#equipmentMenu" data-category-type="eq">운동
                     기구</a>
                 <div class="collapse ps-3" id="equipmentMenu">
@@ -51,7 +51,7 @@
             <h5 class="fw-bold pt-3">지역</h5>
             <hr class="mt-2">
             <div class="list-group" id="regionList">
-                <a class="list-group-item active" href="/transaction/transa_list">전체 보기</a>
+                <a class="list-group-item active" id="regionA" href="#">전체 보기</a>
             </div>
 
             <!-- 가격 필터 -->
@@ -92,7 +92,9 @@
         <!-- 메인 start -->
          <main>
             <div class="container list-container px-5 mt-4">
-                <h2 class="mb-4 text-primary" th:text="${listTitle != null ? listTitle : '거래게시판'}"></h2>
+                <a href="/transaction/transa_list" class="no-style-a">
+                    <h2 class="mb-4 text-primary" th:text="${listTitle != null ? listTitle : '거래게시판'}"></h2>
+                </a>
                 <div class="d-flex align-items-center gap-3">
                     <!-- 검색창 폼 -->
                     <form onsubmit="updateURL(event)" class="d-flex">
@@ -106,21 +108,24 @@
 
                     <div class="dropup custom-dropup" th:if="${all_memberDTO.allId != null}">
                         <!-- 판매하기 버튼 -->
-                        <button class="floating-btn bg-primary text-white" id="dropdownMenuButton"
-                                type="button" th:data-member-type="${all_memberDTO.memberType}"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-plus"></i>
-                            <span class="tooltip-text bg-primary text-white">판매하기</span>
-                        </button>
-
-                        <!-- 메뉴 -->
-                        <div class="dropdown" th:if="${all_memberDTO.memberType != 'default'}">
-                            <!-- 드롭다운 메뉴 -->
-                            <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
-                                <li><a class="dropdown-item" href="transa_fa_register"
-                                       th:if="${all_memberDTO.memberType == 'business'}">시설</a></li>
-                            </ul>
+                        <div class="tooltip-container">
+                            <button class="floating-btn bg-primary text-white" id="dropdownMenuButton"
+                                    type="button" th:data-member-type="${all_memberDTO.memberType}"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="tooltip-bubble">
+                                판매하기
+                            </div>
+                            <!-- 메뉴 -->
+                            <div class="dropdown" th:if="${all_memberDTO.memberType != 'default'}">
+                                <!-- 드롭다운 메뉴 -->
+                                <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" href="transa_eq_register">기구</a></li>
+                                    <li><a class="dropdown-item" href="transa_fa_register"
+                                           th:if="${all_memberDTO.memberType == 'business'}">시설</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
