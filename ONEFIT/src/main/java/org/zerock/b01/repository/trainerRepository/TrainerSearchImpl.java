@@ -82,7 +82,7 @@ public class TrainerSearchImpl extends QuerydslRepositorySupport implements Trai
                     .userId(tr.getUserMember().getUserId())
                     .thumbnails(thumbnails)
                     .name(tr.getUserMember().getAllMember().getName())
-                    .gender(tr.getUserMember().getUResident() / ((tr.getUserMember().getUResident().toString().length() - 1) * 10L) % 2 == 1 ? "남" : "여")
+                    .gender(Character.getNumericValue(tr.getUserMember().getUResident().toString().charAt(0)) % 2 == 1 ? "남" : "여")
                     .birthday(tr.getUserMember().getUBirthday())
                     .email(tr.getUserMember().getAllMember().getEmail())
                     .phone(tr.getUserMember().getAllMember().getAPhone().toString())
