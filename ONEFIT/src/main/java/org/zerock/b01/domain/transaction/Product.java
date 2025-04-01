@@ -73,6 +73,8 @@ public class Product extends BaseEntity { // (거래) 상품
         this.pPrice = equipmentDTO.getPPrice();
         this.pContent = equipmentDTO.getPContent();
         this.pAddr = equipmentDTO.getPAddr();
+        this.pAddrMetroGov = equipmentDTO.getPAddrMetroGov();
+        this.pAddrMuniGov = equipmentDTO.getPAddrMuniGov();
     }
 
     public void change(FacilityDTO facilityDTO) {
@@ -82,6 +84,8 @@ public class Product extends BaseEntity { // (거래) 상품
         this.pPrice = facilityDTO.getPPrice();
         this.pContent = facilityDTO.getPContent();
         this.pAddr = facilityDTO.getPAddr();
+        this.pAddrMetroGov = facilityDTO.getPAddrMetroGov();
+        this.pAddrMuniGov = facilityDTO.getPAddrMuniGov();
     }
 
     public void addImageFile(String imageUuid, String imageFileName) {

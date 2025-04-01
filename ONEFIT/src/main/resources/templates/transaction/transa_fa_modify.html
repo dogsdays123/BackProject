@@ -34,6 +34,7 @@
                         <label class="form-label">제목</label>
                         <input type="text" name="pTitle" id="pTitle"
                                class="form-control" th:value="${dto.pTitle}" required>
+                        <small id="pTitleFeedback" class="text-danger" style="display: none;">제목을 입력하세요.</small>
                     </div>
 
                     <div class="row g-3">
@@ -57,7 +58,9 @@
                         <div class="col-md-6">
                             <!-- 2. 판매가 -->
                             <label class="form-label">판매가</label>
-                            <input type="text" class="form-control" name="pPrice" th:value="${dto.pPrice}" required>
+                            <input type="text" class="form-control number-input" name="pPrice" id="pPrice"
+                                   th:value="${dto.pPrice}" required>
+                            <small id="pPriceFeedback" class="text-danger" style="display: none;">판매가를 입력하세요.</small>
                         </div>
 
                         <!-- 3. 카테고리 -->
@@ -75,6 +78,7 @@
                                 <option value="15" th:selected="${dto.categoryId == 15}">탁구장</option>
                                 <option value="16" th:selected="${dto.categoryId == 16}">볼링장</option>
                             </select>
+                            <small id="pCategoryFeedback" class="text-danger" style="display: none;">카테고리를 선택하세요.</small>
                         </div>
 
                     </div>
@@ -90,6 +94,7 @@
                         <label class="form-label">판매 내용</label>
                         <textarea class="form-control" rows="5" name="pContent" required>[[${dto.pContent}]]
                         </textarea>
+                        <small id="pContentFeedback" class="text-danger" style="display: none;">판매 내용을 입력하세요.</small>
                     </div>
                     <div class="mb-3">
                         <!-- 5. 거래 장소 -->
@@ -118,6 +123,7 @@
                                                th:value="${dto.pAddr}" th:data-paddr="${dto.pAddr}"
                                                readonly placeholder="주소가 여기에 표시됩니다." required>
                                     </div>
+                                    <small id="pAddrFeedback" class="text-danger" style="display: none;">주소를 입력해주세요.</small>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +132,9 @@
                     <div class="mb-3">
                         <!-- 6. 오픈 채팅 URL -->
                         <label class="form-label">카카오톡 오픈채팅 URL</label>
-                        <input type="url" class="form-control" name="pChatUrl" th:value="${dto.pChatUrl}" required>
+                        <input type="url" class="form-control" name="pChatUrl" id="pChatUrl" th:value="${dto.pChatUrl}" required>
+                        <small id="urlFeedback" class="text-danger" style="display: none;">올바른 오픈채팅 URL을 입력하세요.</small>
+                        <small id="urlEmptyFeedback" class="text-danger" style="display: none;">오픈채팅 URL을 입력하세요.</small>
                     </div>
                     <div class="mb-3 uploadHidden">
                         <!-- 7. 상품 이미지 -->
@@ -149,6 +157,7 @@
                         <div class="mt-1 text-secondary">
                             ※ 미리보기 첫 번째 이미지가 썸네일로 표시됩니다.
                         </div>
+                        <small id="imageFeedback" class="text-danger" style="display: none;">1개 이상의 이미지를 업로드 해주세요.</small>
                     </div>
                 </div>
 
@@ -159,39 +168,51 @@
                         <label class="form-label">센터명</label>
                         <input type="text" name="fCenterName"
                                class="form-control" th:value="${dto.fCenterName}" required>
+                        <small id="fCenterNameFeedback" class="text-danger" style="display: none;">.</small>
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label">보증금(원)</label>
                             <input type="text" name="fDeposit"
-                                   class="form-control" th:value="${dto.fDeposit}" required>
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                                   class="form-control number-input" th:value="${dto.fDeposit}" required>
+                            <small id="fDepositFeedback" class="text-danger" style="display: none;">.</small>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">월세(원)</label>
                             <input type="text" name="fMonthRent"
-                                   class="form-control" th:value="${dto.fMonthRent}" required>
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                                   class="form-control number-input" th:value="${dto.fMonthRent}" required>
+                            <small id="fMonthRentFeedback" class="text-danger" style="display: none;">.</small>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label">관리비(원)</label>
                             <input type="text" name="fAdminCost"
-                                   class="form-control" th:value="${dto.fAdminCost}" required>
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+                                   class="form-control number-input" th:value="${dto.fAdminCost}" required>
+                            <small id="fAdminCostFeedback" class="text-danger" style="display: none;">.</small>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">매매 사유</label>
-                        <textarea class="form-control" name="fReasonSale"
-                                  rows="2" placeholder="매매 사유 입력">[[${dto.fReasonSale}]]</textarea>
+                        <input type="text" name="fReasonSale"
+                               class="form-control" placeholder="매매 사유 입력하세요" th:value="${dto.fReasonSale}">
+                        <small id="fReasonSaleFeedback" class="text-danger" style="display: none;">.</small>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">계약 면적 (㎡)</label>
                             <input type="text" name="fContArea"
-                                   class="form-control" th:value="${dto.fContArea}" required>
+                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                   class="form-control only-number" th:value="${dto.fContArea}" required>
+                            <small id="fContAreaFeedback" class="text-danger" style="display: none;">.</small>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">실면적 (㎡)</label>
                             <input type="text" name="fRealArea"
-                                   class="form-control" th:value="${dto.fRealArea}" required>
+                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                   class="form-control only-number" th:value="${dto.fRealArea}" required>
+                            <small id="fRealAreaFeedback" class="text-danger" style="display: none;">.</small>
                         </div>
                     </div>
                 </div>
@@ -203,6 +224,7 @@
     </div>
 
     <!-- JS 기능 추가 -->
+    <script th:src="@{/js/transaction/transa_input.js}"></script>
     <script th:src="@{/js/transaction/upload.js}"></script>
     <script th:src="@{/js/transaction/transa_modify.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

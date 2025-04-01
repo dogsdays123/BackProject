@@ -51,8 +51,10 @@ public class ProductServiceImpl implements ProductService {
 
         if (equipmentDTO.getImageFileNames() != null) {
             equipmentDTO.getImageFileNames().forEach(fileName -> {
+                log.info(fileName);
+
                 // 파일명을 "_" 기준으로 분리(UUID, 실제 파일명)
-                String[] parts = fileName.split("_");
+                String[] parts = fileName.split("_", 2);
                 // 분리된 정보를 이용하여 Product에 이미지 추가
                 product.addImageFile(parts[0], parts[1]);
             });
@@ -80,7 +82,10 @@ public class ProductServiceImpl implements ProductService {
         if (facilityDTO.getImageFileNames() != null) {
             facilityDTO.getImageFileNames().forEach(fileName -> {
                 // 파일명을 "_" 기준으로 분리(UUID, 실제 파일명)
-                String[] parts = fileName.split("_");
+                String[] parts = fileName.split("_", 2);
+
+                log.info(fileName);
+
                 // 분리된 정보를 이용하여 Product에 이미지 추가
                 product.addImageFile(parts[0], parts[1]);
             });
@@ -188,7 +193,7 @@ public class ProductServiceImpl implements ProductService {
                     .collect(Collectors.toSet());
 
             equipmentDTO.getImageFileNames().forEach(fileName -> {
-                String[] parts = fileName.split("_");
+                String[] parts = fileName.split("_", 2);
                 String uuid = parts[0];
 
                 // 기존에 없는 이미지인 경우에만 추가
@@ -232,7 +237,7 @@ public class ProductServiceImpl implements ProductService {
                     .collect(Collectors.toSet());
 
             facilityDTO.getImageFileNames().forEach(fileName -> {
-                String[] parts = fileName.split("_");
+                String[] parts = fileName.split("_",2);
                 String uuid = parts[0];
 
                 // 기존에 없는 이미지인 경우에만 추가

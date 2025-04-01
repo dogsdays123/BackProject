@@ -43,8 +43,8 @@
                 <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
                    data-bs-toggle="dropdown">거래</a>
                 <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" href="/transaction/transa_list">시설</a></li>
-                    <li><a class="dropdown-item" href="/transaction/transa_list">기구</a></li>
+                    <li><a class="dropdown-item" href="/transaction/transa_list?categoryType=fa">시설</a></li>
+                    <li><a class="dropdown-item" href="/transaction/transa_list?categoryType=eq">기구</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown dropdown-main">
@@ -78,7 +78,8 @@
                 </a>
                 <span class="separator">|</span>
                 <button type="button" class="basic-btn btn btn-primary btns">
-                    <a th:href="|@{/member/my_default_page(allId =${all_memberDTO.allId})}|" class="text-reset text-decoration-none">
+
+                    <a th:href="|@{/member/my_default_page(allId=${all_memberDTO.allId})}|" class="text-reset text-decoration-none">
                         마이페이지
                     </a>
                 </button>
@@ -109,7 +110,6 @@
         </div>
         <!-- 알림 end -->
     </div>
-    </div>
 </header>
 <!-- 헤더 end -->
 
@@ -131,6 +131,10 @@
     <div layout:fragment="transa_fa_register"></div>
     <!-- (거래) end1 -->
 
+    <!--recruit-->
+    <div layout:fragment="recruitList"></div>
+    <div layout:fragment="recruitModify"></div>
+
     <!-- (게시판) start -->
     <!-- 공지사항 게시판 -->
     <div layout:fragment="board_notice_list"></div>
@@ -143,7 +147,7 @@
     <div layout:fragment="board_qa_read"></div>
     <div layout:fragment="board_qa_modify"></div>
 
-    <!--    테스트용-->
+    <!--    로그인,회원가입-->
     <div layout:fragment="index"></div>
     <div layout:fragment="login"></div>
     <div layout:fragment="join"></div>

@@ -27,7 +27,8 @@
                 </h2>
                 <div class="d-flex flex-column">
                     <!-- 수정 삭제 케밥 메뉴 -->
-                    <button class="btn btn-light border-0 float-end ms-auto" th:style="${dto.allId != all_memberDTO.allId} ? 'visibility: hidden;' : ''"
+                    <button class="btn btn-light border-0 float-end ms-auto"
+                            th:style="${dto.allId != all_memberDTO.allId} ? 'visibility: hidden;' : ''"
                             type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots"></i>
                     </button>
@@ -52,10 +53,12 @@
                 <!-- 브레드크럼 -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-container">
-                        <li class="breadcrumb-item"><a href="#">홈</a></li>
-                        <li class="breadcrumb-item"><a href="#">거래</a></li>
-                        <li class="breadcrumb-item"><a href="#">기구</a></li>
-                        <li class="breadcrumb-item"><a href="#">[[${dto.cCategory}]]</a></li>
+                        <li class="breadcrumb-item"><a href="/main">홈</a></li>
+                        <li class="breadcrumb-item"><a href="/transaction/transa_list">거래</a></li>
+                        <li class="breadcrumb-item"><a href="/transaction/transa_list?categoryType=eq">기구</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{/transaction/transa_list(categoryType='eq', categoryName=${dto.cCategory})}">
+                            [[${dto.cCategory}]]
+                        </a></li>
                         <!-- <li class="breadcrumb-item active" aria-current="page">게시글 등록</li> -->
                     </ol>
                 </nav>
@@ -74,7 +77,7 @@
                                     <div class="carousel-img-container">
                                         <img th:src="|/view_transa/${imageName}|"
                                              class="d-block w-100 h-100 carousel-img"
-                                             th:alt="${imageName}" onclick="openModal(this)">
+                                             th:alt="${imageName}" data-bs-toggle="modal" data-bs-target="#imageModal">
                                     </div>
                                 </div>
                             </div>
@@ -94,10 +97,12 @@
 
                         <!-- 이미지 전체 보기 모달 -->
                         <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
+                            <div class="modal-dialog modal-dialog-centered img-modal-dialog">
+                                <div class="modal-content img-modal-content">
                                     <div class="modal-header">
-                                        <button type="button" class="btn-close" id="closeModalBtn"></button>
+                                        <button type="button" class="btn-close" id="closeModalBtn"
+                                                aria-label="Close"
+                                                data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body text-center">
                                         <img id="modalImage" src="" class="img-fluid rounded">
@@ -169,17 +174,20 @@
                         <div class="content p-3 border rounded overflow-auto">[[${dto.pContent}]]
                         </div>
                         <div class="mt-4 d-flex justify-content-center align-items-center">
-                            <span class="like d-inline-flex flex-column align-items-center">
-                                 <button type="button" class="like-btn" th:data-all-id="${all_memberDTO.allId}">
-                                    <i class="fa-regular fa-heart fs-2" id="heart-icon"></i>
+                            <fieldset th:disabled="${all_memberDTO.allId == null}">
+                                <span class="like d-inline-flex flex-column align-items-center">
+                                     <button type="button" class="like-btn" th:data-all-id="${all_memberDTO.allId}">
+                                        <i class="fa-regular fa-heart fs-2" id="heart-icon"></i>
+                                    </button>
+                                     <input type="hidden" th:value="${all_memberDTO.allId}" id="allId">
+                                    <span class="like-count fs-6 text-secondary"
+                                          id="like-count">[[${dto.interestCount}]]</span>
+                                </span>
+                                <button class="btn w-100 ms-auto m-0" id="chatButton"
+                                        th:attr="data-link=${dto.pChatUrl}" onclick="openChatPopup()">
+                                    <i class="fas fa-comment kakao-rogo"></i>&nbsp;&nbsp;오픈채팅 바로가기
                                 </button>
-                                 <input type="hidden" th:value="${all_memberDTO.allId}" id="allId">
-                                <span class="like-count fs-6 text-secondary" id="like-count">[[${dto.interestCount}]]</span>
-                            </span>
-                            <button class="btn w-100 ms-auto m-0" id="chatButton"
-                                    th:attr="data-link=${dto.pChatUrl}" onclick="openChatPopup()">
-                                <i class="fas fa-comment kakao-rogo"></i>&nbsp;&nbsp;오픈채팅 바로가기
-                            </button>
+                            </fieldset>
                         </div>
 
                     </div>
@@ -198,7 +206,8 @@
                     <form method="post" action="/product_reply/eq_register" id="replyForm">
                         <input type="hidden" name="productId" th:value="${dto.productId}">
                         <input type="hidden" name="allId" th:value="${all_memberDTO.allId}">
-                        <img src="/image/transaction/basic-profile-img.png" class="rounded-circle me-2 profile-img" alt="프로필">
+                        <img src="/image/transaction/basic-profile-img.png" class="rounded-circle me-2 profile-img"
+                             alt="프로필">
                         <input type="text" class="form-control rounded-pill" name="pReplyText"
                                th:placeholder="${all_memberDTO.allId == null} ? '로그인 후 이용해 주세요...' : '댓글을 입력하세요...'"
                                required>
@@ -212,7 +221,8 @@
             <th:block th:each="replyDto:${responseDTO.dtoList}">
                 <!-- 댓글 1 -->
                 <div class="d-flex align-items-start mb-3 reply-div">
-                    <img src="/image/transaction/basic-profile-img.png" class="rounded-circle me-2 profile-img" alt="프로필">
+                    <img src="/image/transaction/basic-profile-img.png" class="rounded-circle me-2 profile-img"
+                         alt="프로필">
                     <div class="w-100">
                         <div class="d-flex justify-content-between">
                             <div>
@@ -222,7 +232,8 @@
                             </div>
                             <!-- 게시글: '수정하기', '삭제하기' 케밥 메뉴 start -->
                             <!-- 수정 및 삭제 버튼 -->
-                            <div class="comment-actions" th:style="${replyDto.allId != all_memberDTO.allId} ? 'visibility: hidden;' : ''">
+                            <div class="comment-actions"
+                                 th:style="${replyDto.allId != all_memberDTO.allId} ? 'visibility: hidden;' : ''">
                                 <button class="btn btn-link text-secondary px-1 reply-menu-btn"
                                         data-bs-toggle="modal"
                                         data-bs-target="#modifyReplyModal"
@@ -279,7 +290,7 @@
     <div class="modal fade" id="modifyReplyModal" tabindex="-1" aria-labelledby="modifyReplyModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content reply-modal-content">
                 <div class="modal-body">
                     <form method="post" action="/product_reply/eq_modify" id="replyModifyForm">
                         <div class="mb-3">

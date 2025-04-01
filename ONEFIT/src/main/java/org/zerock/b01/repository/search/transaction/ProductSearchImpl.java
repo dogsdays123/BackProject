@@ -17,6 +17,7 @@ import org.zerock.b01.repository.search.transaction.ProductSearch;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -111,13 +112,14 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
         }
 
         // 지역 필터
-//        if (metroGov != null) {
-//            booleanBuilder.and(product.pAddrMetroGov.contains(metroGov)); // 시/도
-//
-//            if (muniGov != null) {
-//                booleanBuilder.and(product.pAddrMuniGov.contains(muniGov)); // 시/군/구
-//            }
-//        }
+        if (metroGov != null) {
+//            String transformedMetroGov = metroMap.getOrDefault(metroGov, metroGov);
+            booleanBuilder.and(product.pAddrMetroGov.contains(metroGov));
+
+            if (muniGov != null) {
+                booleanBuilder.and(product.pAddrMuniGov.contains(muniGov));
+            }
+        }
 
         // 조건을 쿼리에 적용
         productJPQLQuery.where(booleanBuilder);

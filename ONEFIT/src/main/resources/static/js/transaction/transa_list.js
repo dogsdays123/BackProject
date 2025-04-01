@@ -59,6 +59,14 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentUrl = new URL(window.location.href);
     const urlParams = new URLSearchParams(window.location.search);
 
+    // 카테고리 - 전체보기 클릭 시
+    document.getElementById("categoryA").addEventListener("click", function(event) {
+        currentUrl.searchParams.delete("categoryType");
+        currentUrl.searchParams.delete("categoryName");
+
+        window.location.href = currentUrl.toString();
+    });
+
     // 카테고리 상위(운동기구/운동시설) 메뉴 클릭 시 GET 요청
     document.querySelectorAll('.category-list').forEach(menu => {
         menu.addEventListener("click", function () {
@@ -106,10 +114,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // 지역 필터링 - 전체보기 클릭 시
+    document.getElementById("regionA").addEventListener("click", function(event) {
+        currentUrl.searchParams.delete("metroGov");
+        currentUrl.searchParams.delete("muniGov");
+
+        window.location.href = currentUrl.toString();
+    });
+
     // 지역 상위(시/도) 메뉴 클릭 시  GET 요청
     document.querySelectorAll('.metro-gov-list').forEach(menu => {
         menu.addEventListener("click", function () {
             let metroGov = this.getAttribute("data-metro-gov");
+            currentUrl.searchParams.delete("muniGov");
             currentUrl.searchParams.set("metroGov", metroGov);
             console.log("지역 상위(시/도) 메뉴 클릭:" + metroGov);
 
@@ -121,8 +138,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('[data-muni-gov]').forEach(item => {
         item.addEventListener("click", function () {
 
-            let muniGov = this.getAttribute("data-muni-gov");
+            let metroGovAndmuniGov = this.getAttribute("data-muni-gov");
             let metroGov = this.getAttribute("data-metro-gov");
+            const muniGovArr = metroGovAndmuniGov.split("_");
+            let muniGov = muniGovArr[1];
+
             currentUrl.searchParams.set("muniGov", muniGov);
 
             console.log("지역 하위(시/군/구) 메뉴 클릭(시/도): " + metroGov);
@@ -150,9 +170,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    console.log(muniGovParam);
+    
     // muniGov에 해당하는 항목에 active 클래스 추가
     if (muniGovParam) {
-        let selectedMunigov = document.querySelector(`a.list-group-item[data-muni-gov="${muniGovParam}"]`);
+        console.log(muniGovParam);
+        let selectedMunigov = document.querySelector(`a.list-group-item[data-muni-gov="${metroGovParam}_${muniGovParam}"]`);
         if (selectedMunigov) {
             selectedMunigov.classList.add("active");
         }
@@ -326,7 +349,7 @@ Object.keys(regions).forEach(province => {
         let districtList = `<div class="collapse ps-3" id="${cityId}">`;
         regions[province][city].forEach(district => {
             districtList += `<a class="list-group-item muni-gov-list" data-metro-gov="${city}"
-                                data-muni-gov="${district}">${district}</a>`;
+                                data-muni-gov="${city}_${district}">${district}</a>`;
         });
         districtList += `</div>`;
         cityList += districtList;
