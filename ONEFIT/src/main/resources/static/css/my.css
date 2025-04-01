@@ -18,7 +18,7 @@
            background-color: #ffffff;
            border-right: 1px solid #ddd;
            padding-top: 20px;
-           width: 200px;
+           width: 100px;
            transition: all 0.3s ease;
            /* 부드러운 애니메이션 */
        }
@@ -50,7 +50,7 @@
     }
 
        .container-fluid {
-           margin-left: 400px;
+           margin-left: 150px;
            transition: margin-left 0.3s ease;
            padding: 30px;
        }
