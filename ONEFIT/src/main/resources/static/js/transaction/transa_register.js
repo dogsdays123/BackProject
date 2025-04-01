@@ -6,9 +6,16 @@ document.querySelector(".submitBtn").addEventListener("click", function (e) {
     e.stopPropagation();
 
     let categoryId = $("select[name='categoryId']");
-    let eUseStart = $("#eUseStart").val();
-    let eUseEnd =  $("#eUseEnd").val();
     let pContent = $("textarea[name='pContent']").val().trim();
+    // (기구)
+    let eName = $("input[name='eName']").val();
+    let eBrand = $("input[name='eBrand']").val();
+    let eStatus = $("input[name='eStatus']:checked").val();
+    let eAs = $("input[name='eAs']:checked").val();
+    let ePurPrice = $("input[name='ePurPrice']").val();
+    let eUseStart = $("#eUseStart");
+    let eUseEnd = $("#eUseEnd");
+
 
     // 제목
     if ($.trim($('#pTitle').val()) === '') {
@@ -48,24 +55,109 @@ document.querySelector(".submitBtn").addEventListener("click", function (e) {
         return;
     }
 
-    // 사용 시작일
-    if (!eUseStart) {
-        $("#startDateFeedback").show().text("사용 시작일을 입력해주세요.");
-        eUseStart.focus();
+    // (기구) 제품명 입력값 검증
+    if ($("input[name='eName']").length > 0 && !eName) {
+        $("#eNameFeedback").show().text("제품명을 입력해주세요.");
+        $("input[name='eName']").focus();
         return;
     }
-    // 사용 종료일
-    if (!eUseEnd) {
-        $("#endDateFeedback").show().text("사용 종료일을 입력해주세요.");
-        eUseEnd.focus();
+
+    // (기구) 제조사 입력값 검증
+    if ($("input[name='eBrand']").length > 0 && !eBrand) {
+        $("#eBrandFeedback").show().text("제조사를 입력해주세요.");
+        $("input[name='eBrand']").focus();
         return;
     }
+
+    // (기구) 구매 가격 입력값 검증
+    if ($("input[name='ePurPrice']").length > 0 && !ePurPrice) {
+        $("#ePurPriceFeedback").show().text("구매 가격을 입력해주세요.");
+        $("input[name='ePurPrice']").focus();
+        return;
+    }
+
+    // (기구) 사용 시작일
+    if (eUseStart.length > 0) {
+        if (!eUseStart.val()) {
+            $("#startDateFeedback").show().text("사용 시작일을 입력해주세요.");
+            eUseStart.focus();
+            return;
+        }
+    }
+
+    // (기구) 사용 종료일
+    if (eUseEnd.length > 0) {
+        if (!eUseEnd.val()) {
+            $("#endDateFeedback").show().text("사용 종료일을 입력해주세요.");
+            eUseEnd.focus();
+            return;
+        }
+    }
+
+    // (시설) 센터명
+    let fCenterName = $("input[name='fCenterName']").val();
+    if ($("input[name='fCenterName']").length > 0 && !fCenterName) {
+        $("#fCenterNameFeedback").show().text("센터명을 입력해주세요.");
+        $("input[name='fCenterName']").focus();
+        return;
+    }
+
+
+    // (시설) 보증금
+    let fDeposit = $("input[name='fDeposit']").val();
+    if ($("input[name='fDeposit']").length > 0 && !fDeposit) {
+        $("#fDepositFeedback").show().text("보증금을 입력해주세요.");
+        $("input[name='fDeposit']").focus();
+        return;
+    }
+
+    // (시설) 월세
+    let fMonthRent = $("input[name='fMonthRent']").val();
+    if ($("input[name='fMonthRent']").length > 0 && !fMonthRent) {
+        $("#fMonthRentFeedback").show().text("월세를 입력해주세요.");
+        $("input[name='fMonthRent']").focus();
+        return;
+    }
+
+    // (시설) 관리비
+    let fAdminCost = $("input[name='fAdminCost']").val();
+    if ($("input[name='fAdminCost']").length > 0 && !fAdminCost) {
+        $("#fAdminCostFeedback").show().text("관리비를 입력해주세요.");
+        $("input[name='fAdminCost']").focus();
+        return;
+    }
+
+    // (시설) 매매 사유
+    let fReasonSale = $("input[name='fReasonSale']").val();
+    if ($("input[name='fReasonSale']").length > 0 && !fReasonSale) {
+        $("#fReasonSaleFeedback").show().text("매매 사유를 입력해주세요.");
+        $("input[name='fReasonSale']").focus();
+        return;
+    }
+
+    // (시설) 계약 면적
+    let fContArea = $("input[name='fContArea']").val();
+    if ($("input[name='fContArea']").length > 0 && !fContArea) {
+        $("#fContAreaFeedback").show().text("계약 면적을 입력해주세요.");
+        $("input[name='fContArea']").focus();
+        return;
+    }
+
+    // (시설) 실면적
+    let fRealArea = $("input[name='fRealArea']").val();
+    if ($("input[name='fRealArea']").length > 0 && !fRealArea) {
+        $("#fRealAreaFeedback").show().text("실면적을 입력해주세요.");
+        $("input[name='fRealArea']").focus();
+        return;
+    }
+
 
     const target = document.querySelector(".uploadHidden");
 
     const imagePreview = document.querySelector("#imagePreview");
     const uploadFiles = imagePreview.querySelectorAll("img");
 
+    // 이미지
     if (uploadFiles.length === 0) {
         $("#imageFeedback").show();
         $("#imageUpload").focus();
@@ -124,7 +216,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-
 });
 
 function showUploadFile({uuid, fileName, link}) {
@@ -161,163 +252,42 @@ function removeFile(uuid, fileName, obj) {
 
 // 희망 거래 장소에서 시/도, 시/군/구를 분리해주는 함수
 function extractRegions(address) {
-    const pattern = /^(서울|부산|대구|인천|광주|대전|울산|세종|강원|경기|경상남도|경상북도|전라남도|전라북도|충청남도|충청북도|제주특별자치도)(?:특별시|광역시|도)?\s+(.*?시|.*?군|.*?구)/;
-    const match = address.match(pattern);
+    const fullNames = {
+        "서울": "서울특별시",
+        "부산": "부산광역시",
+        "대구": "대구광역시",
+        "인천": "인천광역시",
+        "광주": "광주광역시",
+        "대전": "대전광역시",
+        "울산": "울산광역시",
+        "세종": "세종특별자치시",
+        "경기": "경기도",
+        "강원": "강원특별자치도",
+        "충북": "충청북도",
+        "충남": "충청남도",
+        "전북": "전라북도",
+        "전남": "전라남도",
+        "경북": "경상북도",
+        "경남": "경상남도",
+        "제주": "제주특별자치도"
+    };
 
-    if (match) {
-        return [match[1], match[2]]; // [광역자치단체(시/도), 기초자치단체(시/군/구)]
+    const parts = address.trim().split(/\s+/);
+
+    if (parts.length < 2) return ["", ""];
+
+    let metroGov = parts[0];
+    if (fullNames[metroGov]) {
+        metroGov = fullNames[metroGov];
     }
 
-    return null;
+    const muniGov = parts[1];
+
+    return [metroGov, muniGov];
 }
 
-// 올바른 카카오톡 오픈채팅 링크인지 검증하는 함수
-function validateAndFormatLink(link) {
-    const regex = /^https:\/\/open\.kakao\.com\/o\/[A-Za-z0-9]+$/;
 
-    if (link.includes("open.kakao.com/o/")) {
-        if (!link.startsWith("https://")) {
 
-            link = "https://" + link;
-        }
-        return regex.test(link);
-    }
-    return null;
-}
 
-// 입력 값 실시간 검증 js
-$(document).ready(function () {
-    function validateForm() {
-        let isValid = true;
 
-        let startDate = new Date($("#eUseStart").val());
-        let endDate = new Date($("#eUseEnd").val());
-        let chatUrl = $("#pChatUrl").val().trim();
-
-        // 오픈채팅 URL 검증
-        if (chatUrl !== "" && !validateAndFormatLink(chatUrl)) {
-            $("#urlFeedback").show().text("카카오 오픈채팅 URL 형식이 아닙니다.");
-            isValid = false;
-        } else {
-            $("#urlFeedback").hide();
-        }
-
-        // 사용 종료일 검증 (시작일보다 늦어야 함)
-        if ($("#eUseStart").val() && $("#eUseEnd").val()) {
-            if (endDate <= startDate) {
-                $("#endDateFeedback").show().text("사용 종료일은 시작일보다 늦어야 합니다.");
-                isValid = false;
-            } else {
-                $("#startDateFeedback").hide();
-                $("#endDateFeedback").hide();
-            }
-        }
-
-        // 버튼 활성화/비활성화
-        $(".submitBtn").prop("disabled", !isValid);
-    }
-
-    // 제목
-    $("#pTitle").on("input", function () {
-        let pTitle = $(this).val().trim();
-
-        if (pTitle === "") {
-            $("#pTitleFeedback").show();  // 경고 문구 표시
-        } else {
-            $("#pTitleFeedback").hide();  // 입력 시 경고 문구 숨김
-        }
-    });
-
-    // 판매가
-    $("#pPrice").on("input", function () {
-        let pPrice = $(this).val().trim();
-
-        if (pPrice === "") {
-            $("#pPriceFeedback").show();  // 경고 문구 표시
-        } else {
-            $("#pPriceFeedback").hide();  // 입력 시 경고 문구 숨김
-        }
-    });
-
-    // 카테고리
-    $("select[name='categoryId']").on("input", function () {
-        let categoryId = $(this).val();
-
-        if (categoryId === null || categoryId === "") {
-            $("#pCategoryFeedback").show();  // 경고 문구 표시
-        } else {
-            $("#pCategoryFeedback").hide();  // 입력 시 경고 문구 숨김
-        }
-    });
-
-    // 판매 내용
-    $("textarea[name='pContent']").on("input", function () {
-        let pContent = $(this).val().trim();
-
-        if (pContent === "") {
-            $("#pContentFeedback").show();  // 경고 문구 표시
-        } else {
-            $("#pContentFeedback").hide();  // 입력 시 경고 문구 숨김
-        }
-    });
-
-    // 주소
-    $("#addressInput").on("input", function () {
-        let pAddr = $(this).val().trim();
-        console.log("주소: " + pAddr);
-
-        if (pAddr === "") {
-            $("#pAddrFeedback").show();  // 경고 문구 표시
-        } else {
-            $("#pAddrFeedback").hide();  // 입력 시 경고 문구 숨김
-        }
-    });
-
-    // 카카오 오픈채팅
-    $("#pChatUrl").on("input", function () {
-        let pChatUrl = $(this).val().trim();
-
-        if (pChatUrl === "") {
-            $("#urlEmptyFeedback").show();  // 경고 문구 표시
-        } else {
-            $("#urlEmptyFeedback").hide();  // 입력 시 경고 문구 숨김
-        }
-    });
-
-    // 이미지 미리보기
-    $("#imagePreview img").on("input", function () {
-        let uploadFiles = $(this).val().trim();
-
-        if (uploadFiles.length === 0) {
-            $("#imageFeedback").show();  // 경고 문구 표시
-        } else {
-            $("#imageFeedback").hide();  // 입력 시 경고 문구 숨김
-        }
-    });
-
-    // 사용 시작일
-    $("#eUseStart").on("input", function () {
-        let eUseStart = $(this).val();
-
-        if (eUseStart) {
-            $("#startDateFeedback").show().text("사용 시작일을 입력해주세요.");  // 경고 문구 표시
-        } else {
-            $("#startDateFeedback").hide();  // 입력 시 경고 문구 숨김
-        }
-    });
-
-    // 사용 종료일
-    $("#eUseEnd").on("input", function () {
-        let eUseEnd = $(this).val();
-
-        if (eUseEnd) {
-            $("#endDateFeedback").show().text("사용 종료일을 입력해주세요.");  // 경고 문구 표시
-        } else {
-            $("#endDateFeedback").hide();  // 입력 시 경고 문구 숨김
-        }
-    });
-
-    $("#pChatUrl, #eUseStart, #eUseEnd").on("input", validateForm);
-
-});
 

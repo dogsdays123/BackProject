@@ -34,9 +34,7 @@
                         <label class="form-label">제목</label>
                         <input type="text" name="pTitle" id="pTitle"
                                class="form-control" th:value="${dto.pTitle}" required>
-                        <!--                        <div id="pTitle-feedback" class="mt-1 input-feedback text-danger">-->
-                        <!--                            제목을 입력해주세요.-->
-                        <!--                        </div>-->
+                        <small id="pTitleFeedback" class="text-danger" style="display: none;">제목을 입력하세요.</small>
                     </div>
 
                     <div class="row g-3">
@@ -60,7 +58,9 @@
                         <div class="col-md-6">
                             <!-- 2. 판매가 -->
                             <label class="form-label">판매가</label>
-                            <input type="text" class="form-control" name="pPrice" th:value="${dto.pPrice}" required>
+                            <input type="text" class="form-control" name="pPrice" id="pPrice" th:value="${dto.pPrice}"
+                                   required>
+                            <small id="pPriceFeedback" class="text-danger" style="display: none;">판매가를 입력하세요.</small>
                         </div>
 
                         <!-- 3. 카테고리 -->
@@ -76,6 +76,7 @@
                                 <option value="6" th:selected="${dto.categoryId == 6}">테니스</option>
                                 <option value="7" th:selected="${dto.categoryId == 7}">스포츠 보충제</option>
                             </select>
+                            <small id="pCategoryFeedback" class="text-danger" style="display: none;">카테고리를 선택하세요.</small>
                         </div>
 
                     </div>
@@ -91,6 +92,7 @@
                         <label class="form-label">판매 내용</label>
                         <textarea class="form-control" rows="5" name="pContent" required>[[${dto.pContent}]]
                         </textarea>
+                        <small id="pContentFeedback" class="text-danger" style="display: none;">판매 내용을 입력하세요.</small>
                     </div>
                     <div class="mb-3">
                         <!-- 5. 거래 장소 -->
@@ -120,6 +122,7 @@
                                                readonly placeholder="주소가 여기에 표시됩니다." required>
                                     </div>
                                 </div>
+                                <small id="pAddrFeedback" class="text-danger" style="display: none;">주소를 입력해주세요.</small>
                             </div>
                         </div>
                         <!-- 5. 거래 장소 -->
@@ -127,7 +130,9 @@
                     <div class="mb-3">
                         <!-- 6. 오픈 채팅 URL -->
                         <label class="form-label">카카오톡 오픈채팅 URL</label>
-                        <input type="url" class="form-control" name="pChatUrl" th:value="${dto.pChatUrl}" required>
+                        <input type="url" class="form-control" name="pChatUrl" id="pChatUrl" th:value="${dto.pChatUrl}" required>
+                        <small id="urlFeedback" class="text-danger" style="display: none;">올바른 오픈채팅 URL을 입력하세요.</small>
+                        <small id="urlEmptyFeedback" class="text-danger" style="display: none;">오픈채팅 URL을 입력하세요.</small>
                     </div>
                     <div class="mb-3 uploadHidden">
                         <!-- 7. 상품 이미지 -->
@@ -150,6 +155,7 @@
                         <div class="mt-1 text-secondary">
                             ※ 미리보기 첫 번째 이미지가 썸네일로 표시됩니다.
                         </div>
+                        <small id="imageFeedback" class="text-danger" style="display: none;">1개 이상의 이미지를 업로드 해주세요.</small>
                     </div>
                 </div>
 
@@ -162,12 +168,14 @@
                             <label class="form-label">제품명</label>
                             <input type="text" class="form-control" name="eName"
                                    th:value="${dto.eName}" required>
+                            <small id="eNameFeedback" class="text-danger" style="display: none;">오늘 이후 날짜를 선택하세요.</small>
                         </div>
                         <div class="col-md-6">
                             <!-- 9. 제조사 -->
                             <label class="form-label">제조사</label>
                             <input type="text" class="form-control" name="eBrand"
                                    th:value="${dto.eBrand}" required>
+                            <small id="eBrandFeedback" class="text-danger" style="display: none;">오늘 이후 날짜를 선택하세요.</small>
                         </div>
                         <div class="form-section col-md-6">
                             <!-- 10. 제품 상태 -->
@@ -203,21 +211,25 @@
                             <!-- 12. 구매가 -->
                             <label class="form-label">구매가</label>
                             <input type="text" class="form-control" name="ePurPrice"
-                                   th:value="${dto.ePurPrice}" required>
+                                   th:value="${dto.ePurPrice}"
+                                   required>
+                            <small id="ePurPriceFeedback" class="text-danger" style="display: none;">.</small>
                         </div>
                     </div>
                     <div class="use-date-div row g-3">
                         <div class="col-md-6">
                             <!-- 13. 사용 시작일 -->
                             <label class="form-label">사용 시작일</label>
-                            <input type="date" class="form-control" name="eUseStart"
+                            <input type="date" class="form-control" name="eUseStart" id="eUseStart"
                                    th:value="${dto.eUseStart}" required>
+                            <small id="startDateFeedback" class="text-danger" style="display: none;">오늘 이후 날짜를 선택하세요.</small>
                         </div>
                         <div class="col-md-6">
                             <!-- 14. 사용 종료일 -->
                             <label class="form-label">사용 종료일</label>
-                            <input type="date" class="form-control" name="eUseEnd"
+                            <input type="date" class="form-control" name="eUseEnd" id="eUseEnd"
                                    th:value="${dto.eUseEnd}" required>
+                            <small id="endDateFeedback" class="text-danger" style="display: none;">사용 종료일은 시작일보다 늦어야 합니다.</small>
                         </div>
                     </div>
                 </div>
@@ -228,6 +240,7 @@
         </div>
     </div>
     <!-- JS 기능 추가 -->
+    <script th:src="@{/js/transaction/transa_input.js}"></script>
     <script th:src="@{/js/transaction/upload.js}"></script>
     <script th:src="@{/js/transaction/transa_modify.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

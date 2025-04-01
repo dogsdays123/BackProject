@@ -167,7 +167,7 @@
 }
 
 /* 댓글 수정 모달 CSS start */
-.modal-content {
+.reply-modal-content {
     border-radius: 8px;
     border: 1px solid #ddd;
     min-width: 500px;
@@ -240,6 +240,19 @@ fieldset {
     display: contents;
     color: #FF0000;
     font-size: 1.5rem;
+}
+
+.img-modal-dialog {
+    justify-content: center;
+    align-items: center;
+}
+
+.img-modal-content {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    min-width: 1000px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 

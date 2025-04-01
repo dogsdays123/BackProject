@@ -139,8 +139,8 @@
                                         <input type="text" class="form-control" id="addressInput" name="pAddr" readonly
                                                placeholder="주소가 여기에 표시됩니다." required>
                                     </div>
-                                    <small id="pAddrFeedback" class="text-danger" style="display: none;">주소를 입력해주세요.</small>
                                 </div>
+                                <small id="pAddrFeedback" class="text-danger" style="display: none;">주소를 입력해주세요.</small>
                             </div>
                         </div>
                     </div>
@@ -175,12 +175,14 @@
                             <label class="form-label">제품명</label>
                             <input type="text" class="form-control" name="eName"
                                    placeholder="제품명을 가격을 입력하세요" required>
+                            <small id="eNameFeedback" class="text-danger" style="display: none;">오늘 이후 날짜를 선택하세요.</small>
                         </div>
                         <div class="col-md-6">
                             <!-- 9. 제조사 -->
                             <label class="form-label">제조사</label>
                             <input type="text" class="form-control" name="eBrand"
                                    placeholder="제조사를 입력하세요" required>
+                            <small id="eBrandFeedback" class="text-danger" style="display: none;">오늘 이후 날짜를 선택하세요.</small>
                         </div>
                         <div class="form-section col-md-6">
                             <!-- 10. 제품 상태 -->
@@ -209,7 +211,9 @@
                             <!-- 12. 구매가 -->
                             <label class="form-label">구매가</label>
                             <input type="text" class="form-control number-input" name="ePurPrice"
-                                   placeholder="구매 가격을 입력하세요" required>
+                            placeholder="구매 가격을 입력하세요" required>
+
+                            <small id="ePurPriceFeedback" class="text-danger" style="display: none;">.</small>
                         </div>
                     </div>
                     <div class="use-date-div row g-3">

@@ -313,5 +313,28 @@ body {
     opacity: 1;
 }
 
+.no-style-a {
+    all: unset;
+    display: contents;
+    cursor: pointer;
+}
+
+.no-style-a h2 {
+    cursor: pointer;
+}
+
+.no-style-a h2:hover {
+    text-decoration: underline; /* 밑줄 추가 */
+    text-decoration-thickness: 1px; /* 밑줄 두께 조절 */
+}
+
+.breadcrumb-item a:hover {
+    color: #007bff !important; /* 원하는 색상 */
+    text-decoration: underline !important; /* 밑줄 추가 */
+}
+
+
+
+
 
 
