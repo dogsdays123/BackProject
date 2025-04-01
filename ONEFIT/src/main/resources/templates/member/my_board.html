@@ -4,11 +4,15 @@
       layout:decorate="~{layout/myPage.html}">
 
 <div layout:fragment="my_board">
-      <div class="container mt-5">
+    <div class="container mt-5">
         <h2 class="text-primary mb-4">내가 쓴 게시글</h2>
-    
+
         <!-- 공지사항 테이블 -->
-        <table class="table table-hover align-middle">
+        <div th:if="${allBoardDTO == null}">
+            <br><br>
+            <h2>올린 게시글이 없습니다.</h2><br><br>
+        </div>
+        <table class="table table-hover align-middle" th:if="${allBoardDTO != null}">
             <thead>
             <tr>
                 <th style="width: 30%;">제목</th>
@@ -17,46 +21,44 @@
             </tr>
             </thead>
             <tbody id="noticeTable">
-              <tr th:each="notice : ${notices}">
-                  <td>
-                      <a th:href="@{/notice/{id}(id=${notice.id})}"
-                        th:text="${notice.title}">공지 제목</a>
+            <tr th:each="allBoardDTO : ${allBoardDTO}">
+
+<!--                notice board-->
+                    <tr th:if="${allBoardDTO.noticeBoardDTO != null}"
+                    th:each="noticeDTO : ${allBoardDTO.noticeBoardDTO}">
+                        <td>
                       <span class="ms-2">
-                          <span th:text="${notice.commentCount}"></span>
+                          <span>공지사항</span>
                       </span>
-                      <span class="ms-2" th:if="${notice.hasFile}">
-                          <i class="fas fa-paperclip file-icon"></i>
+                            <div>
+                                <a th:href="|@{/zboard/board_notice_read(noticeId=${noticeDTO.noticeId})}|"
+                                   th:text="${noticeDTO.nTitle}"></a>
+                            </div>
+                        </td>
+                        <td>작성일 [[${#temporals.format(noticeDTO.regDate, 'yyyy-MM-dd')}]]</td>
+                        <td>수정일 [[${#temporals.format(noticeDTO.modDate, 'yyyy-MM-dd')}]]</td>
+                    </tr>
+
+<!--                qna board-->
+                    <tr th:if="${allBoardDTO.qnaBoardDTO != null}"
+                        th:each="qnaDTO : ${allBoardDTO.qnaBoardDTO}">
+                        <td>
+                      <span class="ms-2">
+                          <span>QNA</span>
                       </span>
-                  </td>
-                  <td th:text="${notice.date}">2025-03-10</td>
-                  <td th:text="${notice.views}">120</td>
-              </tr>
+                            <div>
+                                <a th:href="|@{/zboard/board_qa_read(qnaId=${qnaDTO.qnaId})}|"
+                                   th:text="${qnaDTO.qTitle}"></a>
+                            </div>
+                        </td>
+                        <td>작성일 [[${#temporals.format(qnaDTO.regDate, 'yyyy-MM-dd')}]]</td>
+                        <td>수정일 [[${#temporals.format(qnaDTO.modDate, 'yyyy-MM-dd')}]]</td>
+                    </tr>
+
+            </tr>
             </tbody>
         </table>
-
-          <!-- 페이징 처리 (1~10 페이지 고정) 임시 -->
-          <div class="d-flex justify-content-center mt-4">
-              <nav aria-label="Page navigation">
-                  <ul class="pagination" id="pagination">
-                      <!-- 이전 페이지 버튼 -->
-                      <li class="page-item disabled">
-                          <a class="page-link" href="#" aria-label="Previous">
-                              <span aria-hidden="true">&laquo;</span>
-                          </a>
-                      </li>
-
-                      <!-- 페이지 번호 버튼 (JavaScript로 추가) -->
-
-                      <!-- 다음 페이지 버튼 -->
-                      <li class="page-item disabled">
-                          <a class="page-link" href="#" aria-label="Next">
-                              <span aria-hidden="true">&raquo;</span>
-                          </a>
-                      </li>
-                  </ul>
-              </nav>
-          </div>
-      </div>
+    </div>
 
     <!-- 임시 -->
     <script>

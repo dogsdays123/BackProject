@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.board.Notice_Board;
+import org.zerock.b01.domain.board.Qna_Board;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,4 +35,12 @@ public interface All_MemberRepository extends JpaRepository<All_Member, String> 
     
     @Query("select am from All_Member am")
     List<All_Member> getAllMembers();
+
+    @Query("select n from Notice_Board n where n.allMember.allId =:allId")
+    List<Notice_Board> findNoticeForAllId(String allId);
+
+    @Query("select q from Qna_Board q where q.allMember.allId =:allId")
+    List<Qna_Board> findQnaForAllId(String allId);
+
+    //List<Notice_Board> findNoticeForAllId(String allId);
 }

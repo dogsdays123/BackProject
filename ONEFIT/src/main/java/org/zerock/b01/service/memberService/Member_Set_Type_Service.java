@@ -1,10 +1,13 @@
 package org.zerock.b01.service.memberService;
 
 import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
+import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
+import org.zerock.b01.dto.trainerDTO.Trainer_ThumbnailsDTO;
 
 import java.util.List;
 
@@ -17,6 +20,7 @@ public interface Member_Set_Type_Service {
     void businessModify(Business_MemberDTO business_memberDTO);
     TrainerDTO trainerReadForUser(Long userId);
     List<RecruitDTO> recruitReadForBusiness(Long businessId);
+    String[] searchThumbnail(Long userId);
 
     String encodeUserForURL(User_MemberDTO user_memberDTO);
 }

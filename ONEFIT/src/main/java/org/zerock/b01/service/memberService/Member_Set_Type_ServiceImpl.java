@@ -6,20 +6,26 @@ import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.domain.member.Business_Member;
 import org.zerock.b01.domain.member.User_Member;
 import org.zerock.b01.domain.recruit.Recruit_Register;
 import org.zerock.b01.domain.trainer.Trainer;
+import org.zerock.b01.domain.trainer.Trainer_Thumbnails;
 import org.zerock.b01.dto.All_MemberDTO;
+import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
+import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
+import org.zerock.b01.dto.trainerDTO.Trainer_ThumbnailsDTO;
 import org.zerock.b01.repository.All_MemberRepository;
 import org.zerock.b01.repository.memberRepository.Business_MemberRepository;
 import org.zerock.b01.repository.memberRepository.User_MemberRepository;
 
+import javax.swing.text.html.Option;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -161,6 +167,18 @@ public class Member_Set_Type_ServiceImpl implements Member_Set_Type_Service {
 
         return recruitDTOList;
     }
+
+    @Override
+    public String[] searchThumbnail(Long trainerId){
+        Optional<Trainer_Thumbnails> result = user_MemberRepository.searchThumbnailsForTrainer(trainerId);
+        Trainer_Thumbnails trainerThumbnails = result.orElse(null);
+        if (trainerThumbnails == null) {
+            return null;
+        }
+        String[] path = {trainerThumbnails.getThumbnailUuid(), trainerThumbnails.getImgname()};
+        return path;
+    }
+
 
     //사실상 필요없음 = 어차피 id만 가지고 read 할건데 멍청한 짓 함 ㅋ
     @Override

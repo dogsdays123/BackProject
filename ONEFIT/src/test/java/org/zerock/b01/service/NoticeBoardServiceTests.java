@@ -7,13 +7,10 @@
 //import org.zerock.b01.domain.All_Member;
 //import org.zerock.b01.dto.PageRequestDTO;
 //import org.zerock.b01.dto.PageResponseDTO;
-//import org.zerock.b01.dto.boardDTO.BoardFileDTO;
 //import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
-//import org.zerock.b01.dto.boardDTO.NoticeBoardListAllDTO;
 //import org.zerock.b01.service.boardService.NoticeBoardService;
 //
 //import java.util.Arrays;
-//import java.util.List;
 //import java.util.UUID;
 //
 //@SpringBootTest
@@ -48,12 +45,10 @@
 //    public void testModifyNotice() {
 //
 //        NoticeBoardDTO noticeBoardDTO = NoticeBoardDTO.builder()
-//                .noticeId(202L)
-//                .nTitle("Updated...202")
-//                .nContent("Updated...202")
+//                .noticeId(210L)
+//                .nTitle("Updated...210")
+//                .nContent("Updated...210")
 //                .build();
-//
-//        noticeBoardDTO.setFileNames(Arrays.asList(UUID.randomUUID()+"_zzz.jpg"));
 //
 //        noticeBoardService.modifyNotice(noticeBoardDTO);
 //    }
@@ -75,7 +70,7 @@
 //    }
 //
 //    @Test
-//    public void testRegisterWithNoticeFiles() {
+//    public void testRegisterWithImages() {
 //
 //        String allId = "member1";
 //
@@ -99,48 +94,5 @@
 //        Long noticeId = noticeBoardService.registerNotice(noticeBoardDTO);
 //
 //        log.info("noticeId: " + noticeId);
-//    }
-//
-//    @Test
-//    public void testReadNoticeAll() {
-//
-//        Long noticeId = 203L;
-//
-//        NoticeBoardDTO noticeBoardDTO = noticeBoardService.readNoticeOne(noticeId);
-//
-//        log.info(noticeBoardDTO);
-//
-//        for (String filename : noticeBoardDTO.getFileNames()) {
-//            log.info(filename);
-//        }
-//    }
-//
-//    @Test
-//    public void testRemoveNoticeAll() {
-//
-//        Long noticeId = 200L;
-//
-//        noticeBoardService.removeNotice(noticeId);
-//    }
-//
-//    @Test
-//    public void testListWithNoticeAll() {
-//
-//        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-//                .page(1)
-//                .size(10)
-//                .build();
-//
-//        PageResponseDTO<NoticeBoardListAllDTO> responseDTO = noticeBoardService.listWithNoticeAll(pageRequestDTO);
-//        List<NoticeBoardListAllDTO> dtoList = responseDTO.getDtoList();
-//        dtoList.forEach(noticeBoardListAllDTO -> {
-//            log.info(noticeBoardListAllDTO.getNoticeId() + ":" + noticeBoardListAllDTO.getNTitle());
-//            if (noticeBoardListAllDTO.getBoardFiles() != null) {
-//                for (BoardFileDTO boardFile :noticeBoardListAllDTO.getBoardFiles()){
-//                    log.info(boardFile);
-//                }
-//            }
-//            log.info("-----------------");
-//        });
 //    }
 //}

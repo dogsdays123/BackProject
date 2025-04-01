@@ -25,26 +25,33 @@
 
         <!-- 탭 콘텐츠 -->
         <div class="tab-content" id="myTabContent">
-            <!-- 회원 정보 탭 -->
+            <!-- 내가 올린 공고 탭 -->
             <div class="tab-pane fade show active" id="support" role="tabpanel" aria-labelledby="support-tab">
-                <div class="card">
+                <div class="card" th:if="${recruitDTOList.isEmpty()}">
+                    <div class="card-body card-columns d-flex justify-content-center align-items-center">
+                        <h2><br><br>공고가 없습니다.<br><br><br></h2>
+                    </div>
+                </div>
+                <div class="card" th:if="${!recruitDTOList.isEmpty()}">
                     <div class="card-body card-columns">
                         <!-- 카드 1 -->
-                        <th:block th:each="recruit : ${recruitDTOList}">
+                        <th:block th:each="recruits : ${recruitDTOList}">
                             <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-user-circle"></i> <span th:text="${recruit.recruitId}"></span>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div><i class="fas fa-user-circle"></i> <span th:text="|${recruits.reAdminName} 공고|"></span></div>
+                                    <div><a type="button" class="product-btn btn btn-primary w-30" th:href="|@{/recruit/read}?recruitId=${recruits.recruitId}&page=1&size=1|">
+                                        공고 확인하기</a></div>
                                 </div>
                                 <div class="card-body d-flex align-items-center">
                                     <div>
-                                        <p><strong>기업이름:</strong> <span th:text="${recruit.recruitId}"></span></p>
-                                        <p><strong>대표자:</strong> <span th:text="${recruit.recruitId}"></span></p>
-                                        <p><strong>사업자번호:</strong> <span th:text="${recruit.recruitId}"></span></p>
-                                        <p><strong>설립일:</strong> <span th:text="${#temporals.format(recruit.reDeadline, 'yyyy-MM-dd')}"></span></p>
-                                        <p><strong>이메일:</strong> <span th:text="${recruit.recruitId}"></span></p>
-                                        <p><strong>주소:</strong> <span th:text="${recruit.recruitId}"></span><br>
-                                        <p><strong>전화번호:</strong> <span th:text="${recruit.recruitId}"></span></p>
-                                        <p><strong>홈페이지:</strong> <span th:text="${recruit.recruitId}"></span></p>
+                                        <p><strong>기업이름:</strong> <span th:text="${recruits.recruitId}"></span></p>
+                                        <p><strong>대표자:</strong> <span th:text="${recruits.recruitId}"></span></p>
+                                        <p><strong>사업자번호:</strong> <span th:text="${recruits.recruitId}"></span></p>
+                                        <p><strong>설립일:</strong> <span th:text="${#temporals.format(recruits.reDeadline, 'yyyy-MM-dd')}"></span></p>
+                                        <p><strong>이메일:</strong> <span th:text="${recruits.recruitId}"></span></p>
+                                        <p><strong>주소:</strong> <span th:text="${recruits.recruitId}"></span><br>
+                                        <p><strong>전화번호:</strong> <span th:text="${recruits.recruitId}"></span></p>
+                                        <p><strong>홈페이지:</strong> <span th:text="${recruits.recruitId}"></span></p>
                                     </div>
                                 </div>
                             </div>

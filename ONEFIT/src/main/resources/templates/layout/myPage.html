@@ -10,7 +10,7 @@
     <!-- 사이드바 -->
     <div class="container">
         <div class="row">
-            <nav id="offcanvasSidebar" class="sidebar-nav col-md-3 offcanvas offcanvas-start text-white sidebars show"
+            <nav id="offcanvasSidebar" class="sidebar-nav col-md-3 offcanvas offcanvas-start text-white"
                  data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1">
                 <div class="side-header d-flex justify-content-between offcanvas-header">
                     <a class="navbar-brand me-auto" href="/main">OneFit</a>
@@ -30,14 +30,14 @@
                                 <a class="nav-link collapsed d-flex justify-content-between" href="#"
                                    data-bs-toggle="collapse"
                                    data-bs-target="#myPostsMenu">
-                                    <span><i class="fas fa-file-alt"></i> 내가 작성한 게시글</span>
+                                    <span><i class="fas fa-file-alt"></i> 내 활동</span>
                                     <i class="fas fa-chevron-down ps-2"></i>
                                 </a>
                                 <!-- 변경 메뉴 start -->
                                 <div id="myPostsMenu" class="collapse">
                                     <ul class="nav flex-column ms-3">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="/member/my_board"><i class="fas fa-question-circle"></i> Q&A</a>
+                                            <a class="nav-link" th:href="|@{/member/my_board(allId =${all_memberDTO.allId})}|"><i class="fas fa-question-circle"></i> 게시글</a>
                                         </li>
                                         <li class="nav-item" th:if="${all_memberDTO.memberType != 'default'}">
                                             <a class="nav-link" th:href="@{/transaction/transa_list(allId=${all_memberDTO.allId})}"><i class="fas fa-exchange-alt"></i> 거래</a>

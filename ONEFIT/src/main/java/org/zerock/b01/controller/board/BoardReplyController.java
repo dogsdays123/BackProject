@@ -141,6 +141,7 @@ public class BoardReplyController {
     public PageResponseDTO<BoardReplyDTO> getNoticeList(@PathVariable("noticeId") Long noticeId, PageRequestDTO pageRequestDTO) {
 
         PageResponseDTO<BoardReplyDTO> responseDTO = boardReplyService.getListOfNoticeBoard(noticeId, pageRequestDTO);
+        log.info(responseDTO);
 
         return responseDTO;
     }

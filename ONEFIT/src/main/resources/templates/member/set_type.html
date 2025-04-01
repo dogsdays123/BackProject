@@ -16,13 +16,13 @@
 
 <body>
 <div>
-    <h1>회원전환 요구사항</h1>
+    <h1 style="text-align: center;">회원전환 요구사항(개인회원)</h1>
 
     <div th:if="${all_memberDTO != null}">
         <form id="modifyMemberType" name="modifyMemberType" action="/member/set_type" method="post">
             <input type="hidden" th:name="allId" th:value="${all_memberDTO.allId}" readonly>
             <div class="form-section">
-                <h5 class="product-h5">회원 정보</h5>
+                <h5 class="product-h5" style="text-align: center;">회원 정보</h5>
                 <hr>
                 <div class="mb-3">
                     <label class="form-label">이름</label>
@@ -51,9 +51,10 @@
                     <label class="form-label">주소</label>
                     <div id="kakaoMap" style="width:500px;height:400px;"></div>
                     <input type="text" class="kakaoAddress" placeholder="주소를 입력하세요"/>
+                    <button type="button" class="searchAddress">위치 찾기</button>
                     <div>
-                        <button type="button" class="searchAddress">위치 찾기</button>
-                        <button type="button" id="getAddress">주소 찾기</button>
+                        *찾은 주소를 입력해주세요.<br>
+                        <button type="button" id="getAddress">주소 입력</button>
                     </div>
                     <input type="text" class="form-control" id="addressInput" name="uAddress" placeholder="주소가 여기에 표시됩니다." required>
                     <input type="text" class="form-control" name="uAddressExtra" placeholder="추가주소 입력">
