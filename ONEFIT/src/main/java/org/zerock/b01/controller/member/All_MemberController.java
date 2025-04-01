@@ -40,7 +40,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class All_MemberController {
 
-    @Value("${org.zerock.upload.path}")
+    @Value("${org.zerock.upload.thumbnailPath}")
     private String thumbnailPath;
 
     private final All_MemberService all_memberService;
@@ -207,6 +207,7 @@ public class All_MemberController {
         //이력서 섬네일
         Resource resource = new FileSystemResource(thumbnailPath + File.separator + path);
         HttpHeaders headers = new HttpHeaders();
+        log.info("resource####" + resource);
 
         try{
             headers.add("Content-Type", Files.probeContentType(resource.getFile().toPath()));
