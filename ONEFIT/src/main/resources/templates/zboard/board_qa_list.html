@@ -84,7 +84,7 @@
                        th:text="${dto.title}" class="text-decoration-none"></a>
                     <span class="badge progress-bar-success"
                           style="background-color: #0a53be">[[${dto.replyCount}]]</span>
-                    <span class="ms-2">
+                    <span class="ms-2" th:if="${dto.fileExists}">
                     <i class="fas fa-paperclip file-icon"></i>
                 </span>
                 </td>

@@ -157,7 +157,8 @@ public class NoticeBoardSearchImpl extends QuerydslRepositorySupport implements 
                             notice_board.allMember.allId.as("allId"),
                             notice_board.nHits.as("hits"),
                             notice_board.regDate,
-                            board_reply.count().as("replyCount")
+                            board_reply.count().as("replyCount"),
+                            notice_board.boardFileSet.isEmpty().not().as("fileExists")
                 ));
 
         // 🔹 페이징 처리
@@ -238,6 +239,7 @@ public class NoticeBoardSearchImpl extends QuerydslRepositorySupport implements 
                     .nHits(notice_board1.getNHits())
                     .regDate(notice_board1.getRegDate())
                     .replyCount(replyCount)
+                    .fileExists(notice_board1.getBoardFileSet().isEmpty())
                     .build();
 
             List<BoardFileDTO> fileDTOS = notice_board1.getBoardFileSet().stream().sorted()

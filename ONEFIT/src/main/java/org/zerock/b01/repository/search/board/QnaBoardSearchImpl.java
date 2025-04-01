@@ -166,7 +166,8 @@ public class QnaBoardSearchImpl extends QuerydslRepositorySupport implements Qna
                         qna_board.allMember.allId.as("allId"),
                         qna_board.qHits.as("hits"),
                         qna_board.regDate,
-                        board_reply.count().as("replyCount")
+                        board_reply.count().as("replyCount"),
+                        qna_board.boardFileSet.isEmpty().not().as("fileExists")
                 ));
 
         // 🔹 페이징 처리
@@ -250,6 +251,7 @@ public class QnaBoardSearchImpl extends QuerydslRepositorySupport implements Qna
                     .qHits(qna_board1.getQHits())
                     .regDate(qna_board1.getRegDate())
                     .replyCount(replyCount)
+                    .fileExists(qna_board1.getBoardFileSet().isEmpty())
                     .build();
 
             List<BoardFileDTO> fileDTOS = qna_board1.getBoardFileSet().stream().sorted()
