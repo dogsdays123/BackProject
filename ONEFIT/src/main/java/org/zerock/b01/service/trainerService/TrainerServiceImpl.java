@@ -139,7 +139,7 @@ public class TrainerServiceImpl implements TrainerService {
         All_Member all = allMember.orElseThrow();
 
         trainerViewDTO.setName(all.getName());
-        trainerViewDTO.setGender(user.getUResident().toString().charAt(0) == '1' ? "남" : "여");
+        trainerViewDTO.setGender(Character.getNumericValue(user.getUResident().toString().charAt(0)) % 2 == 1 ? "남" : "여");
         trainerViewDTO.setBirthday(user.getUBirthday());
         trainerViewDTO.setEmail(all.getEmail());
         trainerViewDTO.setPhone(all.getAPhone().toString());

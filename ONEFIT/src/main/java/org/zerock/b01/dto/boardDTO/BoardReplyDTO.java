@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.zerock.b01.domain.All_Member;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +23,6 @@ public class BoardReplyDTO {
 
     @NotEmpty
     private String allId;
-//    private All_Member allMember;
 
     @NotEmpty
     private String replyText;

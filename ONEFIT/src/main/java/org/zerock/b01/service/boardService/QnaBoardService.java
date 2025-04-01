@@ -24,6 +24,8 @@ public interface QnaBoardService {
 
     PageResponseDTO<QnaBoardListAllDTO> listWithQnaAll(PageRequestDTO pageRequestDTO);
 
+    void increaseQnaHits(Long qnaId);
+
     default Qna_Board dtoToEntity(QnaBoardDTO qnaBoardDTO) {
 
         Qna_Board qna_board = Qna_Board.builder()

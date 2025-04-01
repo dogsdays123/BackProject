@@ -3,8 +3,8 @@ async function get1(noticeId) {
     const result = await axios.get(`/replies_board/board_notice_list/${noticeId}`)
 
     // console.log(result)
-    return result.data
-    // return result
+    // return result.data
+    return result
 }
 
 async function get2(qnaId) {
@@ -12,8 +12,8 @@ async function get2(qnaId) {
     const result = await axios.get(`/replies_board/board_qa_list/${qnaId}`)
 
     // console.log(result)
-    return result.data
-    // return result
+    // return result.data
+    return result
 }
 
 //공지사항게시판 댓글 목록 처리

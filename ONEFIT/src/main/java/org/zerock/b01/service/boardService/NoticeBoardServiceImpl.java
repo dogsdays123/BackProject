@@ -158,4 +158,20 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
                 .total((int)result.getTotalElements())
                 .build();
     }
+
+    @Override
+    @Transactional
+    public void increaseNoticeHits(Long noticeId) {
+        // 공지사항 조회
+        Notice_Board notice_board = noticeBoardRepository.findById(noticeId)
+                .orElseThrow(() -> new RuntimeException("공지사항을 찾을 수 없습니다."));
+
+        // 조회수 증가
+        notice_board.increaseNoticeHits();
+
+        // 변경된 공지사항 저장 (데이터베이스에 반영)
+        noticeBoardRepository.save(notice_board);
+    }
+
+
 }
