@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.domain.board.Qna_Board;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
@@ -150,5 +151,19 @@ public class QnaBoardServiceImpl implements QnaBoardService {
                 .dtoList(result.getContent())
                 .total((int)result.getTotalElements())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void increaseQnaHits(Long qnaId) {
+        // 공지사항 조회
+        Qna_Board qna_board = qnaBoardRepository.findById(qnaId)
+                .orElseThrow(() -> new RuntimeException("공지사항을 찾을 수 없습니다."));
+
+        // 조회수 증가
+        qna_board.increaseQnaHits();
+
+        // 변경된 공지사항 저장 (데이터베이스에 반영)
+        qnaBoardRepository.save(qna_board);
     }
 }

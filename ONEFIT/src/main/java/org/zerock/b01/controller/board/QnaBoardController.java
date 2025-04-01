@@ -4,6 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,10 +17,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
@@ -29,11 +31,18 @@ import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.boardService.QnaBoardService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.util.List;
+
 @Controller
 @Log4j2
 @RequestMapping("/zboard")
 @RequiredArgsConstructor
 public class QnaBoardController {
+
+    @Value("C:\\upload\\board") //import 시에 springframework으로 시작하는 value
+    private String boardUploadPath;
 
     private final QnaBoardService qnaBoardService;
 
@@ -157,6 +166,9 @@ public class QnaBoardController {
     @GetMapping({"/board_qa_read","/board_qa_modify"})
     public void readQna(Long qnaId, PageRequestDTO pageRequestDTO, Model model) {
 
+        // 조회수 증가
+        qnaBoardService.increaseQnaHits(qnaId);  // 조회수 증가 메서드 호출
+
         QnaBoardDTO qnaBoardDTO = qnaBoardService.readQnaOne(qnaId);
 
         log.info(qnaBoardDTO);
@@ -197,14 +209,52 @@ public class QnaBoardController {
 
     @PreAuthorize("principal.username == #qnaBoardDTO.allMember.allId")
     @PostMapping("/board_qa_remove")
-    public String removeQna(Long qnaId, RedirectAttributes redirectAttributes) {
+    public String removeQna(QnaBoardDTO qnaBoardDTO, RedirectAttributes redirectAttributes) {
+
+        Long qnaId = qnaBoardDTO.getQnaId();
 
         log.info("board_qa_remove Post" + qnaId);
 
         qnaBoardService.removeQna(qnaId);
 
+        log.info(qnaBoardDTO.getFileNames());
+        //삭제 파일리스트 가져오기
+        List<String> fileNames = qnaBoardDTO.getFileNames();
+        //파일명이 존재하면 삭제처리
+        if (fileNames != null && fileNames.size() > 0) {
+            removeQnaFiles(fileNames);
+        }
+
         redirectAttributes.addFlashAttribute("result", "removed");
 
         return "redirect:/zboard/board_qa_list";
+    }
+
+    public void removeQnaFiles(List<String> files) {
+
+        for (String fileName : files) {
+
+            Resource resource = new FileSystemResource(boardUploadPath + File.separator + fileName);
+            String resourceName = resource.getFilename();
+
+            try {
+                String contentType = Files.probeContentType(resource.getFile().toPath());
+
+                resource.getFile().delete();
+
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+        }
+    }
+
+    @PostMapping("/{qnaId}/increaseQnaHits")
+    public ResponseEntity<String> increaseNoticeHits(@PathVariable Long qnaId) {
+        try {
+            qnaBoardService.increaseQnaHits(qnaId);
+            return ResponseEntity.ok("조회수가 증가되었습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("공지사항을 찾을 수 없습니다.");
+        }
     }
 }
