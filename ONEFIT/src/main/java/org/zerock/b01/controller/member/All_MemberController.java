@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -21,26 +20,17 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.dto.All_MemberDTO;
-import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
 import org.zerock.b01.dto.memberDTO.*;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerDTO;
-import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
-import org.zerock.b01.dto.trainerDTO.Trainer_ThumbnailsDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.nio.file.Files;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -198,8 +188,8 @@ public class All_MemberController {
 
             //이력서 섬네일
             String[] thumbnail = member_Set_Type_Service.searchThumbnail(trainerDTO.getTrainerId());
-            model.addAttribute("thumbnailUuid", thumbnail[0]);
-            model.addAttribute("thumbnailName", thumbnail[1]);
+            model.addAttribute("thumbnailUuid", (thumbnail != null) ? thumbnail[0] : null);
+            model.addAttribute("thumbnailName", (thumbnail != null) ? thumbnail[1] : null);
             //-------------
 
         } else{

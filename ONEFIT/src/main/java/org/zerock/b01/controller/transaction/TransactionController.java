@@ -119,7 +119,7 @@ public class TransactionController {
         } else {
             model.addAttribute("all_memberDTO", null);
         }
-        model.addAttribute("sidebar", true);
+        model.addAttribute("sidebar", false);
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
     //유저모든정보

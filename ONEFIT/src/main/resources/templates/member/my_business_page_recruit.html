@@ -44,14 +44,14 @@
                                 </div>
                                 <div class="card-body d-flex align-items-center">
                                     <div>
-                                        <p><strong>기업이름:</strong> <span th:text="${recruits.recruitId}"></span></p>
-                                        <p><strong>대표자:</strong> <span th:text="${recruits.recruitId}"></span></p>
-                                        <p><strong>사업자번호:</strong> <span th:text="${recruits.recruitId}"></span></p>
-                                        <p><strong>설립일:</strong> <span th:text="${#temporals.format(recruits.reDeadline, 'yyyy-MM-dd')}"></span></p>
-                                        <p><strong>이메일:</strong> <span th:text="${recruits.recruitId}"></span></p>
-                                        <p><strong>주소:</strong> <span th:text="${recruits.recruitId}"></span><br>
-                                        <p><strong>전화번호:</strong> <span th:text="${recruits.recruitId}"></span></p>
-                                        <p><strong>홈페이지:</strong> <span th:text="${recruits.recruitId}"></span></p>
+                                        <p><strong>이메일:</strong> <span th:text="${recruits.reAdminEmail}"></span></p>
+                                        <p><strong>작성자:</strong> <span th:text="${recruits.reAdminName}"></span></p>
+                                        <p><strong>전화번호:</strong> <span th:text="${recruits.reAdminPhone}"></span></p>
+                                        <p><strong>마감일:</strong> <span th:text="${#temporals.format(recruits.reDeadline, 'yyyy-MM-dd')}"></span></p>
+                                        <p><strong>연령:</strong> <span th:text="${recruits.reAgeType}"></span></p>
+                                        <p><strong>주소:</strong> <span th:text="${recruits.reMainAddress}"></span><br>
+                                        <p><strong>salary_type:</strong> <span th:text="${recruits.reSalaryType}"></span></p>
+                                        <p><strong>salary_value:</strong> <span th:text="${recruits.reSalaryValue}"></span></p>
                                     </div>
                                 </div>
                             </div>
