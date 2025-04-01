@@ -127,8 +127,10 @@ public class All_MemberServiceImpl implements All_MemberService {
             return null;
         } else if (!resultN.isEmpty() && resultQ.isEmpty()) {
             allBoardSearchDTO.setNoticeBoardDTO(findNoticeBoard(resultN));
+            allBoardSearchDTO.setQnaBoardDTO(null);
         } else if (!resultQ.isEmpty() && resultN.isEmpty()) {
             allBoardSearchDTO.setQnaBoardDTO(findQnaBoard(resultQ));
+            allBoardSearchDTO.setNoticeBoardDTO(null);
         } else {
             allBoardSearchDTO.setNoticeBoardDTO(findNoticeBoard(resultN));
             allBoardSearchDTO.setQnaBoardDTO(findQnaBoard(resultQ));
