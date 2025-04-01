@@ -145,6 +145,24 @@ function updateAge() {
     });
 }
 
+window.addEventListener("DOMContentLoaded", function () {
+    const hiddenMinAge = document.getElementById("hidden_age_min").value;
+    const hiddenMaxAge = document.getElementById("hidden_age_max").value;
+
+    const minAgeSelect = document.getElementById("age_min");
+    const maxAgeSelect = document.getElementById("age_max");
+
+    if (hiddenMinAge) minAgeSelect.value = hiddenMinAge;
+    if (hiddenMaxAge) maxAgeSelect.value = hiddenMaxAge;
+
+    // 만약 "연령제한 있음"일 경우 select 활성화
+    const ageLimitRadio = document.getElementById("age_limit");
+    if (ageLimitRadio && ageLimitRadio.checked) {
+        minAgeSelect.disabled = false;
+        maxAgeSelect.disabled = false;
+    }
+});
+
 // 라디오 버튼 이벤트 리스너
 document.getElementById('age_no_limit').addEventListener('change', () => {
     document.getElementById('age_min').disabled = true;

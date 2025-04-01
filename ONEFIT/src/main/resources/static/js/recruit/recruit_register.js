@@ -5,7 +5,19 @@ const steps = document.querySelectorAll(".step");  // 모든 단계 (step)
 const prevBtn = document.getElementById("prevBtn");  // 이전 버튼
 const nextBtn = document.getElementById("nextBtn");  // 다음 버튼
 const submitBtn = document.getElementById("submitBtn");  // 제출 버튼
+const validateBtn = document.getElementById("validate-btn");
 const jobForm = document.getElementById("jobForm"); // 폼 참조
+
+// function updateStep() {
+//     steps.forEach((step, index) => {
+//         step.style.display = index === currentStep ? "block" : "none";
+//     });
+//
+//     prevBtn.style.display = currentStep === 0 ? "none" : "inline-block"; // 첫 단계에서 이전 버튼 숨기기
+//     nextBtn.style.display = currentStep === steps.length - 1 ? "none" : "inline-block"; // 마지막 단계에서 다음 버튼 숨기기
+//     submitBtn.classList.toggle("d-none", currentStep !== steps.length - 1); // 마지막 단계에서 제출 버튼 보이기
+//     validateBtn.classList.toggle("d-none", currentStep !== steps.length - 1);
+// }
 
 function updateStep() {
     steps.forEach((step, index) => {
@@ -14,15 +26,38 @@ function updateStep() {
 
     prevBtn.style.display = currentStep === 0 ? "none" : "inline-block"; // 첫 단계에서 이전 버튼 숨기기
     nextBtn.style.display = currentStep === steps.length - 1 ? "none" : "inline-block"; // 마지막 단계에서 다음 버튼 숨기기
-    submitBtn.classList.toggle("d-none", currentStep !== steps.length - 1); // 마지막 단계에서 제출 버튼 보이기
+    validateBtn.classList.toggle("d-none", currentStep !== steps.length - 1);
 }
 
-nextBtn.addEventListener("click", () => {
+document.getElementById("nextBtn").addEventListener("click", () => {
+    const currentStepFields = steps[currentStep].querySelectorAll(".form-control[required]");
+    let isValid = true;
+
+    console.log('currentStepFields:', currentStepFields); // 확인용 로그
+
+    currentStepFields.forEach(field => {
+        if (!field.value.trim()) {
+            console.log('필수 항목 누락:', field); // 어떤 항목이 빠졌는지 로그 확인
+            isValid = false;
+            field.classList.add("is-invalid");
+        } else {
+            field.classList.remove("is-invalid");
+        }
+    });
+
+    if (!isValid) {
+        alert("현재 단계의 필수 항목을 입력해주세요.");
+        console.log('유효성 검사 실패!'); // 유효성 검사 실패 로그
+        return; // 유효하지 않으면 step 전환 막기
+    }
+
+    console.log('유효성 검사 성공! 다음 단계로 이동'); // 유효성 검사 성공 로그
     if (currentStep < steps.length - 1) {
         currentStep++;
         updateStep();
     }
 });
+
 
 prevBtn.addEventListener("click", () => {
     if (currentStep > 0) {
@@ -38,16 +73,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
 
     // 제출 버튼 클릭 시 모달 띄우기
-    submitBtn.addEventListener("click", function (event) {
-        event.preventDefault(); // 기본 폼 제출 방지
-
-        // 모달 제목 및 내용 변경
-        modalTitle.innerHTML = '<span class="rogo-span">OneFit</span> 등록 확인';
-        modalBody.innerHTML = "등록하시겠습니까?";
-
-        // 모달 열기
-        deleteModal.show();
-    });
+    // submitBtn.addEventListener("click", function (event) {
+    //     event.preventDefault(); // 기본 폼 제출 방지
+    //
+    //     // 모달 제목 및 내용 변경
+    //     modalTitle.innerHTML = '<span class="rogo-span">OneFit</span> 등록 확인';
+    //     modalBody.innerHTML = "등록하시겠습니까?";
+    //
+    //     // 모달 열기
+    //     deleteModal.show();
+    // });
 
 
 
@@ -75,19 +110,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const modalBody = document.querySelector(".delete-modal-body p");
     const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
 
-    submitBtn.addEventListener("click", function (event) {
-        event.preventDefault(); // 기본 폼 제출 방지
-
-        // 모달 제목 및 내용 변경
-        modalTitle.innerHTML = '<span class="rogo-span">OneFit</span> 등록 확인';
-        modalBody.innerHTML = "등록하시겠습니까?";
-
-        // 삭제 확인 입력 필드 및 버튼 숨기기
-
-
-        // 모달 열기
-        deleteModal.show();
-    });
+    // submitBtn.addEventListener("click", function (event) {
+    //     event.preventDefault(); // 기본 폼 제출 방지
+    //
+    //     // 모달 제목 및 내용 변경
+    //     modalTitle.innerHTML = '<span class="rogo-span">OneFit</span> 등록 확인';
+    //     modalBody.innerHTML = "등록하시겠습니까?";
+    //
+    //     // 삭제 확인 입력 필드 및 버튼 숨기기
+    //
+    //
+    //     // 모달 열기
+    //     deleteModal.show();
+    // });
 });
 
 
@@ -350,21 +385,125 @@ function removeFile(uuid, fileName, obj){
 }
 
 // 모달에서 확인 버튼 클릭 시 폼 제출
-document.getElementById("register-submit-ok-btn").addEventListener("click", function (e) {
+// document.getElementById("register-submit-ok-btn").addEventListener("click", function (e) {
+//
+//     const target = document.querySelector(".uploadHidden")
+//     const uploadFiles = uploadResult.querySelectorAll("img");
+//     const deleteModal = new bootstrap.Modal("deleteModal")
+//     let str = ''
+//     for(let i = 0 ; i<uploadFiles.length; i++){
+//         const uploadFile = uploadFiles[i]
+//         const imgLink = uploadFile.getAttribute("data-src")
+//         str += `<input type='hidden' name='fileNames' value="${imgLink}">`
+//     }
+//
+//     target.innerHTML = str;
+//     // 모달 닫기
+//     deleteModal.hide();
+//
+//     // 폼 제출
+//     jobForm.submit();
+// });
 
-    const target = document.querySelector(".uploadHidden")
+// document.getElementById("register-submit-ok-btn").addEventListener("click", function (e) {
+//     e.preventDefault(); // 기본 제출 막기
+//
+//     const target = document.querySelector(".uploadHidden");
+//     const uploadFiles = uploadResult.querySelectorAll("img");
+//     let str = '';
+//
+//     // 업로드된 파일들을 hidden input으로 추가
+//     for (let i = 0; i < uploadFiles.length; i++) {
+//         const uploadFile = uploadFiles[i];
+//         const imgLink = uploadFile.getAttribute("data-src");
+//         str += `<input type='hidden' name='fileNames' value="${imgLink}">`;
+//     }
+//
+//     target.innerHTML = str;
+//
+//     // 필수 입력 필드를 지정할 수 있는 배열 (필수로 입력해야 하는 항목)
+//     const fieldsToCheck = [
+//         { selector: "#addressInput", name: "근무지 주소" },
+//         { selector: "#addressDetailInput", name: "상세 주소" },
+//         // 추가적으로 다른 필드도 여기에 추가 가능
+//     ];
+//
+//     let invalidField = null;
+//
+//     // 필수 입력값 검사
+//     fieldsToCheck.forEach(field => {
+//         const inputField = document.querySelector(field.selector);
+//
+//         // 입력값이 비어 있으면 invalidField에 저장
+//         if (!inputField.value.trim()) {
+//             invalidField = inputField;
+//             alert(`${field.name}을(를) 입력해주세요.`);
+//         }
+//     });
+//
+//     if (invalidField) {
+//         // 빈 필드가 있으면 해당 필드로 포커스 이동
+//         invalidField.focus();
+//
+//         // 해당 필드로 스크롤 (부드럽게)
+//         invalidField.scrollIntoView({ behavior: "smooth", block: "center" });
+//
+//         // 모달을 닫기 전에 유효성 검사 실패 처리
+//         const modalElement = document.getElementById('deleteModal');  // 모달 요소를 찾음
+//         const deleteModal = new bootstrap.Modal(modalElement);  // 모달 인스턴스 생성
+//         deleteModal.hide();  // 모달을 숨김
+//
+//         return false; // 제출되지 않도록 막기
+//     }
+//
+//     // 모든 유효성 검사를 통과한 경우 폼 제출
+//     jobForm.submit();
+// });
+const modalEl = document.getElementById('deleteModal');
+const deleteModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+
+// 모달 닫힐 때 강제로 backdrop 제거
+modalEl.addEventListener('hidden.bs.modal', function () {
+    document.body.classList.remove('modal-open');
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+});
+
+// 유효성 검사 → 모달 띄우기
+document.getElementById("validate-btn").addEventListener("click", function () {
+    if (jobForm.checkValidity()) {
+        // 모든 필수 항목이 유효하면 모달 띄우기
+        deleteModal.show();
+    } else {
+        // 하나라도 비어있으면 알림
+        alert("필수 항목을 입력해주세요.");
+
+        // 포커스 자동 이동
+        jobForm.reportValidity(); // 주석 해제해도 좋아요!
+    }
+});
+
+// "네" 버튼 클릭 시 실제 제출
+document.getElementById("register-submit-ok-btn").addEventListener("click", function (e) {
+    e.preventDefault(); // 기본 제출 막기
+
+    const target = document.querySelector(".uploadHidden");
     const uploadFiles = uploadResult.querySelectorAll("img");
-    let str = ''
-    for(let i = 0 ; i<uploadFiles.length; i++){
-        const uploadFile = uploadFiles[i]
-        const imgLink = uploadFile.getAttribute("data-src")
-        str += `<input type='hidden' name='fileNames' value="${imgLink}">`
+    let str = '';
+
+    // 업로드된 파일들을 hidden input으로 추가
+    for (let i = 0; i < uploadFiles.length; i++) {
+        const uploadFile = uploadFiles[i];
+        const imgLink = uploadFile.getAttribute("data-src");
+        str += `<input type='hidden' name='fileNames' value="${imgLink}">`;
     }
 
     target.innerHTML = str;
-    // 모달 닫기
-    deleteModal.hide();
+    if (jobForm.checkValidity()) {
+        deleteModal.hide();
 
-    // 폼 제출
-    jobForm.submit();
+        // 모달 닫힌 후 폼 제출 (약간 delay)
+        setTimeout(() => jobForm.submit(), 300);
+    } else {
+        jobForm.reportValidity();
+    }
 });

@@ -118,12 +118,24 @@ public class MainController {
     private final RecruitService recruitService;
 
     @GetMapping("/main")
-    public void main(Long recruitId, RecruitDTO recruitDTO, PageRequestDTO pageRequestDTO, Model model) {
+    public void main(Long recruitId, RecruitDTO recruitDTO,TrainerPageRequestDTO trainerPageRequestDTO, PageRequestDTO pageRequestDTO, Model model) {
 
         PageResponseDTO<RecruitDTO> responseDTO = recruitService.list1(pageRequestDTO);
         List<RecruitDTO> limitedList = responseDTO.getDtoList().stream()
                 .limit(8)  // 처음 8개 항목만 가져옵니다.
                 .collect(Collectors.toList());
+
+
+// 슬라이드를 4개씩 묶기
+        int groupSize = 4;
+        List<List<RecruitDTO>> slides = new ArrayList<>();
+
+        for (int i = 0; i < limitedList.size(); i += groupSize) {
+            int end = Math.min(i + groupSize, limitedList.size());
+            slides.add(limitedList.subList(i, end));
+        }
+
+        model.addAttribute("slides", slides);
 
         List<RecruitDTO> firstSlide = limitedList.stream()
                 .limit(4)
@@ -157,6 +169,9 @@ public class MainController {
         model.addAttribute("firstSlide", firstSlideResponseDTO);
         model.addAttribute("secondSlide", secondSlideResponseDTO);
         model.addAttribute("responseDTO", limitedResponseDTO);
+
+        TrainerPageResponseDTO<TrainerViewDTO> trainerPageResponseDTO = trainerService.list(trainerPageRequestDTO);
+        model.addAttribute("trainerPage", trainerPageResponseDTO);
 
 
     }
