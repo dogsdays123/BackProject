@@ -461,7 +461,6 @@ function removeFile(uuid, fileName, obj){
 // });
 const modalEl = document.getElementById('deleteModal');
 const deleteModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-
 // 모달 닫힐 때 강제로 backdrop 제거
 modalEl.addEventListener('hidden.bs.modal', function () {
     document.body.classList.remove('modal-open');
@@ -481,7 +480,10 @@ document.getElementById("validate-btn").addEventListener("click", function () {
         jobForm.reportValidity(); // 주석 해제해도 좋아요!
     }
 });
-
+document.getElementById("confirmModifyBtn4").addEventListener("click", function (e){
+    e.preventDefault();
+    deleteModal.hide();
+})
 // "네" 버튼 클릭 시 실제 제출
 document.getElementById("register-submit-ok-btn").addEventListener("click", function (e) {
     e.preventDefault(); // 기본 제출 막기
