@@ -48,14 +48,13 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row" th:if="${!(trainerDTO == null)}">
+                                            <div class="row" th:if="${trainerDTO != null}">
                                                 <!-- 첫 번째 카드 -->
                                                 <div class="col-md-6">
                                                     <div class=" card p-4 mb-4 shadow-sm">
                                                         <div class="d-flex align-items-center justify-content-between">
-                                                            <div class="profile-frame-small rounded-circle">
-                                                                사진
-                                                                <img class="profile-img" th:each="path: ${thumbnailName}" th:src="|/my_user_view/${path}|">
+                                                            <div class="profile-frame-small" th:if="${thumbnailName != null}">
+                                                                <img class="profile-img" th:each="path: ${thumbnailUuid + '_' + thumbnailName}" th:src="|/member/my_user_view/${path}|">
                                                             </div>
                                                             <div>
                                                                 <div class="resume-header">

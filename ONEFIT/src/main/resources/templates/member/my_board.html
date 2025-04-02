@@ -4,20 +4,18 @@
       layout:decorate="~{layout/myPage.html}">
 
 <div layout:fragment="my_board">
-    <div class="container mt-5">
-        <h2 class="text-primary mb-4">내가 쓴 게시글</h2>
+    <div class="container mt-5 col">
+        <h2 class="text-primary mb-4 d-flex justify-content-center align-items-center">내가 쓴 게시글</h2>
 
         <!-- 공지사항 테이블 -->
-        <div th:if="${allBoardDTO == null}">
             <br><br>
-            <h2>올린 게시글이 없습니다.</h2><br><br>
-        </div>
+            <h2 th:if="${allBoardDTO == null}" class="d-flex justify-content-center align-items-center">올린 게시글이 없습니다.</h2><br><br>
         <table class="table table-hover align-middle" th:if="${allBoardDTO != null}">
             <thead>
             <tr>
                 <th style="width: 30%;">제목</th>
                 <th style="width: 10%;">작성일</th>
-                <th style="width: 10%;">조회수</th>
+                <th style="width: 10%;">수정일</th>
             </tr>
             </thead>
             <tbody id="noticeTable">
