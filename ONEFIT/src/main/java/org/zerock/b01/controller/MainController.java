@@ -32,10 +32,7 @@ import org.zerock.b01.service.trainerService.TrainerService;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -124,8 +121,10 @@ public class MainController {
     public void main(Long recruitId, RecruitDTO recruitDTO,TrainerPageRequestDTO trainerPageRequestDTO, PageRequestDTO pageRequestDTO, Model model) {
 
         PageResponseDTO<RecruitDTO> responseDTO = recruitService.list1(pageRequestDTO);
-        List<RecruitDTO> limitedList = responseDTO.getDtoList().stream()
-                .limit(8)  // 처음 8개 항목만 가져옵니다.
+        List<RecruitDTO> limitedList = Optional.ofNullable(responseDTO.getDtoList())
+                .orElse(Collections.emptyList()) // null이면 빈 리스트 반환
+                .stream()
+                .limit(8)  // 처음 8개 항목만 가져옴
                 .collect(Collectors.toList());
 
 
