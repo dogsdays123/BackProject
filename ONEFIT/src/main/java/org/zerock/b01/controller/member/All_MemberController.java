@@ -21,6 +21,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.b01.dto.memberDTO.AllBoardSearchDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitApplyDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
@@ -153,7 +154,11 @@ public class All_MemberController {
     @GetMapping("/my_board")
     public void my_board(All_MemberDTO all_memberDTO, Model model) {
         log.info("my_board");
+
         if(all_memberDTO !=null) {
+            AllBoardSearchDTO allBoard = all_memberService.boardReadForAllMember(all_memberDTO.getAllId());
+            model.addAttribute("allBoardDTO", allBoard);
+            log.info("board####" + allBoard);
         }
     }
 
