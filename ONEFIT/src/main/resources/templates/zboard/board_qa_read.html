@@ -35,7 +35,7 @@
                 <div class="card" th:if="${dto.fileNames != null && dto.fileNames.size() > 0}">
                     <ul>
                         <li th:each="fileName: ${dto.fileNames}">
-                            <a th:href="|/download/${fileName}|" th:text="${fileName}" download></a>
+                            <a th:href="|/download_board/${fileName}|" th:text="${fileName}" download></a>
                         </li>
                     </ul>
                 </div>

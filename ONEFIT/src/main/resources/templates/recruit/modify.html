@@ -1,125 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
-    <title>OneFit - 체육시설업 포털</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="/css/basic.css">
-    <link rel="stylesheet" href="/css/recruit/recruit_register.css">
-    <style>
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
 
-    </style>
-</head>
-
-<body>
-<!-- 헤더 start -->
-<header>
-    <!-- 메인 메뉴 -->
-    <div class="nav-container">
-        <!-- 로고 -->
-        <div class="d-flex align-items-center justify-content-between">
-            <a class="navbar-brand me-auto" href="/main">OneFit</a>
-            <!-- 햄버거 버튼 -->
-            <div th:if="${sidebar == true}">
-                <button class="navbar-toggler round-btn toggle-sidebar btns btns-hanbuger" type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
-                    <span class="navbar-toggler-icon"><i class="fa-solid fa-bars-staggered"></i></span>
-                </button>
-            </div>
-        </div>
-
-        <!-- 메인 메뉴(채용정보, 강사찾기, 거래, 커뮤니티) -->
-        <ul class="nav mx-auto">
-            <li class="nav-item"><a class="nav-link" href="/recruit/list">채용정보</a></li>
-            <li class="nav-item"><a class="nav-link" href="/trainer/trainer_list">강사찾기</a></li>
-            <li class="nav-item dropdown dropdown-main">
-                <a class="nav-link dropdown-toggle" href="#" id="tradeDropdown" role="button"
-                   data-bs-toggle="dropdown">거래</a>
-                <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" href="/transaction/transa_list">시설</a></li>
-                    <li><a class="dropdown-item" href="/transaction/transa_list">기구</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown dropdown-main">
-                <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
-                   data-bs-toggle="dropdown">커뮤니티</a>
-                <ul class="dropdown-menu dropdown-main-menu">
-                    <li><a class="dropdown-item" th:href="@{/zboard/board_notice_list}">공지사항</a></li>
-                    <li><a class="dropdown-item" th:href="@{/zboard/board_qa_list}">Q&A</a></li>
-                </ul>
-            </li>
-        </ul>
-
-        <!-- 사이드 메뉴(로그인, 회원가입 / 로그아웃, 마이페이지, 알림) -->
-        <div class="auth-links ms-auto" >
-
-            <!-- 로그인 전 메뉴 -->
-            <div th:if="${all_memberDTO.allId == null}">
-                <a type="button" class="basic-btn btn btn-primary btns" href="/login">
-                    로그인
-                </a>
-                <span class="separator">|</span>
-                <button type="button" class="basic-btn btn btn-primary btns" data-bs-toggle="modal"
-                        data-bs-target="#signupModal">
-                    회원가입
-                </button>
-            </div>
-
-            <div th:if="${all_memberDTO.allId != null}">
-                <a type="button" class="basic-btn btn btn-primary btns" href="/logout">
-                    로그아웃
-                </a>
-                <span class="separator">|</span>
-                <button type="button" class="basic-btn btn btn-primary btns">
-                    <a th:href="|@{/member/my_default_page(allId =${all_memberDTO.allId})}|" class="text-reset text-decoration-none">
-                        마이페이지
-                    </a>
-                </button>
-            </div>
-        </div>
-
-        <!-- 알림 start -->
-        <div class="dropdown">
-            <button class="signal-btn btn btn-light position-relative" type="button" id="notificationDropdown"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-bell"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            3
-                        </span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
-                <li>
-                    <h6 class="dropdown-header">알림</h6>
-                </li>
-                <li><a class="dropdown-item" href="#">📢 새로운 공지가 있습니다.</a></li>
-                <li><a class="dropdown-item" href="#">📩 새로운 메시지가 도착했습니다.</a></li>
-                <li><a class="dropdown-item" href="#">✔️ 회원 가입이 완료되었습니다.</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item text-center" href="#">모두 보기</a></li>
-            </ul>
-        </div>
-        <!-- 알림 end -->
-    </div>
-    </div>
-</header>
-<!-- 헤더 end -->
-
-<!-- 메인 start -->
-<main>
-    <div layout:fragment="myPage"></div>
-    <!-- 공고 등록 폼 start -->
-    <div layout:fragment="main">
+<div layout:fragment="recruitModify">
         <div class="recuit-container container mt-5 ">
             <div style="display: flex; justify-content: space-around; align-items: center;">
                 <h2 class="mb-4">채용 공고 수정</h2>
@@ -572,101 +456,8 @@
             </div>
         </div>
 
-
-    </div>
-
-    <!-- (거래) start -->
-    <!-- 판매 게시판 -->
-    <div layout:fragment="transa_list"></div>
-    <!-- 기구 판매 게시글 (읽기) -->
-    <div layout:fragment="transa_eq_read"></div>
-    <!-- 시설 매매 게시글 (읽기) -->
-    <div layout:fragment="transa_fa_read"></div>
-    <!-- 기구 판매 게시글 (등록) -->
-    <div layout:fragment="transa_eq_register"></div>
-    <!-- 시설 매매 게시글 (등록) -->
-    <div layout:fragment="transa_fa_register"></div>
-    <!-- (거래) end -->
-
-
-    <!--    테스트용-->
-    <div layout:fragment="index"></div>
-    <div layout:fragment="login"></div>
-    <div layout:fragment="join"></div>
-</main>
-<!-- 메인 end  -->
-
-<!--  회원가입 모달창 start -->
-<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="signupModalLabel"> <span class="rogo-span">OneFit</span> 회원가입</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body signup-modal-body">
-                <div class="tab-content mt-3 div-sign-login" id="signupTabContent">
-                    <form id="registerForm" name="registerForm" action="/join" method="post">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">이름</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="홍길동" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">이메일</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="ex) email@onefit.com"
-                                   required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="allId" class="form-label">아이디</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="allId" id="allId"
-                                       placeholder="3자 이상, 16자 이하의 영어 또는 숫자로 구성" required>
-                                <button class="btn btn-outline-primary" type="button" id="check-username">
-                                    중복 확인
-                                </button>
-                            </div>
-                            <!-- 중복 확인 메시지 출력 공간 -->
-                            <div id="username-feedback" class="mt-1 input-feedback text-danger">이미 사용 중인 아이디입니다.</div>
-                            <!-- <div id="username-feedback" class="mt-1 input-feedback text-success">사용 가능한 아이디입니다.</div> -->
-                        </div>
-                        <div class="mb-3">
-                            <label for="aPsw" class="form-label">비밀번호</label>
-                            <input type="password" class="form-control" id="aPsw"
-                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="aPswCheck" class="form-label">비밀번호 확인</label>
-                            <input type="password" class="form-control" name="aPsw" id="aPswCheck"
-                                   placeholder="6자 이상, 16자 이하의 영어와 숫자의 조합으로 구성" required>
-                            <!-- 비밀번호 확인 메시지 출력 공간 -->
-                            <!-- <div id="password-feedback" class="mt-1 input-feedback text-danger">비밀번호가 일치하지 않습니다.</div> -->
-                            <div id="password-feedback" class="mt-1 input-feedback text-success">비밀번호가 일치합니다.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="aPhone" class="form-label">전화번호</label>
-                            <input type="tel" class="form-control" name="aPhone" id="aPhone" placeholder="ex) 010-1234-5678"
-                                   required>
-                        </div>
-                        <input type="hidden" name="memberType" value="default">
-                        <button type="submit" class="btn btn-success w-100 modal-btn"
-                                id="signupButton">가입하기</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- 회원가입 모달창 end -->
-
-<!-- FontAwesome CDN (아이콘 사용을 위한 링크) -->
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<!-- bootstrap js -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=3c13bfa6949d3bc10bcf20e9fa7b2bdd&autoload=false&libraries=services,clusterer,drawing&">
 </script>
-<script src="/js/basic.js"></script>
 <script src="/js/recruit/recruit_modify.js"></script>
 <script src="/js/recruit/recruit_upload.js"></script>
 <!--<script src="/js/recruit/recruit_read_kakaoMap.js"></script>-->
@@ -976,72 +767,6 @@
         });
     });
 
-
-    // const uploadResult = document.querySelector(".uploadResult");
-    //
-    // document.querySelector(".uploadBtn").addEventListener("click", function (e){
-    //     const formObj = new FormData();
-    //
-    //     const fileInput = document.querySelector("input[name='files']")
-    //
-    //     console.log(fileInput.files);
-    //
-    //     const files = fileInput.files;
-    //
-    //     for(let i = 0 ; i<files.length;i++){
-    //         formObj.append("files", files[i]);
-    //     }
-    //
-    //     uploadToServer(formObj).then(result=>{
-    //         console.log(result)
-    //         for(const uploadResult of result){
-    //             showUploadFile(uploadResult);
-    //         }
-    //     }).catch(e=>{
-    //         alert("upload error")
-    //     })
-    // },false)
-    // function showUploadFile({uuid, fileName, link}) {
-    //     const str = `<div class="card col-4">
-    //     <div class="card-header d-flex justify-content-center">
-    //         ${fileName}
-    //         <button class="btn-sm btn-danger" onclick="javascript:removeFile
-    //             ('${uuid}', '${fileName}', this)">X</button>
-    //     </div>
-    //     <div class="card-body">
-    //         <img src="/view_recruit/${link}" data-src="${uuid + "_" + fileName}">
-    //     </div>
-    // </div>`;
-    //
-    //     uploadResult.innerHTML += str;
-    // }
-    //
-    // const removeFileList = [];
-    //
-    // function removeFile(uuid, fileName, obj) {
-    //     event.preventDefault();
-    //     event.stopPropagation();
-    //
-    //     if (!confirm("파일을 삭제하시겠습니까?")) {
-    //         return; // 취소 버튼 클릭 시 아무 동작도 하지 않음
-    //     }
-    //
-    //     // 삭제할 파일 정보 입력
-    //     console.log(uuid);
-    //     console.log(fileName);
-    //     console.log(obj);
-    //
-    //     // 삭제할 파일 정보를 리스트에 추가
-    //     removeFileList.push({uuid, fileName});
-    //
-    //     //
-    //     const targetDiv = obj.closest(".card");
-    //
-    //     // 해당 카드 요소 제거 (파일 삭제 UI 처리)
-    //     targetDiv.remove();
-    // }
-
-
     const uploadResult = document.querySelector(".uploadResult");
     const uploadBasicResult = document.querySelector(".uploadBasicResult");
 
@@ -1171,7 +896,7 @@
         });
     }
 </script>
-</body>
+</div>
 
 <!-- footer -->
 <!--<th:block th:replace="foot/footer :: footer"></th:block>-->

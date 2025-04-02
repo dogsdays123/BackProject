@@ -23,6 +23,8 @@ public class BoardListReplyCountDTO {
 
     private Long replyCount;
 
+    private boolean fileExists;
+
     public void setBoardType() {
         this.title = title;
         if (noticeId != null) {

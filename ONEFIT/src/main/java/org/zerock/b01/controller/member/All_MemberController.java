@@ -5,6 +5,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,19 +20,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.domain.recruit.Recruit_Apply;
-import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
-import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
-import org.zerock.b01.dto.memberDTO.Business_Member_DataDTO;
-import org.zerock.b01.dto.memberDTO.MemberDataDTO;
-import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitApplyDTO;
-import org.zerock.b01.dto.recruitDTO.RecruitDTO;
-import org.zerock.b01.dto.trainerDTO.TrainerDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
@@ -40,14 +36,20 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.File;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
+
 
 @Controller
 @RequestMapping("/member")
 @Log4j2
 @RequiredArgsConstructor
 public class All_MemberController {
+
+    @Value("${org.zerock.upload.thumbnailPath}")
+    private String thumbnailPath;
 
     private final All_MemberService all_memberService;
     private final Member_Set_Type_Service member_Set_Type_Service;
@@ -186,11 +188,36 @@ public class All_MemberController {
             } catch (Exception e) {
                 log.error("JSON 변환 오류", e);
             }
+
+            //이력서 섬네일
+            String[] thumbnail = member_Set_Type_Service.searchThumbnail(trainerDTO.getTrainerId());
+            model.addAttribute("thumbnailUuid", (thumbnail != null) ? thumbnail[0] : null);
+            model.addAttribute("thumbnailName", (thumbnail != null) ? thumbnail[1] : null);
+            //-------------
+
         } else{
             trainerDTO = null;
         }
         log.info("$#$#$#" + trainerDTO);
         model.addAttribute("trainerDTO", trainerDTO);
+    }
+
+    //섬네일 불러오기 전용
+    @GetMapping("/my_user_view/{path}")
+    public ResponseEntity<Resource> my_user_viewGET(@PathVariable String path) {
+
+        //이력서 섬네일
+        Resource resource = new FileSystemResource(thumbnailPath + File.separator + path);
+        HttpHeaders headers = new HttpHeaders();
+        log.info("resource####" + resource);
+
+        try{
+            headers.add("Content-Type", Files.probeContentType(resource.getFile().toPath()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().headers(headers).body(resource);
+        //-----------
     }
 
     @PreAuthorize("isAuthenticated()")
