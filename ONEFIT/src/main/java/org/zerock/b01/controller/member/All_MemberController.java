@@ -242,17 +242,21 @@ public class All_MemberController {
         log.info("#### Recruit Apply DTOS: " + recruitApplyDTOS);
 
 
-
         // 지원 내역을 모델에 추가
         model.addAttribute("recruitApplyDTOS", recruitApplyDTOS);
 
+        if (recruitApplyDTOS != null && !recruitApplyDTOS.isEmpty()) {
+            Long userId = recruitApplyDTOS.get(0).getUserId();
+            TrainerDTO trainerDTO = trainerService.getTrainerByUserId(userId);
+            // 필요한 모델에 추가
+            model.addAttribute("trainerDTO", trainerDTO);
+            log.info("Trainer : " + trainerDTO);
+        } else {
+            log.warn("No recruit apply data found for business ID: " + businessId);
+            // trainerDTO를 null로 설정하거나, 기본값을 제공
+            model.addAttribute("trainerDTO", null);
+        }
 
-
-        log.info("$@$@$@$ Business ID : " + businessId);
-        Long userId = recruitApplyDTOS.get(0).getUserId();
-        TrainerDTO trainerDTO = trainerService.getTrainerByUserId(userId);
-        model.addAttribute("trainerDTO", trainerDTO);
-        log.info("Trainer : " + trainerDTO);
 
     }
 

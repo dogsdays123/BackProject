@@ -94,82 +94,51 @@
 
             <!-- 캐러셀 -->
             <div id="trainerCarousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner" id="instructorItems">
-                    <!-- 첫 번째 슬라이드 (1~4명 강사) -->
-                    <div class="carousel-item active">
-                        <div class="card-deck"
-                             th:if="${trainerPage.dtoList != null and !#lists.isEmpty(trainerPage.dtoList)}">
-                            <th:block th:each="tdto, tstat : ${trainerPage.dtoList}">
-                                <div class="card" style="height: 300px;" th:if="${tstat.index < 4}">
-                                    <div class="photo-card">
+                    <div class="carousel-inner" id="instructorItems">
+                        <!-- 첫 번째 슬라이드 (1~4명 강사) -->
+                        <div class="carousel-item active">
+                            <div class="card-deck">
+                                <th:block th:each="tdto, tstat:${trainerPage.dtoList}">
+                                    <div class="photo-card" th:if="${tstat.index < 4}">
                                         <th:block th:if="${tdto.thumbnails != null && tdto.thumbnails.size() > 0}">
-                                            <img th:src="|/trainer_thumbnail/view/${tdto.thumbnails.get(0)}|"
-                                                 class="img-fluid gallery-item" alt="강사1">
+                                            <img th:src="|/trainer_thumbnail/view/${tdto.thumbnails.get(0)}|" class="img-fluid gallery-item" alt="강사1">
                                         </th:block>
                                         <th:block th:unless="${tdto.thumbnails != null && tdto.thumbnails.size() > 0}">
-                                            <img src="/default_thumbnail.jpg" class="img-fluid gallery-item" alt="기본 이미지">
+                                            <img src="" class="card-img-top" alt="강사1">
                                         </th:block>
-
                                         <div class="overlay d-flex flex-column justify-content-center align-items-center text-center gap-1"
                                              style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.5rem;">
-                                            <h5 class="photo-title"
-                                                style="font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">
-                                                [[${tdto.title}]]
-                                            </h5>
-                                            <span class="photo-text"
-                                                  style="font-size: 1rem; color: #f0f0f0; font-weight: 400;">
-                            [[${tdto.name}]]
-                        </span>
+                                            <h5 class="card-title">[[${tdto.title}]]</h5>
+                                            <p class="card-text">[[${tdto.name}]]</p>
                                         </div>
                                     </div>
-                                </div>
-                            </th:block>
-
-                            <!-- 카드 개수가 4개 미만일 경우 빈 카드 채우기 -->
-                            <th:block th:if="${trainerPage.dtoList.size() < 4}"
-                                      th:each="num : ${#numbers.sequence(1, 4 - trainerPage.dtoList.size())}">
-                                <div class="card photo-card"></div>
-                            </th:block>
+                                </th:block>
+                                <th:block th:if="${trainerPage.dtoList.size() < 4}" th:each="num:${#numbers.sequence(1, 4 - trainerPage.dtoList.size())}">
+                                    <div class="card"></div>
+                                </th:block>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- 두 번째 슬라이드 (5~8명 강사) -->
-                    <div class="carousel-item" th:if="${trainerPage.dtoList.size() > 4}">
-                        <div class="card-deck">
-                            <th:block th:each="tdto, tstat : ${trainerPage.dtoList}">
-                                <div class="card" th:if="${tstat.index >= 4}">
-                                    <div class="photo-card">
+                        <!-- 두 번째 슬라이드 (5~8명 강사) -->
+                        <div class="carousel-item" th:if="${trainerPage.dtoList.size() > 4}">
+                            <div class="card-deck">
+                                <th:block th:each="tdto, tstat:${trainerPage.dtoList}">
+                                    <div class="card" th:if="${tstat.index >= 4}">
                                         <th:block th:if="${tdto.thumbnails != null && tdto.thumbnails.size() > 0}">
-                                            <img th:src="|/trainer_thumbnail/view/${tdto.thumbnails.get(0)}|"
-                                                 class="img-fluid gallery-item" alt="강사1">
+                                            <img th:src="|/trainer_thumbnail/view/${tdto.thumbnails.get(0)}|" class="card-img-top" alt="강사1">
                                         </th:block>
-                                        <th:block th:unless="${tdto.thumbnails != null && tdto.thumbnails.size() > 0}">
-                                            <img src="/default_thumbnail.jpg" class="img-fluid gallery-item" alt="기본 이미지">
-                                        </th:block>
-
-                                        <div class="overlay d-flex flex-column justify-content-center align-items-center text-center gap-1"
-                                             style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.5rem;">
-                                            <h5 class="photo-title"
-                                                style="font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">
-                                                [[${tdto.title}]]
-                                            </h5>
-                                            <span class="photo-text"
-                                                  style="font-size: 1rem; color: #f0f0f0; font-weight: 400;">
-                            [[${tdto.name}]]
-                        </span>
+                                        <div class="card-body">
+                                            <h5 class="card-title">[[${tdto.title}]]</h5>
+                                            <p class="card-text">[[${tdto.name}]]</p>
                                         </div>
                                     </div>
-                                </div>
-                            </th:block>
-
-                            <!-- 카드 개수 8개 미만이면 빈 카드로 채우기 -->
-                            <th:block th:if="${trainerPage.dtoList.size() < 8}"
-                                      th:each="num : ${#numbers.sequence(1, 8 - trainerPage.dtoList.size())}">
-                                <div class="card photo-card"></div>
-                            </th:block>
+                                </th:block>
+                                <th:block th:if="${trainerPage.dtoList.size() < 8}" th:each="num:${#numbers.sequence(1, 8 - trainerPage.dtoList.size())}">
+                                    <div class="card"></div>
+                                </th:block>
+                            </div>
                         </div>
                     </div>
-                </div>
 
                 <!-- 이전 버튼 -->
                 <a class="carousel-control-prev" href="#trainerCarousel" role="button" data-slide="prev">

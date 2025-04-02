@@ -172,7 +172,7 @@ public class MainController {
 
         TrainerPageResponseDTO<TrainerViewDTO> trainerPageResponseDTO = trainerService.list(trainerPageRequestDTO);
         model.addAttribute("trainerPage", trainerPageResponseDTO);
-
+        log.info("$$$$$$: " + trainerPageResponseDTO);
 
     }
 

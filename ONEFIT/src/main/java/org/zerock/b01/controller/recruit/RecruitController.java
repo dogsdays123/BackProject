@@ -239,6 +239,7 @@ public class RecruitController {
 
         log.info(recruitApplyDTO);
         Long applyId = recruitService.applyRecruit(recruitApplyDTO);
+        redirectAttributes.addFlashAttribute("result", applyId);
 
         return "redirect:/recruit/list";
     }
