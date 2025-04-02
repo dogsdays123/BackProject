@@ -83,8 +83,9 @@
               <br>
               <br>
               <br>
+              <hr>
         </div>
-        <hr>
+
         <div class="container mt-5">
             <!-- 헤더 -->
             <div class="d-flex align-items-center justify-content-between mb-3">
@@ -99,16 +100,16 @@
                         <div class="carousel-item active">
                             <div class="card-deck">
                                 <th:block th:each="tdto, tstat:${trainerPage.dtoList}">
-                                    <div class="photo-card" th:if="${tstat.index < 4}">
+                                    <div class="photo-card" id="ins-card" th:if="${tstat.index < 4}">
                                         <th:block th:if="${tdto.thumbnails != null && tdto.thumbnails.size() > 0}">
-                                            <img th:src="|/trainer_thumbnail/view/${tdto.thumbnails.get(0)}|" class="img-fluid gallery-item" alt="강사1">
+                                            <img th:src="|/trainer_thumbnail/view/${tdto.thumbnails.get(0)}|" id="ins-img" class="img-fluid gallery-item" alt="강사1">
                                         </th:block>
                                         <th:block th:unless="${tdto.thumbnails != null && tdto.thumbnails.size() > 0}">
                                             <img src="" class="card-img-top" alt="강사1">
                                         </th:block>
                                         <div class="overlay d-flex flex-column justify-content-center align-items-center text-center gap-1"
                                              style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.5rem;">
-                                            <h5 class="card-title">[[${tdto.title}]]</h5>
+                                            <a class="photo-title" th:href="|/trainer/trainer_view?tid=${tdto.trainerId}|">[[${tdto.title}]]</a>
                                             <p class="card-text">[[${tdto.name}]]</p>
                                         </div>
                                     </div>
@@ -129,6 +130,7 @@
                                         </th:block>
                                         <div class="card-body">
                                             <h5 class="card-title">[[${tdto.title}]]</h5>
+                                            <a></a>
                                             <p class="card-text">[[${tdto.name}]]</p>
                                         </div>
                                     </div>
