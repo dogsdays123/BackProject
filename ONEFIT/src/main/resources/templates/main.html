@@ -15,9 +15,20 @@
               <div>
                   <hr>
                   <div class="notice-container">
-                      <div class="notice-text show">공지사항 > 시스템 점검 예정입니다.</div>
-                      <div class="notice-text">공지사항 > 이벤트가 곧 시작됩니다!</div>
-                      <div class="notice-text">공지사항 > 새로운 기능이 추가되었습니다!</div>
+                      <h3 class="notice-title">&nbsp;공지사항 &nbsp;📢 &nbsp;&nbsp;</h3>
+                      <div id="noticeCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+                          <div class="carousel-inner-wrapper">
+                              <div class="carousel-inner" th:with="link = ${pageRequestDTO.getLink()}">
+                                  <th:block th:each="bdto,bdtoStat : ${responseBoardDTO.dtoList}">
+                                      <div class="carousel-item notice-item" th:if="${bdtoStat.index < 4}"
+                                           th:classappend="${bdtoStat.index == 0} ? 'active'">
+                                          <a th:href="|@{/zboard/board_notice_read(noticeId=${bdto.noticeId})}&${link}|"
+                                             th:text="${bdto.title}" class="notice-link text-decoration-none"></a>
+                                      </div>
+                                  </th:block>
+                              </div>
+                          </div>
+                      </div>
                   </div>
                   <hr>
               </div>
@@ -118,18 +129,21 @@
                             </div>
                         </div>
 
-                        <!-- 두 번째 슬라이드 (5~8명 강사) -->
                         <div class="carousel-item" th:if="${trainerPage.dtoList.size() > 4}">
                             <div class="card-deck">
                                 <th:block th:each="tdto, tstat:${trainerPage.dtoList}">
-                                    <div class="card" th:if="${tstat.index >= 4}">
+                                    <div class="photo-card" id="ins-card2" th:if="${tstat.index >= 4}">
                                         <th:block th:if="${tdto.thumbnails != null && tdto.thumbnails.size() > 0}">
-                                            <img th:src="|/trainer_thumbnail/view/${tdto.thumbnails.get(0)}|" class="card-img-top" alt="강사1">
+                                            <img th:src="|/trainer_thumbnail/view/${tdto.thumbnails.get(0)}|" id="ins-img2" class="img-fluid gallery-item" alt="강사1">
                                         </th:block>
-                                        <div class="card-body">
-                                            <h5 class="card-title">[[${tdto.title}]]</h5>
-                                            <a></a>
+                                        <th:block th:unless="${tdto.thumbnails != null && tdto.thumbnails.size() > 0}">
+                                            <img src="" class="card-img-top" alt="강사1">
+                                        </th:block>
+                                        <div class="overlay d-flex flex-column justify-content-center align-items-center text-center gap-1"
+                                             style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.5rem;">
+                                            <a class="photo-title" th:href="|/trainer/trainer_view?tid=${tdto.trainerId}|">[[${tdto.title}]]</a>
                                             <p class="card-text">[[${tdto.name}]]</p>
+                                            <p class="card-text">[[${tdto.wantJob}]]</p>
                                         </div>
                                     </div>
                                 </th:block>

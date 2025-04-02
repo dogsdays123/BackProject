@@ -8,6 +8,7 @@ import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.member.User_Member;
 import org.zerock.b01.domain.trainer.Trainer;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TrainerRepository extends JpaRepository<Trainer, Long>, TrainerSearch {
@@ -26,4 +27,6 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long>, Trainer
     int deleteThumbnailById(Long tid, String uuid);
 
     Optional<Trainer> findByUserMember_UserId(Long userId);
+
+    List<Trainer> findByUserMember_UserIdIn(List<Long> userIds);
 }

@@ -30,4 +30,6 @@ public class RecruitApplyDTO {
 
     private Long businessId;
 
+    private Long trainerId;
+
 }

@@ -36,8 +36,10 @@ import org.zerock.b01.dto.memberDTO.Business_Member_DataDTO;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -271,15 +273,19 @@ public class All_MemberController {
         model.addAttribute("recruitApplyDTOS", recruitApplyDTOS);
 
         if (recruitApplyDTOS != null && !recruitApplyDTOS.isEmpty()) {
-            Long userId = recruitApplyDTOS.get(0).getUserId();
-            TrainerDTO trainerDTO = trainerService.getTrainerByUserId(userId);
+            List<Long> userIds = recruitApplyDTOS.stream()
+                    .map(RecruitApplyDTO::getUserId)
+                    .distinct()  // 중복 제거
+                    .collect(Collectors.toList());
+
+            List<TrainerDTO> trainerDTOS = trainerService.getTrainersByUserIds(userIds);
+
             // 필요한 모델에 추가
-            model.addAttribute("trainerDTO", trainerDTO);
-            log.info("Trainer : " + trainerDTO);
+            model.addAttribute("trainerDTOS", trainerDTOS);
+            log.info("Trainers: " + trainerDTOS);
         } else {
             log.warn("No recruit apply data found for business ID: " + businessId);
-            // trainerDTO를 null로 설정하거나, 기본값을 제공
-            model.addAttribute("trainerDTO", null);
+            model.addAttribute("trainerDTOS", Collections.emptyList()); // 빈 리스트 반환
         }
 
 
