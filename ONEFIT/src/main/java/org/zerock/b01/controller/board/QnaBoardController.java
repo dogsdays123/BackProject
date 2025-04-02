@@ -163,11 +163,23 @@ public class QnaBoardController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping({"/board_qa_read","/board_qa_modify"})
+    @GetMapping("/board_qa_read")
     public void readQna(Long qnaId, PageRequestDTO pageRequestDTO, Model model) {
 
         // 조회수 증가
         qnaBoardService.increaseQnaHits(qnaId);  // 조회수 증가 메서드 호출
+
+        QnaBoardDTO qnaBoardDTO = qnaBoardService.readQnaOne(qnaId);
+
+        log.info(qnaBoardDTO);
+
+        model.addAttribute("dto", qnaBoardDTO);
+
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/board_qa_modify")
+    public void readQnaModify(Long qnaId, PageRequestDTO pageRequestDTO, Model model) {
 
         QnaBoardDTO qnaBoardDTO = qnaBoardService.readQnaOne(qnaId);
 

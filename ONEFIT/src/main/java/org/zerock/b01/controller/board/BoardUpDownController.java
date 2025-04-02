@@ -102,4 +102,28 @@ public class BoardUpDownController {
         return resultMap;
     }
 
+    @Operation(description = "GET 방식으로 파일 다운로드")
+    @GetMapping("/download_board/{fileName}")
+    public ResponseEntity<Resource> downloadBoardFile(@PathVariable String fileName) throws IOException {
+
+        // 저장된 파일의 실제 경로 설정
+        Path filePath = Paths.get(boardUploadPath).resolve(fileName).normalize();
+        Resource resource = new FileSystemResource(filePath.toFile());
+
+        if (!resource.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // 파일 다운로드를 위한 헤더 설정
+        String contentType = Files.probeContentType(filePath);
+        if (contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .body(resource);
+    }
+
 }
