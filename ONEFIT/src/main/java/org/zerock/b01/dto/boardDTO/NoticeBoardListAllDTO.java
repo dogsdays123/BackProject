@@ -26,5 +26,7 @@ public class NoticeBoardListAllDTO {
 
     private Long replyCount;
 
+    private boolean fileExists;
+
     private List<BoardFileDTO> boardFiles;
 }
