@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,8 +26,10 @@ public class RecruitDTO {
 
     private Long recruitId;
 
+    @NotEmpty
     private String reMainAddress;
 
+    @NotEmpty
     private String reDetailAddress;
 
     @NotEmpty
@@ -48,6 +51,7 @@ public class RecruitDTO {
     @NotEmpty
     private String reIndustry;
 
+    @NotNull(message = "필수 입력 항목입니다.")
     private int reNumHiring;
 
     @NotEmpty
@@ -63,10 +67,10 @@ public class RecruitDTO {
 
     private String reTimeNegotiable;
 
-
+    @NotEmpty
     private String reSalaryType;
 
-
+    @NotEmpty
     private String reSalaryValue;
 
     private String reSalaryCheckAgree; // 급여추가정보선택
@@ -79,20 +83,22 @@ public class RecruitDTO {
 
     private String reSalaryDetail;
 
-
+    @NotEmpty
     private String reGender;
 
+    @NotEmpty
     private String reAgeType; // 최소연령
+
 
     private String reMinAge;
 
 
     private String reMaxAge;
 
-
+    @NotEmpty
     private String reJobHistory;
 
-
+    @NotEmpty
     private String reEducation;
 
     private String rePreference;
@@ -101,7 +107,7 @@ public class RecruitDTO {
 
     private LocalDateTime modDate;
 
-
+    @NotNull(message = "마감일은 필수 항목입니다.")
     private LocalDateTime reDeadline;
 
     private String reApplyMethodOnline; // 접수방법
@@ -112,10 +118,13 @@ public class RecruitDTO {
 
     private String reApplyMethodTel; // 접수방법
 
+    @NotEmpty
     private String reAdminName;
 
+    @NotEmpty
     private String reAdminEmail;
 
+    @NotEmpty
     private String reAdminPhone;
 
     private Business_Member business_member;

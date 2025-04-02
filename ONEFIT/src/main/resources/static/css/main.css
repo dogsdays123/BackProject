@@ -22,10 +22,31 @@ a{
 }
 
 
+.trainer-carousel-control-prev,
+.trainer-carousel-control-next {
+    position: absolute;
+    top: 88%;
+    transform: translateY(-50%);
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.5); /* 버튼 배경색 추가 */
+    border-radius: 50%;
+    width: 40px; /* 버튼 크기 */
+    height: 40px; /* 버튼 크기 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trainer-carousel-control-prev{
+    left: -45px;
+}
+.trainer-carousel-control-next{
+    right: -40px;
+}
 .carousel-control-prev,
 .carousel-control-next {
     position: absolute;
-    top: 63%;
+    top: 48%;
     transform: translateY(-50%);
     z-index: 5;
     background-color: rgba(0, 0, 0, 0.5); /* 버튼 배경색 추가 */
@@ -38,11 +59,11 @@ a{
 }
 
 .carousel-control-prev {
-    left: -25px;
+    left: -45px;
 }
 
 .carousel-control-next {
-    right: -25px;
+    right: -40px;
 }
 
 .carousel-control-prev-icon,
@@ -111,9 +132,9 @@ a{
 
 /* 이미지 스타일 */
 .photo-card .gallery-item {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 이미지 비율을 맞추기 위해 이미지 잘리게 설정 */
+    width: 100%; /* 부모 요소에 맞춤 */
+    height: 200px; /* 고정 높이 설정 */
+    object-fit: cover; /* 비율 유지하며 요소 크기에 맞춤 */
     border-radius: 12px;
     transition: transform 0.3s ease;
 }
@@ -165,4 +186,16 @@ h4.fw-bold {
 /* 카드 내부 여백 */
 .card-body {
     padding: 20px;
+}
+
+#ins-img{
+    width: 100%;
+    height: 300px; /* 원하는 높이 지정 */
+    object-fit: cover; /* 이미지를 박스에 맞게 자르기 */
+    object-position: top; /* 상단 부분을 보여주기 */
+    border-radius: 10px; /* 원하는 둥근 모서리 효과 */
+}
+
+#ins-card{
+    margin-right: 20px;
 }

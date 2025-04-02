@@ -21,18 +21,26 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.zerock.b01.dto.All_MemberDTO;
-import org.zerock.b01.dto.memberDTO.*;
-import org.zerock.b01.dto.recruitDTO.RecruitDTO;
-import org.zerock.b01.dto.trainerDTO.TrainerDTO;
+import org.zerock.b01.domain.board.Notice_Board;
+import org.zerock.b01.domain.recruit.Recruit_Apply;
+import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
+import org.zerock.b01.dto.recruitDTO.RecruitApplyDTO;
+import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
+import org.zerock.b01.service.recruitService.RecruitService;
+import org.zerock.b01.service.trainerService.TrainerService;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
+
 
 @Controller
 @RequestMapping("/member")
@@ -147,11 +155,7 @@ public class All_MemberController {
     @GetMapping("/my_board")
     public void my_board(All_MemberDTO all_memberDTO, Model model) {
         log.info("my_board");
-      
         if(all_memberDTO !=null) {
-            AllBoardSearchDTO allBoard = all_memberService.boardReadForAllMember(all_memberDTO.getAllId());
-            model.addAttribute("allBoardDTO", allBoard);
-            log.info("board####" + allBoard);
         }
     }
 
@@ -171,7 +175,6 @@ public class All_MemberController {
 
         //이력서 찾는 코드
         TrainerDTO trainerDTO = member_Set_Type_Service.trainerReadForUser(user_memberDTO.getUserId());
-
         if(trainerDTO != null) {
             log.info("%%%%" + trainerDTO);
 
@@ -195,7 +198,6 @@ public class All_MemberController {
         } else{
             trainerDTO = null;
         }
-
         log.info("$#$#$#" + trainerDTO);
         model.addAttribute("trainerDTO", trainerDTO);
     }
@@ -246,6 +248,8 @@ public class All_MemberController {
         return "redirect:/member/my_business_page";
     }
 
+    private final RecruitService recruitService;
+    private final TrainerService trainerService;
     //공고등록현황
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_business_page_recruit")
@@ -257,6 +261,30 @@ public class All_MemberController {
         List<RecruitDTO> recruitDTOList = member_Set_Type_Service.recruitReadForBusiness(business_memberDTO.getBusinessId());
         log.info("^^^^^" + recruitDTOList);
         model.addAttribute("recruitDTOList", recruitDTOList);
+        log.info("%%%%%%" + business_memberDTO);
+        Long businessId = business_memberDTO.getBusinessId();
+
+
+        List<RecruitApplyDTO> recruitApplyDTOS = recruitService.readRecruitApplyByBusinessId(businessId);
+        log.info("#### Recruit Apply DTOS: " + recruitApplyDTOS);
+
+
+        // 지원 내역을 모델에 추가
+        model.addAttribute("recruitApplyDTOS", recruitApplyDTOS);
+
+        if (recruitApplyDTOS != null && !recruitApplyDTOS.isEmpty()) {
+            Long userId = recruitApplyDTOS.get(0).getUserId();
+            TrainerDTO trainerDTO = trainerService.getTrainerByUserId(userId);
+            // 필요한 모델에 추가
+            model.addAttribute("trainerDTO", trainerDTO);
+            log.info("Trainer : " + trainerDTO);
+        } else {
+            log.warn("No recruit apply data found for business ID: " + businessId);
+            // trainerDTO를 null로 설정하거나, 기본값을 제공
+            model.addAttribute("trainerDTO", null);
+        }
+
+
     }
 
 
@@ -297,7 +325,6 @@ public class All_MemberController {
         //확인 및 적용
         Long a = member_Set_Type_Service.UserRegister(user_MemberDTO);
         log.info("user_Member Id @@@@" + a);
-
         //피니시 창 반영
         return "redirect:/member/finishedChange";
     }

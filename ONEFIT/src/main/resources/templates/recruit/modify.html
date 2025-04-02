@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layout/basic.html}">
 
 <div layout:fragment="recruitModify">
@@ -152,7 +153,7 @@
                             <input type="radio" name="reAgeType" value="연령무관" id="age_no_limit" th:checked="${dto.reAgeType == '연령무관'}">&nbsp;<label for="age_no_limit">연령무관</label>&nbsp;&nbsp;&nbsp;
                             <input type="radio" name="reAgeType" value="연령제한" id="age_limit" th:checked="${dto.reAgeType == '연령제한'}">&nbsp;<label for="age_limit">연령제한 있음</label>&nbsp;
 
-                            <select class="form-control" id="age_min" style="width: 55px;" disabled>
+                            <select class="form-control" id="age_min" style="width: 55px;">
                                 <option value="" selected disabled hidden style="color: #dadada;"></option>
                                 <option value="16">16</option>
                                 <option value="17">17</option>
@@ -201,7 +202,7 @@
                                 <option value="60">60</option>
                             </select>&nbsp;<span>세~</span>&nbsp;
 
-                            <select class="form-control" id="age_max" style="width: 55px;" disabled>
+                            <select class="form-control" id="age_max" style="width: 55px;">
                                 <option value="" selected disabled hidden style="color: #dadada;"></option>
                                 <option value="16">16</option>
                                 <option value="17">17</option>
@@ -251,8 +252,8 @@
                             </select>&nbsp;<span>세 이하</span>
 
                             <!-- Hidden input for age -->
-                            <input type="hidden" id="hidden_age_min" name="reMinAge" readonly style="width: 100px;">
-                            <input type="hidden" id="hidden_age_max" name="reMaxAge" readonly style="width: 100px;">
+                            <input type="hidden" id="hidden_age_min" name="reMinAge" th:value="${dto.reMinAge}" style="width: 100px;">
+                            <input type="hidden" id="hidden_age_max" name="reMaxAge" th:value="${dto.reMaxAge}" style="width: 100px;">
                         </div>
 
                         <div class="mb-2">

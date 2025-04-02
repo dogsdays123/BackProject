@@ -4,6 +4,7 @@ import org.zerock.b01.domain.recruit.Recruit_Register;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
+import org.zerock.b01.dto.recruitDTO.RecruitApplyDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitListAllDTO;
 
@@ -13,6 +14,14 @@ import java.util.stream.Collectors;
 public interface RecruitService {
 
     Long register(RecruitDTO recruitDTO);
+
+    Long applyRecruit(RecruitApplyDTO recruitApplyDTO);
+
+    Long apply(RecruitApplyDTO recruitApplyDTO);
+
+    List<RecruitApplyDTO> readRecruitApplyByBusinessId(Long businessId);
+
+    RecruitApplyDTO readRecruitApply(Long recruitId);
 
     RecruitDTO readOne(Long recruitId);
 
