@@ -59,12 +59,13 @@ document.addEventListener("DOMContentLoaded", function () {
 //     });
 // });
 
+
 document.addEventListener("DOMContentLoaded", function () {
     const registerBtn = document.getElementById("registerBtn");
     const modalTitle = document.getElementById("registerModalLabel");
     const modalBody = document.querySelector(".register-modal-body p");
     const registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
-
+    const confirmRegisterBtn = document.getElementById("confirmRegisterBtn2");
     registerBtn.addEventListener("click", function (event) {
         event.preventDefault(); // 기본 폼 제출 방지
 
@@ -75,6 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // 모달 열기
         registerModal.show();
     });
+    confirmRegisterBtn.addEventListener("click",function(e){
+        e.preventDefault();
+        registerModal.hide();
+    })
 });
 
 // document.addEventListener("DOMContentLoaded", function () {
