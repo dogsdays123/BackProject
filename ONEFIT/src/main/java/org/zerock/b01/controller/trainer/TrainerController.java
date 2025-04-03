@@ -2,6 +2,7 @@ package org.zerock.b01.controller.trainer;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -136,17 +137,60 @@ public class TrainerController {
 
     @Operation
     @GetMapping("/trainer_list")
-    public void trainer_list(TrainerPageRequestDTO pageRequestDTO, Model model) {
+    public String trainer_list(HttpServletResponse response, TrainerPageRequestDTO pageRequestDTO, Model model) {
         log.info("trainer_list");
         TrainerPageResponseDTO<TrainerViewDTO> responseDTO = trainerService.list(pageRequestDTO);
         log.info(responseDTO);
-        model.addAttribute("responseDTO", responseDTO);
+
+        All_MemberDTO all_memberDTO = (All_MemberDTO) model.getAttribute("all_memberDTO");
+
+        if (all_memberDTO != null && "business".equals(all_memberDTO.getMemberType())) {
+            model.addAttribute("responseDTO", responseDTO);
+            log.info("business trainer_list link");
+            return "trainer/trainer_list";
+        }
+
+        if (all_memberDTO != null && "user".equals(all_memberDTO.getMemberType())) {
+            return "redirect:/trainer/trainer_register";
+        }
+
+        String script = "<script>alert('접근 권한이 없습니다. 개인회원 또는 기업회원으로 로그인하거나 전환하세요.'); history.back();</script>";
+        response.setContentType("text/html; charset=UTF-8");
+        log.info("default trainer_list link");
+
+        try {
+            response.getWriter().write(script);
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @GetMapping("/trainer_register")
-    public void trainer_register_GET(TrainerPageRequestDTO pageRequestDTO, Model model) {
+    public String trainer_register_GET(HttpServletResponse response, TrainerPageRequestDTO pageRequestDTO, Model model) {
         log.info("trainer_register_GET");
+        User_MemberDTO user_memberDTO = (User_MemberDTO) model.getAttribute("user_memberDTO");
+
+        if (user_memberDTO != null) {
+            int count = trainerService.trainerCount(user_memberDTO.getUserId());
+            if (count > 0) {
+                String script = "<script>alert('이미 작성한 이력서가 있습니다. 마이페이지에서 확인하세요.'); window.location.href = '/main';</script>";
+                response.setContentType("text/html; charset=UTF-8");
+                log.info("default trainer_list link");
+
+                try {
+                    response.getWriter().write(script);
+                    response.getWriter().flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }
         model.addAttribute("request", pageRequestDTO);
+        log.info("default trainer_register link");
+        return "trainer/trainer_register";
     }
 
     @PostMapping("/trainer_register")
@@ -162,7 +206,7 @@ public class TrainerController {
         log.info(trainerDTO);
 
         Long trainer_id = trainerService.registerTrainer(trainerDTO);
-        return "redirect:/trainer/trainer_list";
+        return "redirect:/trainer/trainer_view?tid=" + trainer_id;
     }
 
     @Operation
