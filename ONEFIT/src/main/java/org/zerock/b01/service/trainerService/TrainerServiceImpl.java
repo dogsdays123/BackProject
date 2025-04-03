@@ -152,4 +152,10 @@ public class TrainerServiceImpl implements TrainerService {
     public void removeTrainer(Long trainerId) {
         trainerRepository.deleteById(trainerId);
     }
+
+    @Override
+    public int trainerCount(Long uid) {
+        int count = trainerRepository.trainerRegisterCount(uid);
+        return count;
+    }
 }

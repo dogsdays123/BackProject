@@ -283,7 +283,7 @@
                 <br>
                 <button type="submit" class="btn btn-success w-100 modal-btn" id="register-submit-btn">수정 완료</button>
                 <button type="button" class="btn btn-danger w-100 modal-btn" id="register-delete-btn">삭제</button>
-                <a class="btn btn-secondary w-100 modal-btn mt-2" id="list-submit-btn" th:href="|@{/trainer/trainer_list}?${request.getLink()}|">뒤로가기</a>
+                <a class="btn btn-secondary w-100 modal-btn mt-2" id="list-submit-btn" th:href="|@{/trainer/trainer_view}?tid=${dto.trainerId}|">뒤로가기</a>
             </form>
         </div>
     </div>
