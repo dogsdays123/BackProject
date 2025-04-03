@@ -5,6 +5,7 @@ import lombok.*;
 import org.zerock.b01.domain.board.Qna_Board;
 import org.zerock.b01.domain.member.MemberRole;
 import org.zerock.b01.domain.trainer.Trainer;
+import org.zerock.b01.domain.transaction.Product;
 
 import java.util.ArrayList;
 import java.util.HashSet;

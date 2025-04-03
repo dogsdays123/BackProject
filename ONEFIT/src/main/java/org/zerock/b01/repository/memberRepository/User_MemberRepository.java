@@ -25,4 +25,9 @@ public interface User_MemberRepository extends JpaRepository<User_Member, Long> 
     @Transactional
     @Query("delete from User_Member u where u.allMember.allId =:allId")
     void removeUserMember(@Param("allId") String allId);
+
+    @Modifying
+    @Transactional
+    @Query("delete from Trainer t where t.userMember.allMember.allId =:allId")
+    void removeTrainer(@Param("allId") String allId);
 }
