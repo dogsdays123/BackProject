@@ -12,6 +12,10 @@ import org.zerock.b01.domain.board.Qna_Board;
 import org.zerock.b01.domain.member.Business_Member;
 import org.zerock.b01.domain.member.MemberRole;
 import org.zerock.b01.domain.member.User_Member;
+import org.zerock.b01.domain.recruit.Recruit_Register;
+import org.zerock.b01.domain.recruit.Recruit_Register_Image;
+import org.zerock.b01.domain.trainer.Trainer;
+import org.zerock.b01.domain.trainer.Trainer_Thumbnails;
 import org.zerock.b01.domain.transaction.Product;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
@@ -103,11 +107,23 @@ public class All_MemberServiceImpl implements All_MemberService {
 
         List<Product> result5 = all_MemberRepository.findProductForAllId(allId);
 
+        List<Trainer> result6 = all_MemberRepository.findTrainerForAllId(allId);
+        List<Recruit_Register> result7 = all_MemberRepository.findRecruitForAllId(allId);
+
+        List<Trainer_Thumbnails> result6_1 = all_MemberRepository.findTrainerThumbnailsForAllId(allId);
+        List<Recruit_Register_Image> result7_1 = all_MemberRepository.findRecruitImageForAllId(allId);
+
         if(user != null && business == null){
-            user_MemberRepository.removeTrainer(allId);
+            if(!result6.isEmpty()){
+                all_MemberRepository.removeTrainerThumbnails(allId);
+                user_MemberRepository.removeTrainer(allId);
+            }
             user_MemberRepository.removeUserMember(allId);
         } else if(business != null && user == null) {
-            business_MemberRepository.removeRecruit(allId);
+            if(!result7.isEmpty()){
+                all_MemberRepository.removeRecruitImage(allId);
+                business_MemberRepository.removeRecruit(allId);
+            }
             business_MemberRepository.removeBusinessMember(allId);
         }
 

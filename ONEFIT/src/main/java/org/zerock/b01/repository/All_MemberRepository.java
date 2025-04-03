@@ -9,6 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.domain.board.Qna_Board;
+import org.zerock.b01.domain.recruit.Recruit_Register;
+import org.zerock.b01.domain.recruit.Recruit_Register_Image;
+import org.zerock.b01.domain.trainer.Trainer;
+import org.zerock.b01.domain.trainer.Trainer_Thumbnails;
 import org.zerock.b01.domain.transaction.Product;
 
 import java.util.List;
@@ -46,6 +50,18 @@ public interface All_MemberRepository extends JpaRepository<All_Member, String> 
     @Query("select q from Product q where q.allMember.allId =:allId")
     List<Product> findProductForAllId(String allId);
 
+    @Query("select q from Trainer q where q.userMember.allMember.allId =:allId")
+    List<Trainer> findTrainerForAllId(String allId);
+
+    @Query("select q from Trainer_Thumbnails q where q.trainer.userMember.allMember.allId =:allId")
+    List<Trainer_Thumbnails> findTrainerThumbnailsForAllId(String allId);
+
+    @Query("select q from Recruit_Register q where q.business_member.allMember.allId =:allId")
+    List<Recruit_Register> findRecruitForAllId(String allId);
+
+    @Query("select q from Recruit_Register_Image q where q.recruit_register.business_member.allMember.allId =:allId")
+    List<Recruit_Register_Image> findRecruitImageForAllId(String allId);
+
     @Modifying
     @Transactional
     @Query("delete from Notice_Board b where b.allMember.allId =:allId")
@@ -60,4 +76,14 @@ public interface All_MemberRepository extends JpaRepository<All_Member, String> 
     @Transactional
     @Query("delete from Product b where b.allMember.allId =:allId")
     void removeProduct(@Param("allId") String allId);
+
+    @Modifying
+    @Transactional
+    @Query("delete from Recruit_Register_Image r where r.recruit_register.business_member.allMember.allId =:allId")
+    void removeRecruitImage(@Param("allId") String allId);
+
+    @Modifying
+    @Transactional
+    @Query("delete from Trainer_Thumbnails r where r.trainer.userMember.allMember.allId =:allId")
+    void removeTrainerThumbnails(@Param("allId") String allId);
 }
