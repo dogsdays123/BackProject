@@ -274,7 +274,7 @@ public class ProductServiceImpl implements ProductService {
 
         } else if(product.getPRoles() == 2) { // 시설 매매 게시글일 경우
             facilityRepository.deleteByProduct_ProductId(productId);
-            Facility facility = facilityRepository.findByProduct_ProductId(productId).orElseThrow();
+//            Facility facility = facilityRepository.findByProduct_ProductId(productId).orElseThrow();
         }
 
         productRepository.deleteById(productId);
