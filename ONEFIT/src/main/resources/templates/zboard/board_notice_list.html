@@ -57,7 +57,7 @@
             <!-- 게시글 작성 버튼 -->
             <div class="d-flex justify-content-end mb-3">
                 <div th:if="${#authorization.expression('isAuthenticated()') and
-                                #authentication.getPrincipal().getUsername() == 'kim'}">
+                                #authentication.getPrincipal().getUsername() == 'admin'}">
                     <a th:href="@{/zboard/board_notice_register}" class="btn btn-primary">
                         <i class="fas fa-pencil-alt"></i> 글 작성
                     </a>
