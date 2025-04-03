@@ -3,8 +3,12 @@ package org.zerock.b01.domain.member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.trainer.Trainer;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "User_Member", indexes = {

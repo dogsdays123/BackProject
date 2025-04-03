@@ -3,7 +3,12 @@ package org.zerock.b01.domain.member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.recruit.Recruit_Register;
+
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
