@@ -28,10 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -165,5 +162,20 @@ public class TrainerServiceImpl implements TrainerService {
             // 존재하지 않으면 null 반환 또는 예외 처리
             return null;
         }
+    }
+
+    @Override
+    public List<TrainerDTO> getTrainersByUserIds(List<Long> userIds) {
+        List<Trainer> trainers = Optional.ofNullable(trainerRepository.findByUserMember_UserIdIn(userIds))
+                .orElse(Collections.emptyList()); // ✅ null이면 빈 리스트 반환
+
+        // 조회된 Trainer 리스트를 TrainerDTO 리스트로 변환하여 반환
+        return trainers.stream()
+                .map(trainer -> {
+                    TrainerDTO dto = modelMapper.map(trainer, TrainerDTO.class);
+                    dto.setUserId(trainer.getUserMember().getUserId()); // ✅ userId 값 직접 설정
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }

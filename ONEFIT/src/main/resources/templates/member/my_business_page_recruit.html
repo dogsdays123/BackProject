@@ -83,10 +83,14 @@
                                     <tr th:each="apply, stat : ${recruitApplyDTOS}">
                                         <td th:text="${stat.index + 1}"></td> <!-- 순번 -->
                                         <td>
-                                            <a class="text-decoration-none fw-semibold text-primary"
-                                               th:href="|@{/trainer/trainer_view(tid=${trainerDTO.trainerId})}|">
-                                                [[${trainerDTO.title}]]
-                                            </a>
+                                            <th:block th:each="trainer : ${trainerDTOS}">
+                                                <th:block th:if="${trainer.userId == apply.userId}">
+                                                    <a class="text-decoration-none fw-semibold text-primary"
+                                                       th:href="|@{/trainer/trainer_view(tid=${trainer.trainerId})}|">
+                                                        [[${trainer.title}]]
+                                                    </a>
+                                                </th:block>
+                                            </th:block>
                                         </td>
                                         <td th:text="${#temporals.format(apply.regDate, 'yyyy-MM-dd HH:mm')}"></td>
                                     </tr>

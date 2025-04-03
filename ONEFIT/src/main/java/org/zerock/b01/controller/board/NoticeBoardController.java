@@ -163,7 +163,7 @@ public class NoticeBoardController {
         String loggedInUserId = principal.getAllId(); // 로그인한 사용자 ID
 
         // 특정 아이디만 등록 가능하도록 설정
-        String allowedUserId = "dnjswls53"; // 등록을 허용할 특정 ID
+        String allowedUserId = "kim"; // 등록을 허용할 특정 ID
         if (!loggedInUserId.equals(allowedUserId)) {
             log.info("등록 권한이 없는 사용자 접근 차단: " + loggedInUserId);
             redirectAttributes.addFlashAttribute("error", "해당 계정은 공지사항을 등록할 수 없습니다.");

@@ -207,7 +207,7 @@ public class RecruitController {
             log.info("user_memberDTO is null, redirecting to login page or error page");
 
             String script = "<script>" +
-                    "alert('해당 게시글 작성자만 접근할 수 있습니다.');" +
+                    "alert('개인회원만 접근할 수 있습니다.');" +
                     "location.href='/recruit/read?recruitId=" + recruitId + "&" + link + "';" +
                     "</script>";
             response.setContentType("text/html; charset=UTF-8");
