@@ -52,7 +52,7 @@ public class TrainerServiceImpl implements TrainerService {
         return TrainerPageResponseDTO.<TrainerViewDTO>withAll()
                 .trainerPageRequestDTO(pageRequestDTO)
                 .dtoList(result.getContent())
-                .total((int)result.getTotalElements())
+                .total((int) result.getTotalElements())
                 .build();
     }
 
@@ -154,16 +154,31 @@ public class TrainerServiceImpl implements TrainerService {
     public int trainerCount(Long uid) {
         int count = trainerRepository.trainerRegisterCount(uid);
         return count;
+    }
+
+    @Override
     public TrainerDTO getTrainerByUserId(Long userId) {
         Optional<Trainer> trainerOptional = trainerRepository.findByUserMember_UserId(userId);
 
-        if (trainerOptional.isPresent()) {
-            // 조회된 Trainer 엔티티를 DTO로 변환하여 반환
-            Trainer trainer = trainerOptional.get();
-            return modelMapper.map(trainer, TrainerDTO.class);
-        } else {
-            // 존재하지 않으면 null 반환 또는 예외 처리
-            return null;
+        if(trainerOptional.isPresent()) {
+            return modelMapper.map(trainerOptional.get(), TrainerDTO.class);
         }
+        return null;
+    }
+
+    @Override
+    public List<TrainerDTO> getTrainersByUserIds(List<Long> userIds) {
+        List<Trainer> trainers = Optional.ofNullable(trainerRepository.findByUserMember_UserIdIn(userIds))
+                .orElse(Collections.emptyList()); // ✅ null이면 빈 리스트 반환
+
+        // 조회된 Trainer 리스트를 TrainerDTO 리스트로 변환하여 반환
+        return trainers.stream()
+                .map(trainer -> {
+                    TrainerDTO dto = modelMapper.map(trainer, TrainerDTO.class);
+                    dto.setUserId(trainer.getUserMember().getUserId()); // ✅ userId 값 직접 설정
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }
+

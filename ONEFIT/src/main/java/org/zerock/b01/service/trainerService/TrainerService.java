@@ -16,4 +16,7 @@ public interface TrainerService {
     void removeTrainer(Long trainerId);
     TrainerPageResponseDTO<TrainerViewDTO> list(TrainerPageRequestDTO pageRequestDTO);
     int trainerCount(Long uid);
+
+    TrainerDTO getTrainerByUserId(Long userId);
+    List<TrainerDTO> getTrainersByUserIds(List<Long> userId);
 }

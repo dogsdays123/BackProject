@@ -28,4 +28,8 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long>, Trainer
 
     @Query("SELECT COUNT(*) FROM Trainer t WHERE t.userMember.userId = :uid")
     int trainerRegisterCount(Long uid);
+
+    Optional<Trainer> findByUserMember_UserId(Long userId);
+    List<Trainer> findByUserMember_UserIdIn(List<Long> userIds);
+
 }
