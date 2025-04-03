@@ -123,7 +123,7 @@ public class All_MemberServiceImpl implements All_MemberService {
         if(!result5.isEmpty()){
             all_MemberRepository.removeProduct(allId);
         }
-        
+
         all_MemberRepository.removeMember(allId);
     }
 
