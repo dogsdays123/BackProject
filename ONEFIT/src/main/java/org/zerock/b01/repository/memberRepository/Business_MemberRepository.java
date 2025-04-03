@@ -1,7 +1,9 @@
 package org.zerock.b01.repository.memberRepository;
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerock.b01.domain.member.Business_Member;
@@ -18,4 +20,9 @@ public interface Business_MemberRepository extends JpaRepository<Business_Member
 
     @Query("select r from Recruit_Register r where r.business_member.businessId = :businessId")
     List<Recruit_Register> findRecruitForBusinessId(@Param("businessId") Long businessId);
+
+    @Modifying
+    @Transactional
+    @Query("delete from Business_Member b where b.allMember.allId =:allId")
+    void removeBusinessMember(@Param("allId") String allId);
 }

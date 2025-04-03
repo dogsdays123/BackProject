@@ -35,6 +35,7 @@ public class User_Member {
 
     private Long uResident;
 
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.ALL)
     @ManyToOne(fetch = FetchType.LAZY)
     private All_Member allMember;
 

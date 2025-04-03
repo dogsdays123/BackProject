@@ -49,6 +49,7 @@ public class Business_Member {
     @Column(length = 30)
     private String bHomepage;
 
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.ALL)
     @ManyToOne(fetch = FetchType.LAZY)
     private All_Member allMember;
 
