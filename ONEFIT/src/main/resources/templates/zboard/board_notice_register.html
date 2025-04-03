@@ -217,14 +217,14 @@
         // 입력 시 실시간 검사
         titleInput.addEventListener("input", function () {
             if (this.value.length > TITLE_MAX_LENGTH) {
-                alert(`제목은 최대 ${TITLE_MAX_LENGTH}자까지 입력할 수 있습니다.`);
+                alert(`더 이상 입력할 수 없습니다`);
                 this.value = this.value.substring(0, TITLE_MAX_LENGTH); // 초과한 부분 제거
             }
         });
 
         contentInput.addEventListener("input", function () {
             if (this.value.length > CONTENT_MAX_LENGTH) {
-                alert(`내용은 최대 ${CONTENT_MAX_LENGTH}자까지 입력할 수 있습니다.`);
+                alert(`더 이상 입력할 수 없습니다`);
                 this.value = this.value.substring(0, CONTENT_MAX_LENGTH); // 초과한 부분 제거
             }
         });
