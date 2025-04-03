@@ -14,7 +14,7 @@
 
             <!-- 작성자 & 조회수 -->
             <div class="d-flex justify-content-between text-muted post-meta mt-2">
-                <span>작성자: <strong>[[${dto.allMember.allId}]]</strong></span>
+                <span></span>
                 <span>조회수: <strong>[[${dto.nHits}]]</strong></span>
             </div>
 
@@ -96,7 +96,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title replyHeader">댓글 수정</h5>
+                            <h5 class="modal-title replyHeader"></h5>
                         </div>
                         <div class="modal-body">
                             <div class="input-group mb-3">
@@ -275,6 +275,7 @@
 
             console.log(board_reply)
 
+            replyHeader.innerHTML = board_reply.replyId
             modifyText.value = board_reply.replyText
 
             modifyModal.show()

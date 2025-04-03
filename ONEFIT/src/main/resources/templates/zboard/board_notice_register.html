@@ -205,4 +205,43 @@
         document.querySelector("form").submit();
     }, false)
 
+    document.addEventListener("DOMContentLoaded", function () {
+        const titleInput = document.querySelector("input[name='nTitle']");
+        const contentInput = document.querySelector("textarea[name='nContent']");
+        const submitBtn = document.querySelector(".submitBtn");
+
+        // 최대 길이 설정
+        const TITLE_MAX_LENGTH = 400;
+        const CONTENT_MAX_LENGTH = 4000;
+
+        // 입력 시 실시간 검사
+        titleInput.addEventListener("input", function () {
+            if (this.value.length > TITLE_MAX_LENGTH) {
+                alert(`제목은 최대 ${TITLE_MAX_LENGTH}자까지 입력할 수 있습니다.`);
+                this.value = this.value.substring(0, TITLE_MAX_LENGTH); // 초과한 부분 제거
+            }
+        });
+
+        contentInput.addEventListener("input", function () {
+            if (this.value.length > CONTENT_MAX_LENGTH) {
+                alert(`내용은 최대 ${CONTENT_MAX_LENGTH}자까지 입력할 수 있습니다.`);
+                this.value = this.value.substring(0, CONTENT_MAX_LENGTH); // 초과한 부분 제거
+            }
+        });
+
+        // 폼 제출 시 검사
+        submitBtn.addEventListener("click", function (e) {
+            if (titleInput.value.length > TITLE_MAX_LENGTH) {
+                alert(`제목은 최대 ${TITLE_MAX_LENGTH}자까지 입력할 수 있습니다.`);
+                e.preventDefault();
+                return;
+            }
+            if (contentInput.value.length > CONTENT_MAX_LENGTH) {
+                alert(`내용은 최대 ${CONTENT_MAX_LENGTH}자까지 입력할 수 있습니다.`);
+                e.preventDefault();
+                return;
+            }
+        });
+    });
+
 </script>
