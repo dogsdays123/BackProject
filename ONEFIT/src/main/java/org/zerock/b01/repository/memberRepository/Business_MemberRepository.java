@@ -25,4 +25,9 @@ public interface Business_MemberRepository extends JpaRepository<Business_Member
     @Transactional
     @Query("delete from Business_Member b where b.allMember.allId =:allId")
     void removeBusinessMember(@Param("allId") String allId);
+
+    @Modifying
+    @Transactional
+    @Query("delete from Recruit_Register r where r.business_member.allMember.allId =:allId")
+    void removeRecruit(@Param("allId") String allId);
 }

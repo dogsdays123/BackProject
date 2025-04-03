@@ -36,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
     private final FacilityRepository facilityRepository;
     private final ProductRepository productRepository;
     private final InterestRepository interestRepository;
+    private final ProductReplyRepository productReplyRepository;
 
     // (거래 - 상품) [기구] 판매 게시글 등록
     @Override
@@ -265,10 +266,15 @@ public class ProductServiceImpl implements ProductService {
     public void removeProduct(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow();
 
+        productReplyRepository.deleteByProduct(product);
+        interestRepository.deleteByProduct(product);
+
         if(product.getPRoles() == 1) { // 기구 판매 게시글일 경우
             equipmentRepository.deleteByProduct_ProductId(productId);
+
         } else if(product.getPRoles() == 2) { // 시설 매매 게시글일 경우
             facilityRepository.deleteByProduct_ProductId(productId);
+            Facility facility = facilityRepository.findByProduct_ProductId(productId).orElseThrow();
         }
 
         productRepository.deleteById(productId);

@@ -12,6 +12,7 @@ import org.zerock.b01.domain.board.Qna_Board;
 import org.zerock.b01.domain.member.Business_Member;
 import org.zerock.b01.domain.member.MemberRole;
 import org.zerock.b01.domain.member.User_Member;
+import org.zerock.b01.domain.transaction.Product;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
 import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
@@ -97,11 +98,32 @@ public class All_MemberServiceImpl implements All_MemberService {
         Optional<Business_Member> result2 = business_MemberRepository.findBusinessMember(allId);
         Business_Member business = result2.orElse(null);  // null로 반환하도록 수정
 
+        List<Notice_Board> result3 = all_MemberRepository.findNoticeForAllId(allId);
+        List<Qna_Board> result4 = all_MemberRepository.findQnaForAllId(allId);
+
+        List<Product> result5 = all_MemberRepository.findProductForAllId(allId);
+
         if(user != null && business == null){
+            user_MemberRepository.removeTrainer(allId);
             user_MemberRepository.removeUserMember(allId);
         } else if(business != null && user == null) {
+            business_MemberRepository.removeRecruit(allId);
             business_MemberRepository.removeBusinessMember(allId);
         }
+
+        if(!result3.isEmpty() && result4.isEmpty()){
+            all_MemberRepository.removeNoticeBoard(allId);
+        } else if(result3.isEmpty() && !result4.isEmpty()){
+            all_MemberRepository.removeQnaBoard(allId);
+        } else if(!result3.isEmpty() && !result4.isEmpty()){
+            all_MemberRepository.removeNoticeBoard(allId);
+            all_MemberRepository.removeQnaBoard(allId);
+        }
+
+        if(!result5.isEmpty()){
+            all_MemberRepository.removeProduct(allId);
+        }
+        
         all_MemberRepository.removeMember(allId);
     }
 
