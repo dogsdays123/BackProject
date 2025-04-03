@@ -14,6 +14,7 @@ import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -144,6 +145,9 @@ public class Recruit_Register extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "business_id")
     private Business_Member business_member;
+
+
+
 
     public void change(String mainAddress, String detailAddress, String title, String company, String reJobTypeFull, String reJobTypePart, String reJobTypeFree, String reJobTypeTrainee
     , String reJobTypeAlba, String reIndustry, int reNumHiring, String reWorkDays, String reDutyDays, String reWorkStartTime, String reWorkEndTime,

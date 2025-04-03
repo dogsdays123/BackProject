@@ -9,12 +9,20 @@ import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.All_Member;
 import org.zerock.b01.domain.board.Notice_Board;
 import org.zerock.b01.domain.board.Qna_Board;
+import org.zerock.b01.domain.member.Business_Member;
 import org.zerock.b01.domain.member.MemberRole;
+import org.zerock.b01.domain.member.User_Member;
+import org.zerock.b01.domain.transaction.Product;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.boardDTO.NoticeBoardDTO;
 import org.zerock.b01.dto.boardDTO.QnaBoardDTO;
 import org.zerock.b01.dto.memberDTO.AllBoardSearchDTO;
+import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
+import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.repository.All_MemberRepository;
+import org.zerock.b01.repository.memberRepository.Business_MemberRepository;
+import org.zerock.b01.repository.memberRepository.User_MemberRepository;
+import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +38,8 @@ public class All_MemberServiceImpl implements All_MemberService {
     private final ModelMapper modelMapper;
     private final All_MemberRepository all_MemberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final User_MemberRepository user_MemberRepository;
+    private final Business_MemberRepository business_MemberRepository;
 
     @Override
     public String register(All_MemberDTO all_MemberDTO) {
@@ -81,7 +91,41 @@ public class All_MemberServiceImpl implements All_MemberService {
 
     @Transactional
     @Override
-    public void remove(String allId) {all_MemberRepository.removeMember(allId);}
+    public void remove(String allId) {
+        Optional<User_Member> result1 = user_MemberRepository.findUserMember(allId);
+        User_Member user = result1.orElse(null);  // null로 반환하도록 수정
+
+        Optional<Business_Member> result2 = business_MemberRepository.findBusinessMember(allId);
+        Business_Member business = result2.orElse(null);  // null로 반환하도록 수정
+
+        List<Notice_Board> result3 = all_MemberRepository.findNoticeForAllId(allId);
+        List<Qna_Board> result4 = all_MemberRepository.findQnaForAllId(allId);
+
+        List<Product> result5 = all_MemberRepository.findProductForAllId(allId);
+
+        if(user != null && business == null){
+            user_MemberRepository.removeTrainer(allId);
+            user_MemberRepository.removeUserMember(allId);
+        } else if(business != null && user == null) {
+            business_MemberRepository.removeRecruit(allId);
+            business_MemberRepository.removeBusinessMember(allId);
+        }
+
+        if(!result3.isEmpty() && result4.isEmpty()){
+            all_MemberRepository.removeNoticeBoard(allId);
+        } else if(result3.isEmpty() && !result4.isEmpty()){
+            all_MemberRepository.removeQnaBoard(allId);
+        } else if(!result3.isEmpty() && !result4.isEmpty()){
+            all_MemberRepository.removeNoticeBoard(allId);
+            all_MemberRepository.removeQnaBoard(allId);
+        }
+
+        if(!result5.isEmpty()){
+            all_MemberRepository.removeProduct(allId);
+        }
+
+        all_MemberRepository.removeMember(allId);
+    }
 
     @Override
     public void join(All_MemberDTO all_memberDTO) throws MidExistException{

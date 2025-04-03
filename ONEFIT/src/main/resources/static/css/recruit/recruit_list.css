@@ -25,3 +25,16 @@ a{
     color: black;
     font-weight: 500;
 }
+
+.checkbox-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+}
+.checkbox-btn {
+    margin-left: 5px;
+}

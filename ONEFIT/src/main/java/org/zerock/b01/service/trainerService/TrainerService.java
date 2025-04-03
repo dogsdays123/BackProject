@@ -8,6 +8,8 @@ import org.zerock.b01.dto.trainerDTO.TrainerPageRequestDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerPageResponseDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 
+import java.util.List;
+
 public interface TrainerService {
     Long registerTrainer(TrainerDTO trainerDTO);
     TrainerViewDTO viewOne(Long trainerId);

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.All_MemberDTO;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
+import org.zerock.b01.dto.boardDTO.BoardListReplyCountDTO;
 import org.zerock.b01.dto.memberDTO.Business_MemberDTO;
 import org.zerock.b01.dto.memberDTO.User_MemberDTO;
 import org.zerock.b01.dto.recruitDTO.RecruitDTO;
@@ -24,16 +25,14 @@ import org.zerock.b01.dto.trainerDTO.TrainerPageResponseDTO;
 import org.zerock.b01.dto.trainerDTO.TrainerViewDTO;
 import org.zerock.b01.security.dto.MemberSecurityDTO;
 import org.zerock.b01.service.All_MemberService;
+import org.zerock.b01.service.boardService.NoticeBoardService;
 import org.zerock.b01.service.memberService.Member_Set_Type_Service;
 import org.zerock.b01.service.recruitService.RecruitService;
 import org.zerock.b01.service.trainerService.TrainerService;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,6 +43,7 @@ public class MainController {
     private final All_MemberService all_memberService;
     private final Member_Set_Type_Service member_Set_Type_Service;
     private final TrainerService trainerService;
+    private final NoticeBoardService noticeBoardService;
 
     @ModelAttribute
     public void Profile(All_MemberDTO all_memberDTO, Model model, Authentication authentication, HttpServletRequest request) {
@@ -75,12 +75,13 @@ public class MainController {
             }
         }
 
+        //유저정보(일반, 개인) 전역에 갖고오기
+        User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
+        Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
+
         //유저정보(일반Default)가 존재할 때
         if (all_memberDTO != null) {
             model.addAttribute("all_memberDTO", all_memberDTO);  // 사용자 정보를 모델에 추가
-            //유저정보(일반, 개인) 전역에 갖고오기
-            User_MemberDTO user_MemberDTO = member_Set_Type_Service.userRead(all_memberDTO.getAllId());
-            Business_MemberDTO business_memberDTO = member_Set_Type_Service.BusinessRead(all_memberDTO.getAllId());
 
             //유저정보(개인User)가 있을 때
             if (user_MemberDTO != null) {
@@ -111,28 +112,41 @@ public class MainController {
         } else{
             model.addAttribute("sidebar", false);
         }
-        model.addAttribute("checkId", false);
-        model.addAttribute("checkEmail", false);
-
-        List<All_MemberDTO> all_memberDTOList = all_memberService.readAllMember();
-        model.addAttribute("all_memberDTOList", all_memberDTOList);
-        log.info("모든회원@@@@@@@@@" + all_memberDTOList);
         log.info("회원전역@@@@@@@@@" + all_memberDTO);
     }
 
     private final RecruitService recruitService;
 
     @GetMapping("/main")
-    public void main() {
-        log.info("main");
-    }
+    public void main(Long recruitId, RecruitDTO recruitDTO,TrainerPageRequestDTO trainerPageRequestDTO, PageRequestDTO pageRequestDTO, Model model) {
 
-    // 병합 시 충돌을 막기 위해 먼저 따로 만들었습니다.
-    @GetMapping("/main2")
-    public void main2(TrainerPageRequestDTO trainerPageRequestDTO, Model model) {
-        log.info("main2");
+        PageResponseDTO<RecruitDTO> responseDTO = recruitService.list1(pageRequestDTO);
+        List<RecruitDTO> limitedList = Optional.ofNullable(responseDTO.getDtoList())
+                .orElse(Collections.emptyList()) // null이면 빈 리스트 반환
+                .stream()
+                .limit(8)  // 처음 8개 항목만 가져옴
+                .collect(Collectors.toList());
+
+
+// 슬라이드를 4개씩 묶기
+        int groupSize = 4;
+        List<List<RecruitDTO>> slides = new ArrayList<>();
+
+        for (int i = 0; i < limitedList.size(); i += groupSize) {
+            int end = Math.min(i + groupSize, limitedList.size());
+            slides.add(limitedList.subList(i, end));
+        }
+
+        model.addAttribute("slides", slides);
+
         TrainerPageResponseDTO<TrainerViewDTO> trainerPageResponseDTO = trainerService.list(trainerPageRequestDTO);
         model.addAttribute("trainerPage", trainerPageResponseDTO);
+        log.info("$$$$$$: " + trainerPageResponseDTO);
+
+        PageResponseDTO<BoardListReplyCountDTO> responseBoardDTO =
+                noticeBoardService.listWithNoticeReplyCount(pageRequestDTO);
+        model.addAttribute("responseBoardDTO", responseBoardDTO);
+
     }
 
     @GetMapping("/login")

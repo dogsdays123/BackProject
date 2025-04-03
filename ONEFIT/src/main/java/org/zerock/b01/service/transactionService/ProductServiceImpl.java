@@ -36,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
     private final FacilityRepository facilityRepository;
     private final ProductRepository productRepository;
     private final InterestRepository interestRepository;
+    private final ProductReplyRepository productReplyRepository;
 
     // (거래 - 상품) [기구] 판매 게시글 등록
     @Override
@@ -51,10 +52,8 @@ public class ProductServiceImpl implements ProductService {
 
         if (equipmentDTO.getImageFileNames() != null) {
             equipmentDTO.getImageFileNames().forEach(fileName -> {
-                log.info(fileName);
-
                 // 파일명을 "_" 기준으로 분리(UUID, 실제 파일명)
-                String[] parts = fileName.split("_", 2);
+                String[] parts = fileName.split("_",2);
                 // 분리된 정보를 이용하여 Product에 이미지 추가
                 product.addImageFile(parts[0], parts[1]);
             });
@@ -82,10 +81,7 @@ public class ProductServiceImpl implements ProductService {
         if (facilityDTO.getImageFileNames() != null) {
             facilityDTO.getImageFileNames().forEach(fileName -> {
                 // 파일명을 "_" 기준으로 분리(UUID, 실제 파일명)
-                String[] parts = fileName.split("_", 2);
-
-                log.info(fileName);
-
+                String[] parts = fileName.split("_",2);
                 // 분리된 정보를 이용하여 Product에 이미지 추가
                 product.addImageFile(parts[0], parts[1]);
             });
@@ -193,7 +189,7 @@ public class ProductServiceImpl implements ProductService {
                     .collect(Collectors.toSet());
 
             equipmentDTO.getImageFileNames().forEach(fileName -> {
-                String[] parts = fileName.split("_", 2);
+                String[] parts = fileName.split("_");
                 String uuid = parts[0];
 
                 // 기존에 없는 이미지인 경우에만 추가
@@ -237,7 +233,7 @@ public class ProductServiceImpl implements ProductService {
                     .collect(Collectors.toSet());
 
             facilityDTO.getImageFileNames().forEach(fileName -> {
-                String[] parts = fileName.split("_",2);
+                String[] parts = fileName.split("_");
                 String uuid = parts[0];
 
                 // 기존에 없는 이미지인 경우에만 추가
@@ -270,10 +266,15 @@ public class ProductServiceImpl implements ProductService {
     public void removeProduct(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow();
 
+        productReplyRepository.deleteByProduct(product);
+        interestRepository.deleteByProduct(product);
+
         if(product.getPRoles() == 1) { // 기구 판매 게시글일 경우
             equipmentRepository.deleteByProduct_ProductId(productId);
+
         } else if(product.getPRoles() == 2) { // 시설 매매 게시글일 경우
             facilityRepository.deleteByProduct_ProductId(productId);
+            Facility facility = facilityRepository.findByProduct_ProductId(productId).orElseThrow();
         }
 
         productRepository.deleteById(productId);

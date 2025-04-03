@@ -56,9 +56,12 @@
 
             <!-- 게시글 작성 버튼 -->
             <div class="d-flex justify-content-end mb-3">
-                <a th:href="@{/zboard/board_notice_register}" class="btn btn-primary">
-                    <i class="fas fa-pencil-alt"></i> 글 작성
-                </a>
+                <div th:if="${#authorization.expression('isAuthenticated()') and
+                                #authentication.getPrincipal().getUsername() == 'admin'}">
+                    <a th:href="@{/zboard/board_notice_register}" class="btn btn-primary">
+                        <i class="fas fa-pencil-alt"></i> 글 작성
+                    </a>
+                </div>
             </div>
 
         </form>
@@ -79,12 +82,12 @@
                        th:text="${dto.title}" class="text-decoration-none"></a>
                     <span class="ms-2">
                           <span></span>
-                      </span>
+                    </span>
                     <span class="badge progress-bar-success"
                           style="background-color: #0a53be">[[${dto.replyCount}]]</span>
-                    <span class="ms-2">
+                    <span class="ms-2" th:if="${dto.fileExists}">
                           <i class="fas fa-paperclip file-icon"></i>
-                      </span>
+                    </span>
                 </td>
                 <td th:text="${#temporals.format(dto.regDate, dto.regDate.toLocalDate()
                                  .equals(#temporals.createNow().toLocalDate()) ? 'HH:mm:ss' : 'yyyy-MM-dd')}"></td>
@@ -110,7 +113,10 @@
                 </li>
             </ul>
         </div>
-        <div class="modal" tabindex="-1">
+          <br>
+          <br>
+          <br>
+          <div class="modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

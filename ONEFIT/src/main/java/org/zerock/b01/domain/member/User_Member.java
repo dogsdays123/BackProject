@@ -3,8 +3,12 @@ package org.zerock.b01.domain.member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.trainer.Trainer;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "User_Member", indexes = {
@@ -17,6 +21,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString(exclude = "allMember")
 public class User_Member {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -34,6 +39,7 @@ public class User_Member {
 
     private Long uResident;
 
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.ALL)
     @ManyToOne(fetch = FetchType.LAZY)
     private All_Member allMember;
 

@@ -3,7 +3,12 @@ package org.zerock.b01.domain.member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.zerock.b01.domain.All_Member;
+import org.zerock.b01.domain.recruit.Recruit_Register;
+
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -49,6 +54,7 @@ public class Business_Member {
     @Column(length = 30)
     private String bHomepage;
 
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.ALL)
     @ManyToOne(fetch = FetchType.LAZY)
     private All_Member allMember;
 

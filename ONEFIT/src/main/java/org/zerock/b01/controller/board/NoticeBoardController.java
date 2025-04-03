@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
@@ -127,7 +129,7 @@ public class NoticeBoardController {
 
 
     @GetMapping("/board_notice_list")
-    public void listNotice(PageRequestDTO pageRequestDTO, Model model) {
+    public void listNotice(@AuthenticationPrincipal User user, PageRequestDTO pageRequestDTO, Model model) {
 
 //        PageResponseDTO<NoticeBoardDTO> responseDTO = noticeBoardService.listNotice(pageRequestDTO);
 
@@ -137,6 +139,11 @@ public class NoticeBoardController {
         log.info(responseDTO);
 
         model.addAttribute("responseDTO", responseDTO);
+
+        // 로그인한 사용자 ID를 모델에 추가
+        if (user != null) {
+            model.addAttribute("loginUserId", user.getUsername());
+        }
 
     }
 
@@ -148,9 +155,22 @@ public class NoticeBoardController {
 
     @PostMapping("/board_notice_register")
     public String registerNoticePost(@Valid NoticeBoardDTO noticeBoardDTO, BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
+                                     RedirectAttributes redirectAttributes, Authentication authentication) {
 
         log.info("board_notice_register Post");
+
+        MemberSecurityDTO principal = (MemberSecurityDTO) authentication.getPrincipal();
+        String loggedInUserId = principal.getAllId(); // 로그인한 사용자 ID
+
+        // 특정 아이디만 등록 가능하도록 설정
+        String allowedUserId = "admin"; // 등록을 허용할 특정 ID
+        if (!loggedInUserId.equals(allowedUserId)) {
+            log.info("등록 권한이 없는 사용자 접근 차단: " + loggedInUserId);
+            redirectAttributes.addFlashAttribute("error", "해당 계정은 공지사항을 등록할 수 없습니다.");
+            return "redirect:/zboard/board_notice_list";
+        }
+
+
 
         if (bindingResult.hasErrors()) {
             log.info("has errors....");
@@ -169,12 +189,24 @@ public class NoticeBoardController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping({"/board_notice_read","/board_notice_modify"})
+    @GetMapping("/board_notice_read")
     public void readNotice(Long noticeId, PageRequestDTO pageRequestDTO, Model model) {
 
         // 조회수 증가
         noticeBoardService.increaseNoticeHits(noticeId);  // 조회수 증가 메서드 호출
 
+
+        NoticeBoardDTO noticeBoardDTO = noticeBoardService.readNoticeOne(noticeId);
+
+        log.info(noticeBoardDTO);
+
+        model.addAttribute("dto", noticeBoardDTO);
+
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/board_notice_modify")
+    public void readNoticeModify(Long noticeId, PageRequestDTO pageRequestDTO, Model model) {
 
         NoticeBoardDTO noticeBoardDTO = noticeBoardService.readNoticeOne(noticeId);
 
