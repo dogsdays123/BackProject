@@ -97,6 +97,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title replyHeader">댓글 수정</h5>
+                            <input type="hidden" class="replyId">
                         </div>
                         <div class="modal-body">
                             <div class="input-group mb-3">
@@ -136,7 +137,7 @@
     //댓글 목록 출력
     function printList(dtoList) {
 
-        let str = '';
+        let str = ''
 
         if (dtoList && dtoList.length > 0) {
 
@@ -150,13 +151,13 @@
                 </li>`
             }
         }
-        replyList.innerHTML = str;
+        replyList.innerHTML = str
     }
 
     //페이지 목록 출력
     function printPages(data) {
 
-        let pageStr = '';
+        let pageStr = ''
 
         if (data.prev) {
             pageStr += `<li class="page-item"><a class="page-link" data-page="${data.start - 1}">PREV</a></li>`
@@ -171,7 +172,7 @@
 
             pageStr += `<li class="page-item"><a class="page-link" data-page="${data.end + 1}">NEXT</a></li>`
         }
-        replyPaging.innerHTML = pageStr;
+        replyPaging.innerHTML = pageStr
     }
 
     function printReplies(page, size, goLast) {
@@ -213,7 +214,7 @@
         }
         console.log("replyObj")
         addBoardReply(replyObj).then(result => {
-            alert("댓글이 등록 되었습니다.");
+            alert("댓글이 등록 되었습니다.")
 
             registerModal.hide()
             replyText.value = ''
@@ -224,8 +225,8 @@
         })
     }, false)
 
-    let page = 1;
-    let size = 10;
+    let page = 1
+    let size = 10
 
     replyPaging.addEventListener("click", function (e) {
 
@@ -268,13 +269,15 @@
         const replyId = target.getAttribute("data-replyId")
 
         if (!replyId) {
-            return;
+            return
         }
 
         getBoardReply(replyId).then(board_reply => {
 
             console.log(board_reply)
 
+            replyHeader.innerHTML = "댓글 수정"
+            document.querySelector(".replyId").value = board_reply.replyId
             modifyText.value = board_reply.replyText
 
             modifyModal.show()
@@ -295,12 +298,12 @@
 
         const replyObj = {
             noticeId: noticeId,
-            replyId: replyHeader.innerHTML,
+            replyId: document.querySelector(".replyId").value,
             replyText: modifyText.value
         }
 
         modifyBoardReply(replyObj).then(result => {
-            alert(result.replyId + ' 댓글이 수정되었습니다.')
+            alert(' 댓글이 수정되었습니다.')
             replyText.value = ''
             modifyModal.hide()
             printReplies(page, size)
@@ -324,9 +327,9 @@
             return
         }
 
-        removeBoardReply(replyHeader.innerHTML).then(result => {
+        removeBoardReply(document.querySelector(".replyId").value).then(result => {
 
-            alert(result.replyId + ' 댓글이 삭제되었습니다.')
+            alert(' 댓글이 삭제되었습니다.')
             replyText.value = ''
             modifyModal.hide()
 
@@ -338,5 +341,29 @@
         })
 
     }, false)
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const replyInput = document.querySelector(".replyText")
+        const MAX_REPLY_LENGTH = 1000
+
+        replyInput.addEventListener("input", function () {
+            if (this.value.length > MAX_REPLY_LENGTH) {
+                alert(`더 이상 입력할 수 없습니다`)
+                this.value = this.value.substring(0, MAX_REPLY_LENGTH) // 초과한 부분 제거
+            }
+        })
+    })
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const modifyInput = document.querySelector(".modifyText")
+        const MAX_REPLY_LENGTH = 1000
+
+        modifyInput.addEventListener("input", function () {
+            if (this.value.length > MAX_REPLY_LENGTH) {
+                alert(`더 이상 입력할 수 없습니다`)
+                this.value = this.value.substring(0, MAX_REPLY_LENGTH) // 초과한 부분 제거
+            }
+        })
+    })
 
 </script>
