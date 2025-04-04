@@ -118,7 +118,35 @@ public class MainController {
     private final RecruitService recruitService;
 
     @GetMapping("/main")
-    public void main(Long recruitId, RecruitDTO recruitDTO,TrainerPageRequestDTO trainerPageRequestDTO, PageRequestDTO pageRequestDTO, Model model) {
+    public void main(Long recruitId, RecruitDTO recruitDTO,All_MemberDTO all_memberDTO,Authentication authentication,TrainerPageRequestDTO trainerPageRequestDTO, PageRequestDTO pageRequestDTO, Model model) {
+
+        if (authentication == null) {
+            log.info("MAIN ###### 인증 정보 없음");
+            model.addAttribute("all_memberDTO", null);
+        } else {
+            // 소셜 로그인인 경우 OAuth2AuthenticationToken 처리
+            if (authentication instanceof OAuth2AuthenticationToken) {
+                OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
+                OAuth2AuthenticatedPrincipal principal = token.getPrincipal();
+
+                // OAuth2 인증을 통해 사용자 정보 가져오기
+                all_memberDTO = all_memberService.readOne(principal.getName());
+                log.info("MAIN ##### 소셜 로그인 사용자 정보: " + all_memberDTO);
+            }
+            // 일반 로그인인 경우 UsernamePasswordAuthenticationToken 처리
+            else if (authentication instanceof UsernamePasswordAuthenticationToken) {
+                UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+
+                // token.getPrincipal()이 MemberSecurityDTO 타입이라면, 이를 MemberSecurityDTO로 캐스팅
+                MemberSecurityDTO principal = (MemberSecurityDTO) token.getPrincipal();
+                String username = principal.getAllId(); // MemberSecurityDTO에서 사용자 이름 가져오기
+
+                // 일반 로그인 사용자 정보 가져오기
+                all_memberDTO = all_memberService.readOne(username);
+                log.info("MAIN ##### 일반 로그인 사용자 정보: " + all_memberDTO);
+            }
+        }
+        model.addAttribute("all_memberDTO", all_memberDTO);
 
         PageResponseDTO<RecruitDTO> responseDTO = recruitService.list1(pageRequestDTO);
         List<RecruitDTO> limitedList = Optional.ofNullable(responseDTO.getDtoList())
