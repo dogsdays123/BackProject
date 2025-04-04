@@ -45,7 +45,6 @@
                                     <p><strong>주소:</strong> <span th:text="${business_memberDTO.bAddress}"></span><br>
                                         <span th:text="${business_memberDTO.bAddressExtra}"></span></p>
                                     <p><strong>전화번호:</strong> <span th:text="${business_memberDTO.bPhone}"></span></p>
-                                    <p><strong>홈페이지:</strong> <span th:text="${business_memberDTO.bHomepage}"></span></p>
                                 </div>
                             </div>
                         </div>
@@ -55,11 +54,12 @@
                                 <i class="fas fa-user-circle"></i> 회원 추가 정보
                             </div>
                             <div class="card-body d-flex align-items-center">
-                                <div>
-                                    <p><strong>근로자 수</strong> <span th:text="${business_memberDTO.bEmployees}"></span></p>
-                                    <p><strong>평균 매출액</strong> <span th:text="${business_memberDTO.bAverage}"></span></p>
-                                    <p><strong>자산 총액</strong> <span th:text="${business_memberDTO.bAssets}"></span></p>
-                                    <p><strong>기업 크기</strong> <span th:text="${business_memberDTO.bSize}"></span></p>
+                                <div th:each="dto : ${business_memberDTO}">
+                                    <p th:if="${dto.bHomepage != null}"><strong>홈페이지:</strong> <span th:text="${dto.bHomepage}"></span></p>
+                                    <p th:if="${dto.bEmployees != null}"><strong>근로자 수</strong> <span th:text="${dto.bEmployees}"></span></p>
+                                    <p th:if="${dto.bAverage != null}"><strong>평균 매출액</strong> <span th:text="${dto.bAverage}"></span></p>
+                                    <p th:if="${dto.bAssets != null}"><strong>자산 총액</strong> <span th:text="${dto.bAssets}"></span></p>
+                                    <p th:if="${dto.bSize != null}"><strong>기업 크기</strong> <span th:text="${dto.bSize}"></span></p>
                                 </div>
                             </div>
                         </div>
