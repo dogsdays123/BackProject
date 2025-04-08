@@ -87,7 +87,7 @@ public class CustomSecurityConfig {
                     .successHandler(authenticationSuccessHandler());
         });
 
-        //소셜 로그아웃
+        //로그아웃
         http.logout(httpSecurityLogoutConfigurer -> {
             httpSecurityLogoutConfigurer
                     .logoutUrl("/logout");
