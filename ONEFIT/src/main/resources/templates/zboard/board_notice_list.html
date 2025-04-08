@@ -50,7 +50,7 @@
             <br>
             <!-- 검색 버튼 & 초기화 버튼 -->
             <div class="text-center mb-3">
-                <button class="btn btn-primary searchBtn" type="submit">검색</button>
+                <button class="btn btn-primary searchBtn" type="submit">검색</button>&nbsp;&nbsp;
                 <button class="btn btn-secondary clearBtn" type="button">초기화</button>
             </div>
 
@@ -95,8 +95,8 @@
             </tr>
             </tbody>
         </table>
-
-        <div class="float-end">
+        <br>
+        <div class="d-flex justify-content-center">
             <ul class="pagination flex-wrap">
                 <li class="page-item" th:if="${responseDTO.prev}">
                     <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>

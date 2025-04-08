@@ -116,6 +116,7 @@
 <main>
     <div layout:fragment="myPage"></div>
     <div layout:fragment="main">
+
         <div class="recruit-container container mt-5">
 
             <input type="hidden" th:value="${all_memberDTO.memberType}"/>
@@ -390,13 +391,26 @@
                     <br>
                     <br>
                     <!-- 지원하기 버튼 -->
-                    <div style="text-decoration: none" id="applyButton" class="fixed-apply" th:with="link=${pageRequestDTO.getLink()}">
-                        <a href="#" class="btn btn-outline-primary" id="modifyBtn"><i class="bi bi-highlighter"></i></a>
-                        <a href="#" class="btn btn-outline-danger" id="removeBtn"><i class="bi bi-trash"></i>️</a>
-                        <a th:href="|@{/recruit/list}?${link}|" class="btn btn-outline-secondary"><i class="bi bi-list"></i></a>
-                        <a th:href="|@{/member/my_business_page_recruit}?allId=${all_memberDTO.allId}|" class="btn btn-outline-secondary"><i class="bi bi-person-circle"></i></a>
-                        <button type="button" class="btn btn-primary" id="applyBtn">지원하기</button>
+                    <div style="text-decoration: none" id="applyButton" class="fixed-apply"
+                         th:with="link=${pageRequestDTO.getLink()}">
+                            <a href="#" class="btn btn-outline-primary" id="modifyBtn">
+                                <i class="bi bi-highlighter"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-danger" id="removeBtn">
+                                <i class="bi bi-trash"></i>
+                            </a>
 
+                        <a th:href="|@{/recruit/list}?${link}|" class="btn btn-outline-secondary">
+                            <i class="bi bi-list"></i>
+                        </a>
+
+                        <a th:href="|@{/member/my_business_page_recruit}?allId=${all_memberDTO.allId}|" class="btn btn-outline-secondary">
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+
+                        <button th:if="${allMemberDTO.memberType == 'user'}" type="button" class="btn btn-primary" id="applyBtn">
+                            지원하기
+                        </button>
                     </div>
                 </div>
             </form>
