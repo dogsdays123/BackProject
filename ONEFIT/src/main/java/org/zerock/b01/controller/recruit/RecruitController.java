@@ -423,24 +423,20 @@ public class RecruitController {
     public void read(Long recruitId, PageRequestDTO pageRequestDTO, Model model) {
 
         Business_MemberDTO business_MemberDTO = (Business_MemberDTO) model.getAttribute("business_memberDTO");
+        model.addAttribute("business_memberDTO", business_MemberDTO); // ✅ 꼭 추가!
         All_MemberDTO all_memberDTO = (All_MemberDTO) model.getAttribute("all_memberDTO");
+        model.addAttribute("allMemberDTO", all_memberDTO);
         User_MemberDTO user_MemberDTO = (User_MemberDTO) model.getAttribute("user_memberDTO");
 
         log.info("**read Get.............**");
         log.info("All Member DTO: " + all_memberDTO);
-        log.info("**read Get.............**");
         log.info("Business Member DTO: " + business_MemberDTO);
-        log.info("**read Get.............**");
 
-
-        Business_MemberDTO businessMemberDTO = recruitService.readBusinessMember(recruitId);
-        log.info("*******************************");
-        log.info("read Get........" + businessMemberDTO);
-        model.addAttribute("businessMemberDTO", businessMemberDTO);
-
+        Business_MemberDTO registerBusinessMemberDTO = recruitService.readBusinessMember(recruitId);
+        log.info("read Get........" + registerBusinessMemberDTO);
+        model.addAttribute("businessMemberDTO", registerBusinessMemberDTO); // 작성자 정보
         RecruitDTO recruitDTO = recruitService.readOne(recruitId);
         model.addAttribute("dto", recruitDTO);
-        log.info("Recruit ID: " + recruitDTO.getRecruitId());
 
 //        Long businessId = recruitDTO.getBusiness_member() != null ? recruitDTO.getBusiness_member().getBusinessId() : null;
 //        model.addAttribute("businessId", businessId);
